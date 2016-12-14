@@ -1,0 +1,53 @@
+---
+
+- name: Create SYS Folder
+  f5bigip_sys_folder:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ folder_name }}"
+    description: "{{ folder_description }}"
+    sub_path: "/"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Folder
+  assert:
+    that:
+      - result|changed
+
+#- name: Create SYS Folder (idempotent check)
+#  f5bigip_sys_folder:
+#    f5bigip_hostname: "{{ inventory_hostname }}"
+#    f5bigip_username: "{{ f5bigip_username }}"
+#    f5bigip_password: "{{ f5bigip_password }}"
+#    f5bigip_port: "{{ f5bigip_port }}"
+#    name: "{{ folder_name }}"
+#    description: "{{ folder_description }}"
+#    sub_path: "/"
+#    state: "present"
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Create SYS Folder (idempotent check)
+#  assert:
+#    that:
+#      - not result|changed
+
+- name: Delete SYS Folder
+  f5bigip_sys_folder:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ folder_name }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Delete SYS Folder
+  assert:
+    that:
+      - result|changed

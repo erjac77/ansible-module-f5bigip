@@ -1,0 +1,10 @@
+---
+
+snatpool_name: "my_snatpool"
+snatpool_description: "snatpool"
+snatpool_members:
+  - 172.16.227.252
+  - 172.16.227.253
+snatpool_new_members:
+  - 172.16.227.250
+  - 172.16.227.251

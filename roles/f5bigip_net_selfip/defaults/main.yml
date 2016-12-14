@@ -1,0 +1,12 @@
+---
+
+vlan_name: "my_vlan"
+vlan_tag: 1234
+
+self_name: "my_self_ip"
+self_description: "self"
+self_address: "10.10.10.7/24"
+
+float_name: "my_float_ip"
+float_description: "floating"
+float_address: "10.10.10.9/24"

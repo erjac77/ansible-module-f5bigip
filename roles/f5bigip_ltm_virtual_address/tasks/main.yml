@@ -1,0 +1,67 @@
+---
+
+- name: Create LTM Virtual Address
+  f5bigip_ltm_virtual_address:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ virtual_address_name }}"
+    address: "{{ virtual_address_address }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Virtual Address
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Virtual Address (idempotent check)
+  f5bigip_ltm_virtual_address:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ virtual_address_name }}"
+    address: "{{ virtual_address_address }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Virtual Address (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify LTM Virtual Address icmp-echo
+  f5bigip_ltm_virtual_address:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ virtual_address_name }}"
+    icmp_echo: "{{ virtual_address_icmp_echo }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Virtual Address icmp-echo
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Virtual Address
+  f5bigip_ltm_virtual_address:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ virtual_address_name }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Virtual Address
+  assert:
+    that:
+      - result|changed

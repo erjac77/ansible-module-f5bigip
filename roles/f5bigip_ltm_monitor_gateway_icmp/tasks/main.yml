@@ -1,0 +1,73 @@
+---
+
+- name: Create LTM Gateway ICMP Monitor
+  f5bigip_ltm_monitor_gateway_icmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ monitor_description }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Gateway ICMP Monitor
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Gateway ICMP Monitor (idempotent check)
+  f5bigip_ltm_monitor_gateway_icmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ monitor_description }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Gateway ICMP Monitor (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Gateway ICMP Monitor description, interval and timeout
+  f5bigip_ltm_monitor_gateway_icmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "new {{ monitor_description }}"
+    interval: 20
+    timeout: 61
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Gateway ICMP Monitor description, interval and timeout
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Gateway ICMP Monitor
+  f5bigip_ltm_monitor_gateway_icmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Gateway ICMP Monitor
+  assert:
+    that:
+      - result|changed

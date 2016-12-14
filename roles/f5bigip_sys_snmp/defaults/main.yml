@@ -1,0 +1,18 @@
+---
+
+snmp_allowed_addresses:
+  - 172.16.227.0/24
+  - 172.16.228.0/24
+
+snmp_sys_contact: "admin@company.com"
+snmp_sys_location: "central office"
+snmp_sys_contact_default: "Customer Name <admin@customer.com>"
+snmp_sys_location_default: "Network Closet 1"
+
+snmp_communities:
+  - { name: "community1", access: "ro", community_name: "mycommunity1" }
+  - { name: "community2", access: "rw", community_name: "mycommunity2" }
+
+snmp_traps:
+  - { name: "i172_16_227_140_1", community: "mycommunity1", host: "172.16.227.140", port: 162, version: "2c" }
+  - { name: "i172_16_227_141_1", community: "mycommunity1", host: "172.16.227.140", port: 162, version: "2c" }

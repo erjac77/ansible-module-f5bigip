@@ -1,0 +1,10 @@
+---
+
+syslog_user_log_from: "info"
+syslog_user_log_to: "info"
+syslog_user_log_from_rst: "notice"
+syslog_user_log_to_rst: "emerg"
+
+remote_servers:
+  - { name: "remotesyslog1", host: "172.16.227.11", port: 514 }
+  - { name: "remotesyslog2", host: "172.16.227.12", port: 514 }

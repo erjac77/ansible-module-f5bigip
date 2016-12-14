@@ -1,0 +1,49 @@
+---
+
+- name: Add SYS DNS Name Servers
+  f5bigip_sys_dns:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name_servers: "{{ name_servers }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS DNS Name Servers
+  assert:
+    that:
+      - result|changed
+
+- name: Add SYS DNS Name Servers (idempotent check)
+  f5bigip_sys_dns:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name_servers: "{{ name_servers }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS DNS Name Servers (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Remove SYS DNS Name Servers
+  f5bigip_sys_dns:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name_servers: "{{ name_servers }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove SYS DNS Name Servers
+  assert:
+    that:
+      - result|changed

@@ -1,0 +1,8 @@
+---
+
+vlan_name: "my_vlan"
+vlan_description: "vlan"
+vlan_tag: 1234
+
+interface_name: "1.2"
+vlan_tagged: false

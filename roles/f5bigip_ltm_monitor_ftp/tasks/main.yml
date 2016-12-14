@@ -1,0 +1,54 @@
+---
+
+- name: Create LTM FTP Monitor
+  f5bigip_ltm_monitor_ftp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ monitor_description }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM FTP Monitor
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM FTP Monitor (idempotent check)
+  f5bigip_ltm_monitor_ftp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ monitor_description }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM FTP Monitor (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM FTP Monitor
+  f5bigip_ltm_monitor_ftp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM FTP Monitor
+  assert:
+    that:
+      - result|changed

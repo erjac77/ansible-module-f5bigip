@@ -1,0 +1,107 @@
+---
+
+- name: Change SYS Syslog User Log
+  f5bigip_sys_syslog:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    user_log_from: "{{ syslog_user_log_from }}"
+    user_log_to: "{{ syslog_user_log_to }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Syslog User Log
+  assert:
+    that:
+      - result|changed
+
+- name: Change SYS Syslog User Log (idempotent check)
+  f5bigip_sys_syslog:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    user_log_from: "{{ syslog_user_log_from }}"
+    user_log_to: "{{ syslog_user_log_to }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Syslog User Log (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Reset to default SYS Syslog User Log
+  f5bigip_sys_syslog:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    user_log_from: "{{ syslog_user_log_from_rst }}"
+    user_log_to: "{{ syslog_user_log_to_rst }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Reset to default SYS Syslog User Log
+  assert:
+    that:
+      - result|changed
+
+- name: Add SYS Syslog Remote Servers
+  f5bigip_sys_syslog_remote_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    host: "{{ item.host }}"
+    remote_port: "{{ item.port }}"
+    state: "present"
+  with_items: "{{ remote_servers }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS Syslog Remote Servers
+  assert:
+    that:
+      - result|changed
+
+- name: Add SYS Syslog Remote Servers (idempotent check)
+  f5bigip_sys_syslog_remote_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    host: "{{ item.host }}"
+    remote_port: "{{ item.port }}"
+    state: "present"
+  with_items: "{{ remote_servers }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS Syslog Remote Server (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Remove SYS Syslog Remote Servers
+  f5bigip_sys_syslog_remote_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    state: "absent"
+  with_items: "{{ remote_servers }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove SYS Syslog Remote Servers
+  assert:
+    that:
+      - result|changed

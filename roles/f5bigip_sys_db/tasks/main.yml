@@ -1,0 +1,49 @@
+---
+
+- name: Disable SYS DB Setup Utility Wizard
+  f5bigip_sys_db:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ db_variable_name }}"
+    value: "{{ db_variable_value }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Disable SYS DB Setup Utility Wizard
+  assert:
+    that:
+      - result|changed
+
+- name: Disable SYS DB Setup Utility Wizard (idempotent check)
+  f5bigip_sys_db:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ db_variable_name }}"
+    value: "{{ db_variable_value }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Disable SYS DB Setup Utility Wizard (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+#- name: Reset SYS DB Setup Wizard to Default
+#  f5bigip_sys_db:
+#    f5bigip_hostname: "{{ inventory_hostname }}"
+#    f5bigip_username: "{{ f5bigip_username }}"
+#    f5bigip_password: "{{ f5bigip_password }}"
+#    f5bigip_port: "{{ f5bigip_port }}"
+#    name: "{{ db_variable_name }}"
+#    reset_to_default: True
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Disable SYS DB Setup Wizard
+#  assert:
+#    that:
+#      - result|changed

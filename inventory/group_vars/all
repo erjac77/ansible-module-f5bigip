@@ -1,0 +1,6 @@
+---
+
+f5bigip_username: "admin"
+f5bigip_password: "admin"
+f5bigip_port: "443"
+f5bigip_partition: "Common"

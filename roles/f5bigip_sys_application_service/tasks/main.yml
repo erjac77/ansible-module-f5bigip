@@ -1,0 +1,38 @@
+---
+
+- name: Create SYS App Service
+  f5bigip_sys_application_service:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ app_name }}"
+    partition: "{{ f5bigip_partition }}"
+    template: "{{app_template}}"
+    tables: "{{ app_tables }}"
+    variables: "{{ app_variables }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS App Service
+  assert:
+    that:
+      - result|changed
+
+- name: Delete SYS App Service
+  f5bigip_sys_application_service:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ app_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Delete SYS App Service
+  assert:
+    that:
+      - result|changed

@@ -1,0 +1,7 @@
+---
+
+objects:
+  - "node"
+  - "vlan"
+filter: "partition eq Common"
+select: "name,partition"

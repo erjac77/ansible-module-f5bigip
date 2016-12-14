@@ -1,0 +1,211 @@
+---
+
+- name: Specify SYS SNMP contact and location
+  f5bigip_sys_snmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    sys_contact: "{{ snmp_sys_contact }}"
+    sys_location: "{{ snmp_sys_location }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Specify SYS SNMP contact and location
+  assert:
+    that:
+      - result|changed
+
+- name: Specify SYS SNMP contact and location (idempotent check)
+  f5bigip_sys_snmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    sys_contact: "{{ snmp_sys_contact }}"
+    sys_location: "{{ snmp_sys_location }}"
+  delegate_to: localhost
+  register: result
+
+- name: Specify SYS SNMP contact and location (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Add SYS SNMP allowed addresses
+  f5bigip_sys_snmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    allowed_addresses: "{{ snmp_allowed_addresses }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS SNMP allowed addresses
+  assert:
+    that:
+      - result|changed
+
+- name: Add SYS SNMP allowed addresses (idempotent check)
+  f5bigip_sys_snmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    allowed_addresses: "{{ snmp_allowed_addresses }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS SNMP allowed addresses (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Add SYS SNMP Communities
+  f5bigip_sys_snmp_community:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    access: "{{ item.access }}"
+    community_name: "{{ item.community_name }}"
+    state: "present"
+  with_items: "{{ snmp_communities }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS SNMP Communities
+  assert:
+    that:
+      - result|changed
+
+- name: Add SYS SNMP Communities (idempotent check)
+  f5bigip_sys_snmp_community:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    access: "{{ item.access }}"
+    community_name: "{{ item.community_name }}"
+    state: "present"
+  with_items: "{{ snmp_communities }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS SNMP Communities (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Add SYS SNMP Traps
+  f5bigip_sys_snmp_trap:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    community: "{{ item.community }}"
+    host: "{{ item.host }}"
+    port: "{{ item.port }}"
+    version: "{{ item.version }}"
+    state: "present"
+  with_items: "{{ snmp_traps }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS SNMP Traps
+  assert:
+    that:
+      - result|changed
+
+- name: Add SYS SNMP Traps (idempotent check)
+  f5bigip_sys_snmp_trap:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    community: "{{ item.community }}"
+    host: "{{ item.host }}"
+    port: "{{ item.port }}"
+    version: "{{ item.version }}"
+    state: "present"
+  with_items: "{{ snmp_traps }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add SYS SNMP Traps (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change SYS SNMP contact and location to default
+  f5bigip_sys_snmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    sys_contact: "{{ snmp_sys_contact_default }}"
+    sys_location: "{{ snmp_sys_location_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Asset Change SYS SNMP contact and location to default
+  assert:
+    that:
+      - result|changed
+
+- name: Remove SYS SNMP allowed addresses
+  f5bigip_sys_snmp:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    allowed_addresses: "{{ snmp_allowed_addresses }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove SYS SNMP allowed addresses
+  assert:
+    that:
+      - result|changed
+
+- name: Remove SYS SNMP Traps
+  f5bigip_sys_snmp_trap:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    state: "absent"
+  with_items: "{{ snmp_traps }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove SYS SNMP Traps
+  assert:
+    that:
+      - result|changed
+
+- name: Remove SYS SNMP Communities
+  f5bigip_sys_snmp_community:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    state: "absent"
+  with_items: "{{ snmp_communities }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove SYS SNMP Communities
+  assert:
+    that:
+      - result|changed

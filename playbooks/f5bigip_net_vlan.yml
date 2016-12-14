@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_net_vlan module
+  hosts: bigips
+  connection: local
+  roles:
+    - f5bigip_net_vlan

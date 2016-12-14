@@ -1,0 +1,154 @@
+---
+
+- name: Create LTM Node
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ node_description }}"
+    address: "{{ node_address }}"
+    monitor: "{{ node_monitor }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Node
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Node (idempotent check)
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ node_description }}"
+    address: "{{ node_address }}"
+    monitor: "{{ node_monitor }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Node (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify LTM Node
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    connection_limit: "{{ node_connection_limit }}"
+    description: "new {{ node_description }}"
+    dynamic_ratio: "{{ node_dynamic_ratio }}"
+    logging: "{{ node_logging }}"
+    rate_limit: "{{ node_rate_limit }}"
+    ratio: "{{ node_ratio }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Node
+  assert:
+      that:
+        - result|changed
+
+- name: Modify LTM Node (idempotent check)
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    connection_limit: "{{ node_connection_limit }}"
+    description: "new {{ node_description }}"
+    dynamic_ratio: "{{ node_dynamic_ratio }}"
+    logging: "{{ node_logging }}"
+    rate_limit: "{{ node_rate_limit }}"
+    ratio: "{{ node_ratio }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Node (idempotent check)
+  assert:
+      that:
+        - not result|changed
+
+- name: Disabled LTM Node
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    session: "user-disabled"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Disabled LTM Node
+  assert:
+      that:
+        - result|changed
+
+- name: Force LTM Node Offline
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    monitor_state: "user-down"
+    session: "user-disabled"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Force LTM Node Offline
+  assert:
+      that:
+        - result|changed
+
+- name: Delete LTM Node
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Node
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Node (idempotent check)
+  f5bigip_ltm_node:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ node_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Node (idempotent check)
+  assert:
+    that:
+      - not result|changed

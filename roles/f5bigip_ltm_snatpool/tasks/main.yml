@@ -1,0 +1,75 @@
+---
+
+- name: Create LTM Snatpool
+  f5bigip_ltm_snatpool:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ snatpool_description }}"
+    members: "{{ snatpool_members }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Snatpool
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Snatpool (idempotent check)
+  f5bigip_ltm_snatpool:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ snatpool_description }}"
+    members: "{{ snatpool_members }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Snatpool (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify LTM Snatpool description and members
+  f5bigip_ltm_snatpool:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "new {{ snatpool_description }}"
+    members: "{{ snatpool_new_members }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snatpool description and members
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Snatpool
+  f5bigip_ltm_snatpool:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snatpool
+  assert:
+    that:
+      - result|changed

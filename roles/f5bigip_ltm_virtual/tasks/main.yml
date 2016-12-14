@@ -1,0 +1,152 @@
+---
+
+- name: Create NET VLAN
+  f5bigip_net_vlan:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ vlan_name }}"
+    partition: "{{ f5bigip_partition }}"
+    tag: "{{ vlan_tag }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create NET VLAN
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Pool
+  f5bigip_ltm_pool:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ pool_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Pool
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Virtual Server
+  f5bigip_ltm_virtual:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ virtual_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "{{ virtual_description }}"
+    destination: "{{ virtual_destination }}"
+    ip_protocol: "{{ virtual_ip_protocol }}"
+    vlans: "{{ virtual_vlans }}"
+    vlans_enabled: "{{ virtual_vlans_enabled }}"
+    state: "present"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Virtual Server
+  assert:
+    that:
+      - result|changed
+
+# Not idempotent !!
+#- name: Create LTM Virtual Server (idempotent check)
+#  f5bigip_ltm_virtual:
+#    f5bigip_hostname: "{{ inventory_hostname }}"
+#    f5bigip_username: "{{ f5bigip_username }}"
+#    f5bigip_password: "{{ f5bigip_password }}"
+#    f5bigip_port: "{{ f5bigip_port }}"
+#    name: "{{ virtual_name }}"
+#    partition: "{{ f5bigip_partition }}"
+#    description: "{{ virtual_description }}"
+#    destination: "{{ virtual_destination }}"
+#    ip_protocol: "{{ virtual_ip_protocol }}"
+#    vlans: "{{ virtual_vlans }}"
+#    vlans_enabled: "{{ virtual_vlans_enabled }}"
+#    state: "present"
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Create LTM Virtual Server (idempotent check)
+#  assert:
+#    that:
+#      - not result|changed
+
+- name: Add LTM Virtual Server Profiles
+  f5bigip_ltm_virtual_profile:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ f5bigip_partition }}"
+    context: "{{ item.context }}"
+    virtual: "{{ virtual_name }}"
+    state: "present"
+  delegate_to: localhost
+  with_items: "{{ virtual_profiles }}"
+  register: result
+
+- name: Assert Add LTM Virtual Server Profiles
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Virtual Server
+  f5bigip_ltm_virtual:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ virtual_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Virtual Server
+  assert:
+    that:
+      - result|changed
+
+- name: Delete NET VLAN
+  f5bigip_net_vlan:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ vlan_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET VLAN
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Pool
+  f5bigip_ltm_pool:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ pool_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: "absent"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Pool
+  assert:
+    that:
+      - result|changed

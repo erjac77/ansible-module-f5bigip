@@ -1,0 +1,6 @@
+---
+
+monitor_name: "my_http_monitor"
+monitor_description: "my http monitor"
+monitor_send_string: "http string to send"
+monitor_recv_string: "http string to receive"
