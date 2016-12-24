@@ -9,7 +9,7 @@
     object: "{{ item }}"
   delegate_to: localhost
   register: result
-  with_items: "{{ objects }}"
+  with_items: "{{ facts_objects }}"
 
 - name: Filter BIG-IP facts
   f5bigip_facts:
@@ -18,8 +18,8 @@
     f5bigip_password: "{{ f5bigip_password }}"
     f5bigip_port: "{{ f5bigip_port }}"
     object: "{{ item }}"
-    filter: "{{ filter }}"
-    select: "{{ select }}"
+    filter: "{{ facts_filter }}"
+    select: "{{ facts_select }}"
   delegate_to: localhost
   register: result
-  with_items: "{{ objects }}"
+  with_items: "{{ facts_objects }}"

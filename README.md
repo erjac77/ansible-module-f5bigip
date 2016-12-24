@@ -1,6 +1,6 @@
 # ANSIBLE MODULE FOR F5 BIG-IP
 
-This repository enables you to use Ansible to perform specific operational and configuration tasks on F5 BIG-IP systems. It is based solely on the f5-sdk (icontrol REST).
+An Ansible module to perform specific operational and configuration tasks on F5 BIG-IP systems. It is based solely on the f5-sdk (icontrol REST).
 
 ## REQUIREMENTS
 
@@ -87,4 +87,4 @@ Apache 2.0
 
 ## AUTHOR INFORMATION
 
-Eric Jacob (@erjac77)
+Eric Jacob ([@erjac77](http://erjac77.blogspot.ca/))

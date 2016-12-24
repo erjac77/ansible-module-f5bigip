@@ -1,7 +1,7 @@
 ---
 
-objects:
+facts_objects:
   - "node"
   - "vlan"
-filter: "partition eq Common"
-select: "name,partition"
+facts_filter: "partition eq Common"
+facts_select: "name,partition"
