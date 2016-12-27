@@ -87,4 +87,4 @@ Apache 2.0
 
 ## AUTHOR INFORMATION
 
-Eric Jacob ([@erjac77](http://erjac77.blogspot.ca/))
+Eric Jacob ([@erjac77](https://github.com/erjac77))
