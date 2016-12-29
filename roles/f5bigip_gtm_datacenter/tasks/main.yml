@@ -1,0 +1,109 @@
+---
+
+- name: Create GTM Datacenter
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    contact: "{{ datacenter_contact }}"
+    description: "{{ datacenter_description }}"
+    location: "{{ datacenter_location }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Datacenter
+  assert:
+    that:
+      - result|changed
+
+- name: Create GTM Datacenter (idempotent check)
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    contact: "{{ datacenter_contact }}"
+    description: "{{ datacenter_description }}"
+    location: "{{ datacenter_location }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Datacenter (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify GTM Datacenter description
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "new {{ datacenter_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify GTM Datacenter description
+  assert:
+      that:
+        - result|changed
+
+- name: Modify GTM Datacenter description (idempotent check)
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    description: "new {{ datacenter_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify GTM Datacenter description (idempotent check)
+  assert:
+      that:
+        - not result|changed
+
+- name: Delete GTM Datacenter
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Datacenter
+  assert:
+    that:
+      - result|changed
+
+- name: Delete GTM Datacenter (idempotent check)
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Datacenter (idempotent check)
+  assert:
+    that:
+      - not result|changed

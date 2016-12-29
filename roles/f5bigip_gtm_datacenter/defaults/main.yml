@@ -1,0 +1,6 @@
+---
+
+datacenter_name: my_datacenter
+datacenter_contact: 'admin@root.local'
+datacenter_description: My datacenter
+datacenter_location: Somewhere

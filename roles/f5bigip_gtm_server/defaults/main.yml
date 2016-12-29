@@ -1,0 +1,13 @@
+---
+
+datacenter_name: my_datacenter
+
+server_name: my_server
+server_addresses:
+  - { name: 10.10.1.11, device-name: primary }
+  - { name: 10.10.1.12, device-name: secondary }
+server_description: My server
+server_product: redundant-bigip
+server_virtual_servers:
+  - { name: my_vs1, destination: '10.10.1.201:80' }
+  - { name: my_vs2, destination: '10.10.1.202:80' }

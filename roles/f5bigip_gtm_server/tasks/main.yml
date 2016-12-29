@@ -1,0 +1,187 @@
+---
+
+- name: Create GTM Datacenter
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Datacenter
+  assert:
+    that:
+      - result|changed
+
+- name: Create GTM Server
+  f5bigip_gtm_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ server_name }}"
+    partition: "{{ f5bigip_partition }}"
+    addresses: "{{ server_addresses }}"
+    datacenter: "{{ datacenter_name }}"
+    description: "{{ server_description }}"
+    product: "{{ server_product }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Server
+  assert:
+    that:
+      - result|changed
+
+# Not idempotent !!
+#- name: Create GTM Server (idempotent check)
+#  f5bigip_gtm_server:
+#    f5bigip_hostname: "{{ inventory_hostname }}"
+#    f5bigip_username: "{{ f5bigip_username }}"
+#    f5bigip_password: "{{ f5bigip_password }}"
+#    f5bigip_port: "{{ f5bigip_port }}"
+#    name: "{{ server_name }}"
+#    partition: "{{ f5bigip_partition }}"
+#    addresses: "{{ server_addresses }}"
+#    datacenter: "{{ datacenter_name }}"
+#    description: "{{ server_description }}"
+#    state: present
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Create GTM Server (idempotent check)
+#  assert:
+#    that:
+#      - not result|changed
+
+- name: Add GTM Server Virtual Servers
+  f5bigip_gtm_server_virtual_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ f5bigip_partition }}"
+    destination: "{{ item.destination }}"
+    server: "{{ server_name }}"
+    state: present
+  with_items: "{{ server_virtual_servers }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add GTM Server Virtual Servers
+  assert:
+    that:
+      - result|changed
+
+- name: Add GTM Server Virtual Servers (idempotent)
+  f5bigip_gtm_server_virtual_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ f5bigip_partition }}"
+    destination: "{{ item.destination }}"
+    server: "{{ server_name }}"
+    state: present
+  with_items: "{{ server_virtual_servers }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add GTM Server Virtual Servers (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Remove GTM Server Virtual Server
+  f5bigip_gtm_server_virtual_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ server_virtual_servers[0].name }}"
+    partition: "{{ f5bigip_partition }}"
+    server: "{{ server_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove GTM Server Virtual Server
+  assert:
+    that:
+      - result|changed
+
+- name: Remove GTM Server Virtual Server (idempotent)
+  f5bigip_gtm_server_virtual_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ server_virtual_servers[0].name }}"
+    partition: "{{ f5bigip_partition }}"
+    server: "{{ server_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove GTM Server Virtual Server (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete GTM Server
+  f5bigip_gtm_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ server_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Server
+  assert:
+    that:
+      - result|changed
+
+- name: Delete GTM Server (idempotent check)
+  f5bigip_gtm_server:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ server_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Server (idempotent check)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete GTM Datacenter
+  f5bigip_gtm_datacenter:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ datacenter_name }}"
+    partition: "{{ f5bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Datacenter
+  assert:
+    that:
+      - result|changed
