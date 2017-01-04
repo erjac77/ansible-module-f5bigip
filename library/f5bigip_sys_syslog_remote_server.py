@@ -108,7 +108,7 @@ class F5BigIpSysSyslogRemoteServer(F5BigIpObject):
             'read':self.mgmt.tm.sys.syslog.load
         }
     
-    def read(self):
+    def _read(self):
         return self.methods['read']()
     
     def flush(self):
@@ -120,7 +120,7 @@ class F5BigIpSysSyslogRemoteServer(F5BigIpObject):
             if val is None:
                 self.params[key] = 'none'
         
-        syslog = self.read()
+        syslog = self._read()
         if hasattr(syslog, 'remoteServers'):
             for remote_server in syslog.remoteServers:
                 encoded_remote_server = ast.literal_eval(json.dumps(remote_server))

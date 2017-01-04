@@ -109,11 +109,11 @@ class F5BigIpSysSshd(F5BigIpUnnamedObject):
             'read':self.mgmt.tm.sys.sshd.load
         }
     
-    def absent(self):
+    def _absent(self):
         if not (self.params['allow']):
             raise AnsibleModuleF5BigIpError("Absent can only be used when removing allow hostnames or IP addresses")
         
-        return super(F5BigIpSysSshd, self).absent()
+        return super(F5BigIpSysSshd, self)._absent()
 
 def main():
     # Translation list for conflictual params

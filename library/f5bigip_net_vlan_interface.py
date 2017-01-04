@@ -135,12 +135,12 @@ class F5BigIpNetVlanInterface(F5BigIpObject):
         }
         self.params.pop('vlan', None)
     
-    def exists(self):
+    def _exists(self):
         return self.methods['exists'](
             name=self.params['name']
         )
     
-    def read(self):
+    def _read(self):
         return self.methods['read'](
             name=self.params['name']
         )
