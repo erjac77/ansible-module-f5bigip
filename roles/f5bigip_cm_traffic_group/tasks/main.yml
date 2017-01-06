@@ -1,0 +1,65 @@
+---
+
+- name: Create CM Traffic Group
+  f5bigip_cm_traffic_group:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ traffic_group_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create CM Traffic Group
+  assert:
+    that:
+      - result|changed
+
+- name: Create CM Traffic Group (idempotent)
+  f5bigip_cm_traffic_group:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ traffic_group_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create CM Traffic Group (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete CM Traffic Group
+  f5bigip_cm_traffic_group:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ traffic_group_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete CM Traffic Group
+  assert:
+    that:
+      - result|changed
+
+- name: Delete CM Traffic Group (idempotent)
+  f5bigip_cm_traffic_group:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ traffic_group_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete CM Traffic Group (idempotent)
+  assert:
+    that:
+      - not result|changed

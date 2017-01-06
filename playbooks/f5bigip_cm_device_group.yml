@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_cm_device_group module
+  hosts: bigips
+  connection: local
+  roles:
+    - f5bigip_cm_device_group

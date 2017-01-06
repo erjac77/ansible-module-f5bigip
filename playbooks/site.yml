@@ -1,5 +1,8 @@
 ---
 
+- include: f5bigip_cm_device.yml
+- include: f5bigip_cm_device_group.yml
+- include: f5bigip_cm_traffic_group.yml
 - include: f5bigip_facts.yml
 - include: f5bigip_gtm_datacenter.yml
 - include: f5bigip_gtm_pool.yml

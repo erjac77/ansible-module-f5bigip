@@ -1,0 +1,78 @@
+---
+
+- name: Configure CM Device Properties
+  f5bigip_cm_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ device_name }}"
+    comment: My lab device
+    contact: 'admin@company.com'
+    description: My device
+    ha_capacity: 0
+    location: central office
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Configure CM Device Properties
+  assert:
+    that:
+      - result|changed
+
+- name: Configure CM Device ConfigSync
+  f5bigip_cm_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ device_name }}"
+    configsync_ip: 10.64.230.27
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Configure CM Device ConfigSync
+  assert:
+    that:
+      - result|changed
+
+- name: Configure CM Device Failover
+  f5bigip_cm_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ device_name }}"
+    multicast_interface: eth0
+    multicast_ip: 224.0.0.245
+    multicast_port: 62960
+    #unicast_address:
+    #  - 10.64.230.27
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Configure CM Device Failover
+  assert:
+    that:
+      - result|changed
+
+- name: Configure CM Device Mirroring
+  f5bigip_cm_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ device_name }}"
+    mirror_ip: 10.64.230.27
+    mirror_secondary_ip: 172.16.227.220
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Configure CM Device Mirroring
+  assert:
+    that:
+      - result|changed
