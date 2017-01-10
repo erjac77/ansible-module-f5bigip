@@ -1,0 +1,15 @@
+---
+
+common_name: example.localhost
+city: city
+state: state
+country: US
+email: 'admin@localhost'
+org: My Org
+ou: My Div
+
+key_name: "{{ common_name }}.key"
+key_path: "/tmp/{{ key_name }}"
+
+cert_name: "{{ common_name }}.crt"
+cert_path: "/tmp/{{ cert_name }}"

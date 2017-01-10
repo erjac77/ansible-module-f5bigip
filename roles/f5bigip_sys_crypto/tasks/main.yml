@@ -1,0 +1,249 @@
+---
+
+- name: Install SYS Crypto Key from local file
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    command: install
+    from_local_file: "{{ key_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Install SYS Crypto Key from local file
+  assert:
+    that:
+      - result|changed
+
+- name: Install SYS Crypto Key from local file (idempotent)
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    command: install
+    from_local_file: "{{ key_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Install SYS Crypto Key from local file (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Key
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Crypto Key
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS Crypto Key (idempotent)
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Crypto Key (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Install SYS Crypto Cert from local file
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    command: install
+    from_local_file: "{{ cert_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Install SYS Crypto Cert from local file
+  assert:
+    that:
+      - result|changed
+
+- name: Install SYS Crypto Cert from local file (idempotent)
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    command: install
+    from_local_file: "{{ cert_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Install SYS Crypto Cert from local file (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Cert
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    key: "{{ key_name }}"
+    common_name: "{{ common_name }}"
+    city: "{{ city }}"
+    state_province: "{{ state }}"
+    country: "{{ country }}"
+    email_address: "{{ email }}"
+    organization: "{{ org }}"
+    ou: "{{ ou }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Crypto Cert
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS Crypto Cert (idempotent)
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    key: "{{ key_name }}"
+    common_name: "{{ common_name }}"
+    city: "{{ city }}"
+    state_province: "{{ state }}"
+    country: "{{ country }}"
+    email_address: "{{ email }}"
+    organization: "{{ org }}"
+    ou: "{{ ou }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Crypto Cert (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Cert
+  assert:
+    that:
+      - result|changed
+
+- name: Delete SYS Crypto Cert (idempotent)
+  f5bigip_sys_crypto_cert:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ cert_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Cert (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Key
+  assert:
+    that:
+      - result|changed
+
+- name: Delete SYS Crypto Key (idempotent)
+  f5bigip_sys_crypto_key:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ f5bigip_username }}"
+    f5bigip_password: "{{ f5bigip_password }}"
+    f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ key_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Key (idempotent)
+  assert:
+    that:
+      - not result|changed
