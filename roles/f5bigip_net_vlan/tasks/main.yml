@@ -3,14 +3,14 @@
 - name: Create NET VLAN
   f5bigip_net_vlan:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ vlan_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ vlan_description }}"
     tag: "{{ vlan_tag }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -19,21 +19,21 @@
     that:
       - result|changed
 
-- name: Create NET VLAN (idempotent check)
+- name: Create NET VLAN (idempotent)
   f5bigip_net_vlan:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ vlan_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ vlan_description }}"
     tag: "{{ vlan_tag }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Create NET VLAN (idempotent check)
+- name: Assert Create NET VLAN (idempotent)
   assert:
     that:
       - not result|changed
@@ -41,31 +41,47 @@
 - name: Change NET VLAN description
   f5bigip_net_vlan:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ vlan_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ vlan_description }}"
   register: result
 
 - name: Change NET VLAN description
   assert:
-      that:
-        - result|changed
+    that:
+      - result|changed
+
+- name: Change NET VLAN description (idempotent)
+  f5bigip_net_vlan:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ vlan_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ vlan_description }}"
+  register: result
+
+- name: Change NET VLAN description (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 # Doesn't work !!
 #- name: Add NET VLAN Interface
 #  f5bigip_net_vlan_interface:
 #    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ f5bigip_username }}"
-#    f5bigip_password: "{{ f5bigip_password }}"
-#    f5bigip_port: "{{ f5bigip_port }}"
+#    f5bigip_username: "{{ bigip01_username }}"
+#    f5bigip_password: "{{ bigip01_password }}"
+#    f5bigip_port: "{{ bigip01_port }}"
 #    name: "{{ interface_name }}"
-#    partition: "{{ f5bigip_partition }}"
+#    partition: "{{ bigip_partition }}"
 #    tagged: "{{ vlan_tagged }}"
 #    vlan: "{{ vlan_name }}"
-#    state: "present"
+#    state: present
 #  register: result
 #
 #- name: Assert Add NET VLAN Interface
@@ -73,20 +89,20 @@
 #      that:
 #        - result|changed
 #
-#- name: Add NET VLAN Interface (idempotent check)
+#- name: Add NET VLAN Interface (idempotent)
 #  f5bigip_net_vlan_interface:
 #    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ f5bigip_username }}"
-#    f5bigip_password: "{{ f5bigip_password }}"
-#    f5bigip_port: "{{ f5bigip_port }}"
+#    f5bigip_username: "{{ bigip01_username }}"
+#    f5bigip_password: "{{ bigip01_password }}"
+#    f5bigip_port: "{{ bigip01_port }}"
 #    name: "{{ interface_name }}"
-#    partition: "{{ f5bigip_partition }}"
+#    partition: "{{ bigip_partition }}"
 #    untagged: "{{ vlan_name }}"
 #    vlan: "{{ vlan_name }}"
-#    state: "present"
+#    state: present
 #  register: result
 #
-#- name: Assert Add NET VLAN Interface (idempotent check)
+#- name: Assert Add NET VLAN Interface (idempotent)
 #  assert:
 #      that:
 #        - not result|changed
@@ -94,13 +110,13 @@
 #- name: Remove NET VLAN Interface
 #  f5bigip_net_vlan_interface:
 #    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ f5bigip_username }}"
-#    f5bigip_password: "{{ f5bigip_password }}"
-#    f5bigip_port: "{{ f5bigip_port }}"
+#    f5bigip_username: "{{ bigip01_username }}"
+#    f5bigip_password: "{{ bigip01_password }}"
+#    f5bigip_port: "{{ bigip01_port }}"
 #    name: "{{ interface_name }}"
-#    partition: "{{ f5bigip_partition }}"
+#    partition: "{{ bigip_partition }}"
 #    vlan: "{{ vlan_name }}"
-#    state: "absent"
+#    state: absent
 #  register: result
 #
 #- name: Assert Remove NET VLAN Interface
@@ -111,12 +127,12 @@
 - name: Delete NET VLAN
   f5bigip_net_vlan:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ vlan_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -124,3 +140,20 @@
   assert:
     that:
       - result|changed
+
+- name: Delete NET VLAN (idempotent)
+  f5bigip_net_vlan:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ vlan_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET VLAN (idempotent)
+  assert:
+    that:
+      - not result|changed

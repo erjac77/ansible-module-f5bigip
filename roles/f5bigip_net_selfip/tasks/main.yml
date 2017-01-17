@@ -1,35 +1,17 @@
 ---
 
-- name: Create NET VLAN
-  f5bigip_net_vlan:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
-    name: "{{ vlan_name }}"
-    partition: "{{ f5bigip_partition }}"
-    tag: "{{ vlan_tag }}"
-    state: "present"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Create NET VLAN
-  assert:
-    that:
-      - result|changed
-
 - name: Create NET Self IP
   f5bigip_net_selfip:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ self_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ self_description }}"
     address: "{{ self_address }}"
     vlan: "{{ vlan_name }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -38,22 +20,22 @@
     that:
       - result|changed
 
-- name: Create NET Self IP (idempotent check)
+- name: Create NET Self IP (idempotent)
   f5bigip_net_selfip:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ self_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ self_description }}"
     address: "{{ self_address }}"
     vlan: "{{ vlan_name }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Create NET Self IP (idempotent check)
+- name: Assert Create NET Self IP (idempotent)
   assert:
     that:
       - not result|changed
@@ -61,32 +43,47 @@
 - name: Change NET Self IP description
   f5bigip_net_selfip:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ self_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ self_description }}"
   register: result
 
 - name: Change NET Self IP description
   assert:
-      that:
-        - result|changed
+    that:
+      - result|changed
 
+- name: Change NET Self IP description (idempotent)
+  f5bigip_net_selfip:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ self_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ self_description }}"
+  register: result
+
+- name: Change NET Self IP description (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Create NET Floating IP
   f5bigip_net_selfip:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ float_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ float_description }}"
     address: "{{ float_address }}"
     vlan: "{{ vlan_name }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -98,12 +95,12 @@
 - name: Delete NET Self IP
   f5bigip_net_selfip:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ self_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -112,36 +109,36 @@
     that:
       - result|changed
 
+- name: Delete NET Self IP (idempotent)
+  f5bigip_net_selfip:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ self_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET Self IP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
 - name: Delete NET Floating IP
   f5bigip_net_selfip:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ float_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
 - name: Assert Delete NET Floating IP
-  assert:
-    that:
-      - result|changed
-
-- name: Delete NET VLAN
-  f5bigip_net_vlan:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
-    name: "{{ vlan_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Delete NET VLAN
   assert:
     that:
       - result|changed

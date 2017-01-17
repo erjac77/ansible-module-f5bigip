@@ -3,15 +3,15 @@
 - name: Create NET Route
   f5bigip_net_route:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ route_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ route_description }}"
     network: "{{ route_network }}"
     gw: "{{ route_gw }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -20,22 +20,22 @@
     that:
       - result|changed
 
-- name: Create NET Route (idempotent check)
+- name: Create NET Route (idempotent)
   f5bigip_net_route:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ route_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ route_description }}"
     network: "{{ route_network }}"
     gw: "{{ route_gw }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Create NET Route (idempotent check)
+- name: Assert Create NET Route (idempotent)
   assert:
     that:
       - not result|changed
@@ -43,11 +43,11 @@
 - name: Change NET Route description and gateway
   f5bigip_net_route:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ route_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ route_description }}"
     gw: "{{ route_new_gw }}"
   register: result
@@ -57,15 +57,32 @@
       that:
         - result|changed
 
+- name: Change NET Route description and gateway (idempotent)
+  f5bigip_net_route:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ route_description }}"
+    gw: "{{ route_new_gw }}"
+  register: result
+
+- name: Change NET Route description and gateway (idempotent)
+  assert:
+      that:
+        - not result|changed
+
 - name: Delete NET Route
   f5bigip_net_route:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ route_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -73,3 +90,20 @@
   assert:
     that:
       - result|changed
+
+- name: Delete NET Route (idempotent)
+  f5bigip_net_route:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ route_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET Route (idempotent)
+  assert:
+    that:
+      - not result|changed

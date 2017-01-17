@@ -1,7 +1,7 @@
 ---
 
-route_name: "my_route"
-route_description: "route"
-route_network: "10.10.10.0/24"
-route_gw: "172.16.227.254"
-route_new_gw: "172.16.227.1"
+route_name: my_route
+route_description: route
+route_network: 10.0.0.0/8
+route_gw: 10.10.20.254
+route_new_gw: 10.10.20.1

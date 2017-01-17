@@ -20,7 +20,7 @@ module: f5bigip_net_selfip
 short_description: BIG-IP net selfip module
 description:
     - Configures a self IP address for a VLAN.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     allow_service:
         description:
             - Specifies the type of protocol/service that the VLAN handles.
@@ -43,7 +43,7 @@ options:
         default: none
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -59,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -67,7 +67,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -75,7 +75,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     traffic_group:
         description:
             - Specifies the traffic group of the self IP address.
@@ -83,7 +83,7 @@ options:
         default: traffic-group-local-only
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     vlan:
         description:
             - Specifies the VLAN for which you are setting a self IP address.
@@ -91,20 +91,20 @@ options:
         default: traffic-group-local-only
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create NET Self IP
   f5bigip_net_selfip:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_self_ip"
-    address: "10.10.10.7/24"
-    vlan: "my_vlan"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_self_ip
+    address: 10.10.10.11/24
+    vlan: internal
+    state: present
   delegate_to: localhost
 '''
 

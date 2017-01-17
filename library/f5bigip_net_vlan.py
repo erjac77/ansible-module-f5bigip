@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_net_vlan
-short_description: BIG-IP LTM vlan module
+short_description: BIG-IP net vlan module
 description:
     - Configures a virtual local area network (VLAN).
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     failsafe:
         description:
             - Enables a fail-safe mechanism that causes the active cluster to fail over to a redundant cluster when loss of traffic is detected on a VLAN.
@@ -43,7 +43,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     failsafe_action:
         description:
             - Specifies the action for the system to take when the fail-safe mechanism is triggered.
@@ -51,7 +51,7 @@ options:
         default: failover-restart-tm
         choices: ['failover', 'failover-restart-tm', 'reboot', 'restart-all']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     failsafe_timeout:
         description:
             - Specifies the number of seconds that an active unit can run without detecting network traffic on this VLAN before it starts a failover.
@@ -59,7 +59,7 @@ options:
         default: 90
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     learning:
         description:
             - Specifies whether switch ports placed in the VLAN are configured for switch learning, forwarding only, or dropped.
@@ -67,7 +67,7 @@ options:
         default: enable-forward
         choices: ['disable-drop', 'disable-forward', 'enable-forward']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mtu:
         description:
             - Sets a specific maximum transition unit (MTU) for the VLAN.
@@ -75,7 +75,7 @@ options:
         default: 1500
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -91,7 +91,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     source-checking:
         description:
             - Specifies that only connections that have a return route in the routing table are accepted.
@@ -99,7 +99,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -107,7 +107,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     tag:
         description:
             - Specifies a number that the system adds into the header of any frame passing through the VLAN.
@@ -115,7 +115,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     customer_tag:
         description:
             - Specifies a number that the system adds into the header of any double tagged frame passing through the VLAN.
@@ -123,7 +123,7 @@ options:
         default: none
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     cmp_hash:
         description:
             - Specifies how the traffic on the VLAN will be disaggregated.
@@ -131,7 +131,7 @@ options:
         default: default
         choices: ['default', 'dst-ip', 'src-ip']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     dag_tunnel:
         description:
             - Specifies whether the ip tunnel traffic on the VLAN should be disaggregated based on the inner ip header or outer ip header.
@@ -139,7 +139,7 @@ options:
         default: null
         choices: ['outer', 'inner']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     dag_round_robin:
         description:
             - Specifies whether some of the stateless traffic on the VLAN should be disaggregated in a round-robin order instead of using static hash.
@@ -147,20 +147,20 @@ options:
         default: null
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create NET VLAN
   f5bigip_net_vlan:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_vlan"
-    partition: "Common"
-    tag: 1234
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: internal
+    partition: Common
+    tag: 10
+    state: present
   delegate_to: localhost
 '''
 

@@ -1,12 +1,11 @@
 ---
 
-vlan_name: "my_vlan"
-vlan_tag: 1234
+vlan_name: internal
 
-self_name: "my_self_ip"
-self_description: "self"
-self_address: "10.10.10.7/24"
+self_name: my_self_ip
+self_description: My self ip
+self_address: 10.10.10.21/24
 
-float_name: "my_float_ip"
-float_description: "floating"
-float_address: "10.10.10.9/24"
+float_name: my_float_ip
+float_description: My floating ip
+float_address: 10.10.10.20/24

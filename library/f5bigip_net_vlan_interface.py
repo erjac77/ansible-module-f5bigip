@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_net_vlan_interface
-short_description: BIG-IP LTM vlan interface module
+short_description: BIG-IP net vlan interface module
 description:
     - Configures a tagged or untagged interface and trunk for a VLAN.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -51,7 +51,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -59,7 +59,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     tag_mode:
         description:
             - Specifies the tag mode of the interface or trunk associated with.
@@ -67,7 +67,7 @@ options:
         default: none
         choices: ['customer', 'service', 'double', 'none']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     tagged:
         description:
             - Specifies the type of the interface.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: ['true', 'false']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     untagged:
         description:
             - Specifies the type of the interface.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: ['true', 'false']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     vlan:
         description:
             - Specifies the vlan in which the interface belongs.
@@ -91,21 +91,21 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add NET VLAN Interface
   f5bigip_net_vlan_interface:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "1.2"
-    partition: "Common"
-    vlan: "my_vlan"
-    tagged: true
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: 1.1
+    partition: Common
+    vlan: internal
+    untagged: true
+    state: present
   delegate_to: localhost
 '''
 
