@@ -3,11 +3,11 @@
 - name: Add SYS HTTPD allow clients
   f5bigip_sys_httpd:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     allow: "{{ httpd_allow_clients }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -16,18 +16,18 @@
     that:
       - result|changed
 
-- name: Add SYS HTTPD allow clients (idempotent check)
+- name: Add SYS HTTPD allow clients (idempotent)
   f5bigip_sys_httpd:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     allow: "{{ httpd_allow_clients }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS HTTPD allow clients (idempotent check)
+- name: Assert Add SYS HTTPD allow clients (idempotent)
   assert:
     that:
       - not result|changed
@@ -35,11 +35,11 @@
 - name: Remove SYS HTTPD allow clients
   f5bigip_sys_httpd:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     allow: "{{ httpd_allow_clients }}"
-    state: "absent"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -47,3 +47,19 @@
   assert:
     that:
       - result|changed
+
+- name: Remove SYS HTTPD allow clients (idempotent)
+  f5bigip_sys_httpd:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    allow: "{{ httpd_allow_clients }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove SYS HTTPD allow clients (idempotent)
+  assert:
+    that:
+      - not result|changed

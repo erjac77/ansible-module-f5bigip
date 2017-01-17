@@ -68,7 +68,7 @@ EXAMPLES = '''
     f5bigip_hostname: 172.16.227.35
     f5bigip_username: admin
     f5bigip_password: admin
-    f5bigip_port: 11443
+    f5bigip_port: 443
     device: bigip01.localhost
     ip: 10.10.30.11
     port: 1026

@@ -1,10 +1,10 @@
 ---
 
 sshd_allow_clients:
-  - 172.16.227.11
-  - 172.16.227.12
+  - 172.16.227.0/24
+  - 10.0.0.0/8
 
-sshd_banner: "enabled"
+sshd_banner: enabled
 sshd_banner_text: "NOTICE: Improper use of this computer may result in prosecution!"
 
 sshd_inactivity_timeout: 300

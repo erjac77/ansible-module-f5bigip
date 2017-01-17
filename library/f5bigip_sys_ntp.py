@@ -21,7 +21,7 @@ short_description: BIG-IP sys ntp module
 description:
     - Configures the Network Time Protocol (NTP) daemon for the BIG-IP.
 system.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -36,7 +36,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     servers:
         description:
             - Configures NTP servers for the BIG-IP system.
@@ -44,7 +44,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     timezone:
         description:
             - Specifies the time zone that you want to use for the system time.
@@ -52,21 +52,21 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS NTP Servers
   f5bigip_sys_ntp:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
     servers:
-      - 172.16.227.11
-      - 172.16.227.12
-    timezone: "America/Montreal"
-    state: "present"
+      - 10.20.20.21
+      - 10.20.20.22
+    timezone: America/Montreal
+    state: present
   delegate_to: localhost
 '''
 
@@ -90,7 +90,18 @@ class F5BigIpSysNtp(F5BigIpUnnamedObject):
         if not self.params['servers']:
             raise AnsibleModuleF5BigIpError("Absent can only be used when removing NTP servers")
         
-        return super(F5BigIpSysNtp, self)._absent()
+        has_changed = False
+        ntp = self._read()
+
+        if hasattr(ntp, 'servers'):
+            for server in self.params['servers']:
+                if server in ntp.servers:
+                    ntp.servers.remove(server)
+                    has_changed = True
+
+            ntp.update()
+
+        return has_changed
 
 def main():
     # Translation list for conflictual params

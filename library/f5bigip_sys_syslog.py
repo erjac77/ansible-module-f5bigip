@@ -20,7 +20,7 @@ module: f5bigip_sys_syslog
 short_description: BIG-IP sys syslog module
 description:
     - Configures the BIG-IP system log.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_priv_to:
         description:
             - Specifies the highest level of messages about user authentication to include in the system log.
@@ -43,7 +43,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     cron_from:
         description:
             - Specifies the lowest level of messages about time-based scheduling to include in the system log.
@@ -51,7 +51,7 @@ options:
         default: warning
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     cron_to:
         description:
             - Specifies the highest level of messages about time-based scheduling to include in the system log.
@@ -59,7 +59,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     daemon_from:
         description:
             - Specifies the lowest level of messages about daemon performance to include in the system log.
@@ -67,7 +67,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     daemon_to:
         description:
             - Specifies the highest level of messages about daemon performance to include in the system log.
@@ -75,7 +75,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     iso_date:
         description:
             - Enables or disables the ISO date format for messages in the log files.
@@ -83,7 +83,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     console_log:
         description:
             - Enables or disables logging emergency syslog messages to the console.
@@ -91,7 +91,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     kern_from:
         description:
             - Specifies the lowest level of kernel messages to include in the system log.
@@ -99,7 +99,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     kern_to:
         description:
             - Specifies the highest level of kernel messages to include in the system log.
@@ -107,7 +107,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     local6_from:
         description:
             - Specifies the lowest error level for messages from the local6 facility to include in the log.
@@ -115,7 +115,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     local6_to:
         description:
             - Specifies the highest error level for messages from the local6 facility to include in the log.
@@ -123,7 +123,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mail_from:
         description:
             - Specifies the lowest level of mail log messages to include in the system log.
@@ -131,7 +131,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mail_to:
         description:
             - Specifies the highest level of mail log messages to include in the system log.
@@ -139,7 +139,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     messages_from:
         description:
             - Specifies the lowest level of messages about user authentication to include in the system log.
@@ -147,7 +147,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     messages_to:
         description:
             - Specifies the highest level of system messages to include in the system log.
@@ -155,7 +155,7 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     user_log_from:
         description:
             - Specifies the lowest level of user account messages to include in the system log.
@@ -163,7 +163,7 @@ options:
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     user_log_to:
         description:
             - Specifies the highest level of user account messages to include in the system log.
@@ -171,19 +171,19 @@ options:
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Change SYS Syslog User Log
   f5bigip_sys_syslog:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    user_log_from: "alert"
-    user_log_to: "alert"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    user_log_from: alert
+    user_log_to: alert
+    state: present
   delegate_to: localhost
 '''
 

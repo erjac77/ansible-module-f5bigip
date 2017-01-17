@@ -20,7 +20,7 @@
     that:
       - result|changed
 
-- name: Create GTM Datacenter (idempotent check)
+- name: Create GTM Datacenter (idempotent)
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
     f5bigip_username: "{{ bigip01_username }}"
@@ -35,7 +35,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Create GTM Datacenter (idempotent check)
+- name: Assert Create GTM Datacenter (idempotent)
   assert:
     that:
       - not result|changed
@@ -57,7 +57,7 @@
       that:
         - result|changed
 
-- name: Modify GTM Datacenter description (idempotent check)
+- name: Modify GTM Datacenter description (idempotent)
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
     f5bigip_username: "{{ bigip01_username }}"
@@ -69,7 +69,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Modify GTM Datacenter description (idempotent check)
+- name: Assert Modify GTM Datacenter description (idempotent)
   assert:
       that:
         - not result|changed
@@ -91,7 +91,7 @@
     that:
       - result|changed
 
-- name: Delete GTM Datacenter (idempotent check)
+- name: Delete GTM Datacenter (idempotent)
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
     f5bigip_username: "{{ bigip01_username }}"
@@ -103,7 +103,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Delete GTM Datacenter (idempotent check)
+- name: Assert Delete GTM Datacenter (idempotent)
   assert:
     that:
       - not result|changed

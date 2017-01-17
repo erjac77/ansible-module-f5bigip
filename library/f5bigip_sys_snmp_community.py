@@ -20,7 +20,7 @@ module: f5bigip_sys_snmp_community
 short_description: BIG-IP sys snmp community module
 description:
     - Configures the simple network management protocol (SNMP) communities.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: ro
         choices: ['ro', 'rw']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     community_name:
         description:
             - Specifies the name of the community that you are configuring for the snmpd daemon.
@@ -43,7 +43,7 @@ options:
         default: public
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ipv6:
         description:
             - Specifies to enable or disable IPv6 addresses for the community that you are configuring.
@@ -59,7 +59,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     oid_subset:
         description:
             - Specifies to restrict access by the community to every object below the specified object identifier (OID).
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     source:
         description:
             - Specifies the source addresses with the specified community name that can access the management information base (MIB).
@@ -75,20 +75,20 @@ options:
         default: default
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS SNMP community
   f5bigip_sys_snmp_community:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "community1"
-    access: "ro"
-    community_name: "mycommunity1"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: community1
+    access: ro
+    community_name: mycommunity1
+    state: present
   delegate_to: localhost
 '''
 
@@ -114,19 +114,14 @@ class F5BigIpSysSnmpCommunity(F5BigIpObject):
             'exists':self.snmp.communities_s.community.exists
         }
     
-    # exists() returns always True...
     def _exists(self):
-        exists = False
-        
-        try:
-            comm = self._read()
-            
-            if hasattr(comm, 'communityName'):
-                exists = True
-        except Exception as exc:
-            pass
-        
-        return exists
+        keys = self.snmp.communities_s.get_collection()
+        for key in keys:
+            name = self.params['name']
+            if key.name == name:
+                return True
+
+        return False
 
 def main():
     # Translation list for conflictual params

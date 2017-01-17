@@ -20,7 +20,7 @@ module: f5bigip_facts
 short_description: Gather facts from BIG-IP system
 description:
     - Collect facts from BIG-IP system.
-version_added: "1.0"
+version_added: 2.3
 author:
 	- "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: [node, vlan]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     filter:
         description:
             - Specifies an administrative partition to query for a result set.
@@ -43,16 +43,16 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Collect BIG-IP facts
   f5bigip_facts:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
     object: vlan
   delegate_to: localhost
 '''

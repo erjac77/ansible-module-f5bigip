@@ -20,7 +20,7 @@ module: f5bigip_sys_folder
 short_description: BIG-IP sys folder module
 description:
     - Configure folders (directory structure) on the BIG-IP system.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     device_group:
         description:
             - Adds this folder and all configuration items in this folder to a device group for device failover or config-sync purposes.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     no_ref_check:
         description:
             - Specifies whether strict device group reference validation is performed on configuration items in the folder.
@@ -59,7 +59,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -67,7 +67,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     traffic_group:
         description:
             - Adds this folder and its configuration items to an existing traffic group.
@@ -75,21 +75,21 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create SYS Folder
   f5bigip_sys_folder:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_folder"
-    partition: "Common"
-    description: "my folder"
-    sub_path: "/"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_folder
+    partition: Common
+    description: My folder
+    sub_path: /
+    state: present
   delegate_to: localhost
 '''
 

@@ -20,7 +20,7 @@ module: f5bigip_sys_db
 short_description: BIG-IP sys db module
 description:
     - Displays or modifies bigdb database entries.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     value:
         description:
             - Specifies the value to which you want to set the specified database entry.
@@ -43,18 +43,18 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Disable SYS DB Setup Utility Wizard
   f5bigip_sys_db:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "setup.run"
-    value: "false"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: 'setup.run'
+    value: 'false'
   delegate_to: localhost
 '''
 

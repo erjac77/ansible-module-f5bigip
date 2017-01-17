@@ -1,8 +1,6 @@
 ---
 
-ntp_servers_add:
-  - 172.16.227.11
-  - 172.16.227.12
-ntp_timezone: "America/Montreal"
-ntp_servers_remove:
-  - 172.16.227.12
+ntp_servers:
+  - 10.20.20.21
+  - 10.20.20.22
+ntp_timezone: America/Montreal

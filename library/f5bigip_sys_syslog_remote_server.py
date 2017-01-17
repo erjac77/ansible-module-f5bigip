@@ -20,7 +20,7 @@ module: f5bigip_sys_syslog_remote_server
 short_description: BIG-IP sys syslog remote server module
 description:
     - Configures the remote servers, identified by IP address, to which syslog sends messages.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     local_ip:
         description:
             - Specifies the IP address of the interface syslog binds with in order to log messages to a remote host.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -59,7 +59,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     remote_port:
         description:
             - Specifies the port number of a remote server to which syslog sends messages.
@@ -67,7 +67,7 @@ options:
         default: 514
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -75,20 +75,20 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS Syslog Remote Server
   f5bigip_sys_syslog_remote_server:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "remotesyslog1"
-    host: "172.16.227.11"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: remotesyslog1
+    host: 10.20.20.21
     remote_port: 514
-    state: "present"
+    state: present
   delegate_to: localhost
 '''
 

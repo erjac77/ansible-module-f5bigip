@@ -1,63 +1,63 @@
 ---
 
-- name: Change SYS GLOBAL SETTINGS banner text
+- name: Change SYS Global Settings banner text
   f5bigip_sys_global_settings:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     gui_security_banner: "{{ globset_gui_security_banner }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change SYS GLOBAL SETTINGS banner text
+- name: Assert Change SYS Global Settings banner text
   assert:
     that:
       - result|changed
 
-- name: Change SYS GLOBAL SETTINGS banner text (idempotent check)
+- name: Change SYS Global Settings banner text (idempotent)
   f5bigip_sys_global_settings:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     gui_security_banner: "{{ globset_gui_security_banner }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change SYS GLOBAL SETTINGS banner text (idempotent check)
+- name: Assert Change SYS Global Settings banner text (idempotent)
   assert:
     that:
       - not result|changed
 
-- name: Change SYS GLOBAL SETTINGS banner text to default
+- name: Change SYS Global Settings banner text to default
   f5bigip_sys_global_settings:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change SYS GLOBAL SETTINGS banner text to default
+- name: Assert Change SYS Global Settings banner text to default
   assert:
     that:
       - result|changed
 
-- name: Change SYS GLOBAL SETTINGS banner text to default (idempotent check)
+- name: Change SYS Global Settings banner text to default (idempotent)
   f5bigip_sys_global_settings:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change SYS GLOBAL SETTINGS banner text to default (idempotent check)
+- name: Assert Change SYS Global Settings banner text to default (idempotent)
   assert:
     that:
       - not result|changed

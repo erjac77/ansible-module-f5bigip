@@ -166,21 +166,7 @@ class F5BigIpGtmPoolMember(F5BigIpObject):
         }
         self.params.pop('pool', None)
 
-    # exists() returns always True...
-    #def _exists(self):
-    #    exists = False
-    #    
-    #    try:
-    #        member = self._read()
-    #        
-    #        if hasattr(member, 'order'):
-    #            exists = True
-    #    except Exception as exc:
-    #        pass
-    #    
-    #    return exists
     def _exists(self):
-        """Check for the existence of the named object on the BIG-IP system."""
         keys = self.pool.members_s.get_collection()
         for key in keys:
             name = self.params['name']

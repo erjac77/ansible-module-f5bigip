@@ -39,7 +39,7 @@
       - result|changed
 
 # Not idempotent !!
-#- name: Create GTM Server (idempotent check)
+#- name: Create GTM Server (idempotent)
 #  f5bigip_gtm_server:
 #    f5bigip_hostname: "{{ inventory_hostname }}"
 #    f5bigip_username: "{{ bigip01_username }}"
@@ -54,7 +54,7 @@
 #  delegate_to: localhost
 #  register: result
 #
-#- name: Assert Create GTM Server (idempotent check)
+#- name: Assert Create GTM Server (idempotent)
 #  assert:
 #    that:
 #      - not result|changed
@@ -152,7 +152,7 @@
     that:
       - result|changed
 
-- name: Delete GTM Server (idempotent check)
+- name: Delete GTM Server (idempotent)
   f5bigip_gtm_server:
     f5bigip_hostname: "{{ inventory_hostname }}"
     f5bigip_username: "{{ bigip01_username }}"
@@ -164,7 +164,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Delete GTM Server (idempotent check)
+- name: Assert Delete GTM Server (idempotent)
   assert:
     that:
       - not result|changed

@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_sys_dns
-short_description: BIG-IP sys ntp module
+short_description: BIG-IP sys dns module
 description:
     - Configures the Domain Name System (DNS) for the BIG-IP system.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name_servers:
         description:
             - Configures a group of DNS name servers for the BIG-IP system.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     search:
         description:
             - Configures a list of domain names in a specific order.
@@ -51,20 +51,20 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS DNS Name Servers
   f5bigip_sys_dns:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
     name_servers:
-      - 172.16.227.11
-      - 172.16.227.12
-    state: "present"
+      - 10.20.20.21
+      - 10.20.20.22
+    state: present
   delegate_to: localhost
 '''
 
@@ -87,7 +87,18 @@ class F5BigIpSysDns(F5BigIpUnnamedObject):
         if not (self.params['nameServers'] or self.params['search']):
             raise AnsibleModuleF5BigIpError("Absent can only be used when removing name servers or search domains")
         
-        return super(F5BigIpSysDns, self)._absent()
+        has_changed = False
+        dns = self._read()
+
+        if hasattr(dns, 'nameServers'):
+            for server in self.params['nameServers']:
+                if server in dns.nameServers:
+                    dns.nameServers.remove(server)
+                    has_changed = True
+
+            dns.update()
+
+        return has_changed
 
 def main():
     # Translation list for conflictual params

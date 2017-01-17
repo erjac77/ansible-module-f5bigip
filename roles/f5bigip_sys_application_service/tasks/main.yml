@@ -3,15 +3,15 @@
 - name: Create SYS App Service
   f5bigip_sys_application_service:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ app_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     template: "{{app_template}}"
     tables: "{{ app_tables }}"
     variables: "{{ app_variables }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -20,15 +20,36 @@
     that:
       - result|changed
 
+# Not idempotent!!
+#- name: Create SYS App Service (idempotent)
+#  f5bigip_sys_application_service:
+#    f5bigip_hostname: "{{ inventory_hostname }}"
+#    f5bigip_username: "{{ bigip01_username }}"
+#    f5bigip_password: "{{ bigip01_password }}"
+#    f5bigip_port: "{{ bigip01_port }}"
+#    name: "{{ app_name }}"
+#    partition: "{{ bigip_partition }}"
+#    template: "{{app_template}}"
+#    tables: "{{ app_tables }}"
+#    variables: "{{ app_variables }}"
+#    state: present
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Create SYS App Service (idempotent)
+#  assert:
+#    that:
+#      - not result|changed
+
 - name: Delete SYS App Service
   f5bigip_sys_application_service:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ app_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -36,3 +57,20 @@
   assert:
     that:
       - result|changed
+
+- name: Delete SYS App Service (idempotent)
+  f5bigip_sys_application_service:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ app_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Delete SYS App Service (idempotent)
+  assert:
+    that:
+      - not result|changed

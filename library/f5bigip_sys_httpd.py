@@ -20,7 +20,7 @@ module: f5bigip_sys_httpd
 short_description: BIG-IP sys httpd module
 description:
     - Configures the HTTP daemon for the BIG-IP system.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: all
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_name:
         description:
             - Specifies the name for the authentication realm.
@@ -43,7 +43,7 @@ options:
         default: BIG-IP
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_pam_dashboard_timeout:
         description:
             - Specifies whether idle timeout while viewing the dashboard is enforced or not.
@@ -51,7 +51,7 @@ options:
         default: off
         choices: ['on', 'off']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_pam_idle_timeout:
         description:
             - Specifies the number of seconds of inactivity that can elapse before the GUI session is automatically logged out.
@@ -59,7 +59,7 @@ options:
         default: 1200
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_pam_validate_ip:
         description:
             - Specifies whether the check for consistent inbound IP for the entire web session is enforced or not.
@@ -67,7 +67,7 @@ options:
         default: on
         choices: ['on', 'off']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fast_cgitimeout:
         description:
             - Specifies, in seconds, the timeout for FastCGI.
@@ -83,7 +83,7 @@ options:
         default: 300
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     hostname_lookup:
         description:
             - TODO
@@ -91,7 +91,7 @@ options:
         default: off
         choices: ['on', 'off']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     log_level:
         description:
             - Specifies the minimum httpd message level to include in the system log.
@@ -99,7 +99,7 @@ options:
         default: warn
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     redirect_http_to_https:
         description:
             - Specifies whether the system should redirect HTTP requests targeted at the configuration utility to HTTPS.
@@ -107,7 +107,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     request_header_max_timeout:
         description:
             - Specifies, in seconds, the maximum time allowed to receive all of the .request headers
@@ -115,7 +115,7 @@ options:
         default: 40
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     request_header_min_rate:
         description:
             - Specifies, in bytes per second, the minimum average rate at which the request headers must be received.
@@ -123,7 +123,7 @@ options:
         default: 500
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     request_header_timeout:
         description:
             - Specifies, in seconds, the time allowed to receive all of the request headers.
@@ -131,7 +131,7 @@ options:
         default: 20
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     request_body_max_timeout:
         description:
             - Specifies, in seconds, the maximum time allowed to receive all of the request body.
@@ -139,7 +139,7 @@ options:
         default: 0 (no limit)
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     request_body_min_rate:
         description:
             - Specifies, in bytes per second, the minimum average rate at which the request body must be received.
@@ -147,7 +147,7 @@ options:
         default: 500
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     request_body_timeout:
         description:
             - Specifies, in seconds, the time allowed for reading all of the request body.
@@ -155,7 +155,7 @@ options:
         default: 60
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_ca_cert_file:
         description:
             - Specifies the name of the file that contains the SSL Certificate Authority (CA) certificate file.
@@ -163,7 +163,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_certchainfile:
         description:
             - Specifies the name of the file that contains the SSL certificate chain.
@@ -171,7 +171,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_certfile:
         description:
             - Specifies the name of the file that contains the SSL certificate.
@@ -179,7 +179,7 @@ options:
         default: /etc/httpd/conf/ssl.crt/server.crt
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_certkeyfile:
         description:
             - Specifies the name of the file that contains the SSL certificate key.
@@ -187,7 +187,7 @@ options:
         default: /etc/httpd/conf/ssl.key/server.key
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_ciphersuite:
         description:
             - Specifies the ciphers that the system uses.
@@ -195,7 +195,7 @@ options:
         default: "ALL:!ADH:!EXPORT:!eNULL:!MD5:!DES:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_include:
         description:
             - TODO
@@ -203,7 +203,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_protocol:
         description:
             - The list of SSL protocols to accept on the management console.
@@ -211,7 +211,7 @@ options:
         default: all -SSLv2
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_verify_client:
         description:
             - Specifies if the client certificate needs to be verified for SSL session establishment.
@@ -219,7 +219,7 @@ options:
         default: no
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ssl_verify_depth:
         description:
             - Specifies maximum depth of CA certificates in client certificate verification.
@@ -227,20 +227,20 @@ options:
         default: 10
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS HTTPD allow clients
   f5bigip_sys_httpd:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
     allow:
-      - 172.16.227.11
-      - 172.16.227.12
-    state: "present"
+      - 172.16.227.0/24
+      - 10.0.0.0/8
+    state: present
   delegate_to: localhost
 '''
 

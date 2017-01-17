@@ -20,7 +20,7 @@ module: f5bigip_sys_crypto_cert
 short_description: BIG-IP sys crypto cert module
 description:
     - Manage cryptographic certificates on the BIG-IP system.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     command:
         description:
             - Specifies the command to execute.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: ['install']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     common_name:
         description:
             - Specifies the x509 common-name to be used in creation of the certificate associated with the given key.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     consumer:
         description:
             - Specifies the system component by which a key and/or associated cryptographic file will be consumed.
@@ -59,7 +59,7 @@ options:
         default: ltm
         choices: ['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     country:
         description:
             - Specifies the x509 country to be used in creation of the certificate associated with the given key.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     email_address:
         description:
             - Specifies the x509 email-address to be used in creation of the certificate associated with the given key.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     from_editor:
         description:
             - Specifies that the key should be obtained from a text editor session.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     from_local_file:
         description:
             - Specifies a local file path from which a key is to be copied.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     from_url:
         description:
             - Specifies a URI which is to be used to obtain a key for import into the configuration of the system.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     key:
         description:
             - Specifies a key from which a certificate should be generated when using the create command.
@@ -107,7 +107,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     lifetime:
         description:
             - Specifies the certificate life time to be used in creation of the certificate associated with the given key.
@@ -115,7 +115,7 @@ options:
         default: 365
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     organization:
         description:
             - Specifies the x509 organization to be used in creation of the certificate associated with the given key.
@@ -123,7 +123,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ou:
         description:
             - Specifies the x509 organizational unit to be used in creation of the certificate associated with the given key.
@@ -131,7 +131,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -139,7 +139,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     no_overwrite:
         description:
             - Specifies option of not overwriting a key if it is in the scope.
@@ -147,7 +147,7 @@ options:
         default: true
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition in which the component object resides.
@@ -155,7 +155,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -163,7 +163,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state_province:
         description:
             - Specifies the x509 state or province of the certificate associated with the given key.
@@ -171,7 +171,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     subject_alternative_name:
         description:
             - Specifies standard X.509 extensions as shown in RFC 2459.
@@ -179,7 +179,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -210,16 +210,6 @@ EXAMPLES = '''
     organization: My Org
     ou: My Div
     state: present
-  delegate_to: localhost
-
-- name: Delete SYS Crypto Cert
-  f5bigip_sys_crypto_cert:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: exemple.localhost.crt
-    state: absent
   delegate_to: localhost
 '''
 
@@ -258,7 +248,6 @@ class F5BigIpSysCryptoCert(F5BigIpObject):
         }
 
     def _exists(self):
-        """Check for the existence of the named object on the BIG-IP system."""
         keys = self.mgmt.tm.sys.crypto.certs.get_collection()
         for key in keys:
             name = self.params['name']

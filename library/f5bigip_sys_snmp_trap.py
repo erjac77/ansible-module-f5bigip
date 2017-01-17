@@ -20,7 +20,7 @@ module: f5bigip_sys_snmp_trap
 short_description: BIG-IP sys snmp trap module
 description:
     - Configures the simple network management protocol (SNMP) traps.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_protocol:
         description:
             - Specifies the authentication method to use to deliver the trap message.
@@ -43,7 +43,7 @@ options:
         default: none
         choices: ['md5', 'sha', 'none']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     community:
         description:
             - Specifies a community that has access to the trap message.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -59,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     engine_id:
         description:
             - Specifies the unique authoritative security engine ID.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     host:
         description:
             - Specifies the trap destination that you are configuring, the IP address, FQDN, or either of these with an embedded protocol.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     port:
         description:
             - Specifies the port for the trap destination that you are configuring.
@@ -83,7 +83,7 @@ options:
         default: 162
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     privacy_password:
         description:
             - Specifies the privacy password, which must be at least eight characters long.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     privacy_protocol:
         description:
             - Specifies the encryption/privacy method to use to deliver the trap message.
@@ -99,7 +99,7 @@ options:
         default: none
         choices: ['aes', 'des', 'none']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     security_level:
         description:
             - Specifies the security level to use to deliver the trap message.
@@ -107,7 +107,7 @@ options:
         default: no-auth-no-privacy
         choices: ['auth-no-privacy', 'auth-privacy', 'no-auth-no-privacy']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     security_name:
         description:
             - Specifies the security name the system uses to handle SNMP version 3 trap message.
@@ -115,7 +115,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     version:
         description:
             - Specifies the security model to use.
@@ -123,22 +123,22 @@ options:
         default: 2c
         choices: ['1', '2c', '3']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS SNMP trap
   f5bigip_sys_snmp_trap:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "i172_16_227_140_1"
-    community: "mycommunity1"
-    host: "172.16.227.140"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: i172_16_227_140_1
+    community: mycommunity1
+    host: 10.20.20.21
     port: 162
-    version: "2c"
-    state: "present"
+    version: 2c
+    state: present
   delegate_to: localhost
 '''
 
@@ -170,19 +170,14 @@ class F5BigIpSysSnmpTrap(F5BigIpObject):
             'exists':self.snmp.traps_s.trap.exists
         }
     
-    # exists() returns always True...
     def _exists(self):
-        exists = False
-        
-        try:
-            trap = self._read()
-            
-            if hasattr(trap, 'host'):
-                exists = True
-        except Exception as exc:
-            pass
-        
-        return exists
+        keys = self.snmp.traps_s.get_collection()
+        for key in keys:
+            name = self.params['name']
+            if key.name == name:
+                return True
+
+        return False
 
 def main():
     # Translation list for conflictual params

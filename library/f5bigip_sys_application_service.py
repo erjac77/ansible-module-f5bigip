@@ -20,7 +20,7 @@ module: f5bigip_sys_application_service
 short_description: BIG-IP sys application service module
 description:
     - Configures traffic management application services.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     device_group:
         description:
             - Specifies the name of the device group to which the application service is assigned.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     execute_action:
         description:
             - Runs the specified template action associated with the service.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -59,15 +59,15 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     strict_updates:
         description:
-            - Specifies whether configuration objects contained in the application service can be directly modified outside the context of the system’s application service management interfaces.
+            - Specifies whether configuration objects contained in the application service can be directly modified outside the context of the system's application service management interfaces.
         required: false
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -75,7 +75,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     template:
         description:
             - The template defines the configuration for the application service.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     traffic_group:
         description:
             - Adds this folder and its configuration items to an existing traffic group.
@@ -91,19 +91,19 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create SYS App Service
   f5bigip_sys_application_service:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "www.mycompany.com_http_80"
-    partition: "Common"
-    template: "/Common/f5.http"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: www.mycompany.com_http_80
+    partition: Common
+    template: /Common/f5.http
     tables:
       - name: basic__snatpool_members
       - name: net__snatpool_members
@@ -121,11 +121,11 @@ EXAMPLES = '''
         - connection_limit
         rows:
         - row:
-          - 172.16.227.21
+          - 10.10.10.21
           - '80'
           - '0'
         - row:
-          - 172.16.227.22
+          - 10.10.10.22
           - '80'
           - '0'
       - name: server_pools__servers
@@ -150,7 +150,7 @@ EXAMPLES = '''
         value: lan
       - name: pool__addr
         encrypted: 'no'
-        value: 172.16.227.201
+        value: 10.10.20.201
       - name: pool__pool_to_use
         encrypted: 'no'
         value: "/#create_new#"
@@ -166,7 +166,7 @@ EXAMPLES = '''
       - name: ssl_encryption_questions__help
         encrypted: 'no'
         value: hide
-    state: "present"
+    state: present
   delegate_to: localhost
 '''
 

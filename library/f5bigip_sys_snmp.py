@@ -20,7 +20,7 @@ module: f5bigip_sys_snmp
 short_description: BIG-IP sys snmp module
 description:
     - Configures the simple network management protocol (SNMP) daemon.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     allowed_addresses:
         description:
             - Configures the IP addresses of the SNMP clients from which the snmpd daemon accepts requests.
@@ -43,7 +43,7 @@ options:
         default: 127
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth_trap:
         description:
             - Specifies, when enabled, that the snmpd daemon generates authentication failure traps.
@@ -51,7 +51,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     bigip_traps:
         description:
             - Specifies, when enabled, that the BIG-IP system sends device warning traps to the trap destinations.
@@ -59,7 +59,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     l2forward_vlan:
         description:
             - Specifies the VLANs for which you want the snmpd daemon to expose Layer 2 forwarding information.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     load_max1:
         description:
             - Specifies the maximum 1-minute load average of the machine.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     load_max5:
         description:
             - Specifies the maximum 5-minute load average of the machine.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     load_max15:
         description:
             - Specifies the maximum 15-minute load average of the machine.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     sys_contact:
         description:
             - Specifies the name of the person who administers the snmpd daemon for this system.
@@ -107,7 +107,7 @@ options:
         default: Customer Name <admin@customer.com>
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     sys_location:
         description:
             - Describes this system's physical location.
@@ -115,7 +115,7 @@ options:
         default: Network Closet 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     sys_services:
         description:
             - Specifies the value of the system.sysServices.0 object.
@@ -123,7 +123,7 @@ options:
         default: 78
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     trap_community:
         description:
             - Specifies the community name for the trap destination.
@@ -131,7 +131,7 @@ options:
         default: public
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     trap_source:
         description:
             - Specifies the source of the SNMP trap.
@@ -139,22 +139,22 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add SYS SNMP contact, location and allowed addresses
   f5bigip_sys_snmp:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
     allowed_addresses:
       - 172.16.227.0/24
-      - 172.16.228.0/24
-    sys_contact: "admin@company.com"
-    sys_location: "central office"
-    state: "present"
+      - 10.0.0./8
+    sys_contact: 'admin@company.com'
+    sys_location: Central Office
+    state: present
   delegate_to: localhost
 '''
 

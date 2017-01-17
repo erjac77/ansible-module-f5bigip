@@ -98,7 +98,6 @@ class F5BigIpCmDeviceGroupDevice(F5BigIpObject):
         self.params.pop('device_group', None)
 
     def _exists(self):
-        """Check for the existence of the named object on the BIG-IP system."""
         keys = self.device_group.devices_s.get_collection()
         for key in keys:
             name = self.params['name']

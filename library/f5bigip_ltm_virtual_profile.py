@@ -106,17 +106,7 @@ class F5BigIpLtmVirtualProfile(F5BigIpObject):
         }
         self.params.pop('virtual', None)
 
-    # exists() returns always True...
-    #def _exists(self):
-    #    exists = False
-    #    
-    #    prof = self._read()
-    #    if hasattr(prof, 'context'):
-    #        exists = True
-    #    
-    #    return exists
     def _exists(self):
-        """Check for the existence of the named object on the BIG-IP system."""
         keys = self.virtual.profiles_s.get_collection()
         for key in keys:
             name = self.params['name']

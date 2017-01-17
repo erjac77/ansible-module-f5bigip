@@ -180,7 +180,6 @@ class F5BigIpGtmServerVirtualServer(F5BigIpObject):
         self.params.pop('server', None)
 
     def _exists(self):
-        """Check for the existence of the named object on the BIG-IP system."""
         keys = self.server.virtual_servers_s.get_collection()
         for key in keys:
             name = self.params['name']
@@ -190,7 +189,6 @@ class F5BigIpGtmServerVirtualServer(F5BigIpObject):
         return False
 
     def _read(self):
-        """Load an already configured object from the BIG-IP system."""
         self._check_load_params()
         return self.methods['read'](
             name=self.params['name']
