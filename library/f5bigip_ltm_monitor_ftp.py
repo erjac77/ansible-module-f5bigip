@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_monitor_ftp
-short_description: BIG-IP LTM FTP monitor module
+short_description: BIG-IP ltm ftp monitor module
 description:
     - Configures a File Transfer Protocol (FTP) monitor.
-version_added: "1.0"
+version_added: 2.3
 author:
 	- "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     adaptive_divergence_type:
         description:
             - Specifies whether the adaptive-divergence-value is relative or absolute.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: ['relative', 'absolute']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     adaptive_divergence_value:
         description:
             - Specifies how far from mean latency each monitor probe is allowed to be.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     adaptive_limit:
         description:
             - Specifies the hard limit, in milliseconds, which the probe is not allowed to exceed, regardless of the divergence value.
@@ -59,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     adaptive_sampling_timespan:
         description:
             - Specifies the size of the sliding window, in seconds, which records probe history.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     debug:
         description:
             - Specifies whether the monitor sends error messages and additional information to a log file created and labeled specifically for this monitor.
@@ -75,7 +75,7 @@ options:
         default: no
         choices: ['no', 'yes']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
@@ -83,7 +83,7 @@ options:
         default: ftp
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
@@ -99,7 +99,7 @@ options:
         default: *:*
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     filename:
         description:
             - Specifies the full path and file name of the file that the system attempts to download.
@@ -107,7 +107,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
@@ -115,7 +115,7 @@ options:
         default: 5
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     manual_resume:
         description:
             - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
@@ -123,7 +123,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mode:
         description:
             - Specifies the data transfer process (DTP) mode.
@@ -131,7 +131,7 @@ options:
         default: passive
         choices: ['passive', 'port']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies a unique name for the component.
@@ -139,7 +139,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -147,7 +147,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     password:
         description:
             - Specifies the password, if the monitored target requires authentication.
@@ -155,7 +155,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -163,7 +163,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     time_until_up:
         description:
             - Specifies the amount of time, in seconds, after the first successful response before a node is marked up.
@@ -171,7 +171,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     timeout:
         description:
             - Specifies the number of seconds the target has in which to respond to the monitor request.
@@ -179,7 +179,7 @@ options:
         default: 16
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     up_interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when the resource is up.
@@ -187,7 +187,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     username:
         description:
             - Specifies the username, if the monitored target requires authentication.
@@ -195,19 +195,19 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create LTM FTP Monitor
   f5bigip_ltm_monitor_ftp:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_ftp_monitor"
-    partition: "Common"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_ftp_monitor
+    partition: Common
+    state: present
   delegate_to: localhost
 '''
 
@@ -230,6 +230,7 @@ BIGIP_LTM_MONITOR_FTP_ARGS = dict(
     mode                        =   dict(type='str', choices=['passive', 'port']),
     password                    =   dict(type='str'),
     time_until_up               =   dict(type='int'),
+    timeout                     =   dict(type='int'),
     up_interval                 =   dict(type='int'),
     username                    =   dict(type='str')
 )

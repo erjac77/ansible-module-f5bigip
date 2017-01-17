@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_pool_member
-short_description: BIG-IP Local Traffic Manager (LTM) pool member module
+short_description: BIG-IP ltm pool member module
 description:
-    - Manages F5 BIG-IP LTM Pool Members via the F5-SDK (iControl REST API).
-version_added: "1.0"
+    - Configures a set of pool members.
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     connection_limit:
         description:
             - Specifies the maximum number of concurrent connections allowed for a pool member.
@@ -43,7 +43,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     dynamic_ratio:
         description:
             - Specifies a range of numbers that you want the system to use in conjunction with the ratio load balancing method.
@@ -59,7 +59,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     inherit-profile
         description:
             - Specifies whether the pool member inherits the encapsulation profile from the parent pool.
@@ -67,7 +67,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     logging:
         description:
             - Specifies whether the monitor applied should log its actions.
@@ -75,7 +75,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Specifies the health monitors that are configured to monitor the pool member.
@@ -83,7 +83,7 @@ options:
         default: default
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor_state:
         description:
             - Specifies the current state of the node.
@@ -91,7 +91,7 @@ options:
         default: user-up
         choices: ['user-down', 'user-up']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -107,7 +107,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     pool:
         description:
             - Specifies the pool in which the member belongs.
@@ -115,7 +115,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     priority-group
         description:
             - Specifies the priority group within the pool for this pool member.
@@ -123,7 +123,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_limit:
         description:
             - Specifies the maximum number of connections per second allowed for a pool member.
@@ -131,7 +131,7 @@ options:
         default: disabled or 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ratio:
         description:
             - Specifies the weight of the pool member for load balancing purposes.
@@ -139,7 +139,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -147,7 +147,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     session:
         description:
             - Specifies the ability of the client to persist to the pool member when making new connections.
@@ -155,21 +155,21 @@ options:
         default: user-enabled
         choices: ['user-enabled', 'user-disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add LTM Pool Member
   f5bigip_ltm_pool_member:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_member1:80"
-    partition: "Common"
-    address: "10.10.10.11"
-    pool: "my_pool"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_member1:80
+    partition: Common
+    address: 10.10.10.101
+    pool: my_pool
+    state: present
   delegate_to: localhost
 '''
 

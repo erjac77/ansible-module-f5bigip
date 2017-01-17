@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_virtual_source_address_translation
-short_description: BIG-IP LTM virtual source address translation module
+short_description: BIG-IP ltm virtual source address translation module
 description:
     - Configures the type of source address translation enabled for the virtual server as well as the pool that the source address translation will use.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     pool:
         description:
             - Specifies the name of a LSN or SNAT pool used by the specified virtual server.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     type:
         description:
             - Specifies the type of source address translation associated with the specified virtual server.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: ['automap', 'lsn', 'snat', 'none']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     virtual:
         description:
             - Specifies the virtual to which the profile belongs.
@@ -59,20 +59,20 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Add LTM VS HTTP Profile
   f5bigip_ltm_virtual_source_address_translation:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "http"
-    partition: "Common"
-    virtual: "my_http_vs"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: http
+    partition: Common
+    virtual: my_http_vs
+    state: present
   delegate_to: localhost
 '''
 
@@ -91,11 +91,6 @@ class F5BigIpLtmVirtualSourceAddressTranslation(F5BigIpUnnamedObject):
             name=self.params['virtual'],
             partition=self.params['partition']
         )
-        self.methods = {
-            #'read':self.virtual.profiles_s.profiles.load,
-            #'update':self.virtual.profiles_s.profiles.update,
-            #'exists':self.virtual.profiles_s.profiles.exists
-        }
         self.params.pop('virtual', None)
 
 def main():

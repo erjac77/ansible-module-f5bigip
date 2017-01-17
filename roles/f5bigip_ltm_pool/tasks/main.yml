@@ -3,14 +3,14 @@
 - name: Create LTM Pool
   f5bigip_ltm_pool:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ pool_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ pool_description }}"
     load_balancing_mode: "{{ pool_load_balancing_mode }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -19,21 +19,21 @@
     that:
       - result|changed
 
-- name: Create LTM Pool (idempotent check)
+- name: Create LTM Pool (idempotent)
   f5bigip_ltm_pool:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ pool_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ pool_description }}"
     load_balancing_mode: "{{ pool_load_balancing_mode }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Create LTM Pool (idempotent check)
+- name: Assert Create LTM Pool (idempotent)
   assert:
     that:
       - not result|changed
@@ -41,11 +41,11 @@
 - name: Modify LTM Pool description
   f5bigip_ltm_pool:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ pool_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ pool_description }}"
   delegate_to: localhost
   register: result
@@ -55,19 +55,19 @@
       that:
         - result|changed
 
-- name: Modify LTM Pool description (idempotent check)
+- name: Modify LTM Pool description (idempotent)
   f5bigip_ltm_pool:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ pool_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ pool_description }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Modify LTM Pool description (idempotent check)
+- name: Assert Modify LTM Pool description (idempotent)
   assert:
       that:
         - not result|changed
@@ -75,15 +75,15 @@
 - name: Add LTM Pool members
   f5bigip_ltm_pool_member:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item.name }}:{{ item.port }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ item.description }}"
     address: "{{ item.address }}"
     pool: "{{ pool_name }}"
-    state: "present"
+    state: present
   with_items: "{{ pool_members }}"
   delegate_to: localhost
   register: result
@@ -93,23 +93,23 @@
       that:
         - result|changed
 
-- name: Add LTM Pool members (idempotent check)
+- name: Add LTM Pool members (idempotent)
   f5bigip_ltm_pool_member:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item.name }}:{{ item.port }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ item.description }}"
     address: "{{ item.address }}"
     pool: "{{ pool_name }}"
-    state: "present"
+    state: present
   with_items: "{{ pool_members }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Add LTM Pool members (idempotent check)
+- name: Assert Add LTM Pool members (idempotent)
   assert:
       that:
         - not result|changed
@@ -117,11 +117,11 @@
 - name: Modify LTM Pool members description and ratio
   f5bigip_ltm_pool_member:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item.name }}:{{ item.port }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ item.description }}"
     address: "{{ item.address }}"
     ratio: "{{ item.ratio }}"
@@ -135,14 +135,14 @@
       that:
         - result|changed
 
-- name: Modify LTM Pool members description and ratio (idempotent check)
+- name: Modify LTM Pool members description and ratio (idempotent)
   f5bigip_ltm_pool_member:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item.name }}:{{ item.port }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ item.description }}"
     address: "{{ item.address }}"
     ratio: "{{ item.ratio }}"
@@ -151,7 +151,7 @@
   delegate_to: localhost
   register: result
 
-- name: Modify LTM Pool members description and ratio (idempotent check)
+- name: Modify LTM Pool members description and ratio (idempotent)
   assert:
       that:
         - not result|changed
@@ -159,13 +159,13 @@
 - name: Remove LTM Pool members
   f5bigip_ltm_pool_member:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item.name }}:{{ item.port }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     pool: "{{ pool_name }}"
-    state: "absent"
+    state: absent
   with_items: "{{ pool_members }}"
   delegate_to: localhost
   register: result
@@ -178,12 +178,12 @@
 - name: Delete LTM Pool
   f5bigip_ltm_pool:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ pool_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -192,19 +192,19 @@
     that:
       - result|changed
 
-- name: Delete LTM Pool (idempotent check)
+- name: Delete LTM Pool (idempotent)
   f5bigip_ltm_pool:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ pool_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
-- name: Assert Delete LTM Pool (idempotent check)
+- name: Assert Delete LTM Pool (idempotent)
   assert:
     that:
       - not result|changed
@@ -212,12 +212,12 @@
 - name: Delete LTM Nodes
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   with_items: "{{ pool_members }}"
   delegate_to: localhost
   register: result

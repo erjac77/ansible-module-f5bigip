@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_virtual_persist
-short_description: BIG-IP LTM virtual persist module
+short_description: BIG-IP ltm virtual persist module
 description:
-    - Configures profiles for the virtual server to use to manage connection persistence.
-version_added: "1.0"
+    - Configures profiles on the specified virtual server to manage connection persistence.
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: no
         choices: ['no', 'yes']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -51,7 +51,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -59,7 +59,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     virtual:
         description:
             - Specifies the virtual to which the profile belongs.
@@ -67,20 +67,20 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
-- name: Add LTM VS Persist Profile
+- name: Add LTM Persist Profile to VS
   f5bigip_ltm_virtual_persist:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "source_addr"
-    partition: "Common"
-    virtual: "my_http_vs"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: source_addr
+    partition: Common
+    virtual: my_http_vs
+    state: present
   delegate_to: localhost
 '''
 
@@ -107,14 +107,23 @@ class F5BigIpLtmVirtualPersist(F5BigIpObject):
         self.params.pop('virtual', None)
 
     # exists() returns always True...
+    #def _exists(self):
+    #    exists = False
+    #    
+    #    prof = self._read()
+    #    if hasattr(prof, 'context'):
+    #        exists = True
+    #    
+    #    return exists
     def _exists(self):
-        exists = False
-        
-        prof = self._read()
-        if hasattr(prof, 'context'):
-            exists = True
-        
-        return exists
+        """Check for the existence of the named object on the BIG-IP system."""
+        keys = self.virtual.profiles_s.get_collection()
+        for key in keys:
+            name = self.params['name']
+            if key.name == name:
+                return True
+
+        return False
 
 def main():
     # Translation list for conflictual params

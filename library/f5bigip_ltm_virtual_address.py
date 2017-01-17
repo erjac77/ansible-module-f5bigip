@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_virtual_address
-short_description: BIG-IP LTM virtual address module
+short_description: BIG-IP ltm virtual address module
 description:
     - Configures virtual addresses.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     arp:
         description:
             - Enables or disables ARP for the specified virtual address.
@@ -43,7 +43,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auto_delete:
         description:
             - Indicates if the virtual address will be deleted automatically on deletion of the last associated virtual server or not.
@@ -51,7 +51,7 @@ options:
         default: true
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     connection_limit:
         description:
             - Sets a concurrent connection limit for one or more virtual servers.
@@ -59,7 +59,7 @@ options:
         default: 0 (meaning "no limit")
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether the specified virtual address is enabled.
@@ -75,7 +75,7 @@ options:
         default: yes
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     icmp_echo:
         description:
             - Enables or disables ICMP echo replies for the specified virtual address.
@@ -83,7 +83,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled', 'selective']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mask:
         description:
             - Sets the netmask for one or more network virtual servers only.
@@ -91,7 +91,7 @@ options:
         default: 255.255.255.255
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -107,7 +107,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     route_advertisement:
         description:
             - Enables or disables route advertisement for the specified virtual address.
@@ -115,7 +115,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     server_scope:
         description:
             - Specifies the server that uses the specified virtual address.
@@ -123,7 +123,7 @@ options:
         default: any
         choices: ['all', 'any', 'none']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     traffic_group:
         description:
             - Specifies the traffic group on which the virtual address is active.
@@ -131,20 +131,20 @@ options:
         default: Inherited from the containing folder
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
-- name: Create LTM Virtual Address
+- name: Modify LTM Virtual Address icmp-echo
   f5bigip_ltm_virtual_address:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "172.16.227.200"
-    address: "172.16.227.200"
-    partition: "Common"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: 10.10.20.201
+    partition: Common
+    icmp_echo: selective
+    state: present
   delegate_to: localhost
 '''
 

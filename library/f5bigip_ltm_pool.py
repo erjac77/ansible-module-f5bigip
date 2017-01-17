@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_pool
-short_description: BIG-IP LTM pool module
+short_description: BIG-IP ltm pool module
 description:
     - Configures load balancing pools.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     allow_nat:
         description:
             - Specifies whether the pool can load balance network address translation (NAT) connections.
@@ -43,7 +43,7 @@ options:
         default: yes
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     allow_snat:
         description:
             - Specifies whether the pool can load balance secure network address translation (SNAT) connections.
@@ -51,7 +51,7 @@ options:
         default: yes
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -59,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     gateway_failsafe_device:
         description:
             - Specifies that the pool is a gateway failsafe pool in a redundant configuration.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ignore_persisted_weight:
         description:
             - Discounts the weight of connections made to pool members selected through persistence, rather than as a result of the algorithm configured on the pool.
@@ -75,7 +75,7 @@ options:
         default: no
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ip_tos_to_client:
         description:
             - Specifies the Type of Service (ToS) level to use when sending packets to a client.
@@ -83,7 +83,7 @@ options:
         default: pass-through (or 65535)
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ip_tos_to_server:
         description:
             - Specifies the ToS level to use when sending packets to a server.
@@ -91,7 +91,7 @@ options:
         default: pass-through (or 65535)
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     link_qos_to_client:
         description:
             - Specifies the Link Quality of Service (QoS) level to use when sending packets to a client.
@@ -99,7 +99,7 @@ options:
         default: pass-through (or 65535)
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     link_qos_to_server:
         description:
             - Specifies the Link QoS level to use when sending packets to a server.
@@ -107,7 +107,7 @@ options:
         default: pass-through (or 65535)
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     load_balancing_mode:
         description:
             - Specifies the modes that the system uses to load balance name resolution requests among the members of this pool.
@@ -121,7 +121,7 @@ options:
             'weighted-least-connections-member', 'weighted-least-connections-node'
         ]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     min_active_members:
         description:
             - Specifies the minimum number of members that must be up for traffic to be confined to a priority group when using priority-based activation.
@@ -129,7 +129,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     min_up_members:
         description:
             - Specifies the minimum number of pool members that must be up; otherwise, the system takes the action specified in the min-up-members-action option.
@@ -137,7 +137,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     min_up_members_action:
         description:
             - Specifies the action to take if min-up-members-checking is enabled, and the number of active pool members falls below the number specified in the min-up-members option.
@@ -145,7 +145,7 @@ options:
         default: failover
         choices: ['failover', 'reboot', 'restart-all']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     min_up_members_checking:
         description:
             - Enables or disables the min-up-members feature.
@@ -153,7 +153,7 @@ options:
         default: null
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Specifies the health monitors that the system uses to determine whether it can use this pool for load balancing.
@@ -161,7 +161,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -169,7 +169,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -177,7 +177,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     profiles:
         description:
             - Specifies the profile to use for encapsulation.
@@ -185,7 +185,7 @@ options:
         default: none
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     reselect_tries:
         description:
             - Specifies the number of reselection tries.
@@ -193,7 +193,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     service_down_action:
         description:
             - Specifies the action to take if the service specified in the pool is marked down.
@@ -201,7 +201,7 @@ options:
         default: none
         choices: ['drop', 'none', 'reselect', 'reset']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     slow_ramp_time:
         description:
             - Specifies, in seconds, the ramp time for the pool.
@@ -209,7 +209,7 @@ options:
         default: 10
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -217,50 +217,22 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create LTM Pool
   f5bigip_ltm_pool:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_pool"
-    partition: "Common"
-    description: "my ltm pool"
-    load_balancing_mode: "least-connections-members"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_pool
+    partition: Common
+    description: My ltm pool
+    load_balancing_mode: least-connections-members
+    state: present
   delegate_to: localhost
-
-- name: Modify LTM Pool
-  f5bigip_ltm_node:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_pool"
-    partition: "Common"
-    connection_limit: 10
-    description: "new pool"
-    dynamic_ratio: 2
-    logging: "enabled"
-    rate_limit: 5
-    ratio: 2
-  delegate_to: localhost
-
-- name: Delete LTM Pool
-  f5bigip_ltm_pool:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_pool"
-    partition: "Common"
-    state: "absent"
-  delegate_to: localhost
-  register: result
 '''
 
 from ansible_common_f5bigip.f5bigip import *

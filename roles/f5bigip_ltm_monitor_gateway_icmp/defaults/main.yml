@@ -1,4 +1,6 @@
 ---
 
-monitor_name: "my_gateway_icmp_monitor"
-monitor_description: "my gateway icmp monitor"
+monitor_name: my_gateway_icmp_monitor
+monitor_description: My gateway icmp monitor
+monitor_interval: 20
+monitor_timeout: 61

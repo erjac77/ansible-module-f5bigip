@@ -1,6 +1,8 @@
 ---
 
-monitor_name: "my_tcp_monitor"
-monitor_description: "my tcp monitor"
-monitor_send_string: "tcp string to send"
-monitor_recv_string: "tcp string to receive"
+monitor_name: my_tcp_monitor
+monitor_description: My tcp monitor
+monitor_send_string: tcp string to send
+monitor_recv_string: tcp string to receive
+monitor_interval: 20
+monitor_timeout: 61

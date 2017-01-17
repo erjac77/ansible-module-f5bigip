@@ -1,23 +1,20 @@
 ---
 
-vlan_name: "my_vlan"
-vlan_tag: 1234
+pool_name: my_http_pool
 
-pool_name: "my_http_pool"
-
-virtual_name: "my_http_vs"
-virtual_description: "my http vs"
-virtual_destination: "172.16.227.200:80"
-virtual_ip_protocol: "tcp"
+virtual_name: my_http_vs
+virtual_description: My http vs
+virtual_destination: '10.10.20.201:80'
+virtual_ip_protocol: tcp
 #virtual_persists:
-#  - { name: "cookie", default: "yes" }
-#  - { name: "source_addr", default: "no" }
+#  - { name: cookie, default: yes }
+#  - { name: source_addr, default: no }
 virtual_profiles:
-  - { name: "tcp", context: "all" }
-  - { name: "http", context: "all" }
-  - { name: "oneconnect", context: "all" }
-#virtual_sat: "my_snatpool"
-#virtual_sat: "snat"
+  - { name: tcp, context: all }
+  - { name: http, context: all }
+  - { name: oneconnect, context: all }
+#virtual_sat: my_snatpool
+#virtual_sat: snat
 virtual_vlans:
-  - "my_vlan"
+  - external
 virtual_vlans_enabled: true

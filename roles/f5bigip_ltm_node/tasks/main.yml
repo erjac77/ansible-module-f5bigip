@@ -3,15 +3,15 @@
 - name: Create LTM Node
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ node_description }}"
     address: "{{ node_address }}"
     monitor: "{{ node_monitor }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
@@ -20,22 +20,22 @@
     that:
       - result|changed
 
-- name: Create LTM Node (idempotent check)
+- name: Create LTM Node (idempotent)
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "{{ node_description }}"
     address: "{{ node_address }}"
     monitor: "{{ node_monitor }}"
-    state: "present"
+    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Create LTM Node (idempotent check)
+- name: Assert Create LTM Node (idempotent)
   assert:
     that:
       - not result|changed
@@ -43,11 +43,11 @@
 - name: Modify LTM Node
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     connection_limit: "{{ node_connection_limit }}"
     description: "new {{ node_description }}"
     dynamic_ratio: "{{ node_dynamic_ratio }}"
@@ -62,14 +62,14 @@
       that:
         - result|changed
 
-- name: Modify LTM Node (idempotent check)
+- name: Modify LTM Node (idempotent)
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     connection_limit: "{{ node_connection_limit }}"
     description: "new {{ node_description }}"
     dynamic_ratio: "{{ node_dynamic_ratio }}"
@@ -79,7 +79,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Modify LTM Node (idempotent check)
+- name: Assert Modify LTM Node (idempotent)
   assert:
       that:
         - not result|changed
@@ -87,12 +87,12 @@
 - name: Disabled LTM Node
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
-    session: "user-disabled"
+    partition: "{{ bigip_partition }}"
+    session: user-disabled
   delegate_to: localhost
   register: result
 
@@ -104,13 +104,13 @@
 - name: Force LTM Node Offline
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
-    monitor_state: "user-down"
-    session: "user-disabled"
+    partition: "{{ bigip_partition }}"
+    monitor_state: user-down
+    session: user-disabled
   delegate_to: localhost
   register: result
 
@@ -122,12 +122,12 @@
 - name: Delete LTM Node
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
@@ -136,19 +136,19 @@
     that:
       - result|changed
 
-- name: Delete LTM Node (idempotent check)
+- name: Delete LTM Node (idempotent)
   f5bigip_ltm_node:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
-    partition: "{{ f5bigip_partition }}"
-    state: "absent"
+    partition: "{{ bigip_partition }}"
+    state: absent
   delegate_to: localhost
   register: result
 
-- name: Assert Delete LTM Node (idempotent check)
+- name: Assert Delete LTM Node (idempotent)
   assert:
     that:
       - not result|changed

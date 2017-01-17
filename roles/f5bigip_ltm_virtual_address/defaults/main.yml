@@ -1,5 +1,5 @@
 ---
 
-virtual_address_name: "172.16.227.200"
-virtual_address_address: "172.16.227.200"
-virtual_address_icmp_echo: "selective"
+virtual_address_name: 10.10.20.201
+virtual_address_address: 10.10.20.201
+virtual_address_icmp_echo: selective

@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_node
-short_description: BIG-IP LTM node module
+short_description: BIG-IP ltm node module
 description:
     - Configures node addresses and services.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     connection_limit:
         description:
             - Specifies the maximum number of connections that a node or node address can handle.
@@ -43,7 +43,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     dynamic_ratio:
         description:
             - Sets the dynamic ratio number for the node.
@@ -59,7 +59,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     logging:
         description:
             - Specifies whether the monitor applied should log its actions.
@@ -67,7 +67,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Specifies the monitors that the BIG-IP system is to associate with the node.
@@ -75,7 +75,7 @@ options:
         default: none
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor_state:
         description:
             - Specifies the current state of the node.
@@ -83,7 +83,7 @@ options:
         default: user-up
         choices: ['user-down', 'user-up']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -99,7 +99,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_limit:
         description:
             - Specifies the maximum number of connections per second allowed for a node or node address.
@@ -107,7 +107,7 @@ options:
         default: disabled (or 0)
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ratio:
         description:
             - Specifies the fixed ratio value used for a node during Ratio load balancing.
@@ -115,7 +115,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -123,7 +123,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     session:
         description:
             - Specifies the ability of the client to persist to the node when making new connections.
@@ -131,61 +131,34 @@ options:
         default: user-enabled
         choices: ['user-enabled', 'user-disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create LTM Node
   f5bigip_ltm_node:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_node"
-    partition: "Common"
-    description: "my ltm node"
-    address: "172.16.227.21"
-    monitor: "/Common/icmp"
-    state: "present"
-  delegate_to: localhost
-
-- name: Modify LTM Node
-  f5bigip_ltm_node:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_node"
-    partition: "Common"
-    connection_limit: 10
-    description: "new node"
-    dynamic_ratio: 2
-    logging: "enabled"
-    rate_limit: 5
-    ratio: 2
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_node
+    partition: Common
+    description: My node
+    address: 10.10.10.101
+    monitor: /Common/icmp
+    state: present
   delegate_to: localhost
 
 - name: Force LTM Node Offline
   f5bigip_ltm_node:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_node"
-    partition: "Common"
-    monitor_state: "user-down"
-    session: "user-disabled"
-  delegate_to: localhost
-
-- name: Delete LTM Node
-  f5bigip_ltm_node:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_node"
-    partition: "Common"
-    state: "absent"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_node
+    partition: Common
+    monitor_state: user-down
+    session: user-disabled
   delegate_to: localhost
 '''
 

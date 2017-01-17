@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_virtual
-short_description: BIG-IP LTM virtual server module
+short_description: BIG-IP ltm virtual server module
 description:
     - Configures a virtual server.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     address_status:
         description:
             - Specifies whether the virtual will contribute to the operational status of the associated virtual-address.
@@ -43,7 +43,7 @@ options:
         default: yes
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auth:
         description:
             - Specifies a list of authentication profile names, separated by spaces, that the virtual server uses to manage authentication.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auto_lasthop:
         description:
             - TODO
@@ -59,7 +59,7 @@ options:
         default: default
         choices: ['default', 'enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     cmp_enabled:
         description:
             - Enables or disables clustered multi-processor (CMP) acceleration.
@@ -67,7 +67,7 @@ options:
         default: yes
         choices: ['yes', 'no']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     connection_limit:
         description:
             - Specifies the maximum number of concurrent connections you want to allow for the virtual server.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     destination:
         description:
             - Specifies the name of the virtual address and service on which the virtual server listens for connections.
@@ -91,7 +91,7 @@ options:
         default: any:any
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     dhcp_relay:
         description:
             - Specifies a virtual server that relays all received dhcp requests to all pool members.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies the state of the virtual server.
@@ -107,7 +107,7 @@ options:
         default: false
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies the state of the virtual server.
@@ -115,7 +115,7 @@ options:
         default: true
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fallback_persistence:
         description:
             - Specifies a fallback persistence profile for the virtual server to use when the default persistence profile is not available.
@@ -123,7 +123,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     flow_eviction_policy:
         description:
             - Specifies a flow eviction policy for the virtual server to use, to select which flows to terminate when the number of connections approaches the connection limit on the virtual server.
@@ -131,7 +131,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fw_enforced_policy:
         description:
             - Specifies an enforced firewall policy.
@@ -139,7 +139,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fw_staged_policy:
         description:
             - Specifies a staged firewall policy.
@@ -147,7 +147,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     gtm_score:
         description:
             - Specifies a score that is associated with the virtual server.
@@ -155,7 +155,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     http_class:
         description:
             - Specifies a list of HTTP class profiles, separated by spaces, with which the virtual server works to increase the speed at which the virtual server processes HTTP requests.
@@ -163,7 +163,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ip_forward:
         description:
             - Specifies a virtual server that has no pool members to load balance, but instead, forwards the packet directly to the destination IP address specified in the client request.
@@ -171,7 +171,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ip_protocol:
         description:
             - Specifies the IP protocol for which you want the virtual server to direct traffic.
@@ -179,7 +179,7 @@ options:
         default: any
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     internal:
         description:
             - Specifies an internal virtual server that handles requests for a parent virtual server, such as content adaptation.
@@ -187,7 +187,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     l2_forward:
         description:
             - Specifies a virtual server that shares the same IP address as a node in an associated VLAN.
@@ -195,7 +195,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     last_hop_pool:
         description:
             - Specifies the name of the last hop pool that you want the virtual server to use to direct reply traffic to the last hop router.
@@ -203,7 +203,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mask:
         description:
             - Specifies the netmask for a network virtual server only.
@@ -211,7 +211,7 @@ options:
         default: 255.255.255.255 for IPv4 or ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mirror:
         description:
             - Enables or disables mirroring.
@@ -219,7 +219,7 @@ options:
         default: none
         choices: ['disabled', 'enabled', 'none']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -227,7 +227,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     nat64:
         description:
             - Enable or disable NAT64.
@@ -235,7 +235,7 @@ options:
         default: disabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -243,7 +243,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     pool:
         description:
             - Specifies a default pool to which you want the virtual server to automatically direct traffic.
@@ -251,7 +251,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_class:
         description:
             - Specifies the name of an existing rate class that you want the virtual server to use to enforce a throughput policy for incoming network traffic.
@@ -259,7 +259,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_limit:
         description:
             - Specifies the maximum number of connections per second allowed for a virtual server.
@@ -267,7 +267,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_limit_mode:
         description:
             - Indicates whether the rate limit is applied per virtual object, per source address, per destination address, or some combination thereof.
@@ -275,7 +275,7 @@ options:
         default: object
         choices: ['destination', 'object', 'object-destination', 'object-source', 'object-source-destination', 'source', 'source-destination']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_limit_dst_mask:
         description:
             - Specifies a mask, in bits, to be applied to the destination address as part of the rate limiting.
@@ -283,7 +283,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rate_limit_src_mask:
         description:
             - Specifies a mask, in bits, to be applied to the source address as part of the rate limiting.
@@ -291,7 +291,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     related_rules:
         description:
             - Specifies a list of iRules, that customize the behavior of secondary channels (for instance the data channel on FTP) opened on behalf of the virtual server.
@@ -299,7 +299,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     reject:
         description:
             - Specifies that the BIG-IP system rejects any traffic destined for the virtual server IP address.
@@ -307,7 +307,7 @@ options:
         default: null
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rules:
         description:
             - Specifies a list of iRules, that customize the virtual server to direct and manage traffic.
@@ -315,7 +315,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     source:
         description:
             - Specifies an IP address or network from which the virtual server will accept traffic.
@@ -323,7 +323,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     source_port:
         description:
             - Specifies whether the system preserves the source port of the connection.
@@ -331,7 +331,7 @@ options:
         default: preserve
         choices: ['change', 'preserve', 'preserve-strict']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     traffic_classes:
         description:
             - Specifies a list of traffic classes that are associated with the virtual server.
@@ -339,7 +339,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     translate_address:
         description:
             - Enables or disables address translation for the virtual server.
@@ -347,7 +347,7 @@ options:
         default: disabled.
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     translate_port:
         description:
             - Enables or disables port translation.
@@ -355,7 +355,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     vlans:
         description:
             - Specifies a list of VLANs on which the virtual server is either enabled or disabled.
@@ -363,7 +363,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     vlans_disabled:
         description:
             - Disables the virtual server on the VLANs specified in the vlans option.
@@ -371,7 +371,7 @@ options:
         default: true
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     vlans_enabled:
         description:
             - Enables the virtual server on the VLANs specified in the vlans option.
@@ -379,21 +379,21 @@ options:
         default: false
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create LTM Virtual Server
   f5bigip_ltm_virtual:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_http_vs"
-    description: "my http vs"
-    partition: "Common"
-    destination: "172.16.227.200:80"
-    state: "present"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_http_vs
+    description: my http vs
+    partition: Common
+    destination: 10.10.20.201:80
+    state: present
   delegate_to: localhost
 '''
 

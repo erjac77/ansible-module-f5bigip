@@ -1,6 +1,8 @@
 ---
 
-monitor_name: "my_http_monitor"
-monitor_description: "my http monitor"
-monitor_send_string: "http string to send"
-monitor_recv_string: "http string to receive"
+monitor_name: my_http_monitor
+monitor_description: My http monitor
+monitor_send_string: http string to send
+monitor_recv_string: http string to receive
+monitor_interval: 20
+monitor_timeout: 61

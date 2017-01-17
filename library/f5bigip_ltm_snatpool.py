@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_snatpool
-short_description: BIG-IP LTM snat pool module
+short_description: BIG-IP ltm snat pool module
 description:
     - Configures a secure network address translation (SNAT) pool.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     members:
         description:
             - Specifies translation IP addresses of the pools in the SNAT pool.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -59,7 +59,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -67,23 +67,23 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create LTM SNAT Pool
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: "172.16.227.35"
-    f5bigip_username: "admin"
-    f5bigip_password: "admin"
-    f5bigip_port: "443"
-    name: "my_snatpool"
-    partition: "Common"
+    f5bigip_hostname: 172.16.227.35
+    f5bigip_username: admin
+    f5bigip_password: admin
+    f5bigip_port: 443
+    name: my_snatpool
+    partition: Common
     members:
+      - 10.10.10.251
       - 10.10.10.252
       - 10.10.10.253
-      - 10.10.10.254
-    state: "present"
+    state: present
   delegate_to: localhost
 '''
 

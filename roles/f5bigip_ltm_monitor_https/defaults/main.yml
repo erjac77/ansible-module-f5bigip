@@ -1,6 +1,8 @@
 ---
 
-monitor_name: "my_https_monitor"
-monitor_description: "my https monitor"
-monitor_send_string: "https string to send"
-monitor_recv_string: "https string to receive"
+monitor_name: my_https_monitor
+monitor_description: My https monitor
+monitor_send_string: https string to send
+monitor_recv_string: https string to receive
+monitor_interval: 20
+monitor_timeout: 61
