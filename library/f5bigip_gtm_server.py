@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_gtm_server
-short_description: BIG-IP GTM server module
+short_description: BIG-IP gtm server module
 description:
     - Configures servers for the Global Traffic Manager.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     datacenter:
         description:
             - Specifies the data center to which the server belongs.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -59,7 +59,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -67,7 +67,7 @@ options:
         default: true
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Specifies the health monitors that the system uses to determine whether this server is available for load balancing.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -91,7 +91,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     prober_pool:
         description:
             - Specifies the name of a prober pool to use to monitor this server's resources.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     product:
         description:
             - Specifies the server type.
@@ -107,7 +107,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -115,7 +115,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     virtual_server_discovery:
         description:
             - Specifies whether the system auto-discovers the virtual servers for this server.
@@ -123,7 +123,7 @@ options:
         default: null
         choices: [disabled, enabled, enabled-no-delete]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -142,17 +142,6 @@ EXAMPLES = '''
     description: My server
     product: redundant-bigip
     state: present
-  delegate_to: localhost
-
-- name: Delete GTM Server
-  f5bigip_gtm_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: my_server
-    partition: Common
-    state: absent
   delegate_to: localhost
 '''
 

@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_gtm_pool
-short_description: BIG-IP GTM pool module
+short_description: BIG-IP gtm pool module
 description:
     - Configures load balancing pools for the Global Traffic Manager.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: round-robin
         choices: ['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     canonical_name:
         description:
             - Specifies the canonical name of the zone.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -59,7 +59,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     dynamic_ratio:
         description:
             - Enables or disables a dynamic ratio load balancing algorithm for this pool.
@@ -67,7 +67,7 @@ options:
         default: disabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -75,7 +75,7 @@ options:
         default: true
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fallback_ipv4:
         description:
             - Specifies the IPv4 address of the server to which the system directs requests in the event that the load balancing methods configured for this pool fail to return a valid virtual server.
@@ -83,7 +83,7 @@ options:
         default: ::
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fallback_ipv6:
         description:
             - Specifies the IPv6 address of the server to which the system directs requests in the event that the load balancing methods configured for this pool fail to return a valid virtual server.
@@ -91,7 +91,7 @@ options:
         default: ::
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     fallback_mode:
         description:
             - Specifies the load balancing mode that the system uses to load balance name resolution requests among the members of this pool, if the preferred and alternate modes are unsuccessful in picking a pool.
@@ -99,7 +99,7 @@ options:
         default: return-to-dns
         choices: ['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'none', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     load_balancing_mode:
         description:
             - Specifies the preferred load balancing mode that the system uses to load balance name resolution requests among the members of this pool.
@@ -107,7 +107,7 @@ options:
         default: round-robin
         choices: ['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     manual_resume:
         description:
             - Enables or disables the manual resume function for this pool.
@@ -115,7 +115,7 @@ options:
         default: disabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     max_addresses_returned:
         description:
             - Specifies the maximum number of available virtual servers that the system lists in an A record response.
@@ -123,7 +123,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Specifies the health monitors that the system uses to determine whether it can use this pool for load balancing.
@@ -131,7 +131,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -139,7 +139,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -147,7 +147,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_hit_ratio:
         description:
             - Assigns a weight to the Hit Ratio performance factor for the Quality of Service dynamic load balancing mode.
@@ -155,7 +155,7 @@ options:
         default: 5
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_hops:
         description:
             - Assigns a weight to the Hops performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -163,7 +163,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_kilobytes_second:
         description:
             - Assigns a weight to the Kilobytes per Second performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -171,7 +171,7 @@ options:
         default: 3
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_lcs:
         description:
             - Assigns a weight to the Link Capacity performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -179,7 +179,7 @@ options:
         default: 30
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_packet_rate:
         description:
             - Assigns a weight to the Packet Rate performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -187,7 +187,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_rtt:
         description:
             - Assigns a weight to the Round Trip Time performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -195,7 +195,7 @@ options:
         default: 50
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_topology:
         description:
             - Assigns a weight to the Topology performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -203,7 +203,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_vs_capacity:
         description:
             - Assigns a weight to the Virtual Server performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -211,7 +211,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     qos_vs_score:
         description:
             - Assigns a weight to the Virtual Server Score performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
@@ -219,7 +219,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -227,7 +227,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ttl:
         description:
             - Specifies the number of seconds that the IP address, once found, is valid.
@@ -235,7 +235,7 @@ options:
         default: 30
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     verify_member_availability:
         description:
             - Specifies that the system verifies the availability of the members before sending a connection to those resources.
@@ -243,7 +243,7 @@ options:
         default: enabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -258,17 +258,6 @@ EXAMPLES = '''
     description: My pool
     load_balancing_mode: global-availability
     state: present
-  delegate_to: localhost
-
-- name: Delete GTM Pool
-  f5bigip_gtm_pool:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: my_pool
-    partition: Common
-    state: absent
   delegate_to: localhost
 '''
 

@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_gtm_wideip
-short_description: BIG-IP GTM wideip module
+short_description: BIG-IP gtm wideip module
 description:
     - Configures a wide IP.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies whether the wide IP and its resources are available for load balancing.
@@ -51,7 +51,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether the wide IP and its resources are available for load balancing.
@@ -59,7 +59,7 @@ options:
         default: true
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ipv6_no_error_neg_ttl:
         description:
             - Specifies the negative caching TTL of the SOA for the IPv6 NoError response.
@@ -67,7 +67,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ipv6_no_error_response:
         description:
             - Specifies the negative caching TTL of the SOA for the IPv6 NoError response.
@@ -75,7 +75,7 @@ options:
         default: disabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     last_resort_pool:
         description:
             - Specifies which pool for the system to use as the last resort pool when load balancing requests for this wide IP.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     load_balancing_decision_log_verbosity:
         description:
             - Specifies the amount of detail logged when making load balancing decisions.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: ['pool-selection', 'pool-traversal', 'pool-member-selection', 'pool-member-traversal']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -107,7 +107,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     persistence:
         description:
             - When enabled, specifies that when a local DNS server makes repetitive requests on behalf of a client, the system reconnects the client to the same resource as previous requests.
@@ -115,7 +115,7 @@ options:
         default: disabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     persist_cidr_ipv4:
         description:
             - Specifies a mask used to group IPv4 LDNS addresses.
@@ -123,7 +123,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     persist_cidr_ipv6:
         description:
             - Specifies a mask used to group IPv6 LDNS addresses.
@@ -131,7 +131,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     pool_lb_mode:
         description:
             - Specifies the load balancing method used to select a pool in this wide IP.
@@ -139,7 +139,7 @@ options:
         default: round-robin
         choices: ['global-availability', 'random', 'ratio', 'round-robin', 'topology']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     pools:
         description:
             - Configures the pools the system uses when load balancing requests for this wide IP.
@@ -147,7 +147,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     rules:
         description:
             - Specifies the iRules that this wide IP uses for load balancing decisions.
@@ -155,7 +155,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -163,7 +163,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ttl_persistence:
         description:
             - Specifies, in seconds, the length of time for which a persistence entry is valid.
@@ -171,7 +171,7 @@ options:
         default: 3600
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -181,7 +181,7 @@ EXAMPLES = '''
     f5bigip_username: admin
     f5bigip_password: admin
     f5bigip_port: 443
-    name: mywideip.root.local
+    name: mywideip.localhost
     partition: Common
     description: My wideip
     pool_lb_mode: global-availability
@@ -189,17 +189,6 @@ EXAMPLES = '''
       - my_pool1
       - my_pool2
     state: present
-  delegate_to: localhost
-
-- name: Delete GTM WideIP
-  f5bigip_gtm_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: mywideip.root.local
-    partition: Common
-    state: absent
   delegate_to: localhost
 '''
 

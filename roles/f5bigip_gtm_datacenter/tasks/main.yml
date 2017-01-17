@@ -3,11 +3,11 @@
 - name: Create GTM Datacenter
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     contact: "{{ datacenter_contact }}"
     description: "{{ datacenter_description }}"
     location: "{{ datacenter_location }}"
@@ -23,11 +23,11 @@
 - name: Create GTM Datacenter (idempotent check)
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     contact: "{{ datacenter_contact }}"
     description: "{{ datacenter_description }}"
     location: "{{ datacenter_location }}"
@@ -43,11 +43,11 @@
 - name: Modify GTM Datacenter description
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ datacenter_description }}"
   delegate_to: localhost
   register: result
@@ -60,11 +60,11 @@
 - name: Modify GTM Datacenter description (idempotent check)
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ datacenter_description }}"
   delegate_to: localhost
   register: result
@@ -77,11 +77,11 @@
 - name: Delete GTM Datacenter
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result
@@ -94,11 +94,11 @@
 - name: Delete GTM Datacenter (idempotent check)
   f5bigip_gtm_datacenter:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ f5bigip_partition }}"
+    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result

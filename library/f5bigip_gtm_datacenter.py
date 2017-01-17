@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_gtm_datacenter
-short_description: BIG-IP GTM datacenter module
+short_description: BIG-IP gtm datacenter module
 description:
     - Configures a Global Traffic Manager data center.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -51,7 +51,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -59,7 +59,7 @@ options:
         default: true
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     location:
         description:
             - Specifies the physical location of the data center.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -83,7 +83,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     prober_pool:
         description:
             - Specifies a prober pool to use to monitor servers defined in this data center.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -99,7 +99,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -111,21 +111,10 @@ EXAMPLES = '''
     f5bigip_port: 443
     name: my_datacenter
     partition: Common
-    contact: 'admin@root.local'
+    contact: 'admin@localhost'
     description: My datacenter
     location: Somewhere
     state: present
-  delegate_to: localhost
-
-- name: Delete GTM Datacenter
-  f5bigip_gtm_datacenter:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: my_datacenter
-    partition: Common
-    state: absent
   delegate_to: localhost
 '''
 

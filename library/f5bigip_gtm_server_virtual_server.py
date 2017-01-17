@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_gtm_server_virtual_server
-short_description: BIG-IP GTM server virtual-server module
+short_description: BIG-IP gtm server virtual-server module
 description:
     - Configures virtual servers that are resources for this server.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     destination:
         description:
             - Specifies the IP address and port of the virtual server.
@@ -51,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -59,7 +59,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
@@ -67,7 +67,7 @@ options:
         default: true
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Specifies the monitor you want to assign to this virtual server.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -91,7 +91,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     server:
         description:
             - Specifies the server in which the virtual-server belongs.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -107,7 +107,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     translation_address:
         description:
             - Specifies the public address that this virtual server translates into when the Global Traffic Manager communicates between the network and the Internet.
@@ -115,7 +115,7 @@ options:
         default: ::
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     translation_port:
         description:
             - Specifies the translation port number or service name for the virtual server, if necessary.
@@ -123,7 +123,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -135,20 +135,9 @@ EXAMPLES = '''
     f5bigip_port: 443
     name: my_vs
     partition: Common
-    destination: '10.10.1.200:80'
+    destination: '10.10.20.201:80'
     server: my_server
     state: present
-  delegate_to: localhost
-
-- name: Delete GTM Server VS
-  f5bigip_gtm_server_virtual_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: my_vs
-    partition: Common
-    state: absent
   delegate_to: localhost
 '''
 
@@ -190,19 +179,15 @@ class F5BigIpGtmServerVirtualServer(F5BigIpObject):
         self.params.pop('partition', None)
         self.params.pop('server', None)
 
-    # exists() returns always True...
     def _exists(self):
-        exists = False
-        
-        try:
-            vs = self._read()
-            
-            if hasattr(vs, 'destination'):
-                exists = True
-        except Exception as exc:
-            pass
-        
-        return exists
+        """Check for the existence of the named object on the BIG-IP system."""
+        keys = self.server.virtual_servers_s.get_collection()
+        for key in keys:
+            name = self.params['name']
+            if key.name == name:
+                return True
+
+        return False
 
     def _read(self):
         """Load an already configured object from the BIG-IP system."""

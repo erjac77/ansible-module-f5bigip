@@ -17,10 +17,10 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_gtm_pool_member
-short_description: BIG-IP GTM pool member module
+short_description: BIG-IP gtm pool member module
 description:
     - Configures a GTM pool member.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -43,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     disabled:
         description:
             - Specifies whether this pool member is available for load balancing.
@@ -51,7 +51,7 @@ options:
         default: false
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     enabled:
         description:
             - Specifies whether this pool member is available for load balancing.
@@ -59,7 +59,7 @@ options:
         default: true
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     monitor:
         description:
             - Enables or disables the monitor assigned to this pool member.
@@ -67,7 +67,7 @@ options:
         default: enabled
         choices: ['disabled', 'enabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -75,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     order:
         description:
             - Specifies the order number of the pool member.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -91,7 +91,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     pool:
         description:
             - Specifies the pool in which the member belongs.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ratio:
         description:
             - Specifies the weight of the pool member for load balancing purposes.
@@ -107,7 +107,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     vs_name:
         description:
             - Displays the name of the corresponding virtual server.
@@ -115,7 +115,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -128,17 +128,6 @@ EXAMPLES = '''
     name: 'my_server:my_vs1'
     partition: Common
     state: present
-  delegate_to: localhost
-
-- name: Delete GTM Pool Member
-  f5bigip_gtm_pool_member:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
-    name: 'my_server:my_vs1'
-    partition: Common
-    state: absent
   delegate_to: localhost
 '''
 
@@ -178,19 +167,27 @@ class F5BigIpGtmPoolMember(F5BigIpObject):
         self.params.pop('pool', None)
 
     # exists() returns always True...
+    #def _exists(self):
+    #    exists = False
+    #    
+    #    try:
+    #        member = self._read()
+    #        
+    #        if hasattr(member, 'order'):
+    #            exists = True
+    #    except Exception as exc:
+    #        pass
+    #    
+    #    return exists
     def _exists(self):
-        exists = False
-        
-        try:
-            member = self._read()
-            
-            if hasattr(member, 'order'):
-                exists = True
-        except Exception as exc:
-            pass
-        
-        return exists
+        """Check for the existence of the named object on the BIG-IP system."""
+        keys = self.pool.members_s.get_collection()
+        for key in keys:
+            name = self.params['name']
+            if key.name == name:
+                return True
 
+        return False
 
 def main():
     # Translation list for conflictual params
