@@ -120,9 +120,9 @@
 #- name: Create GTM WideIP (idempotent)
 #  f5bigip_gtm_wideip:
 #    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ f5bigip_username }}"
-#    f5bigip_password: "{{ f5bigip_password }}"
-#    f5bigip_port: "{{ f5bigip_port }}"
+#    f5bigip_username: "{{ bigip01_username }}"
+#    f5bigip_password: "{{ bigip01_password }}"
+#    f5bigip_port: "{{ bigip01_port }}"
 #    name: "{{ wideip_name }}"
 #    partition: "{{ bigip_partition }}"
 #    description: "{{ wideip_description }}"

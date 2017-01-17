@@ -57,9 +57,9 @@
 - name: Add CM Device Group members (idempotent)
   f5bigip_cm_device_group_device:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ item }}"
     partition: Common
     device_group: "{{ device_group_name }}"
