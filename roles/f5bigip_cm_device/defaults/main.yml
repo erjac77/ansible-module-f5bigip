@@ -1,3 +1,18 @@
 ---
 
-device_name: BNCLAB-LTM01.bnc.ca
+device_name: bigip01.localhost
+device_comment: My lab device
+device_contact: 'admin@localhost'
+device_description: My device
+device_ha_capacity: 0
+device_location: Central Office
+device_internal_ip: 10.10.10.11
+device_ha_ip: 10.10.30.11
+
+device_unicast_addresses:
+  - { ip: 10.10.30.11, port: 1026 }
+  - { ip: 10.10.10.11, port: 1026 }
+
+device_multicast_interface: eth0
+device_multicast_ip: 224.0.0.245
+device_multicast_port: 62960

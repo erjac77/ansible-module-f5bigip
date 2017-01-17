@@ -1,6 +1,16 @@
 ---
 
-f5bigip_username: "admin"
-f5bigip_password: "admin"
-f5bigip_port: "443"
-f5bigip_partition: "Common"
+f5bigip_username: admin
+f5bigip_password: admin
+f5bigip_port: 11443
+f5bigip_partition: Common
+
+bigip01_username: admin
+bigip01_password: admin
+bigip01_port: 11443
+
+bigip02_username: admin
+bigip02_password: admin
+bigip02_port: 11443
+
+bigip_partition: Common

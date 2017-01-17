@@ -20,7 +20,7 @@ module: f5bigip_cm_device_group
 short_description: BIG-IP cm device group module
 description:
     - Configures device groups.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     asm_sync:
         description:
             - Specifies whether to synchronize ASM configurations of device group members.
@@ -43,7 +43,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auto_sync:
         description:
             - Specifies whether the device group automatically synchronizes configuration data to its members.
@@ -51,7 +51,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -59,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     full_load_on_sync:
         description:
             - Specifies that the entire configuration for a device group is sent when configuration synchronization is performed.
@@ -67,7 +67,7 @@ options:
         default: false
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     incremental_config_sync_size_max:
         description:
             - Specifies the maximum size (in KB) to devote to incremental config sync cached transactions.
@@ -75,7 +75,7 @@ options:
         default: 1024
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     network_failover:
         description:
             - When the device group type is failover, specifies whether network failover is used.
@@ -91,7 +91,7 @@ options:
         default: enabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition in which the component object resides.
@@ -99,7 +99,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -107,7 +107,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     save_on_auto_sync:
         description:
             - Specifies whether to save the configuration on the remote devices following an automatic configuration synchronization.
@@ -115,7 +115,7 @@ options:
         default: false
         choices: [true, false]
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     type:
         description:
             - Specifies the type of device group.
@@ -123,7 +123,7 @@ options:
         default: sync-only
         choices: ['sync-only', 'sync-failover']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''

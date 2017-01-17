@@ -3,9 +3,9 @@
 - name: Create CM Device Group
   f5bigip_cm_device_group:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ device_group_name }}"
     network_failover: "{{ device_group_network_failover }}"
     type: "{{ device_group_type }}"
@@ -21,9 +21,9 @@
 - name: Create CM Device Group (idempotent)
   f5bigip_cm_device_group:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ device_group_name }}"
     network_failover: "{{ device_group_network_failover }}"
     type: "{{ device_group_type }}"
@@ -36,50 +36,85 @@
     that:
       - not result|changed
 
-#- name: Add CM Device Group members
-#  f5bigip_cm_device_group_device:
-#    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ f5bigip_username }}"
-#    f5bigip_password: "{{ f5bigip_password }}"
-#    f5bigip_port: "{{ f5bigip_port }}"
-#    name: "{{ item }}"
-#    partition: Common
-#    device_group: "{{ device_group_name }}"
-#    state: present
-#  with_items: "{{ devices }}"
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Add CM Device Group members
-#  assert:
-#    that:
-#      - result|changed
-#
-#- name: Add CM Device Group members (idempotent)
-#  f5bigip_cm_device_group_device:
-#    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ f5bigip_username }}"
-#    f5bigip_password: "{{ f5bigip_password }}"
-#    f5bigip_port: "{{ f5bigip_port }}"
-#    name: "{{ item }}"
-#    partition: Common
-#    device_group: "{{ device_group_name }}"
-#    state: present
-#  with_items: "{{ devices }}"
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Add CM Device Group members (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Add CM Device Group members
+  f5bigip_cm_device_group_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ item }}"
+    device_group: "{{ device_group_name }}"
+    state: present
+  with_items: "{{ devices }}"
+  delegate_to: localhost
+  register: result
 
-- name: Delete CM Device Group
-  f5bigip_cm_device_group:
+- name: Assert Add CM Device Group members
+  assert:
+    that:
+      - result|changed
+
+- name: Add CM Device Group members (idempotent)
+  f5bigip_cm_device_group_device:
     f5bigip_hostname: "{{ inventory_hostname }}"
     f5bigip_username: "{{ f5bigip_username }}"
     f5bigip_password: "{{ f5bigip_password }}"
     f5bigip_port: "{{ f5bigip_port }}"
+    name: "{{ item }}"
+    partition: Common
+    device_group: "{{ device_group_name }}"
+    state: present
+  with_items: "{{ devices }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add CM Device Group members (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Remove CM Device Group members
+  f5bigip_cm_device_group_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ item }}"
+    device_group: "{{ device_group_name }}"
+    state: absent
+  with_items: "{{ devices }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove CM Device Group members
+  assert:
+    that:
+      - result|changed
+
+- name: Remove CM Device Group members (idempotent)
+  f5bigip_cm_device_group_device:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ item }}"
+    device_group: "{{ device_group_name }}"
+    state: absent
+  with_items: "{{ devices }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove CM Device Group members (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete CM Device Group
+  f5bigip_cm_device_group:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ device_group_name }}"
     state: absent
   delegate_to: localhost
@@ -93,9 +128,9 @@
 - name: Delete CM Device Group (idempotent)
   f5bigip_cm_device_group:
     f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ f5bigip_username }}"
-    f5bigip_password: "{{ f5bigip_password }}"
-    f5bigip_port: "{{ f5bigip_port }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
     name: "{{ device_group_name }}"
     state: absent
   delegate_to: localhost

@@ -1,2 +1,2 @@
 [bigips]
-172.16.227.220 ansible_python_interpreter=/home/erjac/ansible/venv/bin/python
+localhost ansible_python_interpreter=/home/erjac/ansible/venv/bin/python

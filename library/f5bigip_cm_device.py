@@ -19,9 +19,8 @@ DOCUMENTATION = '''
 module: f5bigip_cm_device
 short_description: BIG-IP cm device module
 description:
-    - Manages a device.
-system.
-version_added: "1.0"
+    - Configures a device.
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -36,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     configsync_ip:
         description:
             - Specifies the IP address used for configuration synchronization.
@@ -44,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     contact:
         description:
             - Specifies administrator contact information.
@@ -52,7 +51,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -60,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ha_capacity:
         description:
             - Specifies a number that represents the relative capacity of the device to be active for a number of traffic groups.
@@ -68,15 +67,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
-    hostname:
-        description:
-            - Specifies a hostname for the device.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 1.0
+        version_added: 2.3
     location:
         description:
             - Specifies the physical location of the device.
@@ -84,7 +75,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mirror_ip:
         description:
             - Specifies the IP address used for state mirroring.
@@ -92,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mirror_secondary_ip:
         description:
             - Specifies the secondary IP address used for state mirroring.
@@ -100,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     multicast_interface:
         description:
             - Specifies the interface name used for the failover multicast IP address.
@@ -108,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     multicast_ip:
         description:
             - Specifies the multicast IP address used for failover.
@@ -116,7 +107,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     multicast_port:
         description:
             - Specifies the multicast port used for failover.
@@ -124,7 +115,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -132,7 +123,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -140,36 +131,27 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
-    unicast_address:
-        description:
-            - Displays the set of unicast IP addresses used for failover.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
-- name: Configure CM Device
+- name: Configure CM Device Properties
   f5bigip_cm_device:
     f5bigip_hostname: 172.16.227.35
     f5bigip_username: admin
     f5bigip_password: admin
     f5bigip_port: 443
-    name: bigip01
-    configsync_ip: 10.10.10.11
-    contact: 'admin@company.com'
+    name: bigip01.localhost
+    comment: My lab device
+    configsync_ip: 10.10.30.11
+    contact: 'admin@localhost'
     description: My device
-    location: central office
-    mirror_ip: 10.10.10.11
-    mirror_secondary_ip: 10.10.10.12
+    location: Central Office
+    mirror_ip: 10.10.30.11
+    mirror_secondary_ip: 10.10.10.11
     multicast_interface: eth0
     multicast_ip: 224.0.0.245
     multicast_port: 62960
-    unicast_address:
-      - 10.10.10.11
     state: present
   delegate_to: localhost
 '''
@@ -188,11 +170,15 @@ BIGIP_CM_DEVICE_ARGS = dict(
     mirror_secondary_ip =   dict(type='str'),
     multicast_interface =   dict(type='str'),
     multicast_ip        =   dict(type='str'),
-    multicast_port      =   dict(type='int')#,
-    #unicast_address     =   dict(type='list')
+    multicast_port      =   dict(type='int'),
+    unicast_addresses   =   dict(type='list')
 )
 
 class F5BigIpCmDevice(F5BigIpObject):
+    def __init__(self, *args, **kwargs):
+        super(F5BigIpCmDevice, self).__init__(*args, **kwargs)
+        self.params.pop('partition', None)
+
     def _set_crud_methods(self):
         self.methods = {
             'create':self.mgmt.tm.cm.devices.device.create,
@@ -211,12 +197,6 @@ class F5BigIpCmDevice(F5BigIpObject):
         return self.methods['read'](
             name=self.params['name']
         )
-    
-    def _absent(self):
-        if not self.params['unicast_address']:
-            raise AnsibleModuleF5BigIpError("Absent can only be used when removing unicast addresses")
-        
-        return super(F5BigIpCmDevice, self)._absent()
 
 def main():
     # Translation list for conflictual params

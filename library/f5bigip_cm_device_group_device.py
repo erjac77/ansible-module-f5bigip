@@ -20,7 +20,7 @@ module: f5bigip_cm_device_group_device
 short_description: BIG-IP cm device group device module
 description:
     - Configures devices in device groups.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    device_group:
+        description:
+            - Specifies the device group in which the device belongs.
+        required: true
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -35,7 +43,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition in which the component object resides.
@@ -43,7 +51,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -51,7 +59,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
@@ -61,7 +69,7 @@ EXAMPLES = '''
     f5bigip_username: admin
     f5bigip_password: admin
     f5bigip_port: 443
-    name: bigip01
+    name: bigip01.localhost
     partition: Common
     device_group: my_device_group
     state: present
@@ -88,6 +96,16 @@ class F5BigIpCmDeviceGroupDevice(F5BigIpObject):
             'exists':self.device_group.devices_s.devices.exists
         }
         self.params.pop('device_group', None)
+
+    def _exists(self):
+        """Check for the existence of the named object on the BIG-IP system."""
+        keys = self.device_group.devices_s.get_collection()
+        for key in keys:
+            name = self.params['name']
+            if key.name == name:
+                return True
+
+        return False
 
 def main():
     # Translation list for conflictual params
