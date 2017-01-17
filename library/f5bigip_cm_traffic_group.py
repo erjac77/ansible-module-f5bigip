@@ -20,7 +20,7 @@ module: f5bigip_cm_traffic_group
 short_description: BIG-IP cm traffic group module
 description:
     - Configures traffic groups.
-version_added: "1.0"
+version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
 notes:
@@ -35,7 +35,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auto_failback_enabled:
         description:
             - Specifies whether the traffic group fails back to the default device.
@@ -43,7 +43,7 @@ options:
         default: disabled
         choices: ['enabled', 'disabled']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     auto_failback_time:
         description:
             - Specifies the time required to fail back.
@@ -51,7 +51,7 @@ options:
         default: 0
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -59,7 +59,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ha_group:
         description:
             - This specifies the name of the HA group that the traffic group uses to decide the active device within the traffic group.
@@ -67,7 +67,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ha_load_factor:
         description:
             - Specifies a number for this traffic group that represents the load this traffic group presents to the system relative to other traffic groups.
@@ -75,7 +75,7 @@ options:
         default: 1
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     ha_order:
         description:
             - This list of devices specifies the order in which the devices will become active for the traffic group when a failure occurs.
@@ -83,7 +83,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     mac:
         description:
             - Specifies a MAC address for the traffic group.
@@ -91,7 +91,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -99,7 +99,7 @@ options:
         default: null
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition in which the component object resides.
@@ -107,7 +107,7 @@ options:
         default: Common
         choices: []
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -115,7 +115,7 @@ options:
         default: present
         choices: ['absent', 'present']
         aliases: []
-        version_added: 1.0
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
