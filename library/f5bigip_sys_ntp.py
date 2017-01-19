@@ -90,18 +90,7 @@ class F5BigIpSysNtp(F5BigIpUnnamedObject):
         if not self.params['servers']:
             raise AnsibleModuleF5BigIpError("Absent can only be used when removing NTP servers")
         
-        has_changed = False
-        ntp = self._read()
-
-        if hasattr(ntp, 'servers'):
-            for server in self.params['servers']:
-                if server in ntp.servers:
-                    ntp.servers.remove(server)
-                    has_changed = True
-
-            ntp.update()
-
-        return has_changed
+        return super(F5BigIpSysNtp, self)._absent()
 
 def main():
     # Translation list for conflictual params

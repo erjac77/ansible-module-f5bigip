@@ -73,7 +73,7 @@ from ansible_common_f5bigip.f5bigip import *
 BIGIP_SYS_DNS_ARGS = dict(
     description     =   dict(type='str'),
     name_servers    =   dict(type='list'),
-    search          =   dict(type='list')
+    #search          =   dict(type='list')
 )
 
 class F5BigIpSysDns(F5BigIpUnnamedObject):
@@ -84,21 +84,10 @@ class F5BigIpSysDns(F5BigIpUnnamedObject):
         }
     
     def _absent(self):
-        if not (self.params['nameServers'] or self.params['search']):
-            raise AnsibleModuleF5BigIpError("Absent can only be used when removing name servers or search domains")
+        if not (self.params['nameServers']):# or self.params['search']):
+            raise AnsibleModuleF5BigIpError("Absent can only be used when removing name servers")# or search domains")
         
-        has_changed = False
-        dns = self._read()
-
-        if hasattr(dns, 'nameServers'):
-            for server in self.params['nameServers']:
-                if server in dns.nameServers:
-                    dns.nameServers.remove(server)
-                    has_changed = True
-
-            dns.update()
-
-        return has_changed
+        return super(F5BigIpSysDns, self)._absent()
 
 def main():
     # Translation list for conflictual params

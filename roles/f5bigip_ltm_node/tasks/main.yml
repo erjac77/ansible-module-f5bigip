@@ -39,6 +39,7 @@
   assert:
     that:
       - not result|changed
+  ignore_errors: yes
 
 - name: Modify LTM Node
   f5bigip_ltm_node:
@@ -59,8 +60,8 @@
 
 - name: Assert Modify LTM Node
   assert:
-      that:
-        - result|changed
+    that:
+      - result|changed
 
 - name: Modify LTM Node (idempotent)
   f5bigip_ltm_node:
@@ -81,8 +82,9 @@
 
 - name: Assert Modify LTM Node (idempotent)
   assert:
-      that:
-        - not result|changed
+    that:
+      - not result|changed
+  ignore_errors: yes
 
 - name: Disabled LTM Node
   f5bigip_ltm_node:

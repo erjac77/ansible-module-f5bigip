@@ -52,8 +52,8 @@
 
 - name: Assert Modify LTM Pool description
   assert:
-      that:
-        - result|changed
+    that:
+      - result|changed
 
 - name: Modify LTM Pool description (idempotent)
   f5bigip_ltm_pool:
@@ -69,8 +69,8 @@
 
 - name: Assert Modify LTM Pool description (idempotent)
   assert:
-      that:
-        - not result|changed
+    that:
+      - not result|changed
 
 - name: Add LTM Pool members
   f5bigip_ltm_pool_member:
@@ -90,8 +90,8 @@
 
 - name: Assert Add LTM Pool members
   assert:
-      that:
-        - result|changed
+    that:
+      - result|changed
 
 - name: Add LTM Pool members (idempotent)
   f5bigip_ltm_pool_member:
@@ -111,8 +111,9 @@
 
 - name: Assert Add LTM Pool members (idempotent)
   assert:
-      that:
-        - not result|changed
+    that:
+      - not result|changed
+  ignore_errors: yes
 
 - name: Modify LTM Pool members description and ratio
   f5bigip_ltm_pool_member:
@@ -132,8 +133,8 @@
 
 - name: Modify LTM Pool members description and ratio
   assert:
-      that:
-        - result|changed
+     that:
+      - result|changed
 
 - name: Modify LTM Pool members description and ratio (idempotent)
   f5bigip_ltm_pool_member:
@@ -153,8 +154,9 @@
 
 - name: Modify LTM Pool members description and ratio (idempotent)
   assert:
-      that:
-        - not result|changed
+    that:
+      - not result|changed
+  ignore_errors: yes
 
 - name: Remove LTM Pool members
   f5bigip_ltm_pool_member:
@@ -174,6 +176,26 @@
   assert:
     that:
       - result|changed
+
+- name: Remove LTM Pool members (idempotent)
+  f5bigip_ltm_pool_member:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ item.name }}:{{ item.port }}"
+    partition: "{{ bigip_partition }}"
+    pool: "{{ pool_name }}"
+    state: absent
+  with_items: "{{ pool_members }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove LTM Pool members (idempotent)
+  assert:
+    that:
+      - not result|changed
+  ignore_errors: yes
 
 - name: Delete LTM Pool
   f5bigip_ltm_pool:

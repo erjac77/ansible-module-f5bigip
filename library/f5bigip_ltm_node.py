@@ -189,20 +189,33 @@ class F5BigIpLtmNode(F5BigIpObject):
             'delete':self.mgmt.tm.ltm.nodes.node.delete,
             'exists':self.mgmt.tm.ltm.nodes.node.exists
         }
-    
-    def _check_update_sparams(self, sparams, key, cur_val, new_val):
-        if key == "rateLimit" and (cur_val == "disabled" and new_val == 0):
-            new_val = cur_val
-        
-        if key == "state" and ("user" not in cur_val and new_val is None):
-            new_val = "user-up"
-            sparams[key] = new_val
-        
-        if key == "session" and ("user" not in cur_val and new_val is None):
-            new_val = "user-enabled"
-            sparams[key] = new_val
-        
-        return sparams, new_val
+
+    def _check_update_params(self):
+        key = 'state'
+        cur_val = None
+        if hasattr(self.big, key):
+            attr = getattr(self.big, key)
+            cur_val = format_value(attr)
+            if self.params[key] is None and 'user' not in cur_val:
+                self.params[key] = 'user-up'
+
+        key = 'session'
+        cur_val = None
+        if hasattr(self.big, key):
+            attr = getattr(self.big, key)
+            cur_val = format_value(attr)
+            if self.params[key] is None and 'user' not in cur_val:
+                self.params[key] = 'user-enabled'
+
+        key = 'rateLimit'
+        cur_val = None
+        if hasattr(self.big, key):
+            attr = getattr(self.big, key)
+            cur_val = format_value(attr)
+            if (self.params[key] is None and self.params[key] == 0) and cur_val == 'disabled':
+                self.params[key] = cur_val
+
+        super(F5BigIpLtmNode, self)._check_update_params()
 
 def main():
     # Translation list for conflictual params

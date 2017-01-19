@@ -188,7 +188,8 @@ BIGIP_SYS_SNMP_ARGS = dict(
 class F5BigIpSysSnmp(F5BigIpUnnamedObject):
     def _set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.snmp.load
+            'read':self.mgmt.tm.sys.snmp.load,
+            'update':self.mgmt.tm.sys.snmp.update
         }
     
     def _absent(self):
