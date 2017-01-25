@@ -14,5 +14,5 @@ snmp_communities:
   - { name: rw_community, access: rw, community_name: my_rw_community }
 
 snmp_traps:
-  - { name: "i10.20.20.21_1", community: my_ro_community, host: 10.20.20.21, port: 162, version: 2c }
-  - { name: "i10.20.20.22_1", community: my_ro_community, host: 10.20.20.22, port: 162, version: 2c }
+  - { name: i10.20.20.21_1, community: my_ro_community, host: 10.20.20.21, port: 162, version: 2c }
+  - { name: i10.20.20.22_1, community: my_ro_community, host: 10.20.20.22, port: 162, version: 2c }
