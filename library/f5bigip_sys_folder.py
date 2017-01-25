@@ -86,7 +86,6 @@ EXAMPLES = '''
     f5bigip_password: admin
     f5bigip_port: 443
     name: my_folder
-    partition: Common
     description: My folder
     sub_path: /
     state: present
@@ -105,6 +104,12 @@ BIGIP_SYS_FOLDER_ARGS = dict(
 )
 
 class F5BigIpSysFolder(F5BigIpObject):
+    def __init__(self, *args, **kwargs):
+        super(F5BigIpSysFolder, self).__init__(*args, **kwargs)
+        if self.params['subPath'] is None:
+            self.params['subPath'] = '/'
+        self.params.pop('partition', None)
+
     def _set_crud_methods(self):
         self.methods = {
             'create':self.mgmt.tm.sys.folders.folder.create,
@@ -114,14 +119,18 @@ class F5BigIpSysFolder(F5BigIpObject):
             'exists':self.mgmt.tm.sys.folders.folder.exists
         }
     
-    #def read(self):
-    #    folder = self.methods['read'](
-    #        name=self.params['name'],
-    #        partition=self.params['partition']
-    #    )
-    #    if folder.subPath == folder.name:
-    #        folder.subPath = '/'
-    #    return folder
+    def _exists(self):
+        return self.methods['exists'](
+            name=self.params['name'],
+            subPath=self.params['subPath']
+        )
+
+    def _read(self):
+        folder = self.methods['read'](
+            name=self.params['name'],
+            subPath=self.params['subPath']
+        )
+        return folder
 
 def main():
     # Translation list for conflictual params

@@ -18,24 +18,23 @@
     that:
       - result|changed
 
-# Not idempotent!!
-#- name: Create SYS Folder (idempotent)
-#  f5bigip_sys_folder:
-#    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ bigip01_username }}"
-#    f5bigip_password: "{{ bigip01_password }}"
-#    f5bigip_port: "{{ bigip01_port }}"
-#    name: "{{ folder_name }}"
-#    description: "{{ folder_description }}"
-#    sub_path: "/"
-#    state: present
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Create SYS Folder (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create SYS Folder (idempotent)
+  f5bigip_sys_folder:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ folder_name }}"
+    description: "{{ folder_description }}"
+    sub_path: /
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Folder (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete SYS Folder
   f5bigip_sys_folder:
@@ -44,6 +43,7 @@
     f5bigip_password: "{{ bigip01_password }}"
     f5bigip_port: "{{ bigip01_port }}"
     name: "{{ folder_name }}"
+    sub_path: /
     state: absent
   delegate_to: localhost
   register: result
@@ -60,6 +60,7 @@
     f5bigip_password: "{{ bigip01_password }}"
     f5bigip_port: "{{ bigip01_port }}"
     name: "{{ folder_name }}"
+    sub_path: /
     state: absent
   delegate_to: localhost
   register: result
