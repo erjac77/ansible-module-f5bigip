@@ -62,6 +62,14 @@ options:
         version_added: 2.3
     ha_capacity:
         description:
+            - Specifies a hostname for the device.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    hostname:
+        description:
             - Specifies a number that represents the relative capacity of the device to be active for a number of traffic groups.
         required: false
         default: 0
@@ -124,6 +132,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    partition:
+        description:
+            - Displays the administrative partition in which the component object resides.
+        required: false
+        default: Common
+        choices: []
+        aliases: []
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -164,7 +180,7 @@ BIGIP_CM_DEVICE_ARGS = dict(
     contact             =   dict(type='str'),
     description         =   dict(type='str'),
     ha_capacity         =   dict(type='int'),
-    #hostname            =   dict(type='str'),
+    hostname            =   dict(type='str'),
     location            =   dict(type='str'),
     mirror_ip           =   dict(type='str'),
     mirror_secondary_ip =   dict(type='str'),
@@ -175,10 +191,6 @@ BIGIP_CM_DEVICE_ARGS = dict(
 )
 
 class F5BigIpCmDevice(F5BigIpObject):
-    def __init__(self, *args, **kwargs):
-        super(F5BigIpCmDevice, self).__init__(*args, **kwargs)
-        self.params.pop('partition', None)
-
     def _set_crud_methods(self):
         self.methods = {
             'create':self.mgmt.tm.cm.devices.device.create,
