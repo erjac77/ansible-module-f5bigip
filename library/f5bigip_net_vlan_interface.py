@@ -134,11 +134,16 @@ class F5BigIpNetVlanInterface(F5BigIpObject):
             'exists':self.vlan.interfaces_s.interfaces.exists
         }
         self.params.pop('vlan', None)
+        self.params.pop('partition', None)
     
     def _exists(self):
-        return self.methods['exists'](
-            name=self.params['name']
-        )
+        interfaces = self.vlan.interfaces_s.get_collection()
+        for interface in interfaces:
+            name = self.params['name']
+            if interface.name == name:
+                return True
+
+        return False
     
     def _read(self):
         return self.methods['read'](
