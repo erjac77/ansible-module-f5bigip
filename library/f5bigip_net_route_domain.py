@@ -44,6 +44,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    partition:
+        description:
+            - Specifies the administrative partition in which the component object resides.
+        required: false
+        default: Common
+        choices: []
+        aliases: []
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -62,6 +70,7 @@ EXAMPLES = '''
     f5bigip_password: admin
     f5bigip_port: 443
     name: my_route_domain
+    partition: Common
     id: 1234
     state: present
   delegate_to: localhost
