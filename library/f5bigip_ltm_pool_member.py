@@ -84,14 +84,6 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
-    monitor_state:
-        description:
-            - Specifies the current state of the node.
-        required: false
-        default: user-up
-        choices: ['user-down', 'user-up']
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
@@ -140,6 +132,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    session:
+        description:
+            - Specifies the ability of the client to persist to the pool member when making new connections.
+        required: false
+        default: user-enabled
+        choices: ['user-enabled', 'user-disabled']
+        aliases: []
+        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -148,12 +148,12 @@ options:
         choices: ['absent', 'present']
         aliases: []
         version_added: 2.3
-    session:
+    state_user:
         description:
-            - Specifies the ability of the client to persist to the pool member when making new connections.
+            - Specifies the current state of the node.
         required: false
-        default: user-enabled
-        choices: ['user-enabled', 'user-disabled']
+        default: user-up
+        choices: ['user-down', 'user-up']
         aliases: []
         version_added: 2.3
 '''
@@ -185,21 +185,18 @@ BIGIP_LTM_POOL_MEMBER_ARGS = dict(
     inherit_profile     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
     logging             =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
     monitor             =   dict(type='str'),
-    monitor_state       =   dict(type='str', choices=['user-down', 'user-up']),
     pool                =   dict(type='str'),
     priority_group      =   dict(type='int'),
     profiles            =   dict(type='str'),
     rate_limit          =   dict(type='int'),
     ratio               =   dict(type='int'),
-    session             =   dict(type='str', choices=['user-enabled', 'user-disabled'])
+    session             =   dict(type='str', choices=['user-enabled', 'user-disabled']),
+    state_user          =   dict(type='str', choices=['user-down', 'user-up'])
 )
 
 class F5BigIpLtmPoolMember(F5BigIpObject):
     def _set_crud_methods(self):
-        self.pool = self.mgmt.tm.ltm.pools.pool.load(
-            name=self.params['pool'],
-            partition=self.params['partition']
-        )
+        self.pool = self.mgmt.tm.ltm.pools.pool.load(**self._get_resource_id_from_path(self.params['pool']))
         self.methods = {
             'create':self.pool.members_s.members.create,
             'read':self.pool.members_s.members.load,
@@ -231,14 +228,14 @@ class F5BigIpLtmPoolMember(F5BigIpObject):
         if hasattr(self.big, key):
             attr = getattr(self.big, key)
             cur_val = format_value(attr)
-            if (self.params[key] is None and self.params[key] == 0) and cur_val == 'disabled':
-                self.params[key] = cur_val
+            if (self.params[key] is None or self.params[key] == 0) and cur_val == 'disabled':
+                self.params[key] = 'disabled'
 
         super(F5BigIpLtmPoolMember, self)._check_update_params()
 
 def main():
     # Translation list for conflictual params
-    tr = { 'monitor_state':'state' }
+    tr = { 'state_user':'state' }
     
     module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_POOL_MEMBER_ARGS, supports_check_mode=False)
     
