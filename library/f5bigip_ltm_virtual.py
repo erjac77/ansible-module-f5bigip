@@ -439,7 +439,7 @@ BIGIP_LTM_VIRTUAL_ARGS = dict(
     rate_limit_src_mask			=    dict(type='int'),
     related_rules 				=    dict(type='str'),
     reject						=    dict(type='bool'),
-    rules 						=    dict(type='str'),
+    rules 						=    dict(type='list'),
     source 						=    dict(type='str'),
     #source_address_translation  =    dict(type='list'),
     source_port 				=    dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
