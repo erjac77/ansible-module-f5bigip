@@ -4,9 +4,9 @@ An Ansible module to perform specific operational and configuration tasks on F5 
 
 ## REQUIREMENTS
 
-* Ansible >= 2.2.0 (ansible)
-* F5 Python SDK >= 2.1.0 (f5-sdk)
-* F5 BIG-IP Common Utility Module for Ansible >= 0.1.0 ([ansible-common-f5bigip](https://github.com/erjac77/ansible-common-f5bigip))
+* Ansible >= 2.3.0 (ansible)
+* F5 Python SDK >= 2.2.2 (f5-sdk)
+* F5 BIG-IP Common Utility Module for Ansible >= 0.2.0 ([ansible-common-f5bigip](https://github.com/erjac77/ansible-common-f5bigip))
 
 ## INSTALLATION
 
