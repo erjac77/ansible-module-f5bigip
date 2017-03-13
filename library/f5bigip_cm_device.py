@@ -200,16 +200,6 @@ class F5BigIpCmDevice(F5BigIpObject):
             'exists':self.mgmt.tm.cm.devices.device.exists
         }
 
-    def _exists(self):
-        return self.methods['exists'](
-            name=self.params['name']
-        )
-    
-    def _read(self):
-        return self.methods['read'](
-            name=self.params['name']
-        )
-
 def main():
     # Translation list for conflictual params
     tr = {}
