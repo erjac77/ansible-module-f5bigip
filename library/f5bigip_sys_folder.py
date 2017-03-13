@@ -99,7 +99,7 @@ BIGIP_SYS_FOLDER_ARGS = dict(
     description     =   dict(type='str'),
     device_group    =   dict(type='str'),
     no_ref_check    =   dict(type='bool'),
-    sub_path        =   dict(type='str'),
+    #sub_path        =   dict(type='str'),
     traffic_group   =   dict(type='str')
 )
 
@@ -118,7 +118,7 @@ class F5BigIpSysFolder(F5BigIpObject):
             'delete':self.mgmt.tm.sys.folders.folder.delete,
             'exists':self.mgmt.tm.sys.folders.folder.exists
         }
-    
+
     def _exists(self):
         return self.methods['exists'](
             name=self.params['name'],
@@ -135,9 +135,9 @@ class F5BigIpSysFolder(F5BigIpObject):
 def main():
     # Translation list for conflictual params
     tr = {}
-    
+
     module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_FOLDER_ARGS, supports_check_mode=False)
-    
+
     try:
         obj = F5BigIpSysFolder(check_mode=module.supports_check_mode, tr=tr, **module.params)
         result = obj.flush()
