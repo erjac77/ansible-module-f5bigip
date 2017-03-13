@@ -107,6 +107,7 @@ class F5BigIpSysSyslogRemoteServer(F5BigIpObject):
         self.methods = {
             'read':self.mgmt.tm.sys.syslog.load
         }
+        self.params.pop('sub_path', None)
     
     def _read(self):
         return self.methods['read']()
