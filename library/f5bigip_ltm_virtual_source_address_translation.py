@@ -28,14 +28,6 @@ notes:
 requirements:
     - f5-sdk
 options:
-    partition:
-        description:
-            - Specifies the administrative partition in which the component object resides.
-        required: false
-        default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     pool:
         description:
             - Specifies the name of a LSN or SNAT pool used by the specified virtual server.
@@ -47,14 +39,14 @@ options:
     type:
         description:
             - Specifies the type of source address translation associated with the specified virtual server.
-        required: false
+        required: true
         default: null
         choices: ['automap', 'lsn', 'snat', 'none']
         aliases: []
         version_added: 2.3
     virtual:
         description:
-            - Specifies the virtual to which the profile belongs.
+            - Specifies the full path of the virtual to which the profile belongs.
         required: true
         default: Common
         choices: []
@@ -63,14 +55,14 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Add LTM VS HTTP Profile
+- name: Add LTM Source Address Translation
   f5bigip_ltm_virtual_source_address_translation:
     f5bigip_hostname: 172.16.227.35
     f5bigip_username: admin
     f5bigip_password: admin
     f5bigip_port: 443
-    name: http
-    partition: Common
+    type: snat
+    pool: my_snatpool
     virtual: my_http_vs
     state: present
   delegate_to: localhost
@@ -79,25 +71,55 @@ EXAMPLES = '''
 from ansible_common_f5bigip.f5bigip import *
 
 BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS = dict(
-    partition   =   dict(type='str'),
     pool        =   dict(type='str'),
-    type        =   dict(type='str', choices=['automap', 'lsn', 'snat', 'none']),
+    type        =   dict(type='str', choices=['automap', 'lsn', 'snat', 'none'], required=True),
     virtual     =   dict(type='str')
 )
 
 class F5BigIpLtmVirtualSourceAddressTranslation(F5BigIpUnnamedObject):
     def _set_crud_methods(self):
-        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(
-            name=self.params['virtual'],
-            partition=self.params['partition']
-        )
+        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
         self.params.pop('virtual', None)
+
+    def _read(self):
+        return self.virtual.sourceAddressTranslation
+    
+    def flush(self):
+        has_changed = False
+        result = dict()
+        sat = self._read()
+
+        if self.state == "absent" and sat['type'] != 'none':
+            has_changed = True
+            sat['type'] = 'none'
+
+        if self.state == "present":
+            if self.params['type'] == 'snat':
+                if self.params['pool'] is None:
+                    raise AnsibleModuleF5BigIpError("Missing required param 'pool'")
+
+            for key, val in self.params.iteritems():
+                if key in sat:
+                    if sat[key] != val:
+                        has_changed = True
+                        sat[key] = val
+                else:
+                    has_changed = True
+                    sat.update({key: val})
+
+        if has_changed:
+            self.virtual.sourceAddressTranslation = sat
+            self.virtual.update()
+            self.virtual.refresh()
+        
+        result.update(dict(changed=has_changed))
+        return result
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmVirtualSourceAddressTranslation(check_mode=module.supports_check_mode, tr=tr, **module.params)
