@@ -62,7 +62,7 @@ options:
         version_added: 2.3
     virtual:
         description:
-            - Specifies the virtual to which the profile belongs.
+            - Specifies the full path of the virtual to which the profile belongs.
         required: true
         default: Common
         choices: []
@@ -79,10 +79,12 @@ EXAMPLES = '''
     f5bigip_port: 443
     name: http
     partition: Common
-    virtual: my_http_vs
+    virtual: /my_partition/my_http_vs
     state: present
   delegate_to: localhost
 '''
+
+import re
 
 from ansible_common_f5bigip.f5bigip import *
 
@@ -93,10 +95,7 @@ BIGIP_LTM_VIRTUAL_PROFILE_ARGS = dict(
 
 class F5BigIpLtmVirtualProfile(F5BigIpObject):
     def _set_crud_methods(self):
-        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(
-            name=self.params['virtual'],
-            partition=self.params['partition']
-        )
+        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
         self.methods = {
             'create':self.virtual.profiles_s.profiles.create,
             'read':self.virtual.profiles_s.profiles.load,
