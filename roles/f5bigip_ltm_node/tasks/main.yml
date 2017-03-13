@@ -111,8 +111,8 @@
     f5bigip_port: "{{ bigip01_port }}"
     name: "{{ node_name }}"
     partition: "{{ bigip_partition }}"
-    monitor_state: user-down
     session: user-disabled
+    state_user: user-down
   delegate_to: localhost
   register: result
 
