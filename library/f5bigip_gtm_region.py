@@ -98,13 +98,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
-        argument_spec=BIGIP_GTM_REGION_ARGS,
-        supports_check_mode=False,
-        mutually_exclusive=[
-            ['disabled', 'enabled']
-        ]
-    )
+    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_GTM_REGION_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpGtmRegion(check_mode=module.supports_check_mode, tr=tr, **module.params)
