@@ -1,0 +1,105 @@
+---
+
+- name: Create GTM Region
+  f5bigip_gtm_region:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ region_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ region_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Region
+  assert:
+    that:
+      - result|changed
+
+- name: Create GTM Region (idempotent)
+  f5bigip_gtm_region:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ region_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ region_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Region (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify GTM Region description
+  f5bigip_gtm_region:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ region_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ region_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify GTM Region description
+  assert:
+      that:
+        - result|changed
+
+- name: Modify GTM Region description (idempotent)
+  f5bigip_gtm_region:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ region_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ region_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify GTM Region description (idempotent)
+  assert:
+      that:
+        - not result|changed
+
+- name: Delete GTM Region
+  f5bigip_gtm_region:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ region_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Region
+  assert:
+    that:
+      - result|changed
+
+- name: Delete GTM Region (idempotent)
+  f5bigip_gtm_region:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ region_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Region (idempotent)
+  assert:
+    that:
+      - not result|changed
