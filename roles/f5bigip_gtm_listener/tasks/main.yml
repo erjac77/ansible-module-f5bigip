@@ -1,0 +1,109 @@
+---
+
+- name: Create GTM Listener
+  f5bigip_gtm_listener:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ listener_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ listener_description }}"
+    address: "{{ listener_address }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Listener
+  assert:
+    that:
+      - result|changed
+
+- name: Create GTM Listener (idempotent)
+  f5bigip_gtm_listener:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ listener_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ listener_description }}"
+    address: "{{ listener_address }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Listener (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify GTM Listener description
+  f5bigip_gtm_listener:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ listener_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ listener_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify GTM Listener description
+  assert:
+      that:
+        - result|changed
+
+- name: Modify GTM Listener description (idempotent)
+  f5bigip_gtm_listener:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ listener_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ listener_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify GTM Listener description (idempotent)
+  assert:
+      that:
+        - not result|changed
+
+- name: Delete GTM Listener
+  f5bigip_gtm_listener:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ listener_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Listener
+  assert:
+    that:
+      - result|changed
+
+- name: Delete GTM Listener (idempotent)
+  f5bigip_gtm_listener:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ listener_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM Listener (idempotent)
+  assert:
+    that:
+      - not result|changed
