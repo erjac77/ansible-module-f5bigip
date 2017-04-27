@@ -1,0 +1,74 @@
+---
+
+- name: Create LTM Rule
+  f5bigip_ltm_rule:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ rule_name }}"
+    partition: "{{ bigip_partition }}"
+    definition: "{{ rule_definition }}"
+    ignore_verification: "{{ rule_ignore_verification }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Rule
+  assert:
+    that:
+      - result|changed
+
+# Not idempotent!!
+#- name: Create LTM Rule (idempotent)
+#  f5bigip_ltm_rule:
+#    f5bigip_hostname: "{{ inventory_hostname }}"
+#    f5bigip_username: "{{ bigip01_username }}"
+#    f5bigip_password: "{{ bigip01_password }}"
+#    f5bigip_port: "{{ bigip01_port }}"
+#    name: "{{ rule_name }}"
+#    partition: "{{ bigip_partition }}"
+#    definition: "{{ rule_definition }}"
+#    ignore_verification: "{{ rule_ignore_verification }}"
+#    state: present
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Create LTM Rule (idempotent)
+#  assert:
+#    that:
+#      - not result|changed
+
+- name: Delete LTM Rule
+  f5bigip_ltm_rule:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ rule_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Rule
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Rule (idempotent)
+  f5bigip_ltm_rule:
+    f5bigip_hostname: "{{ inventory_hostname }}"
+    f5bigip_username: "{{ bigip01_username }}"
+    f5bigip_password: "{{ bigip01_password }}"
+    f5bigip_port: "{{ bigip01_port }}"
+    name: "{{ rule_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Rule (idempotent)
+  assert:
+    that:
+      - not result|changed

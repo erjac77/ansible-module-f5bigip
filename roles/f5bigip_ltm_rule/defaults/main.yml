@@ -1,0 +1,5 @@
+---
+
+rule_name: my_rule
+rule_definition: 'when RULE_INIT {}'
+rule_ignore_verification: True
