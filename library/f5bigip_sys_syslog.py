@@ -76,6 +76,14 @@ options:
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
         aliases: []
         version_added: 2.3
+    description:
+        description:
+            - Specifies descriptive text that identifies the component.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     iso_date:
         description:
             - Enables or disables the ISO date format for messages in the log files.
@@ -177,46 +185,45 @@ options:
 EXAMPLES = '''
 - name: Change SYS Syslog User Log
   f5bigip_sys_syslog:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     user_log_from: alert
     user_log_to: alert
     state: present
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SYSLOG_ARGS = dict(
-    auth_priv_from  =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    auth_priv_to    =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    cron_from       =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    cron_to         =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    daemon_from     =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    daemon_to       =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    #description     =   dict(type='str'),
-    iso_date        =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    console_log     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    kern_from       =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    kern_to         =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    local6_from     =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    local6_to       =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    mail_from       =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    mail_to         =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    messages_from   =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    messages_to     =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    #remote_servers  = dict(type='list'),
-    user_log_from   =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    user_log_to     =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES)
+    auth_priv_from  =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    auth_priv_to    =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    cron_from       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    cron_to         =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    daemon_from     =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    daemon_to       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    description     =   dict(type='str'),
+    iso_date        =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    console_log     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    kern_from       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    kern_to         =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    local6_from     =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    local6_to       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    mail_from       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    mail_to         =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    messages_from   =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    messages_to     =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    user_log_from   =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    user_log_to     =   dict(type='str', choices=F5_SEVERITY_CHOICES)
 )
 
 class F5BigIpSysSyslog(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.syslog.load,
-            'update':self.mgmt.tm.sys.syslog.update
+            'read':     self.mgmt_root.tm.sys.syslog.load,
+            'update':   self.mgmt_root.tm.sys.syslog.update
         }
 
 def main():

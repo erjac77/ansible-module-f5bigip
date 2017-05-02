@@ -68,6 +68,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     debug:
         description:
             - Specifies whether the monitor sends error messages and additional information to a log file created and labeled specifically for this monitor.
@@ -201,32 +209,32 @@ options:
 EXAMPLES = '''
 - name: Create LTM FTP Monitor
   f5bigip_ltm_monitor_ftp:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_ftp_monitor
     partition: Common
     state: present
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_FTP_ARGS = dict(
-    adaptive                    =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    adaptive                    =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     adaptive_divergence_type    =   dict(type='str', choices=['relative', 'absolute']),
     adaptive_divergence_value   =   dict(type='int'),
     adaptive_limit              =   dict(type='int'),
     adaptive_sampling_timespan  =   dict(type='int'),
-    #app_service                 =   dict(type='str'),
-    debug                       =   dict(type='str', choices=F5BIGIP_POLAR_CHOICES),
+    app_service                 =   dict(type='str'),
+    debug                       =   dict(type='str', choices=F5_POLAR_CHOICES),
     defaults_from               =   dict(type='str'),
     description                 =   dict(type='str'),
     destination                 =   dict(type='str'),
     filename                    =   dict(type='str'),
     interval                    =   dict(type='int'),
-    manual_resume               =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    manual_resume               =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     mode                        =   dict(type='str', choices=['passive', 'port']),
     password                    =   dict(type='str'),
     time_until_up               =   dict(type='int'),
@@ -235,21 +243,21 @@ BIGIP_LTM_MONITOR_FTP_ARGS = dict(
     username                    =   dict(type='str')
 )
 
-class F5BigIpLtmMonitorFtp(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmMonitorFtp(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.monitor.ftps.ftp.create,
-            'read':self.mgmt.tm.ltm.monitor.ftps.ftp.load,
-            'update':self.mgmt.tm.ltm.monitor.ftps.ftp.update,
-            'delete':self.mgmt.tm.ltm.monitor.ftps.ftp.delete,
-            'exists':self.mgmt.tm.ltm.monitor.ftps.ftp.exists
+            'create':   self.mgmt_root.tm.ltm.monitor.ftps.ftp.create,
+            'read':     self.mgmt_root.tm.ltm.monitor.ftps.ftp.load,
+            'update':   self.mgmt_root.tm.ltm.monitor.ftps.ftp.update,
+            'delete':   self.mgmt_root.tm.ltm.monitor.ftps.ftp.delete,
+            'exists':   self.mgmt_root.tm.ltm.monitor.ftps.ftp.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_MONITOR_FTP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_FTP_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmMonitorFtp(check_mode=module.supports_check_mode, tr=tr, **module.params)

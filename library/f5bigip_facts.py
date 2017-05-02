@@ -49,15 +49,15 @@ options:
 EXAMPLES = '''
 - name: Collect BIG-IP facts
   f5bigip_facts:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     object: vlan
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 def get_facts(uri, **params):
     rparams = dict()
@@ -76,10 +76,10 @@ def get_facts(uri, **params):
             req_params += "&$" + k + "=" + v
 
     resp = open_url(
-        'https://' + params['f5bigip_hostname'] + ':' + str(params['f5bigip_port']) + uri + '?expandSubcollections=true' + req_params,
+        'https://' + params['f5_hostname'] + ':' + str(params['f5_port']) + uri + '?expandSubcollections=true' + req_params,
         method="GET",
-        url_username=params['f5bigip_username'],
-        url_password=params['f5bigip_password'],
+        url_username=params['f5_username'],
+        url_password=params['f5_password'],
         validate_certs=False
     )
     
@@ -92,12 +92,10 @@ def main():
         select  =	dict(type='str')
     )
     
-    module = AnsibleModuleF5BigIpClient(argument_spec=argument_spec, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=argument_spec, supports_check_mode=False)
     
     try:
         facts = {}
-        
-       	client = F5BigIpClient(**module.params)
         
         if module.params['object'] == 'node':
         	facts['node'] = get_facts(uri='/mgmt/tm/ltm/node/', **module.params)

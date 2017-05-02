@@ -60,6 +60,54 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    limit_max_bps:
+        description:
+            - Specifies the maximum allowable data throughput rate, in bits per second, for the pool member.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_bps_status:
+        description:
+            - Enables or disables the limit-max-bps option for this pool member.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_connections:
+        description:
+            - Specifies the number of current connections allowed for this pool member.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_connections_status:
+        description:
+            - Enables or disables the limit-max-connections option for this pool member.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_pps:
+        description:
+            - Specifies the maximum allowable data transfer rate, in packets per second, for this pool member.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_pps_status:
+        description:
+            - Enables or disables the limit-max-pps option for this pool member.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
     monitor:
         description:
             - Enables or disables the monitor assigned to this pool member.
@@ -121,48 +169,48 @@ options:
 EXAMPLES = '''
 - name: Create GTM Pool Member
   f5bigip_gtm_pool_member:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: 'my_server:my_vs1'
     partition: Common
     state: present
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_POOL_MEMBER_ARGS = dict(
-    #app_service                     =   dict(type='str'),
+    app_service                     =   dict(type='str'),
     depends_on                      =   dict(type='list'),
     description                     =   dict(type='str'),
     disabled                        =   dict(type='bool'),
     enabled                         =   dict(type='bool'),
-    #limit_max_bps                   =   dict(type='int'),
-    #limit_max_bps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_connections           =   dict(type='int'),
-    #limit_max_connections_status    =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_pps                   =   dict(type='int'),
-    #limit_max_pps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    monitor                         =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    limit_max_bps                   =   dict(type='int'),
+    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections           =   dict(type='int'),
+    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps                   =   dict(type='int'),
+    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    monitor                         =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     pool                            =   dict(type='str'),
     order                           =   dict(type='int'),
-    ratio                           =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    ratio                           =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
 )
 
-class F5BigIpGtmPoolMember(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.pool = self.mgmt.tm.gtm.pools.pool.load(
+class F5BigIpGtmPoolMember(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.pool = self.mgmt_root.tm.gtm.pools.pool.load(
             name=self.params['pool'],
             partition=self.params['partition']
         )
         self.methods = {
-            'create':self.pool.members_s.member.create,
-            'read':self.pool.members_s.member.load,
-            'update':self.pool.members_s.member.update,
-            'delete':self.pool.members_s.member.delete,
-            'exists':self.pool.members_s.member.exists
+            'create':   self.pool.members_s.member.create,
+            'read':     self.pool.members_s.member.load,
+            'update':   self.pool.members_s.member.update,
+            'delete':   self.pool.members_s.member.delete,
+            'exists':   self.pool.members_s.member.exists
         }
         self.params.pop('pool', None)
 
@@ -179,7 +227,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_POOL_MEMBER_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

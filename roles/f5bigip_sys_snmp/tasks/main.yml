@@ -2,10 +2,10 @@
 
 - name: Specify SYS SNMP contact and location
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     sys_contact: "{{ snmp_sys_contact }}"
     sys_location: "{{ snmp_sys_location }}"
   delegate_to: localhost
@@ -18,10 +18,10 @@
 
 - name: Specify SYS SNMP contact and location (idempotent)
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     sys_contact: "{{ snmp_sys_contact }}"
     sys_location: "{{ snmp_sys_location }}"
   delegate_to: localhost
@@ -34,10 +34,10 @@
 
 - name: Add SYS SNMP allowed addresses
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allowed_addresses: "{{ snmp_allowed_addresses }}"
     state: present
   delegate_to: localhost
@@ -50,10 +50,10 @@
 
 - name: Add SYS SNMP allowed addresses (idempotent)
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allowed_addresses: "{{ snmp_allowed_addresses }}"
     state: present
   delegate_to: localhost
@@ -66,10 +66,10 @@
 
 - name: Add SYS SNMP Communities
   f5bigip_sys_snmp_community:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     access: "{{ item.access }}"
     community_name: "{{ item.community_name }}"
@@ -85,10 +85,10 @@
 
 - name: Add SYS SNMP Communities (idempotent)
   f5bigip_sys_snmp_community:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     access: "{{ item.access }}"
     community_name: "{{ item.community_name }}"
@@ -104,10 +104,10 @@
 
 - name: Add SYS SNMP Traps
   f5bigip_sys_snmp_trap:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     community: "{{ item.community }}"
     host: "{{ item.host }}"
@@ -125,10 +125,10 @@
 
 - name: Add SYS SNMP Traps (idempotent)
   f5bigip_sys_snmp_trap:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     community: "{{ item.community }}"
     host: "{{ item.host }}"
@@ -146,10 +146,10 @@
 
 - name: Change SYS SNMP contact and location to default
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     sys_contact: "{{ snmp_sys_contact_default }}"
     sys_location: "{{ snmp_sys_location_default }}"
   delegate_to: localhost
@@ -162,10 +162,10 @@
 
 - name: Change SYS SNMP contact and location to default (idempotent)
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     sys_contact: "{{ snmp_sys_contact_default }}"
     sys_location: "{{ snmp_sys_location_default }}"
   delegate_to: localhost
@@ -178,10 +178,10 @@
 
 - name: Remove SYS SNMP allowed addresses
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allowed_addresses: "{{ snmp_allowed_addresses }}"
     state: absent
   delegate_to: localhost
@@ -194,10 +194,10 @@
 
 - name: Remove SYS SNMP allowed addresses (idempotent)
   f5bigip_sys_snmp:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allowed_addresses: "{{ snmp_allowed_addresses }}"
     state: absent
   delegate_to: localhost
@@ -210,10 +210,10 @@
 
 - name: Remove SYS SNMP Traps
   f5bigip_sys_snmp_trap:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     state: absent
   with_items: "{{ snmp_traps }}"
@@ -227,10 +227,10 @@
 
 - name: Remove SYS SNMP Traps (idempotent)
   f5bigip_sys_snmp_trap:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     state: absent
   with_items: "{{ snmp_traps }}"
@@ -244,10 +244,10 @@
 
 - name: Remove SYS SNMP Communities
   f5bigip_sys_snmp_community:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     state: absent
   with_items: "{{ snmp_communities }}"
@@ -261,10 +261,10 @@
 
 - name: Remove SYS SNMP Communities (idempotent)
   f5bigip_sys_snmp_community:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     state: absent
   with_items: "{{ snmp_communities }}"

@@ -49,33 +49,34 @@ options:
 EXAMPLES = '''
 - name: Disable SYS DB Setup Utility Wizard
   f5bigip_sys_db:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: 'setup.run'
     value: 'false'
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_DB_ARGS = dict(
     #reset_to_default    =   dict(type='bool'),
     value               =   dict(type='str')
 )
 
-class F5BigIpSysDb(F5BigIpObject):
-    def __init__(self, *args, **kwargs):
-        super(F5BigIpSysDb, self).__init__(*args, **kwargs)
-        self.params.pop('partition', None)
+class F5BigIpSysDb(F5BigIpNamedObject):
+    #def __init__(self, *args, **kwargs):
+    #    super(F5BigIpSysDb, self).__init__(*args, **kwargs)
+    #    self.params.pop('partition', None)
     
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.dbs.db.load,
-            'update':self.mgmt.tm.sys.dbs.db.update,
-            'exists':self.mgmt.tm.sys.dbs.db.exists
+            'read':     self.mgmt_root.tm.sys.dbs.db.load,
+            'update':   self.mgmt_root.tm.sys.dbs.db.update,
+            'exists':   self.mgmt_root.tm.sys.dbs.db.exists
         }
+        self.params.pop('partition', None)
     
     def _exists(self):
         if self._read():
@@ -106,7 +107,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_DB_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_DB_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpSysDb(check_mode=module.supports_check_mode, tr=tr, **module.params)

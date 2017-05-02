@@ -81,10 +81,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS HTTPD allow clients
   f5bigip_sys_sshd:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     allow:
       - 172.16.227.0/24
       - 10.0.0./8
@@ -92,21 +92,21 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SSHD_ARGS = dict(
     allow               =   dict(type='list'),
-    banner              =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    banner              =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     banner_text         =   dict(type='str'),
     inactivity_timeout  =   dict(type='int'),
-    login               =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    login               =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     log_level           =   dict(type='str', choices=['debug', 'debug1', 'debug2', 'debug3', 'error', 'fatal', 'info', 'quiet', 'verbose']),
 )
 
 class F5BigIpSysSshd(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.sshd.load
+            'read':     self.mgmt_root.tm.sys.sshd.load
         }
     
     def _absent(self):

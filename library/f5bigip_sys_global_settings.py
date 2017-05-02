@@ -185,25 +185,25 @@ options:
 EXAMPLES = '''
 - name: Disable SYS GLOBAL SETTINGS gui setup
   f5bigip_sys_global_settings:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     gui_setup: disabled
   delegate_to: localhost
 
 - name: Change SYS GLOBAL SETTINGS banner text
   f5bigip_sys_global_settings:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     gui_security_banner: enabled
     gui_security_banner_text: "NOTICE: Improper use of this computer may result in prosecution!"
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_GLOBAL_SETTINGS_ARGS = dict(
     aws_access_key              =   dict(type='str'),
@@ -214,25 +214,25 @@ BIGIP_SYS_GLOBAL_SETTINGS_ARGS = dict(
     description                 =   dict(type='str'),
     failsafe_action             =   dict(type='str', choices=['go-offline', 'reboot', 'resetart-all', 'go-offline-restart-tm', 'failover-restart-tm']),
     file_local_path_prefix      =   dict(type='str'),
-    gui_security_banner         =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    gui_security_banner         =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     gui_security_banner_text    =   dict(type='str'),
-    gui_setup                   =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    gui_setup                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     host_addr_mode              =   dict(type='str', choices=['custom', 'management', 'state-mirror']),
     hostname                    =   dict(type='str'),
     hosts_allow_include         =   dict(type='str'),
-    lcd_display                 =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    net_reboot                  =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    lcd_display                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    net_reboot                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     password_prompt             =   dict(type='str'),
-    mgmt_dhcp                   =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    quiet_boot                  =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    mgmt_dhcp                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    quiet_boot                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     #remote_host                 =   dict(type='list'),
     username_prompt             =   dict(type='str')
 )
 
 class F5BigIpSysGlobalSettings(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.global_settings.load
+            'read':     self.mgmt_root.tm.sys.global_settings.load
         }
 
 def main():

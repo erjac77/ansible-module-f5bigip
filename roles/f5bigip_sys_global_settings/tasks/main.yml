@@ -2,10 +2,10 @@
 
 - name: Change SYS Global Settings banner text
   f5bigip_sys_global_settings:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     gui_security_banner: "{{ globset_gui_security_banner }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
   delegate_to: localhost
@@ -18,10 +18,10 @@
 
 - name: Change SYS Global Settings banner text (idempotent)
   f5bigip_sys_global_settings:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     gui_security_banner: "{{ globset_gui_security_banner }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
   delegate_to: localhost
@@ -34,10 +34,10 @@
 
 - name: Change SYS Global Settings banner text to default
   f5bigip_sys_global_settings:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
   delegate_to: localhost
   register: result
@@ -49,10 +49,10 @@
 
 - name: Change SYS Global Settings banner text to default (idempotent)
   f5bigip_sys_global_settings:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
   delegate_to: localhost
   register: result

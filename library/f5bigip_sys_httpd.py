@@ -204,6 +204,54 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    ssl_ocsp_default_responder:
+        description:
+            - Specifies the default responder URI for OCSP validation.
+        required: false
+        default: http://localhost.localdomain
+        choices: []
+        aliases: []
+        version_added: 2.3
+    ssl_ocsp_enable:
+        description:
+            - Specifies OCSP validation of the client certificate chain.
+        required: false
+        default: off
+        choices: ['on', 'off']
+        aliases: []
+        version_added: 2.3
+    ssl_ocsp_override_responder:
+        description:
+            - Specifies the force use of default responder URI for OCSP validation.
+        required: false
+        default: off
+        choices: ['on', 'off']
+        aliases: []
+        version_added: 2.3
+    ssl_ocsp_responder_timeout:
+        description:
+            - Specifies the maximum allowable time in seconds for OCSP response.
+        required: false
+        default: 300
+        choices: []
+        aliases: []
+        version_added: 2.3
+    ssl_ocsp_response_max_age:
+        description:
+            - Specifies the maximum allowable age ("freshness") for OCSP responses.
+        required: false
+        default: -1
+        choices: []
+        aliases: []
+        version_added: 2.3
+    ssl_ocsp_response_time_skew:
+        description:
+            - Specifies the maximum allowable time skew in seconds for OCSP response validation.
+        required: false
+        default: 300
+        choices: []
+        aliases: []
+        version_added: 2.3
     ssl_protocol:
         description:
             - The list of SSL protocols to accept on the management console.
@@ -233,10 +281,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS HTTPD allow clients
   f5bigip_sys_httpd:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     allow:
       - 172.16.227.0/24
       - 10.0.0.0/8
@@ -244,19 +292,19 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_HTTPD_ARGS = dict(
     allow                       =   dict(type='list'),
     auth_name                   =   dict(type='str'),
-    auth_pam_dashboard_timeout  =   dict(type='str', choices=F5BIGIP_SWITCH_CHOICES),
+    auth_pam_dashboard_timeout  =   dict(type='str', choices=F5_SWITCH_CHOICES),
     auth_pam_idle_timeout       =   dict(type='int'),
-    auth_pam_validate_ip        =   dict(type='str', choices=F5BIGIP_SWITCH_CHOICES),
+    auth_pam_validate_ip        =   dict(type='str', choices=F5_SWITCH_CHOICES),
     description                 =   dict(type='str'),
     fastcgi_timeout             =   dict(type='int'),
-    hostname_lookup             =   dict(type='str', choices=F5BIGIP_SWITCH_CHOICES),
-    log_level                   =   dict(type='str', choices=F5BIGIP_SEVERITY_CHOICES),
-    redirect_http_to_https      =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    hostname_lookup             =   dict(type='str', choices=F5_SWITCH_CHOICES),
+    log_level                   =   dict(type='str', choices=F5_SEVERITY_CHOICES),
+    redirect_http_to_https      =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     request_header_max_timeout  =   dict(type='int'),
     request_header_min_rate     =   dict(type='int'),
     request_header_timeout      =   dict(type='int'),
@@ -269,21 +317,21 @@ BIGIP_SYS_HTTPD_ARGS = dict(
     ssl_certkeyfile             =   dict(type='str'),
     ssl_ciphersuite             =   dict(type='str'),
     ssl_include                 =   dict(type='str'),
-    #ssl_ocsp_enable             =   dict(type='str', choices=['no', 'require', 'optional', 'optional-no-ca']),
-    #ssl_ocsp_default_responder  =   dict(type='str'),
-    #ssl_ocsp_override_responder =   dict(type='str', choices=F5BIGIP_SWITCH_CHOICES),
-    #ssl_ocsp_responder_timeout  =   dict(type='int'),
-    #ssl_ocsp_response_max_age   =   dict(type='int'),
-    #ssl_ocsp_response_time_skew =   dict(type='int'),
+    ssl_ocsp_enable             =   dict(type='str', choices=['no', 'require', 'optional', 'optional-no-ca']),
+    ssl_ocsp_default_responder  =   dict(type='str'),
+    ssl_ocsp_override_responder =   dict(type='str', choices=F5_SWITCH_CHOICES),
+    ssl_ocsp_responder_timeout  =   dict(type='int'),
+    ssl_ocsp_response_max_age   =   dict(type='int'),
+    ssl_ocsp_response_time_skew =   dict(type='int'),
     ssl_protocol                =   dict(type='str'),
     ssl_verify_client           =   dict(type='str'),
     ssl_verify_depth            =   dict(type='int')
 )
 
 class F5BigIpSysHttpd(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.httpd.load
+            'read':     self.mgmt_root.tm.sys.httpd.load
         }
     
     def _absent(self):

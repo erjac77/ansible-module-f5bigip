@@ -57,10 +57,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS DNS Name Servers
   f5bigip_sys_dns:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name_servers:
       - 10.20.20.21
       - 10.20.20.22
@@ -68,19 +68,19 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_DNS_ARGS = dict(
     description     =   dict(type='str'),
-    name_servers    =   dict(type='list'),
+    name_servers    =   dict(type='list')#,
     #search          =   dict(type='list')
 )
 
 class F5BigIpSysDns(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.dns.load,
-            'update':self.mgmt.tm.sys.dns.update
+            'read':     self.mgmt_root.tm.sys.dns.load,
+            'update':   self.mgmt_root.tm.sys.dns.update
         }
     
     def _absent(self):

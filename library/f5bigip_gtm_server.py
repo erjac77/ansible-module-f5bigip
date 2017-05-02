@@ -36,6 +36,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     datacenter:
         description:
             - Specifies the data center to which the server belongs.
@@ -66,6 +74,126 @@ options:
         required: false
         default: true
         choices: []
+        aliases: []
+        version_added: 2.3
+    expose_route_domains:
+        description:
+            - Allow the GTM server to auto-discover LTM virtual servers from all route domains.
+        required: false
+        default: no
+        choices: ['no', 'yes']
+        aliases: []
+        version_added: 2.3
+    iq_allow_path:
+        description:
+            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct a path probe before delegating traffic to it.
+        required: false
+        default: yes
+        choices: ['no', 'yes']
+        aliases: []
+        version_added: 2.3
+    iq_allow_service_check:
+        description:
+            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct a service check probe before delegating traffic to it.
+        required: false
+        default: yes
+        choices: ['no', 'yes']
+        aliases: []
+        version_added: 2.3
+    iq_allow_snmp:
+        description:
+            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct an SNMP probe before delegating traffic to it.
+        required: false
+        default: yes
+        choices: ['no', 'yes']
+        aliases: []
+        version_added: 2.3
+    limit_cpu_usage:
+        description:
+            - For a server configured as a generic host, specifies the percent of CPU usage, otherwise has no effect.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_cpu_usage_status:
+        description:
+            - Enables or disables the limit-cpu-usage option for this server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_mem_avail:
+        description:
+            - For a server configured as a generic host, specifies the available memory required by the virtual servers on the server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_mem_avail_status:
+        description:
+            - Enables or disables the limit-mem-avail option for this server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_bps:
+        description:
+            - Specifies the maximum allowable data throughput rate, in bits per second, for this server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_bps_status:
+        description:
+            - Enables or disables the limit-max-bps option for this server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_connections:
+        description:
+            - Specifies the number of current connections allowed for this server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_connections_status:
+        description:
+            - Enables or disables the limit-max-connections option for this server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_pps:
+        description:
+            - Specifies the maximum allowable data transfer rate, in packets per second, for this server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_pps_status:
+        description:
+            - Enables or disables the limit-max-pps option for this server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    link_discovery:
+        description:
+            - Specifies whether the system auto-discovers the links for this server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled', 'enabled-no-delete']
         aliases: []
         version_added: 2.3
     monitor:
@@ -121,7 +249,7 @@ options:
             - Specifies whether the system auto-discovers the virtual servers for this server.
         required: false
         default: null
-        choices: [disabled, enabled, enabled-no-delete]
+        choices: ['disabled', 'enabled', 'enabled-no-delete']
         aliases: []
         version_added: 2.3
 '''
@@ -129,10 +257,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM Server
   f5bigip_gtm_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_server
     partition: Common
     addresses:
@@ -145,52 +273,52 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_SERVER_ARGS = dict(
     addresses                       =   dict(type='list'),
-    #app_service                     =   dict(type='str'),
+    app_service                     =   dict(type='str'),
     datacenter                      =   dict(type='str'),
     description                     =   dict(type='str'),
     disabled                        =   dict(type='bool'),
     enabled                         =   dict(type='bool'),
-    #expose_route_domains            =   dict(type='str', choices=[F5BIGIP_POLAR_CHOICES]),
-    #iq_allow_path                   =   dict(type='str', choices=[F5BIGIP_POLAR_CHOICES]),
-    #iq_allow_service_check          =   dict(type='str', choices=[F5BIGIP_POLAR_CHOICES]),
-    #iq_allow_snmp                   =   dict(type='str', choices=[F5BIGIP_POLAR_CHOICES]),
-    #limit_cpu_usage                 =   dict(type='int'),
-    #limit_cpu_usage_status          =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_mem_avail                 =   dict(type='int'),
-    #limit_mem_avail_status          =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_bps                   =   dict(type='int'),
-    #limit_max_bps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_connections           =   dict(type='int'),
-    #limit_max_connections_status    =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_pps                   =   dict(type='int'),
-    #limit_max_pps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    expose_route_domains            =   dict(type='str', choices=[F5_POLAR_CHOICES]),
+    iq_allow_path                   =   dict(type='str', choices=[F5_POLAR_CHOICES]),
+    iq_allow_service_check          =   dict(type='str', choices=[F5_POLAR_CHOICES]),
+    iq_allow_snmp                   =   dict(type='str', choices=[F5_POLAR_CHOICES]),
+    limit_cpu_usage                 =   dict(type='int'),
+    limit_cpu_usage_status          =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_mem_avail                 =   dict(type='int'),
+    limit_mem_avail_status          =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_bps                   =   dict(type='int'),
+    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections           =   dict(type='int'),
+    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps                   =   dict(type='int'),
+    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    link_discovery                  =   dict(type='str', choices=[F5_ACTIVATION_CHOICES, 'enabled-no-delete']),
     #metadata                        =   dict(type='list'),
     monitor                         =   dict(type='str'),
     prober_pool                     =   dict(type='str'),
     product                         =   dict(type='str'),
-    virtual_server_discovery        =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES, 'enabled-no-delete'])#,
-    #virtual-servers                 =   dict(type='list')
+    virtual_server_discovery        =   dict(type='str', choices=[F5_ACTIVATION_CHOICES, 'enabled-no-delete'])
 )
 
-class F5BigIpGtmServer(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmServer(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.servers.server.create,
-            'read':self.mgmt.tm.gtm.servers.server.load,
-            'update':self.mgmt.tm.gtm.servers.server.update,
-            'delete':self.mgmt.tm.gtm.servers.server.delete,
-            'exists':self.mgmt.tm.gtm.servers.server.exists
+            'create':   self.mgmt_root.tm.gtm.servers.server.create,
+            'read':     self.mgmt_root.tm.gtm.servers.server.load,
+            'update':   self.mgmt_root.tm.gtm.servers.server.update,
+            'delete':   self.mgmt_root.tm.gtm.servers.server.delete,
+            'exists':   self.mgmt_root.tm.gtm.servers.server.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_SERVER_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

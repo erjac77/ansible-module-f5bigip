@@ -36,6 +36,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     arp:
         description:
             - Enables or disables ARP for the specified virtual address.
@@ -137,10 +145,10 @@ options:
 EXAMPLES = '''
 - name: Modify LTM Virtual Address icmp-echo
   f5bigip_ltm_virtual_address:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: 10.10.20.201
     partition: Common
     icmp_echo: selective
@@ -148,12 +156,12 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_ADDRESS_ARGS = dict(
     address             =   dict(type='str'),
-    #app_service         =   dict(type='str'),
-    arp                 =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    app_service         =   dict(type='str'),
+    arp                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     auto_delete         =   dict(type='bool'),
     connection_limit    =   dict(type='int'),
     description         =   dict(type='str'),
@@ -161,26 +169,26 @@ BIGIP_LTM_VIRTUAL_ADDRESS_ARGS = dict(
     icmp_echo           =   dict(type='str', choices=['enabled', 'disabled', 'selective']),
     mask                =   dict(type='str'),
     #metadata            =   dict(type='list'),
-    route_advertisement =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    route_advertisement =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     server_scope        =   dict(type='str', choices=['all', 'any', 'none']),
     traffic_group       =   dict(type='str')
 )
 
-class F5BigIpLtmVirtualAddress(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmVirtualAddress(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.virtual_address_s.virtual_address.create,
-            'read':self.mgmt.tm.ltm.virtual_address_s.virtual_address.load,
-            'update':self.mgmt.tm.ltm.virtual_address_s.virtual_address.update,
-            'delete':self.mgmt.tm.ltm.virtual_address_s.virtual_address.delete,
-            'exists':self.mgmt.tm.ltm.virtual_address_s.virtual_address.exists
+            'create':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.create,
+            'read':     self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.load,
+            'update':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.update,
+            'delete':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.delete,
+            'exists':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_VIRTUAL_ADDRESS_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_ADDRESS_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmVirtualAddress(check_mode=module.supports_check_mode, tr=tr, **module.params)

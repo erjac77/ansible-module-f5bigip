@@ -185,10 +185,10 @@ options:
 EXAMPLES = '''
 - name: Install SYS Crypto Cert from local file
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: exemple.localhost.crt
     from_local_file: /tmp/exemple.localhost.crt
     state: present
@@ -196,10 +196,10 @@ EXAMPLES = '''
 
 - name: Create SYS Crypto Cert
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: exemple.localhost.crt
     key: exemple.localhost.key
     common_name: exemple.localhost
@@ -213,7 +213,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_CRYPTO_CERT_ARGS = dict(
     consumer                    =   dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
@@ -236,19 +236,19 @@ BIGIP_SYS_CRYPTO_CERT_ARGS = dict(
     no_overwrite                =   dict(type='bool')
 )
 
-class F5BigIpSysCryptoCert(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpSysCryptoCert(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.sys.crypto.certs.cert.create,
-            'read':self.mgmt.tm.sys.crypto.certs.cert.load,
-            'update':self.mgmt.tm.sys.crypto.certs.cert.update,
-            'delete':self.mgmt.tm.sys.crypto.certs.cert.delete,
-            'exists':self.mgmt.tm.sys.crypto.certs.cert.exists,
-            'exec_cmd':self.mgmt.tm.sys.crypto.certs.exec_cmd
+            'create':   self.mgmt_root.tm.sys.crypto.certs.cert.create,
+            'read':     self.mgmt_root.tm.sys.crypto.certs.cert.load,
+            'update':   self.mgmt_root.tm.sys.crypto.certs.cert.update,
+            'delete':   self.mgmt_root.tm.sys.crypto.certs.cert.delete,
+            'exists':   self.mgmt_root.tm.sys.crypto.certs.cert.exists,
+            'exec_cmd': self.mgmt_root.tm.sys.crypto.certs.exec_cmd
         }
 
     def _exists(self):
-        keys = self.mgmt.tm.sys.crypto.certs.get_collection()
+        keys = self.mgmt_root.tm.sys.crypto.certs.get_collection()
         for key in keys:
             name = self.params['name']
             if key.name == name:
@@ -257,7 +257,7 @@ class F5BigIpSysCryptoCert(F5BigIpObject):
         return False
 
     def _install(self):
-        """Install the key on the BIG-IP system."""
+        """Upload the key on the BIG-IP system."""
         name = self.params['name']
 
         if self.params['fromEditor']:
@@ -301,7 +301,7 @@ def main():
     # Translation list for conflictual params
     tr = { 'state_province':'state' }
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_SYS_CRYPTO_CERT_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

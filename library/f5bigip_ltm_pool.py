@@ -52,6 +52,14 @@ options:
         choices: ['yes', 'no']
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -223,10 +231,10 @@ options:
 EXAMPLES = '''
 - name: Create LTM Pool
   f5bigip_ltm_pool:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_pool
     partition: Common
     description: My ltm pool
@@ -235,7 +243,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_POOL_LB_CHOICES = [
     'dynamic-ratio-member', 'dynamic-ratio-node', 'fastest-app-response', 'fastest-node',
@@ -247,48 +255,47 @@ BIGIP_LTM_POOL_LB_CHOICES = [
 
 BIGIP_LTM_POOL_ARGS = dict(
     all                         =   dict(type='bool'),
-    allow_nat                   =   dict(type='str', choices=F5BIGIP_POLAR_CHOICES),
-    allow_snat                  =   dict(type='str', choices=F5BIGIP_POLAR_CHOICES),
-    #app_service                 =   dict(type='str'),
+    allow_nat                   =   dict(type='str', choices=F5_POLAR_CHOICES),
+    allow_snat                  =   dict(type='str', choices=F5_POLAR_CHOICES),
+    app_service                 =   dict(type='str'),
     description                 =   dict(type='str'),
     gateway_failsafe_device     =   dict(type='str'),
-    ignore_persisted_weight     =   dict(type='str', choices=F5BIGIP_POLAR_CHOICES),
+    ignore_persisted_weight     =   dict(type='str', choices=F5_POLAR_CHOICES),
     ip_tos_to_client            =   dict(type='str'),
     ip_tos_to_server            =   dict(type='str'),
     link_qos_to_client          =   dict(type='str'),
     link_qos_to_server          =   dict(type='str'),
     load_balancing_mode         =   dict(type='str', choices=BIGIP_LTM_POOL_LB_CHOICES),
-    #members                     =   dict(type='list'),
     #metadata                    =   dict(type='list'),
     min_active_members          =   dict(type='int'),
     min_up_members              =   dict(type='int'),
     min_up_members_action       =   dict(type='str', choices=['failover', 'reboot', 'restart-all']),
-    min_up_members_checking     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    min_up_members_checking     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     monitor                     =   dict(type='str'),
-    profiles                    =   dict(type='str'),
+    profiles                    =   dict(type='list'),
     queue_depth_limit           =   dict(type='int'),
-    queue_on_connection_limit   =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    queue_on_connection_limit   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     queue_time_limit            =   dict(type='int'),
     reselect_tries              =   dict(type='int'),
     service_down_action         =   dict(type='str', choices=['drop', 'none', 'reselect', 'reset']),
     slow_ramp_time              =   dict(type='int')
 )
 
-class F5BigIpLtmPool(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmPool(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.pools.pool.create,
-            'read':self.mgmt.tm.ltm.pools.pool.load,
-            'update':self.mgmt.tm.ltm.pools.pool.update,
-            'delete':self.mgmt.tm.ltm.pools.pool.delete,
-            'exists':self.mgmt.tm.ltm.pools.pool.exists
+            'create':   self.mgmt_root.tm.ltm.pools.pool.create,
+            'read':     self.mgmt_root.tm.ltm.pools.pool.load,
+            'update':   self.mgmt_root.tm.ltm.pools.pool.update,
+            'delete':   self.mgmt_root.tm.ltm.pools.pool.delete,
+            'exists':   self.mgmt_root.tm.ltm.pools.pool.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_POOL_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POOL_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmPool(check_mode=module.supports_check_mode, tr=tr, **module.params)

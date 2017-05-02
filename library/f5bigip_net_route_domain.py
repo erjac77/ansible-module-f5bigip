@@ -28,6 +28,46 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    bwc_policy:
+        description:
+            - Configures the bandwidth control policy for the route-domain.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    connection_limit:
+        description:
+            - Configures the connection limit for the route domain.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    description:
+        description:
+            - Specifies descriptive text that identifies the component.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    flow_eviction_policy:
+        description:
+            - Specifies a flow eviction policy for the route domain to use, to select which flows to evict when the number of connections approaches the connection limit on the route domain.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     id:
         description:
             - Specifies a unique numeric identifier for the route-domain.
@@ -40,6 +80,14 @@ options:
         description:
             - Specifies unique name for the component.
         required: true
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    parent:
+        description:
+            - Specifies the route domain the system searches when it cannot find a route in the configured domain.
+        required: false
         default: null
         choices: []
         aliases: []
@@ -60,15 +108,31 @@ options:
         choices: ['absent', 'present']
         aliases: []
         version_added: 2.3
+    strict:
+        description:
+            - Specifies whether the system allows a connection to span route domains.
+        required: false
+        default: enabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    vlans:
+        description:
+            - Specifies VLANs, by name, for the system to use in the route domain.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
 '''
 
 EXAMPLES = '''
 - name: Create NET Route-Domain
   f5bigip_net_route_domain:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_route_domain
     partition: Common
     id: 1234
@@ -76,39 +140,39 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_ROUTE_DOMAIN_ARGS = dict(
-    #app_service             =   dict(type='str'),
-    #bwc_policy              =   dict(type='str'),
-    #connection_limit        =   dict(type='int'),
-    #description             =   dict(type='str'),
-    #flow_eviction_policy    =   dict(type='str'),
+    app_service             =   dict(type='str'),
+    bwc_policy              =   dict(type='str'),
+    connection_limit        =   dict(type='int'),
+    description             =   dict(type='str'),
+    flow_eviction_policy    =   dict(type='str'),
     #fw_enforced_policy      =   dict(type='str'),
     #fw_rules                =   dict(type='list'),
     #fw_staged_policy        =   dict(type='str'),
-    id                      =   dict(type='int')#,
-    #parent                  =   dict(type='str'),
-    #strict                  =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    id                      =   dict(type='int'),
+    parent                  =   dict(type='str'),
     #routing_protocol        =   dict(type='list'),
-    #vlans                   =   dict(type='list')
+    strict                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    vlans                   =   dict(type='list')
 )
 
-class F5BigIpNetRouteDomain(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpNetRouteDomain(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.net.route_domains.route_domain.create,
-            'read':self.mgmt.tm.net.route_domains.route_domain.load,
-            'update':self.mgmt.tm.net.route_domains.route_domain.update,
-            'delete':self.mgmt.tm.net.route_domains.route_domain.delete,
-            'exists':self.mgmt.tm.net.route_domains.route_domain.exists
+            'create':   self.mgmt_root.tm.net.route_domains.route_domain.create,
+            'read':     self.mgmt_root.tm.net.route_domains.route_domain.load,
+            'update':   self.mgmt_root.tm.net.route_domains.route_domain.update,
+            'delete':   self.mgmt_root.tm.net.route_domains.route_domain.delete,
+            'exists':   self.mgmt_root.tm.net.route_domains.route_domain.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_NET_ROUTE_DOMAIN_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_ROUTE_DOMAIN_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpNetRouteDomain(check_mode=module.supports_check_mode, tr=tr, **module.params)

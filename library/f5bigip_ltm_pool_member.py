@@ -36,6 +36,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     connection_limit:
         description:
             - Specifies the maximum number of concurrent connections allowed for a pool member.
@@ -161,10 +169,10 @@ options:
 EXAMPLES = '''
 - name: Add LTM Pool Member
   f5bigip_ltm_pool_member:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_member1:80
     partition: Common
     address: 10.10.10.101
@@ -173,17 +181,17 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_POOL_MEMBER_ARGS = dict(
     address             =   dict(type='str'),
-    #app_service         =   dict(type='str'),
+    app_service         =   dict(type='str'),
     connection_limit    =   dict(type='int'),
     description         =   dict(type='str'),
     dynamic_ratio       =   dict(type='int'),
     #fqdn                =   dict(type='list'),
-    inherit_profile     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    logging             =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    inherit_profile     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    logging             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     monitor             =   dict(type='str'),
     pool                =   dict(type='str'),
     priority_group      =   dict(type='int'),
@@ -194,50 +202,50 @@ BIGIP_LTM_POOL_MEMBER_ARGS = dict(
     state_user          =   dict(type='str', choices=['user-down', 'user-up'])
 )
 
-class F5BigIpLtmPoolMember(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.pool = self.mgmt.tm.ltm.pools.pool.load(**self._get_resource_id_from_path(self.params['pool']))
+class F5BigIpLtmPoolMember(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.pool = self.mgmt_root.tm.ltm.pools.pool.load(**self._get_resource_id_from_path(self.params['pool']))
         self.methods = {
-            'create':self.pool.members_s.members.create,
-            'read':self.pool.members_s.members.load,
-            'update':self.pool.members_s.members.update,
-            'delete':self.pool.members_s.members.delete,
-            'exists':self.pool.members_s.members.exists
+            'create':   self.pool.members_s.members.create,
+            'read':     self.pool.members_s.members.load,
+            'update':   self.pool.members_s.members.update,
+            'delete':   self.pool.members_s.members.delete,
+            'exists':   self.pool.members_s.members.exists
         }
         self.params.pop('pool', None)
 
-    def _check_update_params(self):
-        key = 'state'
-        cur_val = None
-        if hasattr(self.big, key):
-            attr = getattr(self.big, key)
-            cur_val = format_value(attr)
-            if self.params[key] is None and 'user' not in cur_val:
-                self.params[key] = 'user-up'
+    #def _check_update_params(self):
+    #    key = 'state'
+    #    cur_val = None
+    #    if hasattr(self.big, key):
+    #        attr = getattr(self.big, key)
+    #        cur_val = format_value(attr)
+    #        if self.params[key] is None and 'user' not in cur_val:
+    #            self.params[key] = 'user-up'
 
-        key = 'session'
-        cur_val = None
-        if hasattr(self.big, key):
-            attr = getattr(self.big, key)
-            cur_val = format_value(attr)
-            if self.params[key] is None and 'user' not in cur_val:
-                self.params[key] = 'user-enabled'
+    #    key = 'session'
+    #    cur_val = None
+    #    if hasattr(self.big, key):
+    #        attr = getattr(self.big, key)
+    #        cur_val = format_value(attr)
+    #        if self.params[key] is None and 'user' not in cur_val:
+    #            self.params[key] = 'user-enabled'
 
-        key = 'rateLimit'
-        cur_val = None
-        if hasattr(self.big, key):
-            attr = getattr(self.big, key)
-            cur_val = format_value(attr)
-            if (self.params[key] is None or self.params[key] == 0) and cur_val == 'disabled':
-                self.params[key] = 'disabled'
+    #    key = 'rateLimit'
+    #    cur_val = None
+    #    if hasattr(self.big, key):
+    #        attr = getattr(self.big, key)
+    #        cur_val = format_value(attr)
+    #        if (self.params[key] is None or self.params[key] == 0) and cur_val == 'disabled':
+    #            self.params[key] = 'disabled'
 
-        super(F5BigIpLtmPoolMember, self)._check_update_params()
+    #    super(F5BigIpLtmPoolMember, self)._check_update_params()
 
 def main():
     # Translation list for conflictual params
     tr = { 'state_user':'state' }
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_POOL_MEMBER_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POOL_MEMBER_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmPoolMember(check_mode=module.supports_check_mode, tr=tr, **module.params)

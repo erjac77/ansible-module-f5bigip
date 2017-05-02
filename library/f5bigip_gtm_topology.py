@@ -19,7 +19,7 @@ DOCUMENTATION = '''
 module: f5bigip_gtm_topology
 short_description: BIG-IP gtm topology module
 description:
-    - Configures a Global Traffic Manager topology statement.
+    - Configures a topology statement.
 version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
@@ -81,33 +81,33 @@ options:
 EXAMPLES = '''
 - name: Create GTM Topology
   f5bigip_gtm_topology:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: 'ldns: country US server: datacenter DC1'
     description: My topology
     state: present
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_TOPOLOGY_ARGS = dict(
-    #app_service     =   dict(type='str'),
+    app_service     =   dict(type='str'),
     description     =   dict(type='str'),
     order           =   dict(type='list'),
     score           =   dict(type='int')
 )
 
-class F5BigIpGtmTopology(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmTopology(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.topology_s.topology.create,
-            'read':self.mgmt.tm.gtm.topology_s.topology.load,
-            'update':self.mgmt.tm.gtm.topology_s.topology.update,
-            'delete':self.mgmt.tm.gtm.topology_s.topology.delete,
-            'exists':self.mgmt.tm.gtm.topology_s.topology.exists
+            'create':   self.mgmt_root.tm.gtm.topology_s.topology.create,
+            'read':     self.mgmt_root.tm.gtm.topology_s.topology.load,
+            'update':   self.mgmt_root.tm.gtm.topology_s.topology.update,
+            'delete':   self.mgmt_root.tm.gtm.topology_s.topology.delete,
+            'exists':   self.mgmt_root.tm.gtm.topology_s.topology.exists
         }
         self.params.pop('partition', None)
         self.params.pop('subPath', None)
@@ -119,7 +119,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_GTM_TOPOLOGY_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_GTM_TOPOLOGY_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpGtmTopology(check_mode=module.supports_check_mode, tr=tr, **module.params)

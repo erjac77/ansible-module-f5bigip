@@ -2,10 +2,10 @@
 
 - name: Create LTM Snatpool
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ snatpool_description }}"
@@ -21,10 +21,10 @@
 
 - name: Create LTM Snatpool (idempotent)
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ snatpool_description }}"
@@ -40,10 +40,10 @@
 
 - name: Modify LTM Snatpool description and members
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snatpool_description }}"
@@ -59,10 +59,10 @@
 
 - name: Delete LTM Snatpool
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -76,10 +76,10 @@
 
 - name: Delete LTM Snatpool (idempotent)
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

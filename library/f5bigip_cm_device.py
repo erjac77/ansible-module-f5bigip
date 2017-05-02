@@ -19,7 +19,7 @@ DOCUMENTATION = '''
 module: f5bigip_cm_device
 short_description: BIG-IP cm device module
 description:
-    - Configures a device.
+    - Manages a device.
 version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
@@ -153,10 +153,10 @@ options:
 EXAMPLES = '''
 - name: Configure CM Device Properties
   f5bigip_cm_device:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: bigip01.localhost
     comment: My lab device
     configsync_ip: 10.10.30.11
@@ -172,7 +172,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_ARGS = dict(
     comment             =   dict(type='str'),
@@ -186,25 +186,24 @@ BIGIP_CM_DEVICE_ARGS = dict(
     mirror_secondary_ip =   dict(type='str'),
     multicast_interface =   dict(type='str'),
     multicast_ip        =   dict(type='str'),
-    multicast_port      =   dict(type='int'),
-    unicast_addresses   =   dict(type='list')
+    multicast_port      =   dict(type='int')
 )
 
-class F5BigIpCmDevice(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpCmDevice(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.cm.devices.device.create,
-            'read':self.mgmt.tm.cm.devices.device.load,
-            'update':self.mgmt.tm.cm.devices.device.update,
-            'delete':self.mgmt.tm.cm.devices.device.delete,
-            'exists':self.mgmt.tm.cm.devices.device.exists
+            'create':   self.mgmt_root.tm.cm.devices.device.create,
+            'read':     self.mgmt_root.tm.cm.devices.device.load,
+            'update':   self.mgmt_root.tm.cm.devices.device.update,
+            'delete':   self.mgmt_root.tm.cm.devices.device.delete,
+            'exists':   self.mgmt_root.tm.cm.devices.device.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_CM_DEVICE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpCmDevice(check_mode=module.supports_check_mode, tr=tr, **module.params)

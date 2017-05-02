@@ -81,10 +81,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS SNMP community
   f5bigip_sys_snmp_community:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: community1
     access: ro
     community_name: mycommunity1
@@ -92,26 +92,26 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_COMMUNITY_ARGS = dict(
     access          =   dict(type='str', choices=['ro', 'rw']),
     community_name  =   dict(type='str'),
     description     =   dict(type='str'),
-    ipv6            =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    ipv6            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     oid_subset      =   dict(type='str'),
     source          =   dict(type='str')
 )
 
-class F5BigIpSysSnmpCommunity(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.snmp = self.mgmt.tm.sys.snmp.load()
+class F5BigIpSysSnmpCommunity(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.snmp = self.mgmt_root.tm.sys.snmp.load()
         self.methods = {
-            'create':self.snmp.communities_s.community.create,
-            'read':self.snmp.communities_s.community.load,
-            'update':self.snmp.communities_s.community.update,
-            'delete':self.snmp.communities_s.community.delete,
-            'exists':self.snmp.communities_s.community.exists
+            'create':   self.snmp.communities_s.community.create,
+            'read':     self.snmp.communities_s.community.load,
+            'update':   self.snmp.communities_s.community.update,
+            'delete':   self.snmp.communities_s.community.delete,
+            'exists':   self.snmp.communities_s.community.exists
         }
     
     def _exists(self):
@@ -127,7 +127,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_SNMP_COMMUNITY_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_COMMUNITY_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpSysSnmpCommunity(check_mode=module.supports_check_mode, tr=tr, **module.params)

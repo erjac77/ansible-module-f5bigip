@@ -36,6 +36,14 @@ options:
         choices: ['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     canonical_name:
         description:
             - Specifies the canonical name of the zone.
@@ -98,6 +106,54 @@ options:
         required: false
         default: return-to-dns
         choices: ['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'none', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
+        aliases: []
+        version_added: 2.3
+    limit_max_bps:
+        description:
+            - Specifies the maximum allowable data throughput rate, in bits per second, for the virtual servers in the pool.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_bps_status:
+        description:
+            - Enables or disables the limit-max-bps option for this pool.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_connections:
+        description:
+            - Specifies the number of current connections allowed for the virtual servers in the pool.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_connections_status:
+        description:
+            - Enables or disables the limit-max-connections option for this pool.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_pps:
+        description:
+            - Specifies the maximum allowable data transfer rate, in packets per second, for the virtual servers in the pool.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_pps_status:
+        description:
+            - Enables or disables the limit-max-pps option for this pool.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
         aliases: []
         version_added: 2.3
     load_balancing_mode:
@@ -249,10 +305,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM Pool
   f5bigip_gtm_pool:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_pool
     partition: Common
     description: My pool
@@ -261,29 +317,28 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_POOL_ARGS = dict(
     alternate_mode                  =   dict(type='str', choices=['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']),
-    #app_service                     =   dict(type='str'),
+    app_service                     =   dict(type='str'),
     canonical_name                  =   dict(type='str'),
     description                     =   dict(type='str'),
     disabled                        =   dict(type='bool'),
     enabled                         =   dict(type='bool'),
-    dynamic_ratio                   =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    dynamic_ratio                   =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     fallback_ipv4                   =   dict(type='str'),
     fallback_ipv6                   =   dict(type='str'),
     fallback_mode                   =   dict(type='str', choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'none', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']),
-    #limit_max_bps                   =   dict(type='int'),
-    #limit_max_bps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_connections           =   dict(type='int'),
-    #limit_max_connections_status    =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_pps                   =   dict(type='int'),
-    #limit_max_pps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    limit_max_bps                   =   dict(type='int'),
+    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections           =   dict(type='int'),
+    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps                   =   dict(type='int'),
+    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     load_balancing_mode             =   dict(type='str', choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']),
-    manual_resume                   =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    manual_resume                   =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     max_addresses_returned          =   dict(type='int'),
-    #members                         =   dict(type='list'),
     #metadata                        =   dict(type='list'),
     monitor                         =   dict(type='str'),
     qos_hit_ratio                   =   dict(type='int'),
@@ -296,24 +351,24 @@ BIGIP_GTM_POOL_ARGS = dict(
     qos_vs_capacity                 =   dict(type='int'),
     qos_vs_score                    =   dict(type='int'),
     ttl                             =   dict(type='int'),
-    verify_member_availability      =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES])
+    verify_member_availability      =   dict(type='str', choices=[F5_ACTIVATION_CHOICES])
 )
 
-class F5BigIpGtmPool(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmPool(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.pools.pool.create,
-            'read':self.mgmt.tm.gtm.pools.pool.load,
-            'update':self.mgmt.tm.gtm.pools.pool.update,
-            'delete':self.mgmt.tm.gtm.pools.pool.delete,
-            'exists':self.mgmt.tm.gtm.pools.pool.exists
+            'create':   self.mgmt_root.tm.gtm.pools.pool.create,
+            'read':     self.mgmt_root.tm.gtm.pools.pool.load,
+            'update':   self.mgmt_root.tm.gtm.pools.pool.update,
+            'delete':   self.mgmt_root.tm.gtm.pools.pool.delete,
+            'exists':   self.mgmt_root.tm.gtm.pools.pool.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_POOL_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

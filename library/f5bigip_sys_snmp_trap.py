@@ -129,10 +129,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS SNMP trap
   f5bigip_sys_snmp_trap:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: i172_16_227_140_1
     community: mycommunity1
     host: 10.20.20.21
@@ -142,7 +142,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_TRAP_ARGS = dict(
     auth_password       =   dict(type='str'),
@@ -159,15 +159,15 @@ BIGIP_SYS_SNMP_TRAP_ARGS = dict(
     version             =   dict(type='str', choices=['1', '2c', '3'])
 )
 
-class F5BigIpSysSnmpTrap(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.snmp = self.mgmt.tm.sys.snmp.load()
+class F5BigIpSysSnmpTrap(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.snmp = self.mgmt_root.tm.sys.snmp.load()
         self.methods = {
-            'create':self.snmp.traps_s.trap.create,
-            'read':self.snmp.traps_s.trap.load,
-            'update':self.snmp.traps_s.trap.update,
-            'delete':self.snmp.traps_s.trap.delete,
-            'exists':self.snmp.traps_s.trap.exists
+            'create':   self.snmp.traps_s.trap.create,
+            'read':     self.snmp.traps_s.trap.load,
+            'update':   self.snmp.traps_s.trap.update,
+            'delete':   self.snmp.traps_s.trap.delete,
+            'exists':   self.snmp.traps_s.trap.exists
         }
     
     def _exists(self):
@@ -183,7 +183,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_SNMP_TRAP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_TRAP_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpSysSnmpTrap(check_mode=module.supports_check_mode, tr=tr, **module.params)

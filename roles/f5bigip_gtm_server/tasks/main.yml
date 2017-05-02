@@ -2,10 +2,10 @@
 
 - name: Create GTM Datacenter
   f5bigip_gtm_datacenter:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
     partition: "{{ bigip_partition }}"
     state: present
@@ -19,10 +19,10 @@
 
 - name: Create GTM Server
   f5bigip_gtm_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ server_name }}"
     partition: "{{ bigip_partition }}"
     addresses: "{{ server_addresses }}"
@@ -41,10 +41,10 @@
 # Not idempotent !!
 #- name: Create GTM Server (idempotent)
 #  f5bigip_gtm_server:
-#    f5bigip_hostname: "{{ inventory_hostname }}"
-#    f5bigip_username: "{{ bigip01_username }}"
-#    f5bigip_password: "{{ bigip01_password }}"
-#    f5bigip_port: "{{ bigip01_port }}"
+#    f5_hostname: "{{ inventory_hostname }}"
+#    f5_username: "{{ bigip01_username }}"
+#    f5_password: "{{ bigip01_password }}"
+#    f5_port: "{{ bigip01_port }}"
 #    name: "{{ server_name }}"
 #    partition: "{{ bigip_partition }}"
 #    addresses: "{{ server_addresses }}"
@@ -61,10 +61,10 @@
 
 - name: Add GTM Server Virtual Servers
   f5bigip_gtm_server_virtual_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     partition: "{{ bigip_partition }}"
     destination: "{{ item.destination }}"
@@ -81,10 +81,10 @@
 
 - name: Add GTM Server Virtual Servers (idempotent)
   f5bigip_gtm_server_virtual_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ item.name }}"
     partition: "{{ bigip_partition }}"
     destination: "{{ item.destination }}"
@@ -101,10 +101,10 @@
 
 - name: Remove GTM Server Virtual Server
   f5bigip_gtm_server_virtual_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ server_virtual_servers[0].name }}"
     partition: "{{ bigip_partition }}"
     server: "{{ server_name }}"
@@ -119,10 +119,10 @@
 
 - name: Remove GTM Server Virtual Server (idempotent)
   f5bigip_gtm_server_virtual_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ server_virtual_servers[0].name }}"
     partition: "{{ bigip_partition }}"
     server: "{{ server_name }}"
@@ -137,10 +137,10 @@
 
 - name: Delete GTM Server
   f5bigip_gtm_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ server_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -154,10 +154,10 @@
 
 - name: Delete GTM Server (idempotent)
   f5bigip_gtm_server:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ server_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -171,10 +171,10 @@
 
 - name: Delete GTM Datacenter
   f5bigip_gtm_datacenter:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ datacenter_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

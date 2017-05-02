@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -81,10 +89,10 @@ options:
 EXAMPLES = '''
 - name: Create SYS Folder
   f5bigip_sys_folder:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_folder
     description: My folder
     sub_path: /
@@ -92,31 +100,30 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_FOLDER_ARGS = dict(
-    #app_service     =   dict(type='str'),
+    app_service     =   dict(type='str'),
     description     =   dict(type='str'),
     device_group    =   dict(type='str'),
     no_ref_check    =   dict(type='bool'),
-    #sub_path        =   dict(type='str'),
     traffic_group   =   dict(type='str')
 )
 
-class F5BigIpSysFolder(F5BigIpObject):
+class F5BigIpSysFolder(F5BigIpNamedObject):
     def __init__(self, *args, **kwargs):
         super(F5BigIpSysFolder, self).__init__(*args, **kwargs)
         if self.params['subPath'] is None:
             self.params['subPath'] = '/'
         self.params.pop('partition', None)
 
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.sys.folders.folder.create,
-            'read':self.mgmt.tm.sys.folders.folder.load,
-            'update':self.mgmt.tm.sys.folders.folder.update,
-            'delete':self.mgmt.tm.sys.folders.folder.delete,
-            'exists':self.mgmt.tm.sys.folders.folder.exists
+            'create':   self.mgmt_root.tm.sys.folders.folder.create,
+            'read':     self.mgmt_root.tm.sys.folders.folder.load,
+            'update':   self.mgmt_root.tm.sys.folders.folder.update,
+            'delete':   self.mgmt_root.tm.sys.folders.folder.delete,
+            'exists':   self.mgmt_root.tm.sys.folders.folder.exists
         }
 
     def _exists(self):
@@ -136,13 +143,13 @@ def main():
     # Translation list for conflictual params
     tr = {}
 
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_FOLDER_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_FOLDER_ARGS, supports_check_mode=False)
 
     try:
         obj = F5BigIpSysFolder(check_mode=module.supports_check_mode, tr=tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
-    except AnsibleModuleF5BigIpError as exc:
+    except Exception as exc:
         module.fail_json(msg=str(exc))
 
 from ansible.module_utils.basic import *

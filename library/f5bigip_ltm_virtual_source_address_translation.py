@@ -57,10 +57,10 @@ options:
 EXAMPLES = '''
 - name: Add LTM Source Address Translation
   f5bigip_ltm_virtual_source_address_translation:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     type: snat
     pool: my_snatpool
     virtual: my_http_vs
@@ -68,7 +68,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS = dict(
     pool        =   dict(type='str'),
@@ -77,8 +77,8 @@ BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS = dict(
 )
 
 class F5BigIpLtmVirtualSourceAddressTranslation(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
-        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
+    def set_crud_methods(self):
+        self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
         self.params.pop('virtual', None)
 
     def _read(self):

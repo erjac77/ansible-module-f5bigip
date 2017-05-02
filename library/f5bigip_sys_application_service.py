@@ -97,10 +97,10 @@ options:
 EXAMPLES = '''
 - name: Create SYS App Service
   f5bigip_sys_application_service:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: www.mycompany.com_http_80
     partition: Common
     template: /Common/f5.http
@@ -170,7 +170,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_APPLICATION_SERVICE_ARGS = dict(
     description     =   dict(type='str'),
@@ -185,21 +185,21 @@ BIGIP_SYS_APPLICATION_SERVICE_ARGS = dict(
     variables       =   dict(type='list')
 )
 
-class F5BigIpSysApplicationService(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpSysApplicationService(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.sys.application.services.service.create,
-            'read':self.mgmt.tm.sys.application.services.service.load,
-            'update':self.mgmt.tm.sys.application.services.service.update,
-            'delete':self.mgmt.tm.sys.application.services.service.delete,
-            'exists':self.mgmt.tm.sys.application.services.service.exists
+            'create':   self.mgmt_root.tm.sys.application.services.service.create,
+            'read':     self.mgmt_root.tm.sys.application.services.service.load,
+            'update':   self.mgmt_root.tm.sys.application.services.service.update,
+            'delete':   self.mgmt_root.tm.sys.application.services.service.delete,
+            'exists':   self.mgmt_root.tm.sys.application.services.service.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_APPLICATION_SERVICE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_APPLICATION_SERVICE_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpSysApplicationService(check_mode=module.supports_check_mode, tr=tr, **module.params)

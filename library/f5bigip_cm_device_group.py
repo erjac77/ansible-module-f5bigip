@@ -17,7 +17,7 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_cm_device_group
-short_description: BIG-IP cm device group module
+short_description: BIG-IP cm device-group module
 description:
     - Configures device groups.
 version_added: 2.3
@@ -100,20 +100,20 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
-    state:
-        description:
-            - Specifies the state of the component on the BIG-IP system.
-        required: false
-        default: present
-        choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     save_on_auto_sync:
         description:
             - Specifies whether to save the configuration on the remote devices following an automatic configuration synchronization.
         required: false
         default: false
         choices: [true, false]
+        aliases: []
+        version_added: 2.3
+    state:
+        description:
+            - Specifies the state of the component on the BIG-IP system.
+        required: false
+        default: present
+        choices: ['absent', 'present']
         aliases: []
         version_added: 2.3
     type:
@@ -129,10 +129,10 @@ options:
 EXAMPLES = '''
 - name: Create CM Device Group
   f5bigip_cm_device_group:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_device_group
     network_failover: enabled
     type: sync-failover
@@ -140,36 +140,35 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_GROUP_ARGS = dict(
-    #app_service                         =   dict(type='str'),
-    asm_sync                            =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    auto_sync                           =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    app_service                         =   dict(type='str'),
+    asm_sync                            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    auto_sync                           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     description                         =   dict(type='str'),
-    #devices                             =   dict(type='list'),
     full_load_on_sync                   =   dict(type='bool'),
     incremental_config_sync_size_max    =   dict(type='int'),
-    network_failover                    =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    network_failover                    =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     save_on_auto_sync                   =   dict(type='bool'),
     type                                =   dict(type='str', choices=['sync-only', 'sync-failover'])
 )
 
-class F5BigIpCmDeviceGroup(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpCmDeviceGroup(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.cm.device_groups.device_group.create,
-            'read':self.mgmt.tm.cm.device_groups.device_group.load,
-            'update':self.mgmt.tm.cm.device_groups.device_group.update,
-            'delete':self.mgmt.tm.cm.device_groups.device_group.delete,
-            'exists':self.mgmt.tm.cm.device_groups.device_group.exists
+            'create':   self.mgmt_root.tm.cm.device_groups.device_group.create,
+            'read':     self.mgmt_root.tm.cm.device_groups.device_group.load,
+            'update':   self.mgmt_root.tm.cm.device_groups.device_group.update,
+            'delete':   self.mgmt_root.tm.cm.device_groups.device_group.delete,
+            'exists':   self.mgmt_root.tm.cm.device_groups.device_group.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_CM_DEVICE_GROUP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_GROUP_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpCmDeviceGroup(check_mode=module.supports_check_mode, tr=tr, **module.params)

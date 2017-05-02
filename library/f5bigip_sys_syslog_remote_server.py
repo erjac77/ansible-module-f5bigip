@@ -81,10 +81,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS Syslog Remote Server
   f5bigip_sys_syslog_remote_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: remotesyslog1
     host: 10.20.20.21
     remote_port: 514
@@ -94,7 +94,7 @@ EXAMPLES = '''
 
 import json, ast
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SYSLOG_REMOTE_SERVER_ARGS = dict(
     host        =   dict(type='str'),
@@ -102,10 +102,10 @@ BIGIP_SYS_SYSLOG_REMOTE_SERVER_ARGS = dict(
     remote_port =   dict(type='int', default=514)
 )
 
-class F5BigIpSysSyslogRemoteServer(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpSysSyslogRemoteServer(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.syslog.load
+            'read':     self.mgmt_root.tm.sys.syslog.load
         }
         self.params.pop('sub_path', None)
     
@@ -157,7 +157,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_SYS_SYSLOG_REMOTE_SERVER_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SYSLOG_REMOTE_SERVER_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpSysSyslogRemoteServer(check_mode=module.supports_check_mode, tr=tr, **module.params)

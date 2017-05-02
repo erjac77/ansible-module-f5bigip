@@ -17,9 +17,9 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_cm_traffic_group
-short_description: BIG-IP cm traffic group module
+short_description: BIG-IP cm traffic-group module
 description:
-    - Configures traffic groups.
+    - Manages a traffic group.
 version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
@@ -121,20 +121,20 @@ options:
 EXAMPLES = '''
 - name: Create CM Traffic Group
   f5bigip_cm_traffic_group:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_traffic_group
     state: present
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_TRAFFIC_GROUP_ARGS = dict(
-    #app_service             =   dict(type='str'),
-    auto_failback_enabled   =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    app_service             =   dict(type='str'),
+    auto_failback_enabled   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     auto_failback_time      =   dict(type='int'),
     description             =   dict(type='str'),
     ha_group                =   dict(type='str'),
@@ -143,21 +143,21 @@ BIGIP_CM_TRAFFIC_GROUP_ARGS = dict(
     mac                     =   dict(type='str')
 )
 
-class F5BigIpCmTrafficGroup(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpCmTrafficGroup(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.cm.traffic_groups.traffic_group.create,
-            'read':self.mgmt.tm.cm.traffic_groups.traffic_group.load,
-            'update':self.mgmt.tm.cm.traffic_groups.traffic_group.update,
-            'delete':self.mgmt.tm.cm.traffic_groups.traffic_group.delete,
-            'exists':self.mgmt.tm.cm.traffic_groups.traffic_group.exists
+            'create':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.create,
+            'read':     self.mgmt_root.tm.cm.traffic_groups.traffic_group.load,
+            'update':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.update,
+            'delete':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.delete,
+            'exists':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_CM_TRAFFIC_GROUP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_TRAFFIC_GROUP_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpCmTrafficGroup(check_mode=module.supports_check_mode, tr=tr, **module.params)

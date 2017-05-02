@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -65,10 +73,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM Region
   f5bigip_gtm_region:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_region
     partition: Common
     description: My region
@@ -76,29 +84,29 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_REGION_ARGS = dict(
-    #app_service     =   dict(type='str'),
+    app_service     =   dict(type='str'),
     description     =   dict(type='str')#,
     #region_members  =   dict(type='list')
 )
 
-class F5BigIpGtmRegion(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmRegion(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.regions.region.create,
-            'read':self.mgmt.tm.gtm.regions.region.load,
-            'update':self.mgmt.tm.gtm.regions.region.update,
-            'delete':self.mgmt.tm.gtm.regions.region.delete,
-            'exists':self.mgmt.tm.gtm.regions.region.exists
+            'create':   self.mgmt_root.tm.gtm.regions.region.create,
+            'read':     self.mgmt_root.tm.gtm.regions.region.load,
+            'update':   self.mgmt_root.tm.gtm.regions.region.update,
+            'delete':   self.mgmt_root.tm.gtm.regions.region.delete,
+            'exists':   self.mgmt_root.tm.gtm.regions.region.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_GTM_REGION_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_GTM_REGION_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpGtmRegion(check_mode=module.supports_check_mode, tr=tr, **module.params)

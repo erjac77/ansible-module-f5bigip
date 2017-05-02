@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    agent_addresses:
+        description:
+            - Indicates that the SNMP agent is to listen on the specified address.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     agent_trap:
         description:
             - Specifies, when enabled, that the snmpd daemon sends traps, for example, start and stop traps.
@@ -145,10 +153,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS SNMP contact, location and allowed addresses
   f5bigip_sys_snmp:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     allowed_addresses:
       - 172.16.227.0/24
       - 10.0.0./8
@@ -158,15 +166,14 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_ARGS = dict(
     agent_addresses     =   dict(type='list'),
-    agent_trap          =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    agent_trap          =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     allowed_addresses   =   dict(type='list'),
-    auth_trap           =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    bigip_traps         =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
-    #communities         =   dict(type='list'),
+    auth_trap           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    bigip_traps         =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     description         =   dict(type='str'),
     #disk_monitors       =   dict(type='list'),
     l2forward_vlan      =   dict(type='list'),
@@ -179,17 +186,16 @@ BIGIP_SYS_SNMP_ARGS = dict(
     sys_services        =   dict(type='int'),
     trap_community      =   dict(type='str'),
     trap_source         =   dict(type='str')#,
-    #traps               =   dict(type='list'),
     #users               =   dict(type='list'),
     #v1_traps            =   dict(type='list'),
     #v2_traps            =   dict(type='list')
 )
 
 class F5BigIpSysSnmp(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.snmp.load,
-            'update':self.mgmt.tm.sys.snmp.update
+            'read':     self.mgmt_root.tm.sys.snmp.load,
+            'update':   self.mgmt_root.tm.sys.snmp.update
         }
     
     def _absent(self):

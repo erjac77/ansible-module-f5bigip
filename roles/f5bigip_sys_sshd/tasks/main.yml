@@ -2,10 +2,10 @@
 
 - name: Add SYS SSHD allow clients
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allow: "{{ sshd_allow_clients }}"
     state: present
   delegate_to: localhost
@@ -18,10 +18,10 @@
 
 - name: Add SYS SSHD allow clients (idempotent)
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allow: "{{ sshd_allow_clients }}"
     state: present
   delegate_to: localhost
@@ -34,10 +34,10 @@
 
 - name: Add SYS SSHD banner
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     banner: "{{ sshd_banner }}"
     banner_text: "{{ sshd_banner_text }}"
   delegate_to: localhost
@@ -50,10 +50,10 @@
 
 - name: Change SYS SSHD inactivity timeout
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     inactivity_timeout: "{{ sshd_inactivity_timeout }}"
   delegate_to: localhost
   register: result
@@ -65,10 +65,10 @@
 
 - name: Remove SYS SSHD allow clients
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allow: "{{ sshd_allow_clients }}"
     state: absent
   delegate_to: localhost
@@ -81,10 +81,10 @@
 
 - name: Remove SYS SSHD allow clients (idempotent)
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     allow: "{{ sshd_allow_clients }}"
     state: absent
   delegate_to: localhost
@@ -97,10 +97,10 @@
 
 - name: Disable SYS SSHD banner
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     banner: "disabled"
     banner_text: ""
   delegate_to: localhost
@@ -113,10 +113,10 @@
 
 - name: Disable SYS SSHD inactivity timeout
   f5bigip_sys_sshd:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     inactivity_timeout: 0
   delegate_to: localhost
   register: result

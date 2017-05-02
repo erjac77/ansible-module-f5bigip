@@ -28,6 +28,22 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    auto_lasthop:
+        description:
+            - Specifies whether auto lasthop is enabled or not.
+        default: default
+        choices: ['default', 'enabled', 'disabled']
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -153,10 +169,10 @@ options:
 EXAMPLES = '''
 - name: Create NET VLAN
   f5bigip_net_vlan:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: internal
     partition: Common
     tag: 10
@@ -164,42 +180,41 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_VLAN_ARGS = dict(
-    #app_service         =   dict(type='str'),
+    app_service         =   dict(type='str'),
     auto_lasthop        =   dict(type='str', choices=['default', 'enabled', 'disabled']),
     description         =   dict(type='str'),
-    failsafe            =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    failsafe            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     failsafe_action     =   dict(type='str', choices=['failover', 'failover-restart-tm', 'reboot', 'restart-all']),
     failsafe_timeout    =   dict(type='int'),
-    #interfaces         =   dict(type='list'),
     learning            =   dict(type='str', choices=['disable-drop', 'disable-forward', 'enable-forward']),
     mtu                 =   dict(type='int'),
     #sflow               =   dict(type='list'),
-    source_checking     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    source_checking     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     tag                 =   dict(type='int'),
     customer_tag        =   dict(type='str'),
     cmp_hash            =   dict(type='str', choices=['default', 'dst-ip', 'src-ip']),
     dag_tunnel          =   dict(type='str', choices=['outer', 'inner']),
-    dag_round_robin     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES)
+    dag_round_robin     =   dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
 
-class F5BigIpNetVlan(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpNetVlan(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.net.vlans.vlan.create,
-            'read':self.mgmt.tm.net.vlans.vlan.load,
-            'update':self.mgmt.tm.net.vlans.vlan.update,
-            'delete':self.mgmt.tm.net.vlans.vlan.delete,
-            'exists':self.mgmt.tm.net.vlans.vlan.exists
+            'create':   self.mgmt_root.tm.net.vlans.vlan.create,
+            'read':     self.mgmt_root.tm.net.vlans.vlan.load,
+            'update':   self.mgmt_root.tm.net.vlans.vlan.update,
+            'delete':   self.mgmt_root.tm.net.vlans.vlan.delete,
+            'exists':   self.mgmt_root.tm.net.vlans.vlan.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_NET_VLAN_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_VLAN_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpNetVlan(check_mode=module.supports_check_mode, tr=tr, **module.params)

@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -73,10 +81,10 @@ options:
 EXAMPLES = '''
 - name: Create LTM SNAT Pool
   f5bigip_ltm_snatpool:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_snatpool
     partition: Common
     members:
@@ -87,22 +95,22 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_SNATPOOL_ARGS = dict(
-    #app_service =   dict(type='str'),
+    app_service =   dict(type='str'),
     description =   dict(type='str'),
     members     =   dict(type='list')
 )
 
-class F5BigIpLtmSnatpool(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmSnatpool(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.snatpools.snatpool.create,
-            'read':self.mgmt.tm.ltm.snatpools.snatpool.load,
-            'update':self.mgmt.tm.ltm.snatpools.snatpool.update,
-            'delete':self.mgmt.tm.ltm.snatpools.snatpool.delete,
-            'exists':self.mgmt.tm.ltm.snatpools.snatpool.exists
+            'create':   self.mgmt_root.tm.ltm.snatpools.snatpool.create,
+            'read':     self.mgmt_root.tm.ltm.snatpools.snatpool.load,
+            'update':   self.mgmt_root.tm.ltm.snatpools.snatpool.update,
+            'delete':   self.mgmt_root.tm.ltm.snatpools.snatpool.delete,
+            'exists':   self.mgmt_root.tm.ltm.snatpools.snatpool.exists
         }
     
     def _read(self):
@@ -123,7 +131,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_SNATPOOL_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_SNATPOOL_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmSnatpool(check_mode=module.supports_check_mode, tr=tr, **module.params)

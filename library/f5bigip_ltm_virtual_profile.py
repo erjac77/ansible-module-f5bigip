@@ -73,10 +73,10 @@ options:
 EXAMPLES = '''
 - name: Add LTM HTTP Profile to VS
   f5bigip_ltm_virtual_profile:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: http
     partition: Common
     virtual: /my_partition/my_http_vs
@@ -86,22 +86,22 @@ EXAMPLES = '''
 
 import re
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_PROFILE_ARGS = dict(
     context     =   dict(type='str', choices=['all', 'clientside', 'serverside']),
     virtual     =   dict(type='str')
 )
 
-class F5BigIpLtmVirtualProfile(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
+class F5BigIpLtmVirtualProfile(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
         self.methods = {
-            'create':self.virtual.profiles_s.profiles.create,
-            'read':self.virtual.profiles_s.profiles.load,
-            'update':self.virtual.profiles_s.profiles.update,
-            'delete':self.virtual.profiles_s.profiles.delete,
-            'exists':self.virtual.profiles_s.profiles.exists
+            'create':   self.virtual.profiles_s.profiles.create,
+            'read':     self.virtual.profiles_s.profiles.load,
+            'update':   self.virtual.profiles_s.profiles.update,
+            'delete':   self.virtual.profiles_s.profiles.delete,
+            'exists':   self.virtual.profiles_s.profiles.exists
         }
         self.params.pop('virtual', None)
 
@@ -118,7 +118,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_VIRTUAL_PROFILE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_PROFILE_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmVirtualProfile(check_mode=module.supports_check_mode, tr=tr, **module.params)

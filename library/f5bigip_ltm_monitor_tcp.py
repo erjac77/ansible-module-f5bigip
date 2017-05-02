@@ -68,6 +68,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
@@ -208,10 +216,10 @@ options:
 EXAMPLES = '''
 - name: Create LTM TCP Monitor
   f5bigip_ltm_monitor_tcp:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_tcp_monitor
     partition: Common
     send: "tcp send string"
@@ -220,46 +228,46 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_TCP_ARGS = dict(
-    adaptive                    =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    adaptive                    =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     adaptive_divergence_type    =   dict(type='str', choices=['relative', 'absolute']),
     adaptive_divergence_value   =   dict(type='int'),
     adaptive_limit              =   dict(type='int'),
     adaptive_sampling_timespan  =   dict(type='int'),
-    #app_service                 =   dict(type='str'),
+    app_service                 =   dict(type='str'),
     defaults_from               =   dict(type='str'),
     description                 =   dict(type='str'),
     destination                 =   dict(type='str'),
     interval                    =   dict(type='int'),
     ip_dscp                     =   dict(type='int'),
-    manual_resume               =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    manual_resume               =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     recv                        =   dict(type='str'),
     recv_disable                =   dict(type='str'),
-    reverse                     =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    reverse                     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     send                        =   dict(type='str'),
     time_until_up               =   dict(type='int'),
     timeout                     =   dict(type='int'),
-    transparent                 =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    transparent                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     up_interval                 =   dict(type='int')
 )
 
-class F5BigIpLtmMonitorTcp(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmMonitorTcp(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.monitor.tcps.tcp.create,
-            'read':self.mgmt.tm.ltm.monitor.tcps.tcp.load,
-            'update':self.mgmt.tm.ltm.monitor.tcps.tcp.update,
-            'delete':self.mgmt.tm.ltm.monitor.tcps.tcp.delete,
-            'exists':self.mgmt.tm.ltm.monitor.tcps.tcp.exists
+            'create':   self.mgmt_root.tm.ltm.monitor.tcps.tcp.create,
+            'read':     self.mgmt_root.tm.ltm.monitor.tcps.tcp.load,
+            'update':   self.mgmt_root.tm.ltm.monitor.tcps.tcp.update,
+            'delete':   self.mgmt_root.tm.ltm.monitor.tcps.tcp.delete,
+            'exists':   self.mgmt_root.tm.ltm.monitor.tcps.tcp.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_MONITOR_TCP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_TCP_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmMonitorTcp(check_mode=module.supports_check_mode, tr=tr, **module.params)

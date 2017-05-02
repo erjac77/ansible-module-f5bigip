@@ -2,10 +2,10 @@
 
 - name: Install SYS Crypto Key from local file
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     command: install
     from_local_file: "{{ key_path }}"
@@ -22,10 +22,10 @@
 
 - name: Install SYS Crypto Key from local file (idempotent)
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     command: install
     from_local_file: "{{ key_path }}"
@@ -42,10 +42,10 @@
 
 - name: Delete SYS Crypto Key
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     state: absent
   delegate_to: localhost
@@ -60,10 +60,10 @@
 
 - name: Create SYS Crypto Key
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     state: present
   delegate_to: localhost
@@ -78,10 +78,10 @@
 
 - name: Create SYS Crypto Key (idempotent)
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     state: present
   delegate_to: localhost
@@ -96,10 +96,10 @@
 
 - name: Install SYS Crypto Cert from local file
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     command: install
     from_local_file: "{{ cert_path }}"
@@ -116,10 +116,10 @@
 
 - name: Install SYS Crypto Cert from local file (idempotent)
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     command: install
     from_local_file: "{{ cert_path }}"
@@ -136,10 +136,10 @@
 
 - name: Delete SYS Crypto Cert
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     state: absent
   delegate_to: localhost
@@ -154,10 +154,10 @@
 
 - name: Create SYS Crypto Cert
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     key: "{{ key_name }}"
     common_name: "{{ common_name }}"
@@ -180,10 +180,10 @@
 
 - name: Create SYS Crypto Cert (idempotent)
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     key: "{{ key_name }}"
     common_name: "{{ common_name }}"
@@ -206,10 +206,10 @@
 
 - name: Delete SYS Crypto Cert
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     state: absent
   delegate_to: localhost
@@ -224,10 +224,10 @@
 
 - name: Delete SYS Crypto Cert (idempotent)
   f5bigip_sys_crypto_cert:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ cert_name }}"
     state: absent
   delegate_to: localhost
@@ -242,10 +242,10 @@
 
 - name: Delete SYS Crypto Key
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     state: absent
   delegate_to: localhost
@@ -260,10 +260,10 @@
 
 - name: Delete SYS Crypto Key (idempotent)
   f5bigip_sys_crypto_key:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ key_name }}"
     state: absent
   delegate_to: localhost

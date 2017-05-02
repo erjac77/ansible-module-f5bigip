@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     contact:
         description:
             - Specifies the name of the administrator or the name of the department that manages the data center.
@@ -105,10 +113,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM Datacenter
   f5bigip_gtm_datacenter:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_datacenter
     partition: Common
     contact: 'admin@localhost'
@@ -118,10 +126,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_DATACENTER_ARGS = dict(
-    #app_service     =   dict(type='str'),
+    app_service     =   dict(type='str'),
     contact         =   dict(type='str'),
     description     =   dict(type='str'),
     disabled        =   dict(type='bool'),
@@ -131,21 +139,21 @@ BIGIP_GTM_DATACENTER_ARGS = dict(
     prober_pool     =   dict(type='str')
 )
 
-class F5BigIpGtmDatacenter(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmDatacenter(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.datacenters.datacenter.create,
-            'read':self.mgmt.tm.gtm.datacenters.datacenter.load,
-            'update':self.mgmt.tm.gtm.datacenters.datacenter.update,
-            'delete':self.mgmt.tm.gtm.datacenters.datacenter.delete,
-            'exists':self.mgmt.tm.gtm.datacenters.datacenter.exists
+            'create':   self.mgmt_root.tm.gtm.datacenters.datacenter.create,
+            'read':     self.mgmt_root.tm.gtm.datacenters.datacenter.load,
+            'update':   self.mgmt_root.tm.gtm.datacenters.datacenter.update,
+            'delete':   self.mgmt_root.tm.gtm.datacenters.datacenter.delete,
+            'exists':   self.mgmt_root.tm.gtm.datacenters.datacenter.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_DATACENTER_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

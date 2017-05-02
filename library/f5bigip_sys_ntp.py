@@ -58,10 +58,10 @@ options:
 EXAMPLES = '''
 - name: Add SYS NTP Servers
   f5bigip_sys_ntp:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     servers:
       - 10.20.20.21
       - 10.20.20.22
@@ -70,7 +70,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_NTP_ARGS = dict(
     description =   dict(type='str'),
@@ -80,10 +80,10 @@ BIGIP_SYS_NTP_ARGS = dict(
 )
 
 class F5BigIpSysNtp(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
+    def set_crud_methods(self):
         self.methods = {
-            'read':self.mgmt.tm.sys.ntp.load,
-            'update':self.mgmt.tm.sys.ntp.update
+            'read':     self.mgmt_root.tm.sys.ntp.load,
+            'update':   self.mgmt_root.tm.sys.ntp.update
         }
     
     def _absent(self):

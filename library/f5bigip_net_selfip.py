@@ -44,6 +44,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -97,10 +105,10 @@ options:
 EXAMPLES = '''
 - name: Create NET Self IP
   f5bigip_net_selfip:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_self_ip
     address: 10.10.10.11/24
     vlan: internal
@@ -108,12 +116,12 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_SELFIP_ARGS = dict(
     address             =   dict(type='str'),
     allow_service       =   dict(type='list'),
-    #app_service         =   dict(type='str'),
+    app_service         =   dict(type='str'),
     description         =   dict(type='str'),
     #fw_enforced_policy  =   dict(type='str'),
     #fw_rules
@@ -122,14 +130,14 @@ BIGIP_NET_SELFIP_ARGS = dict(
     vlan                =   dict(type='str')
 )
 
-class F5BigIpNetSelfip(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpNetSelfip(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.net.selfips.selfip.create,
-            'read':self.mgmt.tm.net.selfips.selfip.load,
-            'update':self.mgmt.tm.net.selfips.selfip.update,
-            'delete':self.mgmt.tm.net.selfips.selfip.delete,
-            'exists':self.mgmt.tm.net.selfips.selfip.exists
+            'create':   self.mgmt_root.tm.net.selfips.selfip.create,
+            'read':     self.mgmt_root.tm.net.selfips.selfip.load,
+            'update':   self.mgmt_root.tm.net.selfips.selfip.update,
+            'delete':   self.mgmt_root.tm.net.selfips.selfip.delete,
+            'exists':   self.mgmt_root.tm.net.selfips.selfip.exists
         }
     
     def _read(self):
@@ -144,7 +152,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_NET_SELFIP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_SELFIP_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpNetSelfip(check_mode=module.supports_check_mode, tr=tr, **module.params)

@@ -73,10 +73,10 @@ options:
 EXAMPLES = '''
 - name: Add LTM Persist Profile to VS
   f5bigip_ltm_virtual_persist:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: source_addr
     partition: Common
     virtual: my_http_vs
@@ -84,25 +84,25 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_PERSIST_ARGS = dict(
-    default     =   dict(type='str', choices=F5BIGIP_POLAR_CHOICES),
+    default     =   dict(type='str', choices=F5_POLAR_CHOICES),
     virtual     =   dict(type='str')
 )
 
-class F5BigIpLtmVirtualPersist(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.virtual = self.mgmt.tm.ltm.virtuals.virtual.load(
+class F5BigIpLtmVirtualPersist(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(
             name=self.params['virtual'],
             partition=self.params['partition']
         )
         self.methods = {
-            'create':self.virtual.profiles_s.profiles.create,
-            'read':self.virtual.profiles_s.profiles.load,
-            'update':self.virtual.profiles_s.profiles.update,
-            'delete':self.virtual.profiles_s.profiles.delete,
-            'exists':self.virtual.profiles_s.profiles.exists
+            'create':   self.virtual.profiles_s.profiles.create,
+            'read':     self.virtual.profiles_s.profiles.load,
+            'update':   self.virtual.profiles_s.profiles.update,
+            'delete':   self.virtual.profiles_s.profiles.delete,
+            'exists':   self.virtual.profiles_s.profiles.exists
         }
         self.params.pop('virtual', None)
 
@@ -119,7 +119,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_VIRTUAL_PERSIST_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_PERSIST_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmVirtualPersist(check_mode=module.supports_check_mode, tr=tr, **module.params)

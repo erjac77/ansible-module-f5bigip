@@ -36,6 +36,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     connection_limit:
         description:
             - Specifies the maximum number of connections that a node or node address can handle.
@@ -137,10 +145,10 @@ options:
 EXAMPLES = '''
 - name: Create LTM Node
   f5bigip_ltm_node:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_node
     partition: Common
     description: My node
@@ -151,10 +159,10 @@ EXAMPLES = '''
 
 - name: Force LTM Node Offline
   f5bigip_ltm_node:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_node
     partition: Common
     session: user-disabled
@@ -162,16 +170,16 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_NODE_ARGS = dict(
     address             =   dict(type='str'),
-    #app_service         =   dict(type='str'),
+    app_service         =   dict(type='str'),
     connection_limit    =   dict(type='int'),
     description         =   dict(type='str'),
     dynamic_ratio       =   dict(type='int'),
     #fqdn                =   dict(type='str'),
-    logging             =   dict(type='str', choices=F5BIGIP_ACTIVATION_CHOICES),
+    logging             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     #metadata            =   dict(type='list'),
     monitor             =   dict(type='str'),
     rate_limit          =   dict(type='int'),
@@ -180,21 +188,21 @@ BIGIP_LTM_NODE_ARGS = dict(
     state_user          =   dict(type='str', choices=['user-down', 'user-up'])
 )
 
-class F5BigIpLtmNode(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmNode(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.nodes.node.create,
-            'read':self.mgmt.tm.ltm.nodes.node.load,
-            'update':self.mgmt.tm.ltm.nodes.node.update,
-            'delete':self.mgmt.tm.ltm.nodes.node.delete,
-            'exists':self.mgmt.tm.ltm.nodes.node.exists
+            'create':   self.mgmt_root.tm.ltm.nodes.node.create,
+            'read':     self.mgmt_root.tm.ltm.nodes.node.load,
+            'update':   self.mgmt_root.tm.ltm.nodes.node.update,
+            'delete':   self.mgmt_root.tm.ltm.nodes.node.delete,
+            'exists':   self.mgmt_root.tm.ltm.nodes.node.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = { 'state_user':'state' }
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_NODE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_NODE_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmNode(check_mode=module.supports_check_mode, tr=tr, **module.params)

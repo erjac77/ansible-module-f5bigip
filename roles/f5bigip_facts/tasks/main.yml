@@ -2,10 +2,10 @@
 
 - name: Gather BIG-IP facts
   f5bigip_facts:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     object: "{{ item }}"
   with_items: "{{ facts_objects }}"
   delegate_to: localhost
@@ -14,10 +14,10 @@
 
 - name: Filter BIG-IP facts
   f5bigip_facts:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     object: "{{ item }}"
     filter: "{{ facts_filter }}"
     select: "{{ facts_select }}"

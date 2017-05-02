@@ -36,6 +36,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    app_service:
+        description:
+            - Specifies the application service that the object belongs to.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
@@ -177,10 +185,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM WideIP
   f5bigip_gtm_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: mywideip.localhost
     partition: Common
     description: My wideip
@@ -192,20 +200,20 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_WIDEIP_ARGS = dict(
     aliases                                 =   dict(type='list'),
-    #app_service                             =   dict(type='str'),
+    app_service                             =   dict(type='str'),
     description                             =   dict(type='str'),
     disabled                                =   dict(type='bool'),
     enabled                                 =   dict(type='bool'),
     ipv6_no_error_neg_ttl                   =   dict(type='int'),
-    ipv6_no_error_response                  =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    ipv6_no_error_response                  =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     last_resort_pool                        =   dict(type='str'),
     load_balancing_decision_log_verbosity   =   dict(type='str', choices=['pool-selection', 'pool-traversal', 'pool-member-selection', 'pool-member-traversal']),
     #metadata                                =   dict(type='list'),
-    persistence                             =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
+    persistence                             =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     persist_cidr_ipv4                       =   dict(type='int'),
     persist_cidr_ipv6                       =   dict(type='int'),
     pool_lb_mode                            =   dict(type='str', choices=['global-availability', 'random', 'ratio', 'round-robin', 'topology']),
@@ -214,21 +222,21 @@ BIGIP_GTM_WIDEIP_ARGS = dict(
     ttl_persistence                         =   dict(type='int')
 )
 
-class F5BigIpGtmWideip(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmWideip(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.wideips.wideip.create,
-            'read':self.mgmt.tm.gtm.wideips.wideip.load,
-            'update':self.mgmt.tm.gtm.wideips.wideip.update,
-            'delete':self.mgmt.tm.gtm.wideips.wideip.delete,
-            'exists':self.mgmt.tm.gtm.wideips.wideip.exists
+            'create':   self.mgmt_root.tm.gtm.wideips.wideip.create,
+            'read':     self.mgmt_root.tm.gtm.wideips.wideip.load,
+            'update':   self.mgmt_root.tm.gtm.wideips.wideip.update,
+            'delete':   self.mgmt_root.tm.gtm.wideips.wideip.delete,
+            'exists':   self.mgmt_root.tm.gtm.wideips.wideip.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_WIDEIP_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

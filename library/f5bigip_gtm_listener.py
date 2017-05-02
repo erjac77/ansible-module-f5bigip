@@ -217,10 +217,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM Listener
   f5bigip_gtm_listener:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_listener
     partition: Common
     description: My listener
@@ -229,13 +229,13 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_LISTENER_ARGS = dict(
     address                         =   dict(type='str'),
     advertise                       =   dict(type='str'),
-    #app_service                     =   dict(type='str'),
-    auto_lasthop                    =   dict(type='str', choices=['default', F5BIGIP_ACTIVATION_CHOICES]),
+    app_service                     =   dict(type='str'),
+    auto_lasthop                    =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
     description                     =   dict(type='str'),
     disabled                        =   dict(type='bool'),
     enabled                         =   dict(type='bool'),
@@ -250,28 +250,28 @@ BIGIP_GTM_LISTENER_ARGS = dict(
     rules                           =   dict(type='list'),
     #source_address_translation      =   dict(type='list'),
     source_port                     =   dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
-    translate_address               =   dict(type='str', choices=['default', F5BIGIP_ACTIVATION_CHOICES]),
-    translate_port                  =   dict(type='str', choices=['default', F5BIGIP_ACTIVATION_CHOICES]),
+    translate_address               =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
+    translate_port                  =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
     vlans                           =   dict(type='list'),
-    vlans_disabled                  =   dict(type='str', choices=['default', F5BIGIP_ACTIVATION_CHOICES]),
-    vlans_enabled                   =   dict(type='str', choices=['default', F5BIGIP_ACTIVATION_CHOICES])
+    vlans_disabled                  =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
+    vlans_enabled                   =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES])
 )
 
-class F5BigIpGtmListener(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpGtmListener(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.gtm.listeners.listener.create,
-            'read':self.mgmt.tm.gtm.listeners.listener.load,
-            'update':self.mgmt.tm.gtm.listeners.listener.update,
-            'delete':self.mgmt.tm.gtm.listeners.listener.delete,
-            'exists':self.mgmt.tm.gtm.listeners.listener.exists
+            'create':   self.mgmt_root.tm.gtm.listeners.listener.create,
+            'read':     self.mgmt_root.tm.gtm.listeners.listener.load,
+            'update':   self.mgmt_root.tm.gtm.listeners.listener.update,
+            'delete':   self.mgmt_root.tm.gtm.listeners.listener.delete,
+            'exists':   self.mgmt_root.tm.gtm.listeners.listener.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_LISTENER_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

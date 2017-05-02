@@ -19,7 +19,7 @@ DOCUMENTATION = '''
 module: f5bigip_gtm_server_virtual_server
 short_description: BIG-IP gtm server virtual-server module
 description:
-    - Configures virtual servers that are resources for this server.
+    - Configures a virtual servers.
 version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
@@ -28,6 +28,14 @@ notes:
 requirements:
     - f5-sdk
 options:
+    app_service:
+        description:
+            - Specifies the application service to which the object belongs.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     depends_on:
         description:
             - Specifies the vs-name of the server on which this virtual server depends.
@@ -65,6 +73,70 @@ options:
             - Specifies whether the data center and its resources are available for load balancing.
         required: false
         default: true
+        choices: []
+        aliases: []
+        version_added: 2.3
+    explicit_link_name:
+        description:
+            - Specifies the explicit link name for the virtual server.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_bps:
+        description:
+            - Specifies the maximum allowable data throughput rate, in bits per second, for this server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_bps_status:
+        description:
+            - Enables or disables the limit-max-bps option for this virtual server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_connections:
+        description:
+            - Specifies the number of current connections allowed for this virtual server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_connections_status:
+        description:
+            - Enables or disables the limit-max-connections option for this virtual server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    limit_max_pps:
+        description:
+            - Specifies the maximum allowable data transfer rate, in packets per second, for this virtual server.
+        required: false
+        default: 0
+        choices: []
+        aliases: []
+        version_added: 2.3
+    limit_max_pps_status:
+        description:
+            - Enables or disables the limit-max-pps option for this virtual server.
+        required: false
+        default: disabled
+        choices: ['disabled', 'enabled']
+        aliases: []
+        version_added: 2.3
+    ltm_name:
+        description:
+            - The virtual server name found on the LTM.
+        required: false
+        default: null
         choices: []
         aliases: []
         version_added: 2.3
@@ -129,10 +201,10 @@ options:
 EXAMPLES = '''
 - name: Create GTM Server VS
   f5bigip_gtm_server_virtual_server:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_vs
     partition: Common
     destination: '10.10.20.201:80'
@@ -141,40 +213,41 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_SERVER_VIRTUAL_SERVER_ARGS = dict(
-    #app_service                     =   dict(type='str'),
+    app_service                     =   dict(type='str'),
     depends_on                      =   dict(type='list'),
     description                     =   dict(type='str'),
     destination                     =   dict(type='str'),
     disabled                        =   dict(type='bool'),
     enabled                         =   dict(type='bool'),
-    #explicit_link_name              =   dict(type='str'),
-    #limit_max_bps                   =   dict(type='int'),
-    #limit_max_bps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_connections           =   dict(type='int'),
-    #limit_max_connections_status    =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #limit_max_pps                   =   dict(type='int'),
-    #limit_max_pps_status            =   dict(type='str', choices=[F5BIGIP_ACTIVATION_CHOICES]),
-    #ltm_name                        =   dict(type='str'),
+    explicit_link_name              =   dict(type='str'),
+    limit_max_bps                   =   dict(type='int'),
+    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections           =   dict(type='int'),
+    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps                   =   dict(type='int'),
+    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    ltm_name                        =   dict(type='str'),
+    monitor                         =   dict(type='str'),
     server                          =   dict(type='str'),
     translation_address             =   dict(type='str'),
     translation_port                =   dict(type='str')
 )
 
-class F5BigIpGtmServerVirtualServer(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.server = self.mgmt.tm.gtm.servers.server.load(
+class F5BigIpGtmServerVirtualServer(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.server = self.mgmt_root.tm.gtm.servers.server.load(
             name=self.params['server'],
             partition=self.params['partition']
         )
         self.methods = {
-            'create':self.server.virtual_servers_s.virtual_server.create,
-            'read':self.server.virtual_servers_s.virtual_server.load,
-            'update':self.server.virtual_servers_s.virtual_server.update,
-            'delete':self.server.virtual_servers_s.virtual_server.delete,
-            'exists':self.server.virtual_servers_s.virtual_server.exists
+            'create':   self.server.virtual_servers_s.virtual_server.create,
+            'read':     self.server.virtual_servers_s.virtual_server.load,
+            'update':   self.server.virtual_servers_s.virtual_server.update,
+            'delete':   self.server.virtual_servers_s.virtual_server.delete,
+            'exists':   self.server.virtual_servers_s.virtual_server.exists
         }
         self.params.pop('partition', None)
         self.params.pop('server', None)
@@ -198,7 +271,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(
+    module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_SERVER_VIRTUAL_SERVER_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[

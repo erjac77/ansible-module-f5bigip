@@ -2,10 +2,10 @@
 
 - name: Configure CM Device Properties
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     comment: "{{ device_comment }}"
     contact: "{{ device_contact }}"
@@ -23,10 +23,10 @@
 
 - name: Configure CM Device Properties (idempotent)
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     comment: "{{ device_comment }}"
     contact: "{{ device_contact }}"
@@ -44,10 +44,10 @@
 
 - name: Reset CM Device Properties
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     comment: ''
     contact: ''
@@ -65,10 +65,10 @@
 
 - name: Configure CM Device ConfigSync
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     configsync_ip: "{{ device_ha_ip }}"
     state: present
@@ -82,10 +82,10 @@
 
 - name: Configure CM Device ConfigSync (idempotent)
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     configsync_ip: "{{ device_ha_ip }}"
     state: present
@@ -99,10 +99,10 @@
 
 - name: Reset CM Device ConfigSync
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     configsync_ip: none
     state: present
@@ -116,10 +116,10 @@
 
 - name: Configure CM Device Failover
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     multicast_interface: "{{ device_multicast_interface }}"
     multicast_ip: "{{ device_multicast_ip }}"
@@ -135,10 +135,10 @@
 
 - name: Configure CM Device Failover (idempotent)
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     multicast_interface: "{{ device_multicast_interface }}"
     multicast_ip: "{{ device_multicast_ip }}"
@@ -154,10 +154,10 @@
 
 - name: Add CM Device Failover unicast addresses
   f5bigip_cm_device_unicast_address:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     device: "{{ device_name }}"
     ip: "{{ item.ip }}"
     port: "{{ item.port }}"
@@ -173,10 +173,10 @@
 
 - name: Add CM Device Failover unicast addresses (idempotent)
   f5bigip_cm_device_unicast_address:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     device: "{{ device_name }}"
     ip: "{{ item.ip }}"
     port: "{{ item.port }}"
@@ -192,10 +192,10 @@
 
 - name: Remove CM Device Failover unicast addresses
   f5bigip_cm_device_unicast_address:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     device: "{{ device_name }}"
     ip: "{{ item.ip }}"
     port: "{{ item.port }}"
@@ -211,10 +211,10 @@
 
 - name: Remove CM Device Failover unicast addresses (idempotent)
   f5bigip_cm_device_unicast_address:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     device: "{{ device_name }}"
     ip: "{{ item.ip }}"
     port: "{{ item.port }}"
@@ -230,10 +230,10 @@
 
 - name: Reset CM Device Failover
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     multicast_interface: none
     multicast_ip: any
@@ -249,10 +249,10 @@
 
 - name: Configure CM Device Mirroring
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     mirror_ip: "{{ device_ha_ip }}"
     mirror_secondary_ip: "{{ device_internal_ip }}"
@@ -267,10 +267,10 @@
 
 - name: Configure CM Device Mirroring (idempotent)
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     mirror_ip: "{{ device_ha_ip }}"
     mirror_secondary_ip: "{{ device_internal_ip }}"
@@ -285,10 +285,10 @@
 
 - name: Reset CM Device Mirroring
   f5bigip_cm_device:
-    f5bigip_hostname: "{{ inventory_hostname }}"
-    f5bigip_username: "{{ bigip01_username }}"
-    f5bigip_password: "{{ bigip01_password }}"
-    f5bigip_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
     name: "{{ device_name }}"
     mirror_ip: any6
     mirror_secondary_ip: any6

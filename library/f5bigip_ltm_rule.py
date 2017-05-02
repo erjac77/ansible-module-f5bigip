@@ -81,10 +81,10 @@ options:
 EXAMPLES = '''
 - name: Create LTM Rule
   f5bigip_ltm_rule:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: my_rule
     partition: Common
     definition: 'when RULE_INIT {}'
@@ -93,30 +93,30 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_RULE_ARGS = dict(
     definition          =   dict(type='str'),
-    #app_service         =   dict(type='str'),
-    ignore_verification =   dict(type='bool'),
+    app_service         =   dict(type='str'),
+    ignore_verification =   dict(type='bool')#,
     #metadata            =   dict(type='list')
 )
 
-class F5BigIpLtmRule(F5BigIpObject):
-    def _set_crud_methods(self):
+class F5BigIpLtmRule(F5BigIpNamedObject):
+    def set_crud_methods(self):
         self.methods = {
-            'create':self.mgmt.tm.ltm.rules.rule.create,
-            'read':self.mgmt.tm.ltm.rules.rule.load,
-            'update':self.mgmt.tm.ltm.rules.rule.update,
-            'delete':self.mgmt.tm.ltm.rules.rule.delete,
-            'exists':self.mgmt.tm.ltm.rules.rule.exists
+            'create':   self.mgmt_root.tm.ltm.rules.rule.create,
+            'read':     self.mgmt_root.tm.ltm.rules.rule.load,
+            'update':   self.mgmt_root.tm.ltm.rules.rule.update,
+            'delete':   self.mgmt_root.tm.ltm.rules.rule.delete,
+            'exists':   self.mgmt_root.tm.ltm.rules.rule.exists
         }
 
 def main():
     # Translation list for conflictual params
     tr = { 'definition':'api_anonymous' }
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_LTM_RULE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_RULE_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpLtmRule(check_mode=module.supports_check_mode, tr=tr, **module.params)

@@ -65,10 +65,10 @@ options:
 EXAMPLES = '''
 - name: Add CM Device Failover unicast address
   f5bigip_cm_device_unicast_address:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     device: bigip01.localhost
     ip: 10.10.30.11
     port: 1026
@@ -76,7 +76,7 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_UNICAST_ADDRESS_ARGS = dict(
     device  =   dict(type='str'),
@@ -85,8 +85,8 @@ BIGIP_CM_DEVICE_UNICAST_ADDRESS_ARGS = dict(
 )
 
 class F5BigIpCmDeviceUnicastAddress(F5BigIpUnnamedObject):
-    def _set_crud_methods(self):
-        self.device = self.mgmt.tm.cm.devices.device.load(
+    def set_crud_methods(self):
+        self.device = self.mgmt_root.tm.cm.devices.device.load(
             name=self.params['device'],
         )
         self.params.pop('device', None)

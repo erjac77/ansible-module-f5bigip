@@ -17,9 +17,9 @@
 DOCUMENTATION = '''
 ---
 module: f5bigip_cm_device_group_device
-short_description: BIG-IP cm device group device module
+short_description: BIG-IP cm device-group device module
 description:
-    - Configures devices in device groups.
+    - Configures a set of devices to the device group.
 version_added: 2.3
 author:
     - "Eric Jacob, @erjac77"
@@ -65,10 +65,10 @@ options:
 EXAMPLES = '''
 - name: Add CM Device Group member
   f5bigip_cm_device_group_device:
-    f5bigip_hostname: 172.16.227.35
-    f5bigip_username: admin
-    f5bigip_password: admin
-    f5bigip_port: 443
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
     name: bigip01.localhost
     partition: Common
     device_group: my_device_group
@@ -76,24 +76,24 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-from ansible_common_f5bigip.f5bigip import *
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS = dict(
     device_group    =   dict(type='str')
 )
 
-class F5BigIpCmDeviceGroupDevice(F5BigIpObject):
-    def _set_crud_methods(self):
-        self.device_group = self.mgmt.tm.cm.device_groups.device_group.load(
+class F5BigIpCmDeviceGroupDevice(F5BigIpNamedObject):
+    def set_crud_methods(self):
+        self.device_group = self.mgmt_root.tm.cm.device_groups.device_group.load(
             name=self.params['device_group'],
             partition=self.params['partition']
         )
         self.methods = {
-            'create':self.device_group.devices_s.devices.create,
-            'read':self.device_group.devices_s.devices.load,
-            'update':self.device_group.devices_s.devices.update,
-            'delete':self.device_group.devices_s.devices.delete,
-            'exists':self.device_group.devices_s.devices.exists
+            'create':   self.device_group.devices_s.devices.create,
+            'read':     self.device_group.devices_s.devices.load,
+            'update':   self.device_group.devices_s.devices.update,
+            'delete':   self.device_group.devices_s.devices.delete,
+            'exists':   self.device_group.devices_s.devices.exists
         }
         self.params.pop('device_group', None)
 
@@ -110,7 +110,7 @@ def main():
     # Translation list for conflictual params
     tr = {}
     
-    module = AnsibleModuleF5BigIpObject(argument_spec=BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS, supports_check_mode=False)
     
     try:
         obj = F5BigIpCmDeviceGroupDevice(check_mode=module.supports_check_mode, tr=tr, **module.params)
