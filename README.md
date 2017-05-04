@@ -1,11 +1,11 @@
 # ANSIBLE MODULE FOR F5 BIG-IP
 
-An Ansible module to perform specific operational and configuration tasks on F5 BIG-IP systems. It is based on the f5-sdk (icontrol REST).
+An Ansible module to perform specific operational and configuration tasks on F5 BIG-IP systems. It is based on the f5-sdk (iControl REST).
 
 ## REQUIREMENTS
 
 * Ansible >= 2.2.0 (ansible)
-* F5 Python SDK >= 2.2.2 (f5-sdk)
+* F5 Python SDK >= 2.3.1 (f5-sdk)
 * F5 Common Utility Module for Ansible >= 0.4.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
 
 ## INSTALLATION
