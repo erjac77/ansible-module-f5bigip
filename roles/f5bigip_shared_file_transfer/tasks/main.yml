@@ -1,0 +1,49 @@
+---
+
+- name: Upload a Data Group List
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ dg_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload a Data Group List
+  assert:
+    that:
+      - result|changed
+
+- name: Upload a Key
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ key_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload a Key
+  assert:
+    that:
+      - result|changed
+
+- name: Upload a Cert
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ cert_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload a Cert
+  assert:
+    that:
+      - result|changed

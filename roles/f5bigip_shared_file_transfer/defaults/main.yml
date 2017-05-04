@@ -1,0 +1,12 @@
+---
+
+files_path: "{{ role_path }}/files/"
+
+dg_filename: 'example.dat'
+dg_filepathname: "{{ files_path }}{{ dg_filename }}"
+
+key_filename: 'example.localhost.key'
+key_filepathname: "{{ files_path }}{{ key_filename }}"
+
+cert_filename: 'example.localhost.crt'
+cert_filepathname: "{{ files_path }}{{ cert_filename }}"
