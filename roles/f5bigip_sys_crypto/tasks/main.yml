@@ -1,5 +1,21 @@
 ---
 
+- name: Upload SYS Crypto Key
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ key_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload SYS Crypto Key
+  assert:
+    that:
+      - result|changed
+
 - name: Install SYS Crypto Key from local file
   f5bigip_sys_crypto_key:
     f5_hostname: "{{ inventory_hostname }}"
@@ -12,13 +28,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Install SYS Crypto Key from local file
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Install SYS Crypto Key from local file (idempotent)
   f5bigip_sys_crypto_key:
@@ -32,13 +46,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Install SYS Crypto Key from local file (idempotent)
   assert:
     that:
       - not result|changed
-  ignore_errors: yes
 
 - name: Delete SYS Crypto Key
   f5bigip_sys_crypto_key:
@@ -50,13 +62,11 @@
     state: absent
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Delete SYS Crypto Key
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Create SYS Crypto Key
   f5bigip_sys_crypto_key:
@@ -68,13 +78,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Create SYS Crypto Key
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Create SYS Crypto Key (idempotent)
   f5bigip_sys_crypto_key:
@@ -86,13 +94,27 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Create SYS Crypto Key (idempotent)
   assert:
     that:
       - not result|changed
-  ignore_errors: yes
+
+- name: Upload SYS Crypto Cert
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ cert_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload SYS Crypto Cert
+  assert:
+    that:
+      - result|changed
 
 - name: Install SYS Crypto Cert from local file
   f5bigip_sys_crypto_cert:
@@ -106,13 +128,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Install SYS Crypto Cert from local file
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Install SYS Crypto Cert from local file (idempotent)
   f5bigip_sys_crypto_cert:
@@ -126,13 +146,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Install SYS Crypto Cert from local file (idempotent)
   assert:
     that:
       - not result|changed
-  ignore_errors: yes
 
 - name: Delete SYS Crypto Cert
   f5bigip_sys_crypto_cert:
@@ -144,13 +162,11 @@
     state: absent
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Delete SYS Crypto Cert
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Create SYS Crypto Cert
   f5bigip_sys_crypto_cert:
@@ -170,13 +186,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Create SYS Crypto Cert
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Create SYS Crypto Cert (idempotent)
   f5bigip_sys_crypto_cert:
@@ -196,13 +210,11 @@
     state: present
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Create SYS Crypto Cert (idempotent)
   assert:
     that:
       - not result|changed
-  ignore_errors: yes
 
 - name: Delete SYS Crypto Cert
   f5bigip_sys_crypto_cert:
@@ -214,13 +226,11 @@
     state: absent
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Delete SYS Crypto Cert
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Delete SYS Crypto Cert (idempotent)
   f5bigip_sys_crypto_cert:
@@ -232,13 +242,11 @@
     state: absent
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Delete SYS Crypto Cert (idempotent)
   assert:
     that:
       - not result|changed
-  ignore_errors: yes
 
 - name: Delete SYS Crypto Key
   f5bigip_sys_crypto_key:
@@ -250,13 +258,11 @@
     state: absent
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Delete SYS Crypto Key
   assert:
     that:
       - result|changed
-  ignore_errors: yes
 
 - name: Delete SYS Crypto Key (idempotent)
   f5bigip_sys_crypto_key:
@@ -268,10 +274,8 @@
     state: absent
   delegate_to: localhost
   register: result
-  ignore_errors: yes
 
 - name: Assert Delete SYS Crypto Key (idempotent)
   assert:
     that:
       - not result|changed
-  ignore_errors: yes

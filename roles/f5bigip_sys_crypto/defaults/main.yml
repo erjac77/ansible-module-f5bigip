@@ -8,8 +8,13 @@ email: 'admin@localhost'
 org: My Org
 ou: My Div
 
+files_path: "{{ role_path }}/files/"
+rest_download_path: "/var/config/rest/downloads/"
+
 key_name: "{{ common_name }}.key"
-key_path: "/tmp/{{ key_name }}"
+key_filepathname: "{{ files_path }}{{ key_name }}"
+key_path: "{{ rest_download_path }}{{ key_name }}"
 
 cert_name: "{{ common_name }}.crt"
-cert_path: "/tmp/{{ cert_name }}"
+cert_filepathname: "{{ files_path }}{{ cert_name }}"
+cert_path: "{{ rest_download_path }}{{ cert_name }}"
