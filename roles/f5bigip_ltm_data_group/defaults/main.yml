@@ -1,0 +1,15 @@
+---
+
+files_path: "{{ role_path }}/files/"
+rest_download_path: "/var/config/rest/downloads/"
+
+ext_dg_name: my_ext_dg
+ext_dg_description: My external data-group
+ext_dg_filename: "{{ ext_dg_name }}_file"
+ext_dg_filepathname: "{{ files_path }}{{ ext_dg_name }}.dat"
+ext_dg_source_path: "file:{{ rest_download_path }}{{ ext_dg_name }}.dat"
+
+int_dg_name: my_int_dg
+int_dg_description: My internal data-group
+int_dg_records: [{'name': 'n1', 'data': 'd1'}, {'name': 'n2', 'data': 'd2'}, {'name': 'n3', 'data': 'd3'}]
+int_dg_type: string

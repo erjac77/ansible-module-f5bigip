@@ -11,6 +11,7 @@
 - include: f5bigip_gtm_server.yml
 - include: f5bigip_gtm_topology.yml
 - include: f5bigip_gtm_wideip.yml
+- include: f5bigip_ltm_data_group.yml
 - include: f5bigip_ltm_monitor_ftp.yml
 - include: f5bigip_ltm_monitor_gateway_icmp.yml
 - include: f5bigip_ltm_monitor_http.yml
