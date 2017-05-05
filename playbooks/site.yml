@@ -18,6 +18,7 @@
 - include: f5bigip_ltm_monitor_https.yml
 - include: f5bigip_ltm_monitor_tcp.yml
 - include: f5bigip_ltm_node.yml
+- include: f5bigip_ltm_persistence_cookie.yml
 - include: f5bigip_ltm_pool.yml
 - include: f5bigip_ltm_rule.yml
 - include: f5bigip_ltm_snatpool.yml

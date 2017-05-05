@@ -1,0 +1,5 @@
+---
+
+persist_cookie_name: my_cookie_persistence
+persist_cookie_description: My cookie persistence
+persist_cookie_defaults_from: /Common/cookie
