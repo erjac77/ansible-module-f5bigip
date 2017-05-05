@@ -111,5 +111,5 @@ def main():
 from ansible.module_utils.basic import *
 from ansible.module_utils.urls import *
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
     main()

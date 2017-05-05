@@ -22,13 +22,13 @@ description:
     - Configures an FTP profile.
 version_added: 2.3
 author:
-	- "Gabriel Fortin"
+    - "Gabriel Fortin"
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
     - f5-sdk
 options:
-   app_service:
+    app_service:
         description:
             - Specifies the name of the application service to which the profile belongs. 
         required: false
@@ -179,5 +179,5 @@ def main():
 
 from ansible.module_utils.basic import *
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
     main()

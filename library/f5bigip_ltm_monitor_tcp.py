@@ -80,7 +80,7 @@ options:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
         required: false
-        default: http
+        default: tcp
         choices: []
         aliases: []
         version_added: 2.3
@@ -278,5 +278,5 @@ def main():
 
 from ansible.module_utils.basic import *
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
     main()
