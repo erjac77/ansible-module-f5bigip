@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM HTTP profile
+  f5bigip_ltm_profile_http:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM HTTP profile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM HTTP profile (idempotent)
+  f5bigip_ltm_profile_http:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM HTTP profile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM HTTP profile description and insert_xforwarded_for
+  f5bigip_ltm_profile_http:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+    insert_xforwarded_for: "{{ profile_insert_xforwarded_for }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM HTTP profile description and insert_xforwarded_for
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM HTTP profile description and insert_xforwarded_for (idempotent)
+  f5bigip_ltm_profile_http:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+    insert_xforwarded_for: "{{ profile_insert_xforwarded_for }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM HTTP profile description and insert_xforwarded_for (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM HTTP profile
+  f5bigip_ltm_profile_http:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM HTTP profile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM HTTP profile (idempotent)
+  f5bigip_ltm_profile_http:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM HTTP profile (idempotent)
+  assert:
+    that:
+      - not result|changed
