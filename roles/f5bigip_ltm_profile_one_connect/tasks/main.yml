@@ -1,0 +1,105 @@
+---
+
+- name: Create LTM OneConnect profile
+  f5bigip_ltm_profile_one_connect:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM OneConnect profile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM OneConnect profile (idempotent)
+  f5bigip_ltm_profile_one_connect:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM OneConnect profile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM OneConnect profile description
+  f5bigip_ltm_profile_one_connect:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM OneConnect profile description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM OneConnect profile description (idempotent)
+  f5bigip_ltm_profile_one_connect:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM OneConnect profile description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM OneConnect profile
+  f5bigip_ltm_profile_one_connect:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM OneConnect profile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM OneConnect profile (idempotent)
+  f5bigip_ltm_profile_one_connect:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM OneConnect profile (idempotent)
+  assert:
+    that:
+      - not result|changed
