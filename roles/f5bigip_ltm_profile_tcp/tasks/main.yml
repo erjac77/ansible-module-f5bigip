@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM TCP profile
+  f5bigip_ltm_profile_tcp:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM TCP profile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM TCP profile (idempotent)
+  f5bigip_ltm_profile_tcp:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM TCP profile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM TCP profile description and nagle
+  f5bigip_ltm_profile_tcp:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+    nagle: "{{ profile_nagle }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM TCP profile description and nagle
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM TCP profile description and nagle (idempotent)
+  f5bigip_ltm_profile_tcp:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+    nagle: "{{ profile_nagle }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM TCP profile description and nagle (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM TCP profile
+  f5bigip_ltm_profile_tcp:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM TCP profile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM TCP profile (idempotent)
+  f5bigip_ltm_profile_tcp:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM TCP profile (idempotent)
+  assert:
+    that:
+      - not result|changed
