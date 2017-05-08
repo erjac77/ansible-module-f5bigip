@@ -1,0 +1,210 @@
+---
+
+- name: Upload SYS Crypto Key
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ key_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload SYS Crypto Key
+  assert:
+    that:
+      - result|changed
+
+- name: Install SYS Crypto Key from local file
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ key_name }}"
+    command: install
+    from_local_file: "{{ key_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Install SYS Crypto Key from local file
+  assert:
+    that:
+      - result|changed
+
+- name: Upload SYS Crypto Cert
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    filepathname: "{{ cert_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Upload SYS Crypto Cert
+  assert:
+    that:
+      - result|changed
+
+- name: Install SYS Crypto Cert from local file
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ cert_name }}"
+    command: install
+    from_local_file: "{{ cert_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Install SYS Crypto Cert from local file
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Client SSL profile
+  f5bigip_ltm_profile_client_ssl:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    key: "{{ key_name }}"
+    cert: "{{ cert_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Client SSL profile
+  assert:
+    that:
+      - result|changed
+
+# Not idempotent !!    
+#- name: Create LTM Client SSL profile (idempotent)
+#  f5bigip_ltm_profile_client_ssl:
+#    f5_hostname: "{{ inventory_hostname }}"
+#    f5_username: "{{ bigip01_username }}"
+#    f5_password: "{{ bigip01_password }}"
+#    f5_port: "{{ bigip01_port }}"
+#    name: "{{ profile_name }}"
+#    partition: "{{ bigip_partition }}"
+#    description: "{{ profile_description }}"
+#    key: "{{ key_name }}"
+#    cert: "{{ cert_name }}"
+#    state: present
+#  delegate_to: localhost
+#  register: result
+#
+#- name: Assert Create LTM Client SSL profile (idempotent)
+#  assert:
+#    that:
+#      - not result|changed
+
+- name: Change LTM Client SSL profile description
+  f5bigip_ltm_profile_client_ssl:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Client SSL profile description
+  assert:
+    that:
+      - result|changed
+    
+- name: Change LTM Client SSL profile description (idempotent)
+  f5bigip_ltm_profile_client_ssl:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Client SSL profile description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Client SSL profile
+  f5bigip_ltm_profile_client_ssl:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Client SSL profile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Client SSL profile (idempotent)
+  f5bigip_ltm_profile_client_ssl:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Client SSL profile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS Crypto Cert
+  f5bigip_sys_crypto_cert:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ cert_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Cert
+  assert:
+    that:
+      - result|changed
+
+- name: Delete SYS Crypto Key
+  f5bigip_sys_crypto_key:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ key_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS Crypto Key
+  assert:
+    that:
+      - result|changed
