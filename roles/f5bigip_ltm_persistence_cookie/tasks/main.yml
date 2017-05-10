@@ -6,10 +6,10 @@
     f5_username: "{{ bigip01_username }}"
     f5_password: "{{ bigip01_password }}"
     f5_port: "{{ bigip01_port }}"
-    name: "{{ persist_cookie_name }}"
+    name: "{{ persistence_name }}"
     partition: "{{ bigip_partition }}"
-    description: "{{ persist_cookie_description }}"
-    defaults_from: "{{ persist_cookie_defaults_from }}"
+    description: "{{ persistence_description }}"
+    defaults_from: "{{ persistence_defaults_from }}"
     state: present
   delegate_to: localhost
   register: result
@@ -25,10 +25,10 @@
     f5_username: "{{ bigip01_username }}"
     f5_password: "{{ bigip01_password }}"
     f5_port: "{{ bigip01_port }}"
-    name: "{{ persist_cookie_name }}"
+    name: "{{ persistence_name }}"
     partition: "{{ bigip_partition }}"
-    description: "{{ persist_cookie_description }}"
-    defaults_from: "{{ persist_cookie_defaults_from }}"
+    description: "{{ persistence_description }}"
+    defaults_from: "{{ persistence_defaults_from }}"
     state: present
   delegate_to: localhost
   register: result
@@ -44,13 +44,13 @@
     f5_username: "{{ bigip01_username }}"
     f5_password: "{{ bigip01_password }}"
     f5_port: "{{ bigip01_port }}"
-    name: "{{ persist_cookie_name }}"
+    name: "{{ persistence_name }}"
     partition: "{{ bigip_partition }}"
-    description: "new {{ persist_cookie_description }}"
+    description: "new {{ persistence_description }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change LTM TCP Monitor description, interval and timeout
+- name: Assert Change LTM Cookie Persistence description
   assert:
     that:
       - result|changed
@@ -61,9 +61,9 @@
     f5_username: "{{ bigip01_username }}"
     f5_password: "{{ bigip01_password }}"
     f5_port: "{{ bigip01_port }}"
-    name: "{{ persist_cookie_name }}"
+    name: "{{ persistence_name }}"
     partition: "{{ bigip_partition }}"
-    description: "new {{ persist_cookie_description }}"
+    description: "new {{ persistence_description }}"
   delegate_to: localhost
   register: result
 
@@ -78,7 +78,7 @@
     f5_username: "{{ bigip01_username }}"
     f5_password: "{{ bigip01_password }}"
     f5_port: "{{ bigip01_port }}"
-    name: "{{ persist_cookie_name }}"
+    name: "{{ persistence_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
@@ -95,7 +95,7 @@
     f5_username: "{{ bigip01_username }}"
     f5_password: "{{ bigip01_password }}"
     f5_port: "{{ bigip01_port }}"
-    name: "{{ persist_cookie_name }}"
+    name: "{{ persistence_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
