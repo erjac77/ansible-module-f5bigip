@@ -96,7 +96,7 @@ class F5BigIpLtmVirtualSourceAddressTranslation(F5BigIpUnnamedObject):
         if self.state == "present":
             if self.params['type'] == 'snat':
                 if self.params['pool'] is None:
-                    raise AnsibleModuleF5BigIpError("Missing required param 'pool'")
+                    raise AnsibleF5Error("Missing required param 'pool'")
 
             for key, val in self.params.iteritems():
                 if key in sat:

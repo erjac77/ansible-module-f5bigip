@@ -90,10 +90,10 @@ class F5BigIpSysDb(F5BigIpNamedObject):
         )
     
     def _create(self):
-        raise AnsibleModuleF5BigIpError("%s does not support create" % self.__class__.__name__)
+        raise AnsibleF5Error("%s does not support create" % self.__class__.__name__)
     
     def _delete(self):
-        raise AnsibleModuleF5BigIpError("%s does not support delete" % self.__class__.__name__)
+        raise AnsibleF5Error("%s does not support delete" % self.__class__.__name__)
     
     def flush(self):
         result = dict()

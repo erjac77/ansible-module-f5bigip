@@ -113,7 +113,7 @@ class F5BigIpGtmTopology(F5BigIpNamedObject):
         self.params.pop('subPath', None)
 
     def _update(self):
-        raise AnsibleModuleF5BigIpError("%s does not support update" % self.__class__.__name__)
+        raise AnsibleF5Error("%s does not support update" % self.__class__.__name__)
 
 def main():
     # Translation list for conflictual params

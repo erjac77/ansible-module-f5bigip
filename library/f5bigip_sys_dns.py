@@ -85,7 +85,7 @@ class F5BigIpSysDns(F5BigIpUnnamedObject):
     
     def _absent(self):
         if not (self.params['nameServers']):# or self.params['search']):
-            raise AnsibleModuleF5BigIpError("Absent can only be used when removing name servers")# or search domains")
+            raise AnsibleF5Error("Absent can only be used when removing name servers")# or search domains")
         
         return super(F5BigIpSysDns, self)._absent()
 

@@ -200,7 +200,7 @@ class F5BigIpSysSnmp(F5BigIpUnnamedObject):
     
     def _absent(self):
         if not (self.params['agentAddresses'] or self.params['allowedAddresses']):
-            raise AnsibleModuleF5BigIpError("Absent can only be used when removing Agent Addresses or Allowed Addresses")
+            raise AnsibleF5Error("Absent can only be used when removing Agent Addresses or Allowed Addresses")
         
         return super(F5BigIpSysSnmp, self)._absent()
 

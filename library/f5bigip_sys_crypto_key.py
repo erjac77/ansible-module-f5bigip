@@ -242,11 +242,11 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
             # Install the key
             self.methods['exec_cmd']('install', **param_set)
         else:
-            raise AnsibleModuleF5BigIpError("Missing required parameter 'from-*' to install the key.")
+            raise AnsibleF5Error("Missing required parameter 'from-*' to install the key.")
 
         # Make sure it is installed
         if not self._exists():
-            raise AnsibleModuleF5BigIpError("Failed to create the object.")
+            raise AnsibleF5Error("Failed to create the object.")
         
         return True
 

@@ -111,7 +111,7 @@ class F5BigIpSysSshd(F5BigIpUnnamedObject):
     
     def _absent(self):
         if not (self.params['allow']):
-            raise AnsibleModuleF5BigIpError("Absent can only be used when removing allow hostnames or IP addresses")
+            raise AnsibleF5Error("Absent can only be used when removing allow hostnames or IP addresses")
         
         return super(F5BigIpSysSshd, self)._absent()
 
