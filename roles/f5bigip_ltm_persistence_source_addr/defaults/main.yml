@@ -1,0 +1,5 @@
+---
+
+persistence_name: my_source_addr_persistence
+persistence_description: My source address persistence
+persistence_defaults_from: /Common/source_addr
