@@ -1,0 +1,4 @@
+---
+
+global_settings_metrics_default_probe_limit: 10
+global_settings_metrics_default_probe_limit_default: 12
