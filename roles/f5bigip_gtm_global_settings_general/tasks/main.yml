@@ -1,0 +1,61 @@
+---
+
+- name: Change GTM Global General Settings heartbeat interval
+  f5bigip_gtm_global_settings_general:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    heartbeat_interval: "{{ global_settings_general_heartbeat_interval }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert GTM Global General Settings heartbeat interval
+  assert:
+    that:
+      - result|changed
+
+- name: Change GTM Global General Settings heartbeat interval (idempotent)
+  f5bigip_gtm_global_settings_general:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    heartbeat_interval: "{{ global_settings_general_heartbeat_interval }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change GTM Global General Settings heartbeat interval (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change GTM Global General Settings heartbeat interval to default
+  f5bigip_gtm_global_settings_general:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    heartbeat_interval: "{{ global_settings_general_heartbeat_interval_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change GTM Global General Settings heartbeat interval to default
+  assert:
+    that:
+      - result|changed
+
+- name: Change GTM Global General Settings heartbeat interval to default (idempotent)
+  f5bigip_gtm_global_settings_general:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    heartbeat_interval: "{{ global_settings_general_heartbeat_interval_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change GTM Global General Settings heartbeat interval to default (idempotent)
+  assert:
+    that:
+      - not result|changed
