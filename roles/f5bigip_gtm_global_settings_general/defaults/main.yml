@@ -1,0 +1,4 @@
+---
+
+global_settings_general_heartbeat_interval: 8
+global_settings_general_heartbeat_interval_default: 10
