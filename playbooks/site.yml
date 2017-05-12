@@ -20,6 +20,7 @@
 - include: f5bigip_ltm_node.yml
 - include: f5bigip_ltm_persistence_cookie.yml
 - include: f5bigip_ltm_persistence_source_addr.yml
+- include: f5bigip_ltm_persistence_ssl.yml
 - include: f5bigip_ltm_pool.yml
 - include: f5bigip_ltm_profile_client_ssl.yml
 - include: f5bigip_ltm_profile_ftp.yml

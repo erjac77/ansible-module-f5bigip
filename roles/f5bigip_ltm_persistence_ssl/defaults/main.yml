@@ -1,0 +1,5 @@
+---
+
+persistence_name: my_ssl_persistence
+persistence_description: My ssl persistence
+persistence_defaults_from: /Common/ssl
