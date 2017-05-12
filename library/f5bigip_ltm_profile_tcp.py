@@ -169,7 +169,7 @@ options:
             - Specifies the initial congestion window size for connections to this destination.
         required: false
         default: 0
-        choices: range(0,16)
+        choices: range(0, 17)
         aliases: []
         version_added: 2.3
     init_rwnd:
@@ -177,7 +177,7 @@ options:
             - Specifies the initial receive window size for connections to this destination.
         required: false
         default: 0
-        choices: range(0,16)
+        choices: range(0, 17)
         aliases: []
         version_added: 2.3
     ip_tos_to_client:
@@ -376,7 +376,7 @@ options:
             - Specifies the probability of performing congestion control when multiple packets in a row are lost, even if the pkt-loss-ignore-rate was not exceeded.
         required: false
         default: 0
-        choices: range(0,32)
+        choices: range(0, 33)
         aliases: []
         version_added: 2.3
     pkt_loss_ignore_rate:
@@ -384,7 +384,7 @@ options:
             - Specifies the threshold of packets lost per million at which the system should perform congestion control.
         required: false
         default: 0
-        choices: range(0,1000000)
+        choices: range(0, 1000001)
         aliases: []
         version_added: 2.3
     proxy_buffer_high:
@@ -528,7 +528,7 @@ options:
             - Specifies the number of milliseconds that a connection is in the TIME-WAIT state before closing.
         required: false
         default: 2000
-        choices: range(0,600000)
+        choices: range(0, 600001)
         aliases: []
         version_added: 2.3
      timestamps:
@@ -593,8 +593,8 @@ BIGIP_LTM_PROFILE_TCP_ARGS = dict(
     fin_wait_timeout            =   dict(type='int'),
     hardware_syn_cookie         =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     idle_timeout                =   dict(type='int'),
-    init_cwnd                   =   dict(type='int', choices=range(0,16)),
-    init_rwnd                   =   dict(type='int', choices=range(0,16)),
+    init_cwnd                   =   dict(type='int', choices=range(0, 17)),
+    init_rwnd                   =   dict(type='int', choices=range(0, 17)),
     ip_tos_to_client            =   dict(type='int'),
     keep_alive_interval         =   dict(type='int'),
     limited_transmit            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
@@ -617,8 +617,8 @@ BIGIP_LTM_PROFILE_TCP_ARGS = dict(
     mptcp_timeout               =   dict(type='int'),
     mptcp_fastjoin              =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     nagle                       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pkt_loss_ignore_burst       =   dict(type='int', choices=range(0,32)),
-    pkt_loss_ignore_rate        =   dict(type='int', choices=range(0,1000000)),
+    pkt_loss_ignore_burst       =   dict(type='int', choices=range(0, 33)),
+    pkt_loss_ignore_rate        =   dict(type='int', choices=range(0, 1000001)),
     proxy_buffer_high           =   dict(type='int'),
     proxy_buffer_low            =   dict(type='int'),
     proxy_mss                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
@@ -635,7 +635,7 @@ BIGIP_LTM_PROFILE_TCP_ARGS = dict(
     syn_rto_base                =   dict(type='int'),
     tail_loss_probe             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     time_wait_recycle           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    time_wait_timeout           =   dict(type='int', choices=range(0,600000)),
+    time_wait_timeout           =   dict(type='int', choices=range(0, 600001)),
     timestamps                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     verified_accept             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     zero_window_timeout         =   dict(type='int')
