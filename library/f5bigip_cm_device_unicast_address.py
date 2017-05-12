@@ -86,9 +86,7 @@ BIGIP_CM_DEVICE_UNICAST_ADDRESS_ARGS = dict(
 
 class F5BigIpCmDeviceUnicastAddress(F5BigIpUnnamedObject):
     def set_crud_methods(self):
-        self.device = self.mgmt_root.tm.cm.devices.device.load(
-            name=self.params['device'],
-        )
+        self.device = self.mgmt_root.tm.cm.devices.device.load(name=self.params['device'])
         self.params.pop('device', None)
             
     def _read(self):

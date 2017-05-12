@@ -183,7 +183,7 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Disable SYS GLOBAL SETTINGS gui setup
+- name: Disable SYS Global Settings gui setup
   f5bigip_sys_global_settings:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -192,7 +192,7 @@ EXAMPLES = '''
     gui_setup: disabled
   delegate_to: localhost
 
-- name: Change SYS GLOBAL SETTINGS banner text
+- name: Change Global Settings banner text
   f5bigip_sys_global_settings:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -232,7 +232,8 @@ BIGIP_SYS_GLOBAL_SETTINGS_ARGS = dict(
 class F5BigIpSysGlobalSettings(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.global_settings.load
+            'read':     self.mgmt_root.tm.sys.global_settings.load,
+            'update':   self.mgmt_root.tm.sys.global_settings.update
         }
 
 def main():

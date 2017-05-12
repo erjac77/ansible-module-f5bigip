@@ -331,7 +331,8 @@ BIGIP_SYS_HTTPD_ARGS = dict(
 class F5BigIpSysHttpd(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.httpd.load
+            'read':     self.mgmt_root.tm.sys.httpd.load,
+            'update':   self.mgmt_root.tm.sys.httpd.update
         }
     
     def _absent(self):

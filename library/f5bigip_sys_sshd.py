@@ -79,7 +79,7 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Add SYS HTTPD allow clients
+- name: Add SYS SSHD allow clients
   f5bigip_sys_sshd:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -106,7 +106,8 @@ BIGIP_SYS_SSHD_ARGS = dict(
 class F5BigIpSysSshd(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.sshd.load
+            'read':     self.mgmt_root.tm.sys.sshd.load,
+            'update':   self.mgmt_root.tm.sys.sshd.update
         }
     
     def _absent(self):
