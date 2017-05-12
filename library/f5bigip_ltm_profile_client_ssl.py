@@ -89,7 +89,7 @@ options:
             - Specifies the SSL session cache timeout value.
         required: false
         default: 3600
-        choices: range(0,86400)
+        choices: range(0, 86401)
         aliases: []
         version_added: 2.3
     cert:
@@ -498,7 +498,7 @@ BIGIP_LTM_PROFILE_CLIENT_SSL_ARGS = dict(
     authenticate_depth              =   dict(type='int'),
     ca_file                         =   dict(type='str'),
     cache_size                      =   dict(type='int'),
-    cache_timeout                   =   dict(type='int', choices=range(0,86400)),
+    cache_timeout                   =   dict(type='int', choices=range(0, 86401)),
     cert                            =   dict(type='str'),
     #cert_extension_includes        =   dict(type='list'),
     #cert_key_chain                 =   dict(type='list'),
