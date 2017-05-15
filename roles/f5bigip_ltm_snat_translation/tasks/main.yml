@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM SNAT Translation
+  f5bigip_ltm_snat_translation:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ snat_translation_name }}"
+    partition: "{{ bigip_partition }}"
+    address: "{{ snat_translation_address }}"
+    description: "{{ snat_translation_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SNAT Translation
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM SNAT Translation (idempotent)
+  f5bigip_ltm_snat_translation:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ snat_translation_name }}"
+    partition: "{{ bigip_partition }}"
+    address: "{{ snat_translation_address }}"
+    description: "{{ snat_translation_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SNAT Translation (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify LTM SNAT Translation description
+  f5bigip_ltm_snat_translation:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ snat_translation_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_translation_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM SNAT Translation description
+  assert:
+    that:
+      - result|changed
+
+- name: Modify LTM SNAT Translation description (idempotent)
+  f5bigip_ltm_snat_translation:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ snat_translation_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_translation_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM SNAT Translation description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM SNAT Translation
+  f5bigip_ltm_snat_translation:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ snat_translation_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM SNAT Translation
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM SNAT Translation (idempotent)
+  f5bigip_ltm_snat_translation:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ snat_translation_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM SNAT Translation (idempotent)
+  assert:
+    that:
+      - not result|changed
