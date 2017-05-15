@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_ltm_nat module
+  hosts: bigips
+  connection: local
+  roles: 
+    - f5bigip_ltm_nat
