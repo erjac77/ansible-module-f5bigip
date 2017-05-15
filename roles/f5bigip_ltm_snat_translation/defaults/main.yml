@@ -1,0 +1,5 @@
+---
+
+snat_translation_name: my_snat_translation
+snat_translation_description: My snat translation
+snat_translation_address: 10.0.1.4
