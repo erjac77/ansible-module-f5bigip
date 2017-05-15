@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_sys_performance module
+  hosts: bigips
+  connection: local
+  roles:
+    - f5bigip_sys_performance

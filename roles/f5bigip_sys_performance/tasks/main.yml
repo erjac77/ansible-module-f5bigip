@@ -1,0 +1,20 @@
+---
+
+- name: Get SYS Performance all-stats
+  f5bigip_sys_performance:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ performance_name }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Get SYS Performance all-stats
+  assert:
+    that:
+      - result|changed
+
+- name: Display SYS Performance all-stats
+  debug:
+    msg: "{{ result }}"
