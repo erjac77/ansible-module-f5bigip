@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM SIP Persistence profile
+  f5bigip_ltm_persistence_sip:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ persistence_description }}"
+    defaults_from: "{{ persistence_defaults_from }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SIP Persistence profile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM SIP Persistence profile (idempotent)
+  f5bigip_ltm_persistence_sip:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ persistence_description }}"
+    defaults_from: "{{ persistence_defaults_from }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SIP Persistence profile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM SIP Persistence profile description
+  f5bigip_ltm_persistence_sip:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ persistence_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM SIP Persistence profile description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM SIP Persistence profile description (idempotent)
+  f5bigip_ltm_persistence_sip:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ persistence_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM SIP Persistence profile description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM SIP Persistence profile
+  f5bigip_ltm_persistence_sip:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM SIP Persistence profile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM SIP Persistence profile (idempotent)
+  f5bigip_ltm_persistence_sip:
+    f5_hostname: "{{ inventory_hostname }}"
+    f5_username: "{{ bigip01_username }}"
+    f5_password: "{{ bigip01_password }}"
+    f5_port: "{{ bigip01_port }}"
+    name: "{{ persistence_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM SIP Persistence profile (idempotent)
+  assert:
+    that:
+      - not result|changed

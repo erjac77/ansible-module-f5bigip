@@ -26,6 +26,7 @@
 - include: f5bigip_ltm_persistence_dest_addr.yml
 - include: f5bigip_ltm_persistence_hash.yml
 - include: f5bigip_ltm_persistence_msrdp.yml
+- include: f5bigip_ltm_persistence_sip.yml
 - include: f5bigip_ltm_persistence_source_addr.yml
 - include: f5bigip_ltm_persistence_ssl.yml
 - include: f5bigip_ltm_pool.yml

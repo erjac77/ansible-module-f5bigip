@@ -1,0 +1,5 @@
+---
+
+persistence_name: my_sip_persistence_profile
+persistence_description: My sip persistence profile
+persistence_defaults_from: /Common/sip_info
