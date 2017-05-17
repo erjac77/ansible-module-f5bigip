@@ -40,7 +40,7 @@ options:
         description:
             - Specifies the existing profile from which the system imports settings for the new profile.
         required: false
-        default: cookie
+        default: dest_addr
         choices: []
         aliases: []
         version_added: 2.3
