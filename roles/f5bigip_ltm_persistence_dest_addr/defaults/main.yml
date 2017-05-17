@@ -1,0 +1,5 @@
+---
+
+persistence_name: my_dest_addr_persistence_profile
+persistence_description: My dest address persistence profile
+persistence_defaults_from: /Common/dest_addr
