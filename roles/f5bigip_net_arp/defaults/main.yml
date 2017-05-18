@@ -1,0 +1,7 @@
+---
+
+arp_name: my_arp
+arp_description: my arp
+arp_ip_address: 10.10.10.20
+arp_mac_address: 00:0b:09:88:00:9a
+arp_mac_address_new: 00:0b:09:88:00:9f

@@ -42,6 +42,7 @@
 - include: f5bigip_ltm_snatpool.yml
 - include: f5bigip_ltm_virtual_address.yml
 - include: f5bigip_ltm_virtual.yml
+- include: f5bigip_net_arp.yml
 - include: f5bigip_net_route.yml
 - include: f5bigip_net_route_domain.yml
 - include: f5bigip_net_selfip.yml
