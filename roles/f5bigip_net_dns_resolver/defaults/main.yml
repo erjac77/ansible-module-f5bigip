@@ -1,0 +1,5 @@
+---
+
+dns_resolver_name: my_dns_resolver
+dns_resolver_description: my dns resolver
+dns_resolver_use_ipv6: no
