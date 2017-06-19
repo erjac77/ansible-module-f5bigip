@@ -2,10 +2,10 @@
 
 - name: Create LTM NAT
   f5bigip_ltm_nat:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ nat_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ nat_description }}"
@@ -24,10 +24,10 @@
 
 - name: Create LTM NAT (idempotent)
   f5bigip_ltm_nat:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ nat_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ nat_description }}"
@@ -46,10 +46,10 @@
     
 - name: Change LTM NAT description and stp
   f5bigip_ltm_nat:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ nat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ nat_description }}"
@@ -63,10 +63,10 @@
 
 - name: Change LTM NAT description (idempotent)
   f5bigip_ltm_nat:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ nat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ nat_description }}"
@@ -80,10 +80,10 @@
 
 - name: Delete LTM NAT
   f5bigip_ltm_nat:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ nat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -97,10 +97,10 @@
 
 - name: Delete LTM NAT (idempotent)
   f5bigip_ltm_nat:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ nat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

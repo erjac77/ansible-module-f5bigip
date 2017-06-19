@@ -1,7 +1,7 @@
 ---
 
 - name: Test the f5bigip_sys_global_settings module
-  hosts: bigips
+  hosts: all
   connection: local
   roles:
     - f5bigip_sys_global_settings

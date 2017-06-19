@@ -2,10 +2,10 @@
 
 - name: Create GTM Region
   f5bigip_gtm_region:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ region_description }}"
@@ -20,10 +20,10 @@
 
 - name: Create GTM Region (idempotent)
   f5bigip_gtm_region:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ region_description }}"
@@ -38,10 +38,10 @@
 
 - name: Modify GTM Region description
   f5bigip_gtm_region:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ region_description }}"
@@ -55,10 +55,10 @@
 
 - name: Modify GTM Region description (idempotent)
   f5bigip_gtm_region:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ region_description }}"
@@ -72,10 +72,10 @@
 
 - name: Delete GTM Region
   f5bigip_gtm_region:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -89,10 +89,10 @@
 
 - name: Delete GTM Region (idempotent)
   f5bigip_gtm_region:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

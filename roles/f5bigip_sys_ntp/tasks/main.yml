@@ -2,10 +2,10 @@
 
 - name: Add SYS NTP Servers
   f5bigip_sys_ntp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     timezone: "{{ ntp_timezone }}"
     state: present
@@ -19,10 +19,10 @@
 
 - name: Add SYS NTP Servers (idempotent)
   f5bigip_sys_ntp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     timezone: "{{ ntp_timezone }}"
     state: present
@@ -36,10 +36,10 @@
 
 - name: Remove SYS NTP Servers
   f5bigip_sys_ntp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     state: absent
   delegate_to: localhost
@@ -52,10 +52,10 @@
 
 - name: Remove SYS NTP Servers (idempotent)
   f5bigip_sys_ntp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     state: absent
   delegate_to: localhost

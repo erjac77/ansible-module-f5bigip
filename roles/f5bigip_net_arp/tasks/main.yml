@@ -2,10 +2,10 @@
 
 - name: Create NET ARP
   f5bigip_net_arp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ arp_description }}"
@@ -22,10 +22,10 @@
 
 - name: Create NET ARP (idempotent)
   f5bigip_net_arp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{arp_description }}"
@@ -42,10 +42,10 @@
 
 - name: Change NET ARP description and mac address
   f5bigip_net_arp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ arp_description }}"
@@ -59,10 +59,10 @@
 
 - name: Change NET ARP description and mac address (idempotent)
   f5bigip_net_arp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ arp_description }}"
@@ -76,10 +76,10 @@
 
 - name: Delete NET ARP
   f5bigip_net_arp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -93,10 +93,10 @@
 
 - name: Delete NET ARP (idempotent)
   f5bigip_net_arp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

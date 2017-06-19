@@ -2,10 +2,10 @@
 
 - name: Create LTM TCP Monitor
   f5bigip_ltm_monitor_tcp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_description }}"
@@ -22,10 +22,10 @@
 
 - name: Create LTM TCP Monitor (idempotent)
   f5bigip_ltm_monitor_tcp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_description }}"
@@ -42,10 +42,10 @@
 
 - name: Change LTM TCP Monitor description, interval and timeout
   f5bigip_ltm_monitor_tcp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_description }}"
@@ -61,10 +61,10 @@
 
 - name: Change LTM TCP Monitor description, interval and timeout (idempotent)
   f5bigip_ltm_monitor_tcp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_description }}"
@@ -80,10 +80,10 @@
 
 - name: Delete LTM TCP Monitor
   f5bigip_ltm_monitor_tcp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -97,10 +97,10 @@
 
 - name: Delete LTM TCP Monitor (idempotent)
   f5bigip_ltm_monitor_tcp:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

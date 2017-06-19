@@ -2,10 +2,10 @@
 
 - name: Upload LTM External Data-Group List
   f5bigip_shared_file_transfer_upload:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     filepathname: "{{ ext_dg_filepathname }}"
     state: present
   delegate_to: localhost
@@ -18,10 +18,10 @@
 
 - name: Create SYS Data-Group file
   f5bigip_sys_file_data_group:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ ext_dg_filename }}"
     partition: Common
     source_path: "{{ ext_dg_source_path }}"
@@ -36,10 +36,10 @@
 
 - name: Create LTM External Data-Group referencing the file
   f5bigip_ltm_data_group_external:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ ext_dg_name }}"
     partition: Common
     description: "{{ ext_dg_description }}"
@@ -55,10 +55,10 @@
 # Not idempotent!!
 #- name: Create LTM External Data-Group referencing the file (idempotent)
 #  f5bigip_ltm_data_group_external:
-#    f5_hostname: "{{ inventory_hostname }}"
-#    f5_username: "{{ bigip01_username }}"
-#    f5_password: "{{ bigip01_password }}"
-#    f5_port: "{{ bigip01_port }}"
+#    f5_hostname: "{{ bigip_host }}"
+#    f5_username: "{{ bigip_username }}"
+#    f5_password: "{{ bigip_password }}"
+#    f5_port: "{{ bigip_port }}"
 #    name: "{{ ext_dg_name }}"
 #    partition: Common
 #    description: "{{ ext_dg_description }}"
@@ -73,10 +73,10 @@
 
 - name: Delete LTM External Data-Group
   f5bigip_ltm_data_group_external:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ ext_dg_name }}"
     partition: Common
     state: absent
@@ -90,10 +90,10 @@
 # Not idempotent!!
 #- name: Delete LTM External Data-Group (idempotent)
 #  f5bigip_ltm_data_group_external:
-#    f5_hostname: "{{ inventory_hostname }}"
-#    f5_username: "{{ bigip01_username }}"
-#    f5_password: "{{ bigip01_password }}"
-#    f5_port: "{{ bigip01_port }}"
+#    f5_hostname: "{{ bigip_host }}"
+#    f5_username: "{{ bigip_username }}"
+#    f5_password: "{{ bigip_password }}"
+#    f5_port: "{{ bigip_port }}"
 #    name: "{{ ext_dg_name }}"
 #    partition: Common
 #    state: absent
@@ -106,10 +106,10 @@
 
 - name: Delete SYS Data-Group file
   f5bigip_sys_file_data_group:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ ext_dg_filename }}"
     partition: Common
     state: absent
@@ -122,10 +122,10 @@
 
 - name: Create LTM Internal Data-Group
   f5bigip_ltm_data_group_internal:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ int_dg_name }}"
     partition: Common
     description: "{{ int_dg_description }}"
@@ -142,10 +142,10 @@
 # Not idempotent!!
 #- name: Create LTM Internal Data-Group (idempotent)
 #  f5bigip_ltm_data_group_internal:
-#    f5_hostname: "{{ inventory_hostname }}"
-#    f5_username: "{{ bigip01_username }}"
-#    f5_password: "{{ bigip01_password }}"
-#    f5_port: "{{ bigip01_port }}"
+#    f5_hostname: "{{ bigip_host }}"
+#    f5_username: "{{ bigip_username }}"
+#    f5_password: "{{ bigip_password }}"
+#    f5_port: "{{ bigip_port }}"
 #    name: "{{ int_dg_name }}"
 #    partition: Common
 #    description: "{{ int_dg_description }}"
@@ -161,10 +161,10 @@
 
 - name: Delete LTM Internal Data-Group
   f5bigip_ltm_data_group_internal:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ int_dg_name }}"
     partition: Common
     state: absent
@@ -178,10 +178,10 @@
 # Not idempotent!!
 #- name: Delete LTM Internal Data-Group (idempotent)
 #  f5bigip_ltm_data_group_internal:
-#    f5_hostname: "{{ inventory_hostname }}"
-#    f5_username: "{{ bigip01_username }}"
-#    f5_password: "{{ bigip01_password }}"
-#    f5_port: "{{ bigip01_port }}"
+#    f5_hostname: "{{ bigip_host }}"
+#    f5_username: "{{ bigip_username }}"
+#    f5_password: "{{ bigip_password }}"
+#    f5_port: "{{ bigip_port }}"
 #    name: "{{ int_dg_name }}"
 #    partition: Common
 #    state: absent

@@ -1,7 +1,7 @@
 ---
 
 - name: Test the f5bigip_ltm_persistence_sip module
-  hosts: bigips
+  hosts: all
   connection: local
   roles:
     - f5bigip_ltm_persistence_sip

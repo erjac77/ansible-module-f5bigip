@@ -1,7 +1,7 @@
 ---
 
 - name: Test the f5bigip_ltm_profile_one_connect module
-  hosts: bigips
+  hosts: all
   connection: local
   roles:
     - f5bigip_ltm_profile_one_connect
