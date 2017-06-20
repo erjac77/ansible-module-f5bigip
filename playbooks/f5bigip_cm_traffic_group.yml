@@ -1,7 +1,7 @@
 ---
 
 - name: Test the f5bigip_cm_traffic_group module
-  hosts: bigips
+  hosts: all
   connection: local
   roles:
     - f5bigip_cm_traffic_group

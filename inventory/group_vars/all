@@ -1,11 +1,5 @@
 ---
 
-bigip01_username: admin
-bigip01_password: admin
-bigip01_port: 11443
-
-bigip02_username: admin
-bigip02_password: admin
-bigip02_port: 12443
-
+bigip_username: admin
+bigip_password: admin
 bigip_partition: Common

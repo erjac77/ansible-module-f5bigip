@@ -2,10 +2,10 @@
 
 - name: Create NET DNS Resolver
   f5bigip_net_dns_resolver:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     state: present
@@ -19,10 +19,10 @@
 
 - name: Create NET DNS Resolver (idempotent)
   f5bigip_net_dns_resolver:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     state: present
@@ -36,10 +36,10 @@
 
 - name: Change NET DNS Resolver use_ipv6
   f5bigip_net_dns_resolver:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     use_ipv6: "{{ dns_resolver_use_ipv6 }}"
@@ -52,10 +52,10 @@
 
 - name: Change NET DNS Resolver use_ipv6 (idempotent)
   f5bigip_net_dns_resolver:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     use_ipv6: "{{ dns_resolver_use_ipv6 }}"
@@ -68,10 +68,10 @@
 
 - name: Delete NET DNS Resolver
   f5bigip_net_dns_resolver:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
@@ -85,10 +85,10 @@
 
 - name: Delete NET DNS Resolver (idempotent)
   f5bigip_net_dns_resolver:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     state: absent

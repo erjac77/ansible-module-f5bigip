@@ -1,7 +1,7 @@
 ---
 
 - name: Test the f5bigip_ltm_persistence_dest_addr module
-  hosts: bigips
+  hosts: all
   connection: local
   roles:
     - f5bigip_ltm_persistence_dest_addr

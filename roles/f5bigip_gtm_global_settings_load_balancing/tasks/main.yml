@@ -2,10 +2,10 @@
 
 - name: Change GTM Global Load-Balancing Settings ignore path ttl
   f5bigip_gtm_global_settings_load_balancing:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     ignore_path_ttl: "{{ global_settings_load_balancing_ignore_path_ttl }}"
   delegate_to: localhost
   register: result
@@ -17,10 +17,10 @@
 
 - name: Change GTM Global Load-Balancing Settings ignore path ttl (idempotent)
   f5bigip_gtm_global_settings_load_balancing:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     ignore_path_ttl: "{{ global_settings_load_balancing_ignore_path_ttl }}"
   delegate_to: localhost
   register: result
@@ -32,10 +32,10 @@
 
 - name: Change GTM Global Load-Balancing Settings ignore path ttl to default
   f5bigip_gtm_global_settings_load_balancing:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     ignore_path_ttl: "{{ global_settings_load_balancing_ignore_path_ttl_default }}"
   delegate_to: localhost
   register: result
@@ -47,10 +47,10 @@
 
 - name: Change GTM Global Load-Balancing Settings ignore path ttl to default (idempotent)
   f5bigip_gtm_global_settings_load_balancing:
-    f5_hostname: "{{ inventory_hostname }}"
-    f5_username: "{{ bigip01_username }}"
-    f5_password: "{{ bigip01_password }}"
-    f5_port: "{{ bigip01_port }}"
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
     ignore_path_ttl: "{{ global_settings_load_balancing_ignore_path_ttl_default }}"
   delegate_to: localhost
   register: result

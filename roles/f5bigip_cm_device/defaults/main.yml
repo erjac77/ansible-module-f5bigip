@@ -1,6 +1,6 @@
 ---
 
-device_name: bigip01.localhost
+device_name: bigip.localhost
 device_comment: My lab device
 device_contact: 'admin@localhost'
 device_description: My device
