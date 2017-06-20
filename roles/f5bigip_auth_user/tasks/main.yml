@@ -1,0 +1,173 @@
+---
+
+- name: Create SYS Folder
+  f5bigip_sys_folder:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ folder_name }}"
+    sub_path: /
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Folder
+  assert:
+    that:
+      - result|change
+
+- name: Create Auth User
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ user_description }}"
+    partition_access: "{{ user_partition_access }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create Auth User
+  assert:
+    that:
+      - result|changed
+
+- name: Create Auth User (idempotent)
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ user_description }}"
+    partition_access: "{{ user_partition_access }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create Auth User (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change Partition access
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    partition_access: "{{ user_partition_access_default }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change Partition access
+  assert:
+    that:
+      - result|changed
+
+- name: Change Partition access (idempotent)
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    partition_access: "{{ user_partition_access_default }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change Partition access (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change Auth User description
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    description: "new {{ user_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change Auth User description 
+  assert:
+    that:
+      - result|changed
+
+- name: Change Auth User description (idempotent)
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    description: "new {{ user_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change Auth User description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete Auth User
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete Auth User
+  assert:
+    that:
+      - result|changed
+
+- name: Delete Auth User (idempotent)
+  f5bigip_auth_user:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete Auth User (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS Folder
+  f5bigip_sys_folder:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ folder_name }}"
+    sub_path: /
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Delete SYS Folder
+  assert:
+    that:
+      - result|changed
