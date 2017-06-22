@@ -1,0 +1,362 @@
+---
+
+- name: Create LTM SNAT with automap
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snat_description }}"
+    automap: "{{ snat_automap }}"
+    origins: "{{ snat_origins }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Snat with automap
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM SNAT with automap (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snat_description }}"
+    automap: "{{ snat_automap }}"
+    origins: "{{ snat_origins }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Snat with automap (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+
+- name: Modify LTM Snat with automap description
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snat with automap description
+  assert:
+    that:
+      - result|changed
+
+- name: Modify LTM Snat with automap description (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snat with automap description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Snat with automap
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snat with automap
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Snat with automap (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snat with automap (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Create LTM SNAT with translation
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snat_description }}"
+    translation: "{{ snat_translation }}"
+    origins: "{{ snat_origins }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SNAT with translation
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM SNAT with translation (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snat_description }}"
+    translation: "{{ snat_translation }}"
+    origins: "{{ snat_origins }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SNAT with translation (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify LTM Snat with translation description
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snat with translation description
+  assert:
+    that:
+      - result|changed
+
+- name: Modify LTM Snat with translation description (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snat with translation description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Snat with translation
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snat with translation
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Snat with translation (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snat with translation (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Create LTM Snatpool
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snatpool_description }}"
+    members: "{{ snatpool_members }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Snatpool
+  assert:
+    that:
+      - result|changed
+    
+- name: Create LTM SNAT with snatpool
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snat_description }}"
+    origins: "{{ snat_origins }}"
+    snatpool: "{{ snat_snatpool_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SNAT with snatpool
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM SNAT with snatpool (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ snat_description }}"
+    origins: "{{ snat_origins }}"
+    snatpool: "{{ snat_snatpool_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM SNAT with snatpool (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Modify LTM Snat with snatpool description
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snat with snatpool description
+  assert:
+    that:
+      - result|changed
+
+- name: Modify LTM Snat with snatpool description (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ snat_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM Snat with snatpool description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Snat with snatpool
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snat with snatpool
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Snat with snatpool (idempotent)
+  f5bigip_ltm_snat:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snat_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snat with snatpool (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Snatpool
+  f5bigip_ltm_snatpool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ snatpool_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Snatpool
+  assert:
+    that:
+      - result|changed
