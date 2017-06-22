@@ -1,0 +1,14 @@
+---
+
+snat_name: My_snat
+snat_description: my snat
+snat_automap: true
+snat_origins: 
+  - name: 10.10.0.11/32
+snat_translation: /Common/10.10.4.54
+snat_snatpool_name: /Common/My_snatpool
+snatpool_name: My_snatpool
+snatpool_description: My snatpool
+snatpool_members:
+  - 10.10.10.251
+  - 10.10.10.252
