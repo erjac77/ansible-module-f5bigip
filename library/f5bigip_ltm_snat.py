@@ -193,18 +193,17 @@ class F5BigIpLtmSnat(F5BigIpNamedObject):
             'delete':   self.mgmt_root.tm.ltm.snats.snat.delete,
             'exists':   self.mgmt_root.tm.ltm.snats.snat.exists
         }
-        if self.params['automap'] == None:
-            del self.params['automap']
 
 def main():
     # Translation list for conflictual params
-    tr = { 'state_user':'state' }
-    
+    tr = {}
+
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_LTM_SNAT_ARGS, 
         supports_check_mode=False,
         mutually_exclusive=[
-            ['vlans_disabled', 'vlans_enabled']
+            ['vlans_disabled', 'vlans_enabled'],
+            ['automap', 'snatpool']
         ]
     )
 
