@@ -68,12 +68,28 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    fqdn:
+        description:
+            - Specifies the attributes for defining a fully qualified domain name for the node.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     logging:
         description:
             - Specifies whether the monitor applied should log its actions.
         required: false
         default: disabled
         choices: ['enabled', 'disabled']
+        aliases: []
+        version_added: 2.3
+    metadata:
+        description:
+            - Associates user defined data, each of which has a name and value pair and persistence.
+        required: false
+        default: persistent
+        choices: []
         aliases: []
         version_added: 2.3
     monitor:
@@ -178,9 +194,9 @@ BIGIP_LTM_NODE_ARGS = dict(
     connection_limit    =   dict(type='int'),
     description         =   dict(type='str'),
     dynamic_ratio       =   dict(type='int'),
-    #fqdn                =   dict(type='str'),
+    fqdn                =   dict(type='str'),
     logging             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    #metadata            =   dict(type='list'),
+    metadata            =   dict(type='list'),
     monitor             =   dict(type='str'),
     rate_limit          =   dict(type='int'),
     ratio               =   dict(type='int'),
