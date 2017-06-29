@@ -1,0 +1,8 @@
+---
+
+traffic_class_name: my_traffic_class
+traffic_class_classification: traffic_class
+traffic_class_description: my traffic class
+traffic_class_destination_port: 21
+traffic_class_protocol: tcp
+traffic_class_source_port: 21
