@@ -132,6 +132,14 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    persist:
+        description:
+            - Specifies a list of profiles separated by spaces that the listener uses to manage connection persistence.
+        required: false
+        default: none
+        choices: []
+        aliases: []
+        version_added: 2.3
     pool:
         description:
             - Specifies a default pool to which you want the listener to automatically direct traffic.
@@ -148,9 +156,25 @@ options:
         choices: []
         aliases: []
         version_added: 2.3
+    profiles:
+        description:
+            - Specifies the DNS, statistics and protocol profiles to use for this listener.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
     rules:
         description:
             - Specifies a list of iRules, separated by spaces, that customize the listener to direct and manage traffic.
+        required: false
+        default: null
+        choices: []
+        aliases: []
+        version_added: 2.3
+    source_address_translation:
+        description:
+            - Specifies the type of source address translation enabled for the listener as well as the pool that the source address translation will use.
         required: false
         default: null
         choices: []
@@ -225,6 +249,12 @@ EXAMPLES = '''
     partition: Common
     description: My listener
     address: 10.10.1.1
+    persist: 
+      - partition: Common
+        name: dest_addr
+        tmDefault: 'yes'
+    source_address_translation: 
+      type: automap
     state: present
   delegate_to: localhost
 '''
@@ -243,12 +273,12 @@ BIGIP_GTM_LISTENER_ARGS = dict(
     ip_protocol                     =   dict(type='str', choices=['tcp', 'udp']),
     last_hop_pool                   =   dict(type='str'),
     mask                            =   dict(type='str'),
-    #persist                         =   dict(type='list'),
+    persist                         =   dict(type='list'),
     pool                            =   dict(type='str'),
     port                            =   dict(type='int'),
-    #profiles                        =   dict(type='list'),
+    profiles                        =   dict(type='list'),
     rules                           =   dict(type='list'),
-    #source_address_translation      =   dict(type='list'),
+    source_address_translation      =   dict(type='dict'),
     source_port                     =   dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
     translate_address               =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
     translate_port                  =   dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
@@ -266,6 +296,11 @@ class F5BigIpGtmListener(F5BigIpNamedObject):
             'delete':   self.mgmt_root.tm.gtm.listeners.listener.delete,
             'exists':   self.mgmt_root.tm.gtm.listeners.listener.exists
         }
+        self.params.pop('partition')
+        
+        if isinstance(self.params['source_address_translation'], dict): 
+            if self.params['source_address_translation']['type'] == 'automap' and 'pool' in self.params['source_address_translation']:
+                raise AnsibleF5Error('Cant specify a pool when using automap.')
 
 def main():
     # Translation list for conflictual params
@@ -279,7 +314,7 @@ def main():
             ['vlans_disabled', 'vlans_enabled']
         ]
     )
-    
+
     try:
         obj = F5BigIpGtmListener(check_mode=module.supports_check_mode, tr=tr, **module.params)
         result = obj.flush()
