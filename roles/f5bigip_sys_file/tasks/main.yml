@@ -85,3 +85,87 @@
 #  assert:
 #    that:
 #      - not result|changed
+
+- name: Upload File
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    filepathname: "{{ ifile_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Upload File
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS iFile
+  f5bigip_sys_file_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: Common
+    source_path: "{{ ifile_source_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS iFile
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS iFile (idempotent)
+  f5bigip_sys_file_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: Common
+    source_path: "{{ ifile_source_path }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS iFile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS iFile
+  f5bigip_sys_file_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS iFile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete SYS iFile (idempotent)
+  f5bigip_sys_file_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS iFile (idempotent)
+  assert:
+    that:
+      - not result|changed
