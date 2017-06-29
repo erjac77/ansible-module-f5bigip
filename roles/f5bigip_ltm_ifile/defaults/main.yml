@@ -1,0 +1,13 @@
+---
+
+files_path: "{{ role_path }}/files/"
+rest_download_path: "/var/config/rest/downloads/"
+
+file_name: myfile
+sys_file_ifile_filepathname: "{{ files_path }}/{{ file_name }}.txt"
+sys_file_ifile_name: my_sys_ifile
+sys_file_ifile_source_path: "file:{{ rest_download_path }}{{ file_name }}.txt"
+
+ifile_name: my_ifile
+ifile_description: My ifile
+ifile_file_name: "/Common/{{ sys_file_ifile_name }}"
