@@ -22,7 +22,7 @@ description:
     - Configures a traffic class.
 version_added: 2.3
 author:
-	- "Gabriel Fortin"
+    - "Gabriel Fortin"
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
