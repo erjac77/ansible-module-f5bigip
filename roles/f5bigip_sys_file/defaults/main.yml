@@ -7,3 +7,8 @@ ext_dg_name: my_ext_dg
 ext_dg_filename: "{{ ext_dg_name }}_file"
 ext_dg_filepathname: "{{ files_path }}{{ ext_dg_name }}.dat"
 ext_dg_source_path: "file:{{ rest_download_path }}{{ ext_dg_name }}.dat"
+
+file_name: myfile
+ifile_filepathname: "{{ files_path }}/{{ file_name }}.txt"
+ifile_name: my_sys_ifile
+ifile_source_path: "file:{{ rest_download_path }}{{ file_name }}.txt"
