@@ -1,0 +1,115 @@
+---
+
+- name: Create LTM Traffic Class
+  f5bigip_ltm_traffic_class:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ traffic_class_name }}"
+    partition: "{{ bigip_partition }}"
+    classification: "{{ traffic_class_classification }}"
+    description: "{{ traffic_class_description }}"
+    destination_port: "{{ traffic_class_destination_port }}"
+    protocol: "{{ traffic_class_protocol }}"
+    source_port: "{{ traffic_class_source_port }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Traffic Class
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Traffic Class (idempotent)
+  f5bigip_ltm_traffic_class:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ traffic_class_name }}"
+    partition: "{{ bigip_partition }}"
+    classification: "{{ traffic_class_classification }}"
+    description: "{{ traffic_class_description }}"
+    destination_port: "{{ traffic_class_destination_port }}"
+    protocol: "{{ traffic_class_protocol }}"
+    source_port: "{{ traffic_class_source_port }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Traffic Class (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Traffic Class description
+  f5bigip_ltm_traffic_class:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ traffic_class_name }}"
+    description: "new {{ traffic_class_description }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Traffic Class description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Traffic Class description (idempotent)
+  f5bigip_ltm_traffic_class:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ traffic_class_name }}"
+    description: "new {{ traffic_class_description }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Traffic Class description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Traffic Class
+  f5bigip_ltm_traffic_class:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ traffic_class_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Traffic Class
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Traffic Class (idempotent)
+  f5bigip_ltm_traffic_class:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ traffic_class_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Traffic Class (idempotent)
+  assert:
+    that:
+      - not result|changed

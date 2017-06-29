@@ -43,6 +43,7 @@
 - include: f5bigip_ltm_snat.yml
 - include: f5bigip_ltm_snat_translation.yml
 - include: f5bigip_ltm_snatpool.yml
+- include: f5bigip_ltm_traffic_class.yml
 - include: f5bigip_ltm_virtual_address.yml
 - include: f5bigip_ltm_virtual.yml
 - include: f5bigip_net_arp.yml
