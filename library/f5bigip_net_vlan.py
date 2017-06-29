@@ -191,7 +191,7 @@ BIGIP_NET_VLAN_ARGS = dict(
     failsafe_timeout    =   dict(type='int'),
     learning            =   dict(type='str', choices=['disable-drop', 'disable-forward', 'enable-forward']),
     mtu                 =   dict(type='int'),
-    #sflow               =   dict(type='list'),
+    sflow               =   dict(type='dict'),
     source_checking     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     tag                 =   dict(type='int'),
     customer_tag        =   dict(type='str'),
