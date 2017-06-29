@@ -1,0 +1,161 @@
+---
+
+- name: Upload File
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    filepathname: "{{ sys_file_ifile_filepathname }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Upload File
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS iFile
+  f5bigip_sys_file_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ sys_file_ifile_name }}"
+    partition: Common
+    source_path: "{{ sys_file_ifile_source_path }}"
+    state: present
+  delegate_to: localhost
+
+- name: Assert Create SYS iFile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM iFile
+  f5bigip_ltm_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ ifile_description }}"
+    file_name: "{{ ifile_file_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM iFile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM iFile (idempotent)
+  f5bigip_ltm_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ ifile_description }}"
+    file_name: "{{ ifile_file_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Modify LTM iFile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM iFile description
+  f5bigip_ltm_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ ifile_description }}"
+    file_name: "{{ ifile_file_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM iFile description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM iFile description (idempotent)
+  f5bigip_ltm_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ ifile_description }}"
+    file_name: "{{ ifile_file_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM iFile description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM iFile
+  f5bigip_ltm_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM iFile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM iFile (idempotent)
+  f5bigip_ltm_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ifile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM iFile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete SYS iFile
+  f5bigip_sys_file_ifile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ sys_file_ifile_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete SYS iFile
+  assert:
+    that:
+      - result|changed
