@@ -1,0 +1,4 @@
+---
+
+ocsp_responder_name: my_ocsp_responder
+ocsp_responder_description: My ocsp responder
