@@ -189,7 +189,7 @@ BIGIP_LTM_POOL_MEMBER_ARGS = dict(
     connection_limit    =   dict(type='int'),
     description         =   dict(type='str'),
     dynamic_ratio       =   dict(type='int'),
-    #fqdn                =   dict(type='list'),
+    fqdn                =   dict(type='dict'),
     inherit_profile     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     logging             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     monitor             =   dict(type='str'),
