@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM AUTH SSL CRLDP
+  f5bigip_ltm_auth_ssl_crldp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ssl_crldp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ ssl_crldp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM AUTH SSL CRLDP
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM AUTH SSL CRLDP (idempotent)
+  f5bigip_ltm_auth_ssl_crldp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ssl_crldp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ ssl_crldp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM AUTH SSL CRLDP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM AUTH SSL CRLDP Description
+  f5bigip_ltm_auth_ssl_crldp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ssl_crldp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ ssl_crldp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM AUTH SSL CRLDP Description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM AUTH SSL CRLDP Description (idempotent)
+  f5bigip_ltm_auth_ssl_crldp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ssl_crldp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ ssl_crldp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM AUTH SSL CRLDP Description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM AUTH SSL CRLDP
+  f5bigip_ltm_auth_ssl_crldp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ssl_crldp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM AUTH SSL CRLDP
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM AUTH SSL CRLDP (idempotent)
+  f5bigip_ltm_auth_ssl_crldp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ssl_crldp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM AUTH SSL CRLDP (idempotent)
+  assert:
+    that:
+      - not result|changed

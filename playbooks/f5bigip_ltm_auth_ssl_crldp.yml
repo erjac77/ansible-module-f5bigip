@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_ltm_auth_ssl_crldp
+  hosts: all
+  connection: local
+  roles:
+    - f5bigip_ltm_auth_ssl_crldp
