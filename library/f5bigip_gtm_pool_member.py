@@ -204,8 +204,8 @@ class F5BigIpGtmPoolMember(F5BigIpNamedObject):
     def set_crud_methods(self):
         if isinstance(self.mgmt_root.tm.gtm.pools, OrganizingCollection):
             self.pool = self.mgmt_root.tm.gtm.pools.a_s.a.load(
-            name=self.params['pool'],
-            partition=self.params['partition']
+                name=self.params['pool'],
+                partition=self.params['partition']
         )
         else:
             self.pool = self.mgmt_root.tm.gtm.pools.pool.load(
