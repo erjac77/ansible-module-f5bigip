@@ -1,0 +1,6 @@
+---
+
+crldp_server_name: my_crldp_server
+crldp_server_description: My crldp server
+crldp_server_host: 10.0.0.4
+crldp_server_port: 389
