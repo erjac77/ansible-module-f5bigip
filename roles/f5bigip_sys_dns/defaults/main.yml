@@ -3,3 +3,5 @@
 name_servers:
   - 10.20.20.21
   - 10.20.20.22
+dns_search:
+  - localhost
