@@ -201,6 +201,7 @@ EXAMPLES = '''
 '''
 
 from ansible_common_f5.f5_bigip import *
+from f5.bigip.resource import OrganizingCollection
 
 BIGIP_GTM_WIDEIP_ARGS = dict(
     aliases                                 =   dict(type='list'),
@@ -212,7 +213,7 @@ BIGIP_GTM_WIDEIP_ARGS = dict(
     ipv6_no_error_response                  =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     last_resort_pool                        =   dict(type='str'),
     load_balancing_decision_log_verbosity   =   dict(type='str', choices=['pool-selection', 'pool-traversal', 'pool-member-selection', 'pool-member-traversal']),
-    #metadata                                =   dict(type='list'),
+    metadata                                =   dict(type='list'),
     persistence                             =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     persist_cidr_ipv4                       =   dict(type='int'),
     persist_cidr_ipv6                       =   dict(type='int'),
@@ -224,13 +225,22 @@ BIGIP_GTM_WIDEIP_ARGS = dict(
 
 class F5BigIpGtmWideip(F5BigIpNamedObject):
     def set_crud_methods(self):
-        self.methods = {
-            'create':   self.mgmt_root.tm.gtm.wideips.wideip.create,
-            'read':     self.mgmt_root.tm.gtm.wideips.wideip.load,
-            'update':   self.mgmt_root.tm.gtm.wideips.wideip.update,
-            'delete':   self.mgmt_root.tm.gtm.wideips.wideip.delete,
-            'exists':   self.mgmt_root.tm.gtm.wideips.wideip.exists
-        }
+        if isinstance(self.mgmt_root.tm.gtm.wideips, OrganizingCollection):
+            self.methods = {
+                'create':   self.mgmt_root.tm.gtm.wideips.a_s.a.create,
+                'read':     self.mgmt_root.tm.gtm.wideips.a_s.a.load,
+                'update':   self.mgmt_root.tm.gtm.wideips.a_s.a.update,
+                'delete':   self.mgmt_root.tm.gtm.wideips.a_s.a.delete,
+                'exists':   self.mgmt_root.tm.gtm.wideips.a_s.a.exists
+            }
+        else:
+            self.methods = {
+                'create':   self.mgmt_root.tm.gtm.wideips.wideip.create,
+                'read':     self.mgmt_root.tm.gtm.wideips.wideip.load,
+                'update':   self.mgmt_root.tm.gtm.wideips.wideip.update,
+                'delete':   self.mgmt_root.tm.gtm.wideips.wideip.delete,
+                'exists':   self.mgmt_root.tm.gtm.wideips.wideip.exists
+            }
 
 def main():
     # Translation list for conflictual params
