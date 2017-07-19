@@ -72,8 +72,8 @@ from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_DNS_ARGS = dict(
     description     =   dict(type='str'),
-    name_servers    =   dict(type='list')#,
-    #search          =   dict(type='list')
+    name_servers    =   dict(type='list'),
+    search          =   dict(type='list')
 )
 
 class F5BigIpSysDns(F5BigIpUnnamedObject):
@@ -84,8 +84,8 @@ class F5BigIpSysDns(F5BigIpUnnamedObject):
         }
     
     def _absent(self):
-        if not (self.params['nameServers']):# or self.params['search']):
-            raise AnsibleF5Error("Absent can only be used when removing name servers")# or search domains")
+        if not (self.params['nameServers'] or self.params['search']):
+            raise AnsibleF5Error("Absent can only be used when removing name servers or search domains")
         
         return super(F5BigIpSysDns, self)._absent()
 
