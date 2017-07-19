@@ -180,6 +180,7 @@ EXAMPLES = '''
 '''
 
 from ansible_common_f5.f5_bigip import *
+from f5.bigip.resource import OrganizingCollection
 
 BIGIP_GTM_POOL_MEMBER_ARGS = dict(
     app_service                     =   dict(type='str'),
@@ -201,10 +202,16 @@ BIGIP_GTM_POOL_MEMBER_ARGS = dict(
 
 class F5BigIpGtmPoolMember(F5BigIpNamedObject):
     def set_crud_methods(self):
-        self.pool = self.mgmt_root.tm.gtm.pools.pool.load(
-            name=self.params['pool'],
-            partition=self.params['partition']
+        if isinstance(self.mgmt_root.tm.gtm.pools, OrganizingCollection):
+            self.pool = self.mgmt_root.tm.gtm.pools.a_s.a.load(
+                name=self.params['pool'],
+                partition=self.params['partition']
         )
+        else:
+            self.pool = self.mgmt_root.tm.gtm.pools.pool.load(
+                name=self.params['pool'],
+                partition=self.params['partition']
+            )
         self.methods = {
             'create':   self.pool.members_s.member.create,
             'read':     self.pool.members_s.member.load,

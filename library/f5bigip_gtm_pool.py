@@ -318,6 +318,7 @@ EXAMPLES = '''
 '''
 
 from ansible_common_f5.f5_bigip import *
+from f5.bigip.resource import OrganizingCollection
 
 BIGIP_GTM_POOL_ARGS = dict(
     alternate_mode                  =   dict(type='str', choices=['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']),
@@ -339,7 +340,7 @@ BIGIP_GTM_POOL_ARGS = dict(
     load_balancing_mode             =   dict(type='str', choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']),
     manual_resume                   =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     max_addresses_returned          =   dict(type='int'),
-    #metadata                        =   dict(type='list'),
+    metadata                        =   dict(type='list'),
     monitor                         =   dict(type='str'),
     qos_hit_ratio                   =   dict(type='int'),
     qos_hops                        =   dict(type='int'),
@@ -356,13 +357,22 @@ BIGIP_GTM_POOL_ARGS = dict(
 
 class F5BigIpGtmPool(F5BigIpNamedObject):
     def set_crud_methods(self):
-        self.methods = {
-            'create':   self.mgmt_root.tm.gtm.pools.pool.create,
-            'read':     self.mgmt_root.tm.gtm.pools.pool.load,
-            'update':   self.mgmt_root.tm.gtm.pools.pool.update,
-            'delete':   self.mgmt_root.tm.gtm.pools.pool.delete,
-            'exists':   self.mgmt_root.tm.gtm.pools.pool.exists
-        }
+        if isinstance(self.mgmt_root.tm.gtm.pools, OrganizingCollection):
+            self.methods = {
+                'create':   self.mgmt_root.tm.gtm.pools.a_s.a.create,
+                'read':     self.mgmt_root.tm.gtm.pools.a_s.a.load,
+                'update':   self.mgmt_root.tm.gtm.pools.a_s.a.update,
+                'delete':   self.mgmt_root.tm.gtm.pools.a_s.a.delete,
+                'exists':   self.mgmt_root.tm.gtm.pools.a_s.a.exists
+            }
+        else:
+            self.methods = {
+                'create':   self.mgmt_root.tm.gtm.pools.pool.create,
+                'read':     self.mgmt_root.tm.gtm.pools.pool.load,
+                'update':   self.mgmt_root.tm.gtm.pools.pool.update,
+                'delete':   self.mgmt_root.tm.gtm.pools.pool.delete,
+                'exists':   self.mgmt_root.tm.gtm.pools.pool.exists
+            }  
 
 def main():
     # Translation list for conflictual params
