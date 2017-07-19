@@ -17,6 +17,7 @@
 - include: f5bigip_gtm_wideip.yml
 - include: f5bigip_ltm_auth_crldp_server.yml
 - include: f5bigip_ltm_auth_ocsp_responder.yml
+- include: f5bigip_ltm_auth_ssl_cc_ldap.yml
 - include: f5bigip_ltm_data_group.yml
 - include: f5bigip_ltm_ifile.yml
 - include: f5bigip_ltm_monitor_ftp.yml

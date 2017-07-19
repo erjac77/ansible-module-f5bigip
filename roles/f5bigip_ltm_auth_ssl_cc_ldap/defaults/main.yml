@@ -1,0 +1,7 @@
+---
+
+ssl_cc_ldap_name: my_ssl_cc_ldap
+ssl_cc_ldap_description: My ssl cc ldap
+ssl_cc_ldap_user_key: Key
+ssl_cc_ldap_servers: 
+  - localhost
