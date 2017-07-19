@@ -266,7 +266,7 @@ BIGIP_LTM_POOL_ARGS = dict(
     link_qos_to_client          =   dict(type='str'),
     link_qos_to_server          =   dict(type='str'),
     load_balancing_mode         =   dict(type='str', choices=BIGIP_LTM_POOL_LB_CHOICES),
-    #metadata                    =   dict(type='list'),
+    metadata                    =   dict(type='list'),
     min_active_members          =   dict(type='int'),
     min_up_members              =   dict(type='int'),
     min_up_members_action       =   dict(type='str', choices=['failover', 'reboot', 'restart-all']),
