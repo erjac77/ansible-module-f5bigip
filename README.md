@@ -5,14 +5,14 @@ An Ansible module to perform specific operational and configuration tasks on F5 
 ## REQUIREMENTS
 
 * Ansible >= 2.2.0 (ansible)
-* F5 Python SDK >= 2.3.1 (f5-sdk)
+* F5 Python SDK >= 2.3.3 (f5-sdk)
 * F5 Common Utility Module for Ansible >= 0.4.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
 
 ## INSTALLATION
 
 Example using Virtualenv:
 
-```
+```shell
 # Install pip
 sudo apt-get install python-pip
 
@@ -39,7 +39,7 @@ Add the module folder to your library path. You can do this as an environment va
 
 ### ENVIRONMENT VARIABLE
 
-```
+```ini
 ANSIBLE_LIBRARY = /path/to/ansible/venv/share/my_modules
 ```
 
@@ -50,7 +50,7 @@ The config file can be:
 * `.ansible.cfg` in the home directory;
 * `/etc/ansible/ansible.cfg`.
 
-```
+```ini
 # config file for ansible -- http://ansible.com/
 # ==============================================
 
@@ -60,7 +60,7 @@ library = /path/to/ansible/venv/share/my_modules
 
 ## EXAMPLE PLAYBOOK
 
-```
+```yaml
 ---
 
 - hosts: bigips
