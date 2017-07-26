@@ -200,7 +200,7 @@ EXAMPLES = '''
     name: my_cookie_persistence
     partition: Common
     description: My cookie persistence profile
-    defaults_from: cookie
+    defaults_from: /Common/cookie
     state: present
   delegate_to: localhost
 '''

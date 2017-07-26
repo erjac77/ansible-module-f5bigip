@@ -40,7 +40,7 @@ options:
         description:
             - Specifies the existing profile from which the system imports settings for the new profile.
         required: false
-        default: cookie
+        default: source_addr
         choices: []
         aliases: []
         version_added: 2.3
@@ -176,7 +176,7 @@ EXAMPLES = '''
     name: my_source_addr_persistence
     partition: Common
     description: My source address persistence profile
-    defaults_from: source_addr
+    defaults_from: /Common/source_addr
     state: present
   delegate_to: localhost
 '''
