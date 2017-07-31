@@ -153,7 +153,7 @@ BIGIP_NET_ROUTE_DOMAIN_ARGS = dict(
     fw_staged_policy        =   dict(type='str'),
     id                      =   dict(type='int'),
     parent                  =   dict(type='str'),
-    #routing_protocol        =   dict(type='list'),
+    routing_protocol        =   dict(type='list'),
     strict                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     vlans                   =   dict(type='list')
 )
