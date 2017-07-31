@@ -11,9 +11,9 @@
 
 - name: Display Shared bigip failover state
   debug:
-    msg: "failover state: {{ result['failover state']['failoverState'] }}"
+    msg: "failover state: {{ result.bigip_failover_state.failoverState }}"
 
 - name: Assert Shared bigip failover state
   assert:
     that:
-      - result['failover state']['failoverState'] == 'active'
+      - result.bigip_failover_state.failoverState == 'active'

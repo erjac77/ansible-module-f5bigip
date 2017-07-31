@@ -24,7 +24,7 @@ version_added: 2.3
 author:
     - "Gabriel Fortin"
 notes:
-    - Requires BIG-IP software version >= 11.6
+    - Requires BIG-IP software version >= 12.0.0
 requirements:
     - f5-sdk
 options:
@@ -52,7 +52,7 @@ class F5BigIpSharedBigipFailoverState(F5BigIpUnnamedObject):
         }
 
     def flush(self):
-        return { 'failover state': self.methods['read']().attrs }
+        return { 'bigip_failover_state': self.methods['read']().attrs }
 
 def main():
     # Translation list for conflictual params
