@@ -148,12 +148,12 @@ BIGIP_NET_ROUTE_DOMAIN_ARGS = dict(
     connection_limit        =   dict(type='int'),
     description             =   dict(type='str'),
     flow_eviction_policy    =   dict(type='str'),
-    #fw_enforced_policy      =   dict(type='str'),
+    fw_enforced_policy      =   dict(type='str'),
     #fw_rules                =   dict(type='list'),
-    #fw_staged_policy        =   dict(type='str'),
+    fw_staged_policy        =   dict(type='str'),
     id                      =   dict(type='int'),
     parent                  =   dict(type='str'),
-    #routing_protocol        =   dict(type='list'),
+    routing_protocol        =   dict(type='list'),
     strict                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     vlans                   =   dict(type='list')
 )

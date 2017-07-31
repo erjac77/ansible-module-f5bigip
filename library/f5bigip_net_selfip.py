@@ -123,9 +123,9 @@ BIGIP_NET_SELFIP_ARGS = dict(
     allow_service       =   dict(type='list'),
     app_service         =   dict(type='str'),
     description         =   dict(type='str'),
-    #fw_enforced_policy  =   dict(type='str'),
-    #fw_rules
-    #fw_staged_policy    =   dict(type='str'),
+    fw_enforced_policy  =   dict(type='str'),
+    #fw_rules            =   dict(type='list'),
+    fw_staged_policy    =   dict(type='str'),
     traffic_group       =   dict(type='str'),
     vlan                =   dict(type='str')
 )
