@@ -149,7 +149,7 @@ BIGIP_NET_ROUTE_DOMAIN_ARGS = dict(
     description             =   dict(type='str'),
     flow_eviction_policy    =   dict(type='str'),
     fw_enforced_policy      =   dict(type='str'),
-    fw_rules                =   dict(type='list'),
+    #fw_rules                =   dict(type='list'),
     fw_staged_policy        =   dict(type='str'),
     id                      =   dict(type='int'),
     parent                  =   dict(type='str'),
