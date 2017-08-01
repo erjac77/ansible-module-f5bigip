@@ -1,0 +1,4 @@
+---
+
+ssl_ocsp_name: my_ssl_ocsp
+ssl_ocsp_description: My ssl ocsp
