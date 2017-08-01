@@ -55,18 +55,16 @@ class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
         return self.methods['read']
 
     def flush(self):
-        result = dict()
-        has_changed = False
-        
+        sync_status_desc = {}
         sync_status = self._read()
+
         if sync_status._meta_data['uri'].endswith("/mgmt/tm/cm/sync-status/"):
         	sync_status.refresh()
-        	desc = sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status']['description']
+        	sync_status_desc = sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status']['description']
         else:
         	raise AnsibleF5Error("Unable to retrieve the sync status of the device.")
         
-        result.update(dict(changed=has_changed, sync_status=desc))
-        return result
+        return { 'sync_status': sync_status_desc }
 
 def main():
     # Translation list for conflictual params

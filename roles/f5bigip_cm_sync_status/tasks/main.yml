@@ -17,4 +17,4 @@
 - name: Assert Get CM sync status of the device
   assert:
     that:
-      - (not result|changed) and (result.sync_status == 'Standalone')
+      - result.sync_status == 'Standalone'
