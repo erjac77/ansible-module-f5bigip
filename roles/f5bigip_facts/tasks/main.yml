@@ -1,26 +1,89 @@
 ---
 
+- name: Create LTM Nodes
+  f5bigip_ltm_node:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    address: "{{ item.address }}"
+    state: present
+  delegate_to: localhost
+  with_items: "{{ facts_nodes }}"
+
+- name: Create LTM Pools
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  with_items: "{{ facts_pools }}"
+
 - name: Gather BIG-IP facts
   f5bigip_facts:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    object: "{{ item }}"
+    module: "{{ item.module }}"
+    component: "{{ item.component }}"
   with_items: "{{ facts_objects }}"
   delegate_to: localhost
-  register: result
-  
 
-- name: Filter BIG-IP facts
+- name: Assert Gather BIG-IP facts
+  assert:
+    that:
+      - "'node1' in ltm_node['items']|map(attribute='name') and 'node9' in ltm_node['items']|map(attribute='name')"
+      - "'pool1' in ltm_pool['items']|map(attribute='name') and 'pool9' in ltm_pool['items']|map(attribute='name')"
+
+- name: Gather filtered BIG-IP facts
   f5bigip_facts:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    object: "{{ item }}"
+    module: "{{ item.module }}"
+    component: "{{ item.component }}"
     filter: "{{ facts_filter }}"
     select: "{{ facts_select }}"
+    skip: "{{ facts_skip }}"
+    top: "{{ facts_top }}"
   with_items: "{{ facts_objects }}"
   delegate_to: localhost
-  register: result
+
+- name: Assert Gather filtered BIG-IP facts
+  assert:
+    that:
+      - "'node5' not in ltm_node['items']|map(attribute='name') and 'node9' not in ltm_node['items']|map(attribute='name')"
+      - "'pool5' not in ltm_pool['items']|map(attribute='name') and 'pool9' not in ltm_pool['items']|map(attribute='name')"
+
+- name: Delete LTM Nodes
+  f5bigip_ltm_node:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    address: "{{ item.address }}"
+    state: absent
+  delegate_to: localhost
+  with_items: "{{ facts_nodes }}"
+
+- name: Delete LTM Pools
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  with_items: "{{ facts_pools }}"

@@ -1,7 +1,30 @@
 ---
 
+facts_nodes:
+  - { name: node1, address: 1.1.1.1 }
+  - { name: node2, address: 2.2.2.2 }
+  - { name: node3, address: 3.3.3.3 }
+  - { name: node4, address: 4.4.4.4 }
+  - { name: node5, address: 5.5.5.5 }
+  - { name: node6, address: 6.6.6.6 }
+  - { name: node7, address: 7.7.7.7 }
+  - { name: node8, address: 8.8.8.8 }
+  - { name: node9, address: 9.9.9.9 }
+facts_pools:
+  - { name: pool1 }
+  - { name: pool2 }
+  - { name: pool3 }
+  - { name: pool4 }
+  - { name: pool5 }
+  - { name: pool6 }
+  - { name: pool7 }
+  - { name: pool8 }
+  - { name: pool9 }
+
 facts_objects:
-  - "node"
-  - "vlan"
-facts_filter: "partition eq Common"
-facts_select: "name,partition"
+  - { module: ltm, component: node }
+  - { module: ltm, component: pool }
+facts_filter: partition eq Common
+facts_select: name,partition
+facts_skip: 5
+facts_top: 3
