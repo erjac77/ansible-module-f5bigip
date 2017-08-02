@@ -59,8 +59,8 @@ EXAMPLES = '''
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS = dict(
-    file_name           =   dict(type='str'),
-    download_path       =   dict(type='str')
+    file_name           =   dict(type='str', required=True),
+    download_path       =   dict(type='str', required=True)
 )
 
 class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
@@ -69,19 +69,16 @@ class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
             'download_file':   self.mgmt_root.shared.file_transfer.madm.download_file
         }
 
-    def _download(self):
-        self.methods['download_file'](self.params['fileName'], self.params['downloadPath'])
-
-    def _present(self):
+    def download(self):
         has_changed = False
-        
+
         try:
-            self._download()
+            self.methods['download_file'](self.params['fileName'], self.params['downloadPath'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error('Cannot download the file')
-        
-        return has_changed
+            raise AnsibleF5Error('Cant download the file')
+
+        return { 'changed': has_changed }
 
 def main():
     # Translation list for conflictual params
@@ -91,7 +88,7 @@ def main():
 
     try:
         obj = F5BigIpSharedFileTransferMadm(check_mode=module.supports_check_mode, tr=tr, **module.params)
-        result = obj.flush()
+        result = obj.download()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

@@ -60,11 +60,6 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Move Cert to madm folder
-  assert:
-    that:
-      - result|changed
-
 - name: Download Cert
   f5bigip_shared_file_transfer_madm:
     f5_hostname: "{{ bigip_host }}"
