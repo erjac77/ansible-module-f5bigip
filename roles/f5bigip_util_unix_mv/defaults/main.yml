@@ -1,0 +1,9 @@
+---
+
+files_path: "{{ role_path }}/files/"
+
+file_filename: 'test.dat'
+file_filepathname: "{{ files_path }}{{ file_filename }}"
+
+madm_source_path: /var/config/rest/downloads
+madm_dest_path: /var/config/rest/madm
