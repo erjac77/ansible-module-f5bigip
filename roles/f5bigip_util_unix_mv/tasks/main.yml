@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ file_filepathname }}"
-    state: present
   delegate_to: localhost
 
 - name: Move file to madm folder
@@ -22,7 +21,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert fove Cert to madm folder
+- name: Assert Move file to madm folder
   assert:
     that:
       - result|changed
@@ -35,5 +34,4 @@
     f5_port: "{{ bigip_port }}"
     file_name: "{{ file_filename }}"
     download_path: "{{ file_filepathname }}"
-    state: present
   delegate_to: localhost
