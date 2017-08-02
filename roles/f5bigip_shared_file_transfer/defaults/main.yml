@@ -10,3 +10,6 @@ key_filepathname: "{{ files_path }}{{ key_filename }}"
 
 cert_filename: 'example.localhost.crt'
 cert_filepathname: "{{ files_path }}{{ cert_filename }}"
+
+madm_source_path: '/var/config/rest/downloads'
+madm_dest_path: '/var/config/rest/madm'
