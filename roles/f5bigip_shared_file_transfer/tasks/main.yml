@@ -58,7 +58,6 @@
     source_path: "{{ madm_source_path }}"
     dest_path: "{{ madm_dest_path }}"
   delegate_to: localhost
-  register: result
 
 - name: Download Cert
   f5bigip_shared_file_transfer_madm:
