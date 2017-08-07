@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor Firepass
+  f5bigip_ltm_monitor_firepass:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_firepass_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_firepass_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor Firepass
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor Firepass (idempotent)
+  f5bigip_ltm_monitor_firepass:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_firepass_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_firepass_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor Firepass (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor Firepass description
+  f5bigip_ltm_monitor_firepass:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_firepass_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_firepass_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor Firepass description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor Firepass description (idempotent)
+  f5bigip_ltm_monitor_firepass:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_firepass_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_firepass_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor Firepass description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor Firepass
+  f5bigip_ltm_monitor_firepass:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_firepass_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor Firepass
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor Firepass (idempotent)
+  f5bigip_ltm_monitor_firepass:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_firepass_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor Firepass (idempotent)
+  assert:
+    that:
+      - not result|changed
