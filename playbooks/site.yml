@@ -23,6 +23,7 @@
 - include: f5bigip_ltm_auth_ssl_ocsp.yml
 - include: f5bigip_ltm_data_group.yml
 - include: f5bigip_ltm_ifile.yml
+- include: f5bigip_ltm_monitor_diameter.yml
 - include: f5bigip_ltm_monitor_ftp.yml
 - include: f5bigip_ltm_monitor_gateway_icmp.yml
 - include: f5bigip_ltm_monitor_http.yml
