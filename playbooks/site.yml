@@ -25,6 +25,7 @@
 - include: f5bigip_ltm_ifile.yml
 - include: f5bigip_ltm_monitor_diameter.yml
 - include: f5bigip_ltm_monitor_dns.yml
+- include: f5bigip_ltm_monitor_external.yml
 - include: f5bigip_ltm_monitor_ftp.yml
 - include: f5bigip_ltm_monitor_gateway_icmp.yml
 - include: f5bigip_ltm_monitor_http.yml
