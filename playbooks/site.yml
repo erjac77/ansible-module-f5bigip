@@ -31,6 +31,7 @@
 - include: f5bigip_ltm_monitor_gateway_icmp.yml
 - include: f5bigip_ltm_monitor_http.yml
 - include: f5bigip_ltm_monitor_https.yml
+- include: f5bigip_ltm_monitor_imap.yml
 - include: f5bigip_ltm_monitor_tcp.yml
 - include: f5bigip_ltm_nat.yml
 - include: f5bigip_ltm_node.yml
