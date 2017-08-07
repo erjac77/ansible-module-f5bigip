@@ -103,7 +103,7 @@ options:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
         required: false
         default: null
-        choices: ['*:*', '*:port', 'IP address:port', 'IP address:port']
+        choices: []
         aliases: []
     interval:
         description:
@@ -226,7 +226,7 @@ BIGIP_LTM_MONITOR_DNS_ARGS = dict(
     app_service                 =   dict(type='str'),
     defaults_from               =   dict(type='str'),
     description                 =   dict(type='str'),
-    destination                 =   dict(type='str', choices=['*:*', '*:port', 'IP address:port']),
+    destination                 =   dict(type='str'),
     interval                    =   dict(type='int'),
     manual_resume               =   dict(type='int', choices=F5_ACTIVATION_CHOICES),
     qname                       =   dict(type='str'),
