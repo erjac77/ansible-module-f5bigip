@@ -53,7 +53,7 @@ options:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
         required: false
-        default: firepass
+        default: diameter
         choices: []
         aliases: []
     description:
