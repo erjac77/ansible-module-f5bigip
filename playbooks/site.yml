@@ -36,6 +36,7 @@
 - include: f5bigip_ltm_monitor_ldap.yml
 - include: f5bigip_ltm_monitor_mssql.yml
 - include: f5bigip_ltm_monitor_sip.yml
+- include: f5bigip_ltm_monitor_tcp_echo.yml
 - include: f5bigip_ltm_monitor_tcp.yml
 - include: f5bigip_ltm_nat.yml
 - include: f5bigip_ltm_node.yml
