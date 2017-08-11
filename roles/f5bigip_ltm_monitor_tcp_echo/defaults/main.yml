@@ -1,0 +1,4 @@
+---
+
+monitor_tcp_echo_name: my_tcp_echo_monitor
+monitor_tcp_echo_description: My tcp echo monitor
