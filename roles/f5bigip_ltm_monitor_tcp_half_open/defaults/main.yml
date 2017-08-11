@@ -1,0 +1,4 @@
+---
+
+monitor_tcp_half_open_name: my_tcp_half_open_monitor
+monitor_tcp_half_open_description: My tcp half open monitor

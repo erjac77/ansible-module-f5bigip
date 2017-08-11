@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor TCP Half Open
+  f5bigip_ltm_monitor_tcp_half_open:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_tcp_half_open_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_tcp_half_open_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor TCP Half Open
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor TCP Half Open (idempotent)
+  f5bigip_ltm_monitor_tcp_half_open:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_tcp_half_open_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_tcp_half_open_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor TCP Half Open (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor TCP Half Open description
+  f5bigip_ltm_monitor_tcp_half_open:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_tcp_half_open_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_tcp_half_open_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor TCP Half Open description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor TCP Half Open description (idempotent)
+  f5bigip_ltm_monitor_tcp_half_open:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_tcp_half_open_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_tcp_half_open_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor TCP Half Open description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor TCP Half Open
+  f5bigip_ltm_monitor_tcp_half_open:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_tcp_half_open_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor TCP Half Open
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor TCP Half Open (idempotent)
+  f5bigip_ltm_monitor_tcp_half_open:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_tcp_half_open_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor TCP Half Open (idempotent)
+  assert:
+    that:
+      - not result|changed
