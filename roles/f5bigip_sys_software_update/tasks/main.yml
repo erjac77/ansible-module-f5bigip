@@ -1,0 +1,61 @@
+---
+
+- name: Change SYS Software Update frequency
+  f5bigip_sys_software_update:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    frequency: "{{ software_update_frequency }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Software Update frequency
+  assert:
+    that:
+      - result|changed
+
+- name: Change SYS Software Update frequency (idempotent)
+  f5bigip_sys_software_update:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    frequency: "{{ software_update_frequency }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Software Update frequency (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change SYS Software Update frequency back to default
+  f5bigip_sys_software_update:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    frequency: "{{ software_update_frequency_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Software Update frequency back to default
+  assert:
+    that:
+      - result|changed
+
+- name: Change SYS Software Update frequency back to default (idempotent)
+  f5bigip_sys_software_update:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    frequency: "{{ software_update_frequency_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Software Update frequency back to default (idempotent)
+  assert:
+    that:
+      - not result|changed
