@@ -83,6 +83,7 @@
 - include: f5bigip_sys_performance.yml
 - include: f5bigip_sys_provision.yml
 - include: f5bigip_sys_snmp.yml
+- include: f5bigip_sys_software_update.yml
 - include: f5bigip_sys_sshd.yml
 - include: f5bigip_sys_syslog.yml
 - include: f5bigip_util_unix_mv.yml
