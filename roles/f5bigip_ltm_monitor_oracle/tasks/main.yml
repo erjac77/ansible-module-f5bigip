@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor Oracle
+  f5bigip_ltm_monitor_oracle:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_oracle_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_oracle_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor Oracle
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor Oracle (idempotent)
+  f5bigip_ltm_monitor_oracle:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_oracle_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_oracle_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor Oracle (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor Oracle description
+  f5bigip_ltm_monitor_oracle:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_oracle_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_oracle_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor Oracle description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor Oracle description (idempotent)
+  f5bigip_ltm_monitor_oracle:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_oracle_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_oracle_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor Oracle description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor Oracle
+  f5bigip_ltm_monitor_oracle:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_oracle_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor Oracle
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor Oracle (idempotent)
+  f5bigip_ltm_monitor_oracle:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_oracle_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor Oracle (idempotent)
+  assert:
+    that:
+      - not result|changed
