@@ -44,6 +44,7 @@
 - include: f5bigip_ltm_monitor_real_server.yml
 - include: f5bigip_ltm_monitor_rpc.yml
 - include: f5bigip_ltm_monitor_sasp.yml
+- include: f5bigip_ltm_monitor_scripted.yml
 - include: f5bigip_ltm_monitor_sip.yml
 - include: f5bigip_ltm_monitor_tcp_echo.yml
 - include: f5bigip_ltm_monitor_tcp_half_open.yml
