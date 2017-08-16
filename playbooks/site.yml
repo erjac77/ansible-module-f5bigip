@@ -41,6 +41,7 @@
 - include: f5bigip_ltm_monitor_postgresql.yml
 - include: f5bigip_ltm_monitor_radius.yml
 - include: f5bigip_ltm_monitor_radius_accounting.yml
+- include: f5bigip_ltm_monitor_real_server.yml
 - include: f5bigip_ltm_monitor_sip.yml
 - include: f5bigip_ltm_monitor_tcp_echo.yml
 - include: f5bigip_ltm_monitor_tcp_half_open.yml
