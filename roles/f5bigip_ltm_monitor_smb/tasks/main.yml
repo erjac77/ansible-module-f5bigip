@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor SMB
+  f5bigip_ltm_monitor_smb:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smb_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_smb_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor SMB
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor SMB (idempotent)
+  f5bigip_ltm_monitor_smb:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smb_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_smb_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor SMB (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor SMB description
+  f5bigip_ltm_monitor_smb:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smb_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_smb_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor SMB description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor SMB description (idempotent)
+  f5bigip_ltm_monitor_smb:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smb_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_smb_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor SMB description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor SMB
+  f5bigip_ltm_monitor_smb:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smb_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor SMB
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor SMB (idempotent)
+  f5bigip_ltm_monitor_smb:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smb_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor SMB (idempotent)
+  assert:
+    that:
+      - not result|changed
