@@ -1,0 +1,5 @@
+---
+
+monitor_sasp_name: my_sasp_monitor
+monitor_sasp_description: My sasp monitor
+monitor_sasp_primary_address: 10.2.2.2
