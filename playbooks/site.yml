@@ -39,6 +39,7 @@
 - include: f5bigip_ltm_monitor_nntp.yml
 - include: f5bigip_ltm_monitor_oracle.yml
 - include: f5bigip_ltm_monitor_pop3.yml
+- include: f5bigip_ltm_monitor_postgresql.yml
 - include: f5bigip_ltm_monitor_sip.yml
 - include: f5bigip_ltm_monitor_tcp_echo.yml
 - include: f5bigip_ltm_monitor_tcp_half_open.yml
