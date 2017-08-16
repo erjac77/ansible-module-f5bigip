@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor RPC
+  f5bigip_ltm_monitor_rpc:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_rpc_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_rpc_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor RPC
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor RPC (idempotent)
+  f5bigip_ltm_monitor_rpc:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_rpc_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_rpc_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor RPC (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor RPC description
+  f5bigip_ltm_monitor_rpc:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_rpc_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_rpc_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor RPC description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor RPC description (idempotent)
+  f5bigip_ltm_monitor_rpc:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_rpc_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_rpc_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor RPC description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor RPC
+  f5bigip_ltm_monitor_rpc:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_rpc_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor RPC
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor RPC (idempotent)
+  f5bigip_ltm_monitor_rpc:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_rpc_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor RPC (idempotent)
+  assert:
+    that:
+      - not result|changed
