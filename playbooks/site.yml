@@ -88,6 +88,7 @@
 - include: f5bigip_net_route.yml
 - include: f5bigip_net_route_domain.yml
 - include: f5bigip_net_selfip.yml
+- include: f5bigip_net_tunnel_gre.yml
 - include: f5bigip_net_vlan.yml
 - include: f5bigip_shared_bigip_failover_state.yml
 - include: f5bigip_shared_file_transfer.yml

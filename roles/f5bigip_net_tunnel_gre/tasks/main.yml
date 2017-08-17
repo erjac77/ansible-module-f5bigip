@@ -1,0 +1,107 @@
+---
+
+- name: Create NET Tunnel GRE
+  f5bigip_net_tunnel_gre:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_gre_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ tunnel_gre_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create NET Tunnel GRE
+  assert:
+    that:
+      - result|changed
+
+- name: Create NET Tunnel GRE (idempotent)
+  f5bigip_net_tunnel_gre:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_gre_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ tunnel_gre_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create NET Tunnel GRE (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change NET Tunnel GRE description
+  f5bigip_net_tunnel_gre:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_gre_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ tunnel_gre_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change NET Tunnel GRE description
+  assert:
+    that:
+      - result|changed
+
+- name: Change NET Tunnel GRE description (idempotent)
+  f5bigip_net_tunnel_gre:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_gre_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ tunnel_gre_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change NET Tunnel GRE description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete NET Tunnel GRE
+  f5bigip_net_tunnel_gre:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_gre_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET Tunnel GRE
+  assert:
+    that:
+      - result|changed
+
+- name: Delete NET Tunnel GRE (idempotent)
+  f5bigip_net_tunnel_gre:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_gre_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET Tunnel GRE (idempotent)
+  assert:
+    that:
+      - not result|changed
