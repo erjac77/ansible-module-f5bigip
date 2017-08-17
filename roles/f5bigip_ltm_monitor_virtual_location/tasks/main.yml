@@ -1,0 +1,135 @@
+---
+
+- name: Create LTM Pool
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ pool_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ pool_description }}"
+    load_balancing_mode: "{{ pool_load_balancing_mode }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Create LTM Monitor Virtual Location
+  f5bigip_ltm_monitor_virtual_location:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_virtual_location_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_virtual_location_description }}"
+    pool: "{{ pool_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor Virtual Location
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor Virtual Location (idempotent)
+  f5bigip_ltm_monitor_virtual_location:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_virtual_location_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_virtual_location_description }}"
+    pool: "{{ pool_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor Virtual Location (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor Virtual Location description
+  f5bigip_ltm_monitor_virtual_location:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_virtual_location_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_virtual_location_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor Virtual Location description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor Virtual Location description (idempotent)
+  f5bigip_ltm_monitor_virtual_location:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_virtual_location_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_virtual_location_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor Virtual Location description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor Virtual Location
+  f5bigip_ltm_monitor_virtual_location:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_virtual_location_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor Virtual Location
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor Virtual Location (idempotent)
+  f5bigip_ltm_monitor_virtual_location:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_virtual_location_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor Virtual Location (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Pool
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ pool_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result

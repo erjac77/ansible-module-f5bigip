@@ -1,0 +1,8 @@
+---
+
+monitor_virtual_location_name: my_virtual_location_monitor
+monitor_virtual_location_description: My virtual location monitor
+
+pool_name: my_pool
+pool_description: My pool
+pool_load_balancing_mode: least-connections-member
