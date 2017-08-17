@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor WMI
+  f5bigip_ltm_monitor_wmi:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_wmi_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_wmi_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor WMI
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor WMI (idempotent)
+  f5bigip_ltm_monitor_wmi:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_wmi_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_wmi_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor WMI (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor WMI description
+  f5bigip_ltm_monitor_wmi:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_wmi_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_wmi_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor WMI description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor WMI description (idempotent)
+  f5bigip_ltm_monitor_wmi:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_wmi_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_wmi_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor WMI description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor WMI
+  f5bigip_ltm_monitor_wmi:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_wmi_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor WMI
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor WMI (idempotent)
+  f5bigip_ltm_monitor_wmi:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_wmi_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor WMI (idempotent)
+  assert:
+    that:
+      - not result|changed

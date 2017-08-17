@@ -58,6 +58,7 @@
 - include: f5bigip_ltm_monitor_udp.yml
 - include: f5bigip_ltm_monitor_virtual_location.yml
 - include: f5bigip_ltm_monitor_wap.yml
+- include: f5bigip_ltm_monitor_wmi.yml
 - include: f5bigip_ltm_nat.yml
 - include: f5bigip_ltm_node.yml
 - include: f5bigip_ltm_persistence_cookie.yml
