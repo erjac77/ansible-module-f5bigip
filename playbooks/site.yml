@@ -51,6 +51,7 @@
 - include: f5bigip_ltm_monitor_smtp.yml
 - include: f5bigip_ltm_monitor_snmp_dca.yml
 - include: f5bigip_ltm_monitor_snmp_dca_base.yml
+- include: f5bigip_ltm_monitor_soap.yml
 - include: f5bigip_ltm_monitor_tcp_echo.yml
 - include: f5bigip_ltm_monitor_tcp_half_open.yml
 - include: f5bigip_ltm_monitor_tcp.yml
