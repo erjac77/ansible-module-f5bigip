@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Monitor SMTP
+  f5bigip_ltm_monitor_smtp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smtp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_smtp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor SMTP
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Monitor SMTP (idempotent)
+  f5bigip_ltm_monitor_smtp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smtp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_smtp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Monitor SMTP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Monitor SMTP description
+  f5bigip_ltm_monitor_smtp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smtp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_smtp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor SMTP description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Monitor SMTP description (idempotent)
+  f5bigip_ltm_monitor_smtp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smtp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_smtp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Monitor SMTP description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Monitor SMTP
+  f5bigip_ltm_monitor_smtp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smtp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor SMTP
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Monitor SMTP (idempotent)
+  f5bigip_ltm_monitor_smtp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_smtp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Monitor SMTP (idempotent)
+  assert:
+    that:
+      - not result|changed

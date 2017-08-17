@@ -1,0 +1,4 @@
+---
+
+monitor_smtp_name: my_smtp_monitor
+monitor_smtp_description: My smtp monitor
