@@ -1,0 +1,4 @@
+---
+
+tunnel_vxlan_name: my_vxlan_tunnel
+tunnel_vxlan_description: My vxlan tunnel

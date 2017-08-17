@@ -1,0 +1,107 @@
+---
+
+- name: Create NET Tunnel VXLAN
+  f5bigip_net_tunnel_vxlan:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_vxlan_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ tunnel_vxlan_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create NET Tunnel VXLAN
+  assert:
+    that:
+      - result|changed
+
+- name: Create NET Tunnel VXLAN (idempotent)
+  f5bigip_net_tunnel_vxlan:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_vxlan_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ tunnel_vxlan_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create NET Tunnel VXLAN (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change NET Tunnel VXLAN description
+  f5bigip_net_tunnel_vxlan:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_vxlan_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ tunnel_vxlan_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change NET Tunnel VXLAN description
+  assert:
+    that:
+      - result|changed
+
+- name: Change NET Tunnel VXLAN description (idempotent)
+  f5bigip_net_tunnel_vxlan:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_vxlan_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ tunnel_vxlan_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change NET Tunnel VXLAN description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete NET Tunnel VXLAN
+  f5bigip_net_tunnel_vxlan:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_vxlan_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET Tunnel VXLAN
+  assert:
+    that:
+      - result|changed
+
+- name: Delete NET Tunnel VXLAN (idempotent)
+  f5bigip_net_tunnel_vxlan:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ tunnel_vxlan_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete NET Tunnel VXLAN (idempotent)
+  assert:
+    that:
+      - not result|changed
