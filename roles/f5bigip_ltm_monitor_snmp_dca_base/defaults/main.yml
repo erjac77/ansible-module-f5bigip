@@ -1,0 +1,4 @@
+---
+
+monitor_snmp_dca_base_name: my_snmp_dca_base_monitor
+monitor_snmp_dca_base_description: My snmp dca base monitor
