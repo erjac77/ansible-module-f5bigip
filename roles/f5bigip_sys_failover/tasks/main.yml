@@ -1,0 +1,92 @@
+---
+
+- name: Run SYS Failover Standby
+  f5bigip_sys_failover:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    standby: "{{ failover_standby }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run SYS Failover Standby
+  assert:
+    that: 
+      - result|changed
+  ignore_errors: yes
+
+- name: Run SYS Failover Standby (idempotent)
+  f5bigip_sys_failover:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    standby: "{{ failover_standby }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run SYS Failover Standby (idempotent)
+  assert:
+    that: 
+      - not result|changed
+  
+- name: Run SYS Failover Offline
+  f5bigip_sys_failover:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    offline: "{{ failover_online }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run SYS Failover Offline
+  assert:
+    that: 
+      - result|changed
+
+- name: Run SYS Failover Offline (idempotent)
+  f5bigip_sys_failover:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    offline: "{{ failover_online }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run SYS Failover Offline (idempotent)
+  assert:
+    that: 
+      - not result|changed
+
+- name: Run SYS Failover Online
+  f5bigip_sys_failover:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    online: "{{ failover_offline }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run SYS Failover Online
+  assert:
+    that: 
+      - result|changed
+
+- name: Run SYS Failover Online (idempotent)
+  f5bigip_sys_failover:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    online: "{{ failover_offline }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run SYS Failover Online (idempotent)
+  assert:
+    that: 
+      - not result|changed

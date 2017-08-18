@@ -102,6 +102,7 @@
 - include: f5bigip_sys_crypto.yml
 #- include: f5bigip_sys_db.yml
 - include: f5bigip_sys_dns.yml
+- include: f5bigip_sys_failover.yml
 - include: f5bigip_sys_file.yml
 - include: f5bigip_sys_folder.yml
 - include: f5bigip_sys_global_settings.yml
