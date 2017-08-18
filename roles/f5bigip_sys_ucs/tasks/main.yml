@@ -1,0 +1,16 @@
+---
+
+- name: Save SYS UCS
+  f5bigip_sys_ucs:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ucs_name }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Save SYS UCS
+  assert:
+    that:
+      - result|changed
