@@ -73,6 +73,7 @@
 - include: f5bigip_ltm_profile_certificate_authority.yml
 - include: f5bigip_ltm_profile_client_ldap.yml
 - include: f5bigip_ltm_profile_client_ssl.yml
+- include: f5bigip_ltm_profile_dhcpv4.yml
 - include: f5bigip_ltm_profile_ftp.yml
 - include: f5bigip_ltm_profile_http.yml
 - include: f5bigip_ltm_profile_one_connect.yml
