@@ -19,7 +19,7 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_profile_dns
 short_description: BIG-IP ltm profile dns module
 description:
-    - Configures a Profile dns.
+    - Configures a Domain Name System (DNS) profile.
 version_added: 2.3
 author:
     - "Gabriel Fortin"
