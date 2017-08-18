@@ -76,6 +76,7 @@
 - include: f5bigip_ltm_profile_dhcpv6.yml
 - include: f5bigip_ltm_profile_diameter.yml
 - include: f5bigip_ltm_profile_dns.yml
+- include: f5bigip_ltm_profile_fasthttp.yml
 - include: f5bigip_ltm_profile_ftp.yml
 - include: f5bigip_ltm_profile_http.yml
 - include: f5bigip_ltm_profile_one_connect.yml
