@@ -1,0 +1,5 @@
+---
+
+failover_standby: True
+failover_online: True
+failover_offline: True
