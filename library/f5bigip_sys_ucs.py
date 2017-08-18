@@ -68,7 +68,7 @@ class F5BigIpSysUcs(F5BigIpNamedObject):
         except Exception:
             raise AnsibleF5Error('Cannot save ucs.')
 
-        return {'changed': has_changed}
+        return { 'changed': has_changed }
 
 def main():
     # Translation list for conflictual params
