@@ -1,0 +1,105 @@
+---
+
+- name: Create LTM Profile FIX
+  f5bigip_ltm_profile_fix:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_fix_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile FIX
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile FIX (idempotent)
+  f5bigip_ltm_profile_fix:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_fix_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile FIX (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile FIX quick-parsing
+  f5bigip_ltm_profile_fix:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_fix_name }}"
+    partition: "{{ bigip_partition }}"
+    quick_parsing: "{{ profile_fix_quick_parsing }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile FIX quick-parsing
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile FIX quick-parsing (idempotent)
+  f5bigip_ltm_profile_fix:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_fix_name }}"
+    partition: "{{ bigip_partition }}"
+    quick_parsing: "{{ profile_fix_quick_parsing }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile FIX quick-parsing (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile FIX
+  f5bigip_ltm_profile_fix:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_fix_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile FIX
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile FIX (idempotent)
+  f5bigip_ltm_profile_fix:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_fix_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile FIX (idempotent)
+  assert:
+    that:
+      - not result|changed
