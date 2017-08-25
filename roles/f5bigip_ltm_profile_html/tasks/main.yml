@@ -1,0 +1,105 @@
+---
+
+- name: Create LTM Profile HTML
+  f5bigip_ltm_profile_html:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_html_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile HTML
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile HTML (idempotent)
+  f5bigip_ltm_profile_html:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_html_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile HTML (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile HTML content detection
+  f5bigip_ltm_profile_html:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_html_name }}"
+    partition: "{{ bigip_partition }}"
+    content_detection: "{{ profile_html_content_detection }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile HTML content detection
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile HTML content detection (idempotent)
+  f5bigip_ltm_profile_html:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_html_name }}"
+    partition: "{{ bigip_partition }}"
+    content_detection: "{{ profile_html_content_detection }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile HTML content detection (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile HTML
+  f5bigip_ltm_profile_html:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_html_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile HTML
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile HTML (idempotent)
+  f5bigip_ltm_profile_html:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_html_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile HTML (idempotent)
+  assert:
+    that:
+      - not result|changed
