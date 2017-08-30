@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile IPOTHER
+  f5bigip_ltm_profile_ipother:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_ipother_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_ipother_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile IPOTHER
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile IPOTHER (idempotent)
+  f5bigip_ltm_profile_ipother:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_ipother_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_ipother_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile IPOTHER (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile IPOTHER description
+  f5bigip_ltm_profile_ipother:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_ipother_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_ipother_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile IPOTHER description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile IPOTHER description (idempotent)
+  f5bigip_ltm_profile_ipother:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_ipother_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_ipother_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile IPOTHER description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile IPOTHER
+  f5bigip_ltm_profile_ipother:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_ipother_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile IPOTHER
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile IPOTHER (idempotent)
+  f5bigip_ltm_profile_ipother:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_ipother_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile IPOTHER (idempotent)
+  assert:
+    that:
+      - not result|changed
