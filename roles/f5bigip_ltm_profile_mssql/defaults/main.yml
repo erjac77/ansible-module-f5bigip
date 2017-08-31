@@ -1,0 +1,4 @@
+---
+
+profile_mssql_name: my_mssql_profile
+profile_mssql_user_can_write_by_default: false
