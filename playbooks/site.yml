@@ -88,6 +88,7 @@
 - include: f5bigip_ltm_profile_iiop.yml
 - include: f5bigip_ltm_profile_ipother.yml
 - include: f5bigip_ltm_profile_mblb.yml
+- include: f5bigip_ltm_profile_mssql.yml
 - include: f5bigip_ltm_profile_one_connect.yml
 - include: f5bigip_ltm_profile_server_ssl.yml
 - include: f5bigip_ltm_profile_tcp.yml
