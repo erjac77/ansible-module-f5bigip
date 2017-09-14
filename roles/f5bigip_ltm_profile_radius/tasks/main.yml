@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile RADIUS
+  f5bigip_ltm_profile_radius:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_radius_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_radius_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile RADIUS
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile RADIUS (idempotent)
+  f5bigip_ltm_profile_radius:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_radius_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_radius_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile RADIUS (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile RADIUS description
+  f5bigip_ltm_profile_radius:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_radius_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_radius_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile RADIUS description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile RADIUS description (idempotent)
+  f5bigip_ltm_profile_radius:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_radius_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_radius_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile RADIUS description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile RADIUS
+  f5bigip_ltm_profile_radius:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_radius_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile RADIUS
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile RADIUS (idempotent)
+  f5bigip_ltm_profile_radius:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_radius_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile RADIUS (idempotent)
+  assert:
+    that:
+      - not result|changed
