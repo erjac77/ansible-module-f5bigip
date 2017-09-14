@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile PPTP
+  f5bigip_ltm_profile_pptp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_pptp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_pptp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile PPTP
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile PPTP (idempotent)
+  f5bigip_ltm_profile_pptp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_pptp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_pptp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile PPTP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile PPTP description
+  f5bigip_ltm_profile_pptp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_pptp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_pptp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile PPTP description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile PPTP description (idempotent)
+  f5bigip_ltm_profile_pptp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_pptp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_pptp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile PPTP description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile PPTP
+  f5bigip_ltm_profile_pptp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_pptp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile PPTP
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile PPTP (idempotent)
+  f5bigip_ltm_profile_pptp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_pptp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile PPTP (idempotent)
+  assert:
+    that:
+      - not result|changed
