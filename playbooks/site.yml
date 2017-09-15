@@ -93,6 +93,7 @@
 - include: f5bigip_ltm_profile_pptp.yml
 - include: f5bigip_ltm_profile_qoe.yml
 - include: f5bigip_ltm_profile_radius.yml
+- include: f5bigip_ltm_profile_request_adapt.yml
 - include: f5bigip_ltm_profile_one_connect.yml
 - include: f5bigip_ltm_profile_server_ssl.yml
 - include: f5bigip_ltm_profile_tcp.yml
