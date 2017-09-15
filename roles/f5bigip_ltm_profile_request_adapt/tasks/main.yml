@@ -1,0 +1,105 @@
+---
+
+- name: Create LTM Profile Request Adapt
+  f5bigip_ltm_profile_request_adapt:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_request_adapt_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile Request Adapt
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile Request Adapt (idempotent)
+  f5bigip_ltm_profile_request_adapt:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_request_adapt_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile Request Adapt (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile Request Adapt allow-http-10
+  f5bigip_ltm_profile_request_adapt:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_request_adapt_name }}"
+    partition: "{{ bigip_partition }}"
+    allow_http_10: "{{ profile_request_adapt_allow_http_10 }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile Request Adapt allow-http-10
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile Request Adapt allow-http-10 (idempotent)
+  f5bigip_ltm_profile_request_adapt:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_request_adapt_name }}"
+    partition: "{{ bigip_partition }}"
+    allow_http_10: "{{ profile_request_adapt_allow_http_10 }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile Request Adapt allow-http-10 (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile Request Adapt
+  f5bigip_ltm_profile_request_adapt:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_request_adapt_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile Request Adapt
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile Request Adapt (idempotent)
+  f5bigip_ltm_profile_request_adapt:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_request_adapt_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile Request Adapt (idempotent)
+  assert:
+    that:
+      - not result|changed
