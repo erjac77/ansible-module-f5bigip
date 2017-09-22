@@ -99,6 +99,7 @@
 - include: f5bigip_ltm_profile_response_adapt.yml
 - include: f5bigip_ltm_profile_rtsp.yml
 - include: f5bigip_ltm_profile_sctp.yml
+- include: f5bigip_ltm_profile_server_ldap.yml
 - include: f5bigip_ltm_profile_one_connect.yml
 - include: f5bigip_ltm_profile_server_ssl.yml
 - include: f5bigip_ltm_profile_tcp.yml
