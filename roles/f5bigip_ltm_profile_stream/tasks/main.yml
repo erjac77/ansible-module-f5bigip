@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile Stream
+  f5bigip_ltm_profile_stream:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_stream_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_stream_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile Stream
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile Stream (idempotent)
+  f5bigip_ltm_profile_stream:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_stream_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_stream_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile Stream (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile Stream description
+  f5bigip_ltm_profile_stream:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_stream_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_stream_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile Stream description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile Stream description (idempotent)
+  f5bigip_ltm_profile_stream:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_stream_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_stream_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile Stream description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile Stream
+  f5bigip_ltm_profile_stream:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_stream_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile Stream
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile Stream (idempotent)
+  f5bigip_ltm_profile_stream:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_stream_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile Stream (idempotent)
+  assert:
+    that:
+      - not result|changed
