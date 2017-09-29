@@ -97,6 +97,7 @@
 - include: f5bigip_ltm_profile_request_adapt.yml
 - include: f5bigip_ltm_profile_request_log.yml
 - include: f5bigip_ltm_profile_response_adapt.yml
+- include: f5bigip_ltm_profile_rewrite.yml
 - include: f5bigip_ltm_profile_rtsp.yml
 - include: f5bigip_ltm_profile_sctp.yml
 - include: f5bigip_ltm_profile_server_ldap.yml
