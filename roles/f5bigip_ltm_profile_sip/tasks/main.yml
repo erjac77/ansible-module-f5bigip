@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile SIP
+  f5bigip_ltm_profile_sip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_sip_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_sip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile SIP
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile SIP (idempotent)
+  f5bigip_ltm_profile_sip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_sip_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_sip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile SIP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile SIP description
+  f5bigip_ltm_profile_sip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_sip_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_sip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile SIP description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile SIP description (idempotent)
+  f5bigip_ltm_profile_sip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_sip_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_sip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile SIP description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile SIP
+  f5bigip_ltm_profile_sip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_sip_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile SIP
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile SIP (idempotent)
+  f5bigip_ltm_profile_sip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_sip_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile SIP (idempotent)
+  assert:
+    that:
+      - not result|changed
