@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile statistics
+  f5bigip_ltm_profile_statistics:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_statistics_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_statistics_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile statistics
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile statistics (idempotent)
+  f5bigip_ltm_profile_statistics:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_statistics_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_statistics_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile statistics (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile statistics description
+  f5bigip_ltm_profile_statistics:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_statistics_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_statistics_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile statistics description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile statistics description (idempotent)
+  f5bigip_ltm_profile_statistics:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_statistics_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_statistics_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile statistics description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile statistics
+  f5bigip_ltm_profile_statistics:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_statistics_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile statistics
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile statistics (idempotent)
+  f5bigip_ltm_profile_statistics:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_statistics_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile statistics (idempotent)
+  assert:
+    that:
+      - not result|changed
