@@ -105,6 +105,7 @@
 - include: f5bigip_ltm_profile_sip.yml
 - include: f5bigip_ltm_profile_spdy.yml
 - include: f5bigip_ltm_profile_statistics.yml
+- include: f5bigip_ltm_profile_stream.yml
 - include: f5bigip_ltm_profile_tcp.yml
 - include: f5bigip_ltm_rule.yml
 - include: f5bigip_ltm_snat.yml
