@@ -85,6 +85,7 @@
 - include: f5bigip_ltm_profile_http.yml
 - include: f5bigip_ltm_profile_http_compression.yml
 - include: f5bigip_ltm_profile_http2.yml
+- include: f5bigip_ltm_profile_icap.yml
 - include: f5bigip_ltm_profile_iiop.yml
 - include: f5bigip_ltm_profile_ipother.yml
 - include: f5bigip_ltm_profile_mblb.yml
