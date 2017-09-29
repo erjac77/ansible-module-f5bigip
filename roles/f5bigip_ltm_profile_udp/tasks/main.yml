@@ -1,0 +1,107 @@
+---
+
+- name: Create LTM Profile UDP
+  f5bigip_ltm_profile_udp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_udp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_udp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile UDP
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile UDP (idempotent)
+  f5bigip_ltm_profile_udp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_udp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_udp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile UDP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile UDP description
+  f5bigip_ltm_profile_udp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_udp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_udp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile UDP description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile UDP description (idempotent)
+  f5bigip_ltm_profile_udp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_udp_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_udp_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile UDP description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile UDP
+  f5bigip_ltm_profile_udp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_udp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile UDP
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile UDP (idempotent)
+  f5bigip_ltm_profile_udp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_udp_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile UDP (idempotent)
+  assert:
+    that:
+      - not result|changed
