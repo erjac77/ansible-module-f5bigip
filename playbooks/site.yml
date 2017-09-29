@@ -144,4 +144,5 @@
 - include: f5bigip_sys_sshd.yml
 - include: f5bigip_sys_syslog.yml
 - include: f5bigip_sys_ucs.yml
+- include: f5bigip_util_unix_ls.yml
 - include: f5bigip_util_unix_mv.yml
