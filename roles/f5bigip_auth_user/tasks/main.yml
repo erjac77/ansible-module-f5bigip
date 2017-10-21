@@ -1,22 +1,5 @@
 ---
 
-- name: Create SYS Folder
-  f5bigip_sys_folder:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    name: "{{ folder_name }}"
-    sub_path: /
-    state: present
-  delegate_to: localhost
-  register: result
-
-- name: Assert Create SYS Folder
-  assert:
-    that:
-      - result|change
-
 - name: Create Auth User
   f5bigip_auth_user:
     f5_hostname: "{{ bigip_host }}"
@@ -154,20 +137,3 @@
   assert:
     that:
       - not result|changed
-
-- name: Delete SYS Folder
-  f5bigip_sys_folder:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    name: "{{ folder_name }}"
-    sub_path: /
-    state: absent
-  delegate_to: localhost
-  register: result
-
-- name: Delete SYS Folder
-  assert:
-    that:
-      - result|changed
