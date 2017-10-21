@@ -1,5 +1,2 @@
-[11_6_0]
-version_11_6_0 bigip_host=localhost bigip_port=11443 ansible_python_interpreter=/home/erjac/ansible/venv/bin/python
-
 [12_1_2]
-version_12_1_2 bigip_host=localhost bigip_port=21443 ansible_python_interpreter=/home/erjac/ansible/venv/bin/python
+version_12_1_2 bigip_host=localhost bigip_port=21443
