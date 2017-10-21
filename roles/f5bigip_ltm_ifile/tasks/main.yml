@@ -22,7 +22,6 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    f5_port: "{{ bigip_port }}"
     name: "{{ sys_file_ifile_name }}"
     partition: Common
     source_path: "{{ sys_file_ifile_source_path }}"
