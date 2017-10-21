@@ -6,5 +6,5 @@ nat_originating_address: 11.0.0.100
 nat_translation_address: 10.0.140.100
 nat_vlans_enabled: true
 nat_vlans:
-  - /Common/external
-  - /Common/internal
+  - /Common/net1
+  - /Common/net2
