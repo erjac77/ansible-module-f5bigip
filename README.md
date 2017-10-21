@@ -10,52 +10,16 @@ An Ansible module to perform specific operational and configuration tasks on F5 
 
 ## INSTALLATION
 
-Example using Virtualenv:
+### Install the F5 Common Utility Module for Ansible and all its dependencies (ansible, f5-sdk, etc.)
 
 ```shell
-# Install pip
-sudo apt-get install python-pip
-
-# Install virtualenv
-sudo pip install virtualenv
-
-# Make a virtual environment for your Ansible installation and activate it
-mkdir ansible
-cd ansible
-virtualenv venv
-source ./venv/bin/activate
-
-# Install the F5 Common Utility Module for Ansible and all its dependencies (ansible, f5-sdk, etc.)
 pip install git+git://github.com/erjac77/ansible-common-f5.git#egg=ansible-common-f5
-
-# Get the Ansible Module for F5 BIG-IP
-cd venv/share
-mkdir my_modules
-cd my_modules
-git clone https://github.com/erjac77/ansible-module-f5bigip.git
 ```
 
-Add the module folder to your library path. You can do this as an environment variable or in an Ansible config file.
+### Install the F5 BIG-IP Role from Ansible Galaxy
 
-### ENVIRONMENT VARIABLE
-
-```ini
-ANSIBLE_LIBRARY = /path/to/ansible/venv/share/my_modules
-```
-
-### ANSIBLE.CFG
-
-The config file can be:
-* `ansible.cfg` file in the same directory as the playbook;
-* `.ansible.cfg` in the home directory;
-* `/etc/ansible/ansible.cfg`.
-
-```ini
-# config file for ansible -- http://ansible.com/
-# ==============================================
-
-[defaults]
-library = /path/to/ansible/venv/share/my_modules
+```shell
+ansible-galaxy install erjac77.module-f5bigip
 ```
 
 ## EXAMPLE PLAYBOOK
@@ -65,6 +29,9 @@ library = /path/to/ansible/venv/share/my_modules
 
 - hosts: bigips
   connection: local
+
+  roles:
+    - erjac77.module-f5bigip
 
   tasks:
 
@@ -88,4 +55,8 @@ Apache 2.0
 
 ## AUTHOR INFORMATION
 
-Eric Jacob ([@erjac77](https://github.com/erjac77))
+* Eric Jacob ([@erjac77](https://github.com/erjac77))
+
+### CONTRIBUTORS
+
+* Gabriel Fortin ([@GabrielFortin](https://github.com/GabrielFortin))
