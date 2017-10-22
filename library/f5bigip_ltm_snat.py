@@ -160,7 +160,7 @@ EXAMPLES = '''
     name: my_snat
     partition: Common
     description: My snat
-    vlans: net1
+    vlans: external
     vlans_enabled: true
     state: present
   delegate_to: localhost
