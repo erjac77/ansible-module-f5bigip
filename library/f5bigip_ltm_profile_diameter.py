@@ -72,7 +72,7 @@ options:
         aliases: []
     host_ip_rewrite:
         description:
-            - When enabled and the message is a capabilities exchange request or capabilities exchange answer, rewrite the host-ip-address attribute with the system’s egress IP address.
+            - When enabled and the message is a capabilities exchange request or capabilities exchange answer, rewrite the host-ip-address attribute with the system's egress IP address.
         required: false
         default: enabled
         choices: ['disabled', 'enabled']
