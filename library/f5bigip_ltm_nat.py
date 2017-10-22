@@ -163,7 +163,7 @@ EXAMPLES = '''
     originating_address : 10.0.1.43
     translation_address: 10.10.10.253
     vlans_enabled: true
-    vlans: net1
+    vlans: external
     state: present
   delegate_to: localhost
 '''
