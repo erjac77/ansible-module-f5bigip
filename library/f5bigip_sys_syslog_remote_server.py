@@ -108,25 +108,30 @@ class F5BigIpSysSyslogRemoteServer(F5BigIpNamedObject):
             'read':     self.mgmt_root.tm.sys.syslog.load
         }
         self.params.pop('sub_path', None)
-    
+
+        if self._strip_partition(self.params['name']) == self.params['name']:
+            self.name = '/' + self.params['partition'] + '/' + self.params['name']
+        else:
+            self.name = self.params['name']
+
     def _read(self):
         return self.methods['read']()
-    
+
     def flush(self):
         has_changed = False
         found = False
         result = dict()
-        
+
         for key, val in self.params.iteritems():
             if val is None:
                 self.params[key] = 'none'
-        
+                
         syslog = self._read()
         if hasattr(syslog, 'remoteServers'):
             for remote_server in syslog.remoteServers:
                 encoded_remote_server = ast.literal_eval(json.dumps(remote_server))
                 
-                if encoded_remote_server['name'] == self.params['name']:
+                if encoded_remote_server['name'] == self.name:
                     found = True
                     
                     if self.state == "absent":
@@ -135,9 +140,10 @@ class F5BigIpSysSyslogRemoteServer(F5BigIpNamedObject):
                         
                     if self.state == "present":
                         for key, val in self.params.iteritems():
-                            if encoded_remote_server[key] != val:
-                                has_changed = True
-                                remote_server[key] = val
+                            if key in encoded_remote_server and key != 'name':
+                                if encoded_remote_server[key] != val:
+                                    has_changed = True
+                                    remote_server[key] = val
             if not found:
                 if self.state == "present":
                     has_changed = True
@@ -145,11 +151,11 @@ class F5BigIpSysSyslogRemoteServer(F5BigIpNamedObject):
         else:
             has_changed = True
             syslog.remoteServers = [self.params]
-        
+            
         if has_changed:
             syslog.update()
             syslog.refresh()
-        
+
         result.update(dict(changed=has_changed))
         return result
 
