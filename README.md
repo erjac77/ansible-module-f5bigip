@@ -4,19 +4,19 @@ An Ansible module to perform specific operational and configuration tasks on F5 
 
 ## REQUIREMENTS
 
-* Ansible >= 2.2.0 (ansible)
+* Ansible >= 2.4.0 (ansible)
 * F5 Python SDK >= 3.0.3 (f5-sdk)
 * F5 Common Utility Module for Ansible >= 0.4.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
 
 ## INSTALLATION
 
-### Install the F5 Common Utility Module for Ansible and all its dependencies (ansible, f5-sdk, etc.)
+### 1) Install the F5 Common Utility Module for Ansible and all its dependencies (ansible, f5-sdk, etc.)
 
 ```shell
 pip install git+git://github.com/erjac77/ansible-common-f5.git#egg=ansible-common-f5
 ```
 
-### Install the F5 BIG-IP Role from Ansible Galaxy
+### 2) Install the F5 BIG-IP Role from Ansible Galaxy
 
 ```shell
 ansible-galaxy install erjac77.module-f5bigip
