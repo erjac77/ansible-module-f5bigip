@@ -2,5 +2,5 @@
 
 datacenter_name: DC1
 
-topology_name: 'ldns: country US server: datacenter DC1'
+topology_name: 'ldns: country US server: datacenter /Common/DC1'
 topology_description: My topology
