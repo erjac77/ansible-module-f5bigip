@@ -4,7 +4,7 @@ galaxy_info:
   author: Eric Jacob (@erjac77)
   description: Ansible module for F5 BIG-IP
   license: Apache 2.0
-  min_ansible_version: 2.2
+  min_ansible_version: 2.4
   platforms:
   - name: Ubuntu
     versions:
