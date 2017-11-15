@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,77 +26,54 @@ module: f5bigip_ltm_profile_request_adapt
 short_description: BIG-IP ltm profile request adapt module
 description:
     - Configures a HTTP request adaptation profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     allow_http_10:
         description:
             - Specifies whether to forward HTTP version 1.0 requests for adaptation.
-        required: false
         default: no
         choices: ['no', 'yes']
-        aliases: []
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: requestadapt
-        choices: []
-        aliases: []
     enabled:
         description:
             - Enables adaptation of HTTP requests.
-        required: false
         default: yes
         choices: ['no', 'yes']
-        aliases: []
     internal_virtual:
         description:
             - Specifies the name of the internal virtual server to use for adapting the HTTP request.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     preview_size:
         description:
             - Specifies the maximum size of the preview buffer.
-        required: false
         default: 1024
-        choices: []
-        aliases: []
     service_down_action:
         description:
             - Specifies the action to take if the internal virtual server does not exist or returns an error.
-        required: false
         default: ignore
         choices: ['ignore', 'reset', 'drop']
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     timeout:
         description:
             - Specifies a timeout in milliseconds.
-        required: false
         default: 0
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -110,6 +89,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_REQUEST_ADAPT_ARGS = dict(
@@ -133,19 +116,14 @@ class F5BigIpLtmProfileRequestAdapt(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_REQUEST_ADAPT_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileRequestAdapt(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileRequestAdapt(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,54 +26,37 @@ module: f5bigip_gtm_global_settings_load_balancing
 short_description: BIG-IP gtm global-settings load-balancing module
 description:
     - Configures the load-balancing settings for the Global Traffic Manager.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     ignore_path_ttl:
         description:
             - Specifies, when set to yes, that dynamic load balancing methods can use path data, even after the time-to-live (TTL) for the path data expires.
-        required: false
         default: no
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     respect_fallback_dependency:
         description:
             - Specifies, when set to yes, that the system accepts virtual server status when the load balancing mode changes to the mode specified by the fallback-mode option of the pool.
-        required: false
         default: no
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     topology_longest_match:
         description:
             - Specifies, when set to yes, that the system evaluates all topology records in the topology statement, and then selects the topology record that most specifically matches the IP address in an LDNS request.
-        required: false
-        default: null
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     verify_vs_availability:
         description:
             - Specifies, when set to yes, that the system checks the availability of virtual servers before sending a connection to those virtual servers.
-        required: false
         default: no
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     port:
         description:
             - Specifies the port on which the listener listens for connections.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -85,6 +70,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS = dict(
@@ -102,19 +91,14 @@ class F5BigIpGtmGlobalSettingsLoadBalancing(F5BigIpUnnamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpGtmGlobalSettingsLoadBalancing(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpGtmGlobalSettingsLoadBalancing(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

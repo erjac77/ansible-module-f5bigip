@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,166 +26,83 @@ module: f5bigip_sys_crypto_cert
 short_description: BIG-IP sys crypto cert module
 description:
     - Manage cryptographic certificates on the BIG-IP system.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     city:
         description:
             - Specifies the x509 city field to be used in creation of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     command:
         description:
             - Specifies the command to execute.
-        required: false
-        default: null
         choices: ['install']
-        aliases: []
-        version_added: 2.3
     common_name:
         description:
             - Specifies the x509 common-name to be used in creation of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     consumer:
         description:
             - Specifies the system component by which a key and/or associated cryptographic file will be consumed.
-        required: false
         default: ltm
         choices: ['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']
-        aliases: []
-        version_added: 2.3
     country:
         description:
             - Specifies the x509 country to be used in creation of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     email_address:
         description:
             - Specifies the x509 email-address to be used in creation of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     from_editor:
         description:
             - Specifies that the key should be obtained from a text editor session.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     from_local_file:
         description:
             - Specifies a local file path from which a key is to be copied.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     from_url:
         description:
             - Specifies a URI which is to be used to obtain a key for import into the configuration of the system.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     key:
         description:
             - Specifies a key from which a certificate should be generated when using the create command.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     lifetime:
         description:
             - Specifies the certificate life time to be used in creation of the certificate associated with the given key.
-        required: false
         default: 365
-        choices: []
-        aliases: []
-        version_added: 2.3
     organization:
         description:
             - Specifies the x509 organization to be used in creation of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ou:
         description:
             - Specifies the x509 organizational unit to be used in creation of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     no_overwrite:
         description:
             - Specifies option of not overwriting a key if it is in the scope.
-        required: false
         default: true
         choices: [true, false]
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     state_province:
         description:
             - Specifies the x509 state or province of the certificate associated with the given key.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     subject_alternative_name:
         description:
             - Specifies standard X.509 extensions as shown in RFC 2459.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -217,6 +136,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_CRYPTO_CERT_ARGS = dict(
@@ -286,7 +209,7 @@ class F5BigIpSysCryptoCert(F5BigIpNamedObject):
         # Make sure it is installed
         if not self._exists():
             raise AnsibleF5Error("Failed to create the object.")
-        
+
         return True
 
     def _present(self):
@@ -298,13 +221,13 @@ class F5BigIpSysCryptoCert(F5BigIpNamedObject):
         else:
             if not self._exists():
                 has_changed = self._create()
-        
+
         return has_changed
 
 def main():
     # Translation list for conflictual params
     tr = { 'state_province':'state' }
-    
+
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_SYS_CRYPTO_CERT_ARGS,
         supports_check_mode=False,
@@ -312,15 +235,13 @@ def main():
             ['from_editor', 'from_local_file', 'from_url']
         ]
     )
-    
+
     try:
         obj = F5BigIpSysCryptoCert(check_mode=module.supports_check_mode, tr=tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

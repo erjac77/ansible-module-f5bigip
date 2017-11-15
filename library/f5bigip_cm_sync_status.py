@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,14 +26,15 @@ module: f5bigip_cm_sync_status
 short_description: BIG-IP cm sync status module
 description:
     - Displays the configuration synchronization status of the local device.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
+    - "Eric Jacob (@erjac77)"
+options:
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
+    - ansible-common-f5
     - f5-sdk
-options:
 '''
 
 EXAMPLES = '''
@@ -44,6 +47,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_SYNC_STATUS_ARGS = dict(
@@ -63,27 +70,22 @@ class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
         sync_status = self._read()
 
         if sync_status._meta_data['uri'].endswith("/mgmt/tm/cm/sync-status/"):
-        	sync_status.refresh()
-        	sync_status_desc = sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status']['description']
+            sync_status.refresh()
+            sync_status_desc = sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status']['description']
         else:
-        	raise AnsibleF5Error("Unable to retrieve the sync status of the device.")
+            raise AnsibleF5Error("Unable to retrieve the sync status of the device.")
         
         return { 'sync_status': sync_status_desc }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_CM_SYNC_STATUS_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpCmSyncStatus(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpCmSyncStatus(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

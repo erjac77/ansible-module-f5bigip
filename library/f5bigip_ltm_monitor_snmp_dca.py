@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,147 +26,88 @@ module: f5bigip_ltm_monitor_snmp_dca
 short_description: BIG-IP ltm monitor snmp dca module
 description:
     - Configures a Simple Network Management Protocol (SNMP) Data Center Audit monitor.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     agent_type:
         description:
             - Specifies the type of agent.
-        required: false
         default: ucd
-        choices: []
-        aliases: []
     app_service:
         description:
-            - Specifies the name of the application service to which the monitor belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
+            - Specifies the name of the application service to which the monitor belongs
     community:
         description:
             - Specifies the community name that the BIG-IP system must use to authenticate with the host server through SNMP.
-        required: false
         default: public
-        choices: []
-        aliases: []
     cpu_coefficient:
         description:
             - Specifies the coefficient that the system uses to calculate the weight of the CPU threshold in the dynamic ratio load balancing algorithm.
-        required: false
         default: 1.5
-        choices: []
-        aliases: []
     cpu_threshold:
         description:
             - Specifies the maximum acceptable CPU usage on the target server.
-        required: false
         default: 80
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        required: false
         default: snmp_dca
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     disk_coefficient:
         description:
             - Specifies the coefficient that the system uses to calculate the weight of the disk threshold in the dynamic ratio load balancing algorithm.
-        required: false
         default: 2.0
-        choices: []
-        aliases: []
     disk_threshold:
         description:
             - Specifies the maximum acceptable disk usage on the target server.
-        required: false
         default: 90
-        choices: []
-        aliases: []
     interval:
         description:
             - Specifies the frequency at which the system issues the monitor check.
-        required: false
         default: 10
-        choices: []
-        aliases: []
     memory_coefficient:
         description:
             - Specifies the coefficient that the system uses to calculate the weight of the memory threshold in the dynamic ratio load balancing algorithm.
-        required: false
         default: 1.0
-        choices: []
-        aliases: []
     memory_threshold:
         description:
             - Specifies the maximum acceptable memory usage on the target server.
-        required: false
         default: 70
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     time_until_up:
         description:
             - Specifies the amount of time, in seconds, after the first successful response before a node is marked up.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     timeout:
         description:
             - Specifies the number of seconds the target has in which to respond to the monitor request.
-        required: false
         default: 30
-        choices: []
-        aliases: []
     user_defined:
         description:
-            - Specifies attributes for a monitor that you define.
-        required: false
-        default: none
-        choices: []
-        aliases: []
+            - Specifies attributes for a monitor that you define
     version:
         description:
-            - Specifies the version of SNMP that the host server uses.
-        required: false
-        default: none
-        choices: []
-        aliases: []
+            - Specifies the version of SNMP that the host server uses
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -181,6 +124,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_SNMP_DCA_ARGS = dict(
@@ -213,19 +160,14 @@ class F5BigIpLtmMonitorSnmpDca(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_SNMP_DCA_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmMonitorSnmpDca(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmMonitorSnmpDca(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

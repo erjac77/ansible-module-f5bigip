@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,134 +26,70 @@ module: f5bigip_ltm_nat
 short_description: BIG-IP ltm nat module
 description:
     - A network address translation (NAT) defines a mapping between an originating IP address and an IP address that you specify.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the NAT belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
-        version_added: 2.3
     arp:
         description:
             - Enables or disables Address Resolution Protocol (ARP).
-        required: false
-        default: null
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     auto_lasthop:
         description:
             - When enabled, allows the system to send return traffic to the MAC address that transmitted the request, even if the routing table points to a different network or interface.
-        required: false
-        default: null
         choices: ['default, 'enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Enables or disables the specified interface.
-        required: false
         default: disabled
-        choices: null
-        aliases: []
-        version_added: 2.3
+        choices: ['enabled', 'disabled']
     enabled:
         description:
             - Enables or disables the specified interface.
-        required: false
         default: enabled
-        choices: null
-        aliases: []
-        version_added: 2.
+        choices: ['enabled', 'disabled']
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     originating_address:
         description:
             - Specifies the IP address from which traffic is being initiated.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     traffic_group:
         description:
             - Specifies the traffic group of the failover device group on which the NAT is active.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     translation_address:
         description:
             - Specifies the IP address that is translated or mapped, and the IP address to which it is translated or mapped.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     vlans:
         description:
             - Specifies a list of existing VLANs on which access to the NAT is enabled or disabled.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     vlans_disabled:
         description:
             - Indicates the NAT is disabled on the list of VLANs.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     vlans_enabled:
         description:
             - Indicates the NAT is enabled on the list of VLANs.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -172,6 +110,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_NAT_ARGS = dict(
@@ -200,9 +142,6 @@ class F5BigIpLtmNat(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = { }
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_LTM_NAT_ARGS, 
         supports_check_mode=False,
@@ -210,15 +149,13 @@ def main():
             ['enabled', 'disabled'], ['vlans_disabled', 'vlans_enabled']
         ]
     )
-    
+
     try:
-        obj = F5BigIpLtmNat(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmNat(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

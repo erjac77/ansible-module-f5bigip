@@ -6,7 +6,7 @@ An Ansible module to perform specific operational and configuration tasks on F5 
 
 * Ansible >= 2.4.0 (ansible)
 * F5 Python SDK >= 3.0.3 (f5-sdk)
-* F5 Common Utility Module for Ansible >= 0.4.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
+* F5 Common Utility Module for Ansible >= 0.5.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
 
 ## INSTALLATION
 

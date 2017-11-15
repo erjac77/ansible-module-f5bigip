@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,126 +26,69 @@ module: f5bigip_ltm_profile_one_connect
 short_description: BIG-IP ltm one-connect profile module
 description:
     - Configures a one-connect profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the profile belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
-        version_added: 2.3
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: oneconnect
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     idle_timeout_override:
         description:
             - Specifies the number of seconds that a connection is idle before the connection flow is eligible for deletion.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     port:
         description:
             - Specifies a service for the data channel port used for this one-connect profile.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
    share_pools:
         description:
             - Indicates that connections may be shared not only within a virtual server, but also among similar virtual servers (e.g. those that differ only in destination address).
-        required: false
-        default: null
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     max_age:
         description:
             - Specifies the maximum age, in number of seconds, of a connection in the connection reuse pool.
-        required: false
         default: 86400
-        choices: []
-        aliases: []
-        version_added: 2.3
     max_reuse:
         description:
             - Specifies the maximum number of times that a server connection can be reused.
-        required: false
         default: 1000
-        choices: []
-        aliases: []
-        version_added: 2.3
    max_size:
         description:
             - Specifies the maximum number of connections that the system holds in the connection reuse pool.
-        required: false
         default: 10000
-        choices: []
-        aliases: []
-        version_added: 2.3
    source_mask:
         description:
             - Specifies a source IP mask.
-        required: false
         default: 0.0.0.0
-        choices: []
-        aliases: []
-        version_added: 2.3
    limit_type:
         description:
             - Connection limits with OneConnect are different from straight TCP connection limits.
-        required: false
-        default: null
         choices: ['none', 'idle', 'strict']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = ''' 
@@ -159,6 +104,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_ONE_CONNECT_ARGS = dict(
@@ -184,19 +133,14 @@ class F5BigIpLtmProfileOneConnect(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_ONE_CONNECT_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmProfileOneConnect(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileOneConnect(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

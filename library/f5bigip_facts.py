@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,70 +26,39 @@ module: f5bigip_facts
 short_description: Gather facts from BIG-IP system
 description:
     - Collect facts from BIG-IP system.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     filter:
         description:
             - Specifies an administrative partition to query for a result set.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     component:
         description:
             - Specifies the component to collect.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     module:
         description:
             - Specifies the module.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     select:
         description:
             - Specifies a subset of the properties that will appear in the result set.
-        required: false
         default: ltm
-        choices: []
-        aliases: []
-        version_added: 2.3
     sub_module:
         description:
             - Specifies the sub-module.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     skip:
         description:
             - Specifies the number of rows to skip in the result set.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     top:
         description:
             - Specifies the first N rows of the result set.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -104,6 +75,11 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule, json
+from ansible.module_utils.urls import open_url
 from ansible_common_f5.f5_bigip import *
 
 def get_facts(uri, **params):
@@ -149,12 +125,12 @@ def main():
         skip        =   dict(type='int'),
         top         =   dict(type='int')
     )
-    
+
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=argument_spec, supports_check_mode=False)
-    
+
     try:
         facts = {}
-        
+
         resource = module.params['module']
         if module.params['sub_module'] is not None:
             resource += '/' + module.params['sub_module']
@@ -165,9 +141,6 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
-from ansible.module_utils.urls import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,22 +26,19 @@ module: f5bigip_sys_performance
 short_description: BIG-IP sys performance module
 description:
     - You can use the all-stats component to reset or display all system performance statistics.
-version_added: 2.3
+version_added: "2.4"
 author:
-	- "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     name:
         description:
             - Specifies which module to use. For the moment, only all-stats is available.
-        required: false
-        default: none
         choices: ['all-stats']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -53,6 +52,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import * 
 
 BIGIP_SYS_PERFORMANCE_ARGS = dict(
@@ -69,7 +72,7 @@ class F5BigIpSysPerformance(F5BigIpUnnamedObject):
             #'system_read':          self.mgmt_root.tm.sys.performances.system.load,
             #'throughput_read':      self.mgmt_root.tm.sys.performances.throughput.load
         }
-    
+
     def _read(self):
         if self.params['name'] == 'all-stats':
             return self.methods['all_stats_read']()
@@ -93,21 +96,16 @@ class F5BigIpSysPerformance(F5BigIpUnnamedObject):
             result.update(dict(changed=False))
 
         return result
-        
+
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_PERFORMANCE_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpSysPerformance(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysPerformance(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

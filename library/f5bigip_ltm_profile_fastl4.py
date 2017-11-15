@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,322 +26,208 @@ module: f5bigip_ltm_profile_fastl4
 short_description: BIG-IP ltm profile fastl4 module
 description:
     - Configures a Fast Layer 4 profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the profile belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     client_timeout:
         description:
             - Specifies late binding client timeout in seconds.
-        required: false
         default: 30
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: fastl4
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     explicit_flow_migration:
         description:
             - Specifies whether to have the iRule code determine exactly when the FIX stream drops down to the ePVA hardware.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     hardware_syn_cookie:
         description:
             - Enables or disables hardware SYN cookie support when PVA10 is present on the system.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     idle_timeout:
         description:
             - Specifies the number of seconds that a connection is idle before the connection is eligible for deletion.
-        required: false
         default: 300
-        choices: []
-        aliases: []
     ip_tos_to_client:
         description:
             - Specifies an IP Type of Service (ToS) number for the client-side.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     ip_tos_to_server:
         description:
             - Specifies an IP ToS number for the server side.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     keep_alive_interval:
         description:
             - Specifies the keep-alive probe interval, in seconds.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     late_binding:
         description:
             - Specifies whether to enable or disable intelligent selection of a back-end server pool.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     link_qos_to_client:
         description:
             - Specifies a Link Quality of Service (QoS) (VLAN priority) number for the client side.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     link_qos_to_server:
         description:
             - Specifies internal packet priority for the server side.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     loose_close:
         description:
             - Specifies that the system closes a loosely-initiated connection when the system receives the first FIN packet from either the client or the server.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     loose_initialization:
         description:
             - Specifies that the system initializes a connection when it receives any Transmission Control Protocol (TCP) packet, rather than requiring a SYN packet for connection initiation.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     mss_override:
         description:
             - Specifies a maximum segment size (MSS) override for server connections.
-        required: false
         default: 0
         choices: range(256,9163)
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     priority_to_client:
         description:
             - Specifies internal packet priority for the client side.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     priority_to_server:
         description:
             - Specifies internal packet priority for the server side.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     pva_acceleration:
         description:
             - Specifies the Packet Velocity ASIC acceleration policy.
-        required: false
         default: full
         choices: ['full', 'none', 'partial', 'guaranteed']
-        aliases: []
     pva_dynamic_client_packets:
         description:
             - Specifies the number of client packets before dynamic ePVA hardware re-offloading occurs.
-        required: false
         default: 2
-        choices: []
-        aliases: []
     pva_dynamic_server_packets:
         description:
             - Specifies the number of server packets before dynamic ePVA hardware re-offloading occurs.
-        required: false
         default: 2
-        choices: []
-        aliases: []
     pva_flow_aging:
         description:
             - Specifies if automatic aging from ePVA flow cache upon inactive and idle for a period, default to enabled.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     pva_flow_evict:
         description:
             - Specifies if this flow can be evicted upon hash collision with a new flow learn snoop request, defaults to enabled.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     pva_offload_dynamic:
         description:
             - Specifies whether PVA flow dynamic offloading is enabled or not.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     pva_offload_state:
         description:
             - Specifies at what stage the ePVA performs hardware offload.
-        required: false
         default: embryonic
         choices: ['embryonic', 'establish']
-        aliases: []
     reassemble_fragments:
         description:
             - Specifies whether to reassemble fragments.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     receive_window_size:
         description:
             - Specifies the window size to use, minimum and default to 65535 bytes, the maximum is 2^31 for window scale enabling.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     reset_on_timeout:
         description:
             - Specifies whether you want to reset connections on timeout.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     rtt_from_client:
         description:
             - Enables or disables the TCP timestamp options to measure the round trip time to the client.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     rtt_from_server:
         description:
             - Enables or disables the TCP timestamp options to measure the round trip time to the server.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     server_sack:
         description:
             - Specifies whether to support server sack option in cookie response by default.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     server_timestamp:
         description:
             - Specifies whether to support server timestamp option in cookie response by default.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     software_syn_cookie:
         description:
             - Enables or disables software SYN cookie support when PVA10 is not present on the system.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: disabled
         choices: ['absent', 'present']
-        aliases: []
     syn_cookie_whitelist:
         description:
             - Specifies whether or not to use a SYN Cookie WhiteList when doing software SYN Cookies.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     tcp_close_timeout:
         description:
             - Specifies a TCP close timeout in seconds.
-        required: false
         default: 5
-        choices: []
-        aliases: []
     tcp_generate_is:
         description:
             - Specifies whether you want to generate TCP sequence numbers on all SYNs that conform with RFC1948, and allow timestamp recycling.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     tcp_handshake_timeout:
         description:
             - Specifies a TCP handshake timeout in seconds.
-        required: false
         default: 5
-        choices: []
-        aliases: []
     tcp_strip_sack:
         description:
             - Specifies whether you want to block the TCP SackOK option from passing to the server on an initiating SYN.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     tcp_timestamp_mode:
         description:
             - Specifies how you want to handle the TCP timestamp.
-        required: false
-        default: null
         choices: ['preserve', 'rewrite', 'strip']
-        aliases: []
     tcp_wscale_mode:
         description:
             - Specifies how you want to handle the TCP window scale.
-        required: false
-        default: null
         choices: ['preserve', 'rewrite', 'strip']
-        aliases: []
     timeout_recovery:
         description:
             - Specifies late binding timeout recovery mode.
-        required: false
-        default: null
         choices: ['disconnect', 'fallback']
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -356,6 +244,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_FASTL4_ARGS = dict(
@@ -413,19 +305,14 @@ class F5BigIpLtmProfileFastl4(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FASTL4_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileFastl4(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileFastl4(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,94 +26,51 @@ module: f5bigip_gtm_datacenter
 short_description: BIG-IP gtm datacenter module
 description:
     - Configures a Global Traffic Manager data center.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     app_service:
         description:
             - Specifies the application service to which the object belongs.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     contact:
         description:
             - Specifies the name of the administrator or the name of the department that manages the data center.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
-        required: false
         default: false
-        choices: []
-        aliases: []
-        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
-        required: false
         default: true
-        choices: []
-        aliases: []
-        version_added: 2.3
     location:
         description:
             - Specifies the physical location of the data center.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     prober_pool:
         description:
             - Specifies a prober pool to use to monitor servers defined in this data center.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -130,6 +89,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_DATACENTER_ARGS = dict(
@@ -154,9 +117,6 @@ class F5BigIpGtmDatacenter(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_DATACENTER_ARGS,
         supports_check_mode=False,
@@ -164,15 +124,13 @@ def main():
             ['disabled', 'enabled']
         ]
     )
-    
+
     try:
-        obj = F5BigIpGtmDatacenter(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpGtmDatacenter(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,86 +26,50 @@ module: f5bigip_net_vlan_interface
 short_description: BIG-IP net vlan interface module
 description:
     - Configures a tagged or untagged interface and trunk for a VLAN.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     app_service:
         description:
             - Specifies the application service that the object belongs to.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     tag_mode:
         description:
             - Specifies the tag mode of the interface or trunk associated with.
-        required: false
-        default: none
         choices: ['customer', 'service', 'double', 'none']
-        aliases: []
-        version_added: 2.3
     tagged:
         description:
             - Specifies the type of the interface.
-        required: false
-        default: null
         choices: ['true', 'false']
-        aliases: []
-        version_added: 2.3
     untagged:
         description:
             - Specifies the type of the interface.
-        required: false
-        default: null
         choices: ['true', 'false']
-        aliases: []
-        version_added: 2.3
     vlan:
         description:
             - Specifies the vlan in which the interface belongs.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -121,6 +87,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_VLAN_INTERFACE_ARGS = dict(
@@ -145,9 +115,9 @@ class F5BigIpNetVlanInterface(F5BigIpNamedObject):
             'delete':   self.vlan.interfaces_s.interfaces.delete,
             'exists':   self.vlan.interfaces_s.interfaces.exists
         }
-        self.params.pop('vlan', None)
-        self.params.pop('partition', None)
-    
+        del self.params['vlan']
+        del self.params['partition']
+
     def _exists(self):
         interfaces = self.vlan.interfaces_s.get_collection()
         for interface in interfaces:
@@ -156,16 +126,13 @@ class F5BigIpNetVlanInterface(F5BigIpNamedObject):
                 return True
 
         return False
-    
+
     def _read(self):
         return self.methods['read'](
             name=self.params['name']
         )
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_NET_VLAN_INTERFACE_ARGS,
         supports_check_mode=False,
@@ -173,15 +140,13 @@ def main():
             ['tagged', 'untagged']
         ]
     )
-    
+
     try:
-        obj = F5BigIpNetVlanInterface(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpNetVlanInterface(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

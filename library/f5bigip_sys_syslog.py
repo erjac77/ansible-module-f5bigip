@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,166 +26,108 @@ module: f5bigip_sys_syslog
 short_description: BIG-IP sys syslog module
 description:
     - Configures the BIG-IP system log.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     auth_priv_from:
         description:
             - Specifies the lowest level of messages about user authentication to include in the system log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     auth_priv_to:
         description:
             - Specifies the highest level of messages about user authentication to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     cron_from:
         description:
             - Specifies the lowest level of messages about time-based scheduling to include in the system log.
-        required: false
         default: warning
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     cron_to:
         description:
             - Specifies the highest level of messages about time-based scheduling to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     daemon_from:
         description:
             - Specifies the lowest level of messages about daemon performance to include in the system log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     daemon_to:
         description:
             - Specifies the highest level of messages about daemon performance to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     iso_date:
         description:
             - Enables or disables the ISO date format for messages in the log files.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     console_log:
         description:
             - Enables or disables logging emergency syslog messages to the console.
-        required: false
         default: enabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     kern_from:
         description:
             - Specifies the lowest level of kernel messages to include in the system log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     kern_to:
         description:
             - Specifies the highest level of kernel messages to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     local6_from:
         description:
             - Specifies the lowest error level for messages from the local6 facility to include in the log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     local6_to:
         description:
             - Specifies the highest error level for messages from the local6 facility to include in the log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     mail_from:
         description:
             - Specifies the lowest level of mail log messages to include in the system log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     mail_to:
         description:
             - Specifies the highest level of mail log messages to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     messages_from:
         description:
             - Specifies the lowest level of messages about user authentication to include in the system log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     messages_to:
         description:
             - Specifies the highest level of system messages to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     user_log_from:
         description:
             - Specifies the lowest level of user account messages to include in the system log.
-        required: false
         default: notice
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     user_log_to:
         description:
             - Specifies the highest level of user account messages to include in the system log.
-        required: false
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -199,6 +143,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SYSLOG_ARGS = dict(
@@ -231,19 +179,14 @@ class F5BigIpSysSyslog(F5BigIpUnnamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_SYSLOG_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpSysSyslog(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysSyslog(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

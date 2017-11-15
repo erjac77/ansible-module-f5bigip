@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,196 +26,122 @@ module: f5bigip_ltm_profile_sip
 short_description: BIG-IP ltm profile sip module
 description:
     - Configures a Session Initiation Protocol (SIP) profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     alg_enable:
         description:
             - Enables or disables the SIP ALG (Application Level Gateway) feature.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     app_service:
         description:
             - Specifies the name of the application service to which the object belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     community:
         description:
             - Specifies the community to which you want to assign the virtual server that you associate with this profile.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: sip
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     dialog_aware:
         description:
             - Enables or disables the ability for the system to be aware of unauthorized use of the SIP dialog.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     dialog_establishment_timeout:
         description:
             - Indicates the timeout value for dialog establishment in a sip session.
-        required: false
         default: 10
-        choices: []
-        aliases: []
     enable_sip_firewall:
         description:
             - Indicates whether to enable SIP firewall functionality or not.
-        required: false
         default: no
         choices: ['no', 'yes']
-        aliases: []
     insert_record_route_header:
         description:
             - Enables or disables the insertion of a Record-Route header, which indicates the next hop for the following SIP request messages.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     insert_via_header:
         description:
             - Enables or disables the insertion of a Via header, which indicates where the message originated.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     log_profile:
         description:
             - Specify the name of the ALG log profile which controls the logging of ALG .
-        required: false
-        default: null
-        choices: []
-        aliases: []
     log_publisher:
         description:
             - Specify the name of the log publisher which logs translation events.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     max_media_sessions:
         description:
             - Indicates the maximum number of SDP media sessions that the BIG-IP system accepts.
-        required: false
         default: 6
-        choices: []
-        aliases: []
     max_registrations:
         description:
             - Indicates the maximum number of registrations, the maximum allowable REGISTER messages can be recorded that the BIG-IP system accepts.
-        required: false
         default: 100
-        choices: []
-        aliases: []
     max_sessions_per_registration:
         description:
             - Indicates the maximum number of calls or sessions can be made by a user for a single registration that the BIG-IP system accepts.
-        required: false
         default: 50
-        choices: []
-        aliases: []
     max_size:
         description:
             - Specifies the maximum SIP message size that the BIG-IP system accepts.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: none
-        choices: []
-        aliases: []
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     registration_timeout:
         description:
             - Indicates the timeout value for a sip registration.
-        required: false
         default: 3600
-        choices: []
-        aliases: []
     rtp_proxy_style:
         description:
             - Indicates the style in which the RTP will proxy the data.
-        required: false
         default: symmetric
         choices: ['symmetric', 'restricted-by-ip-address', 'any-location']
-        aliases: []
     secure_via_header:
         description:
             - Enables or disables the insertion of a Secure Via header, which indicates where the message originated.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     security:
         description:
             - Enables or disables security for the SIP profile.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     sip_session_timeout:
         description:
             - Indicates the timeout value for a sip session.
-        required: false
         default: 300
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     terminate_on_bye:
         description:
             - Enables or disables the termination of a connection when a BYE transaction finishes.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     user_via_header:
         description:
             - Enables or disables the insertion of a Via header specified by a system administrator.
-        required: false
-        default: none
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -230,6 +158,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_SIP_ARGS = dict(
@@ -269,19 +201,14 @@ class F5BigIpLtmProfileSip(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_SIP_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileSip(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileSip(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

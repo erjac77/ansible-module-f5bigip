@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,42 +26,30 @@ module: f5bigip_sys_failover
 short_description: BIG-IP sys failover module
 description:
     - Configures failover for a BIG-IP unit in a redundant system configuration..
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     offline:
         description:
             - Changes the status of a unit or cluster to Forced Offline.
-        required: false
-        default: null
         choices: ['false', 'true']
-        aliases: []
     online:
         description:
             - Changes the status of a unit or cluster from Forced Offline to either Active or Standby, depending upon the status of the other unit or cluster in a redundant system configuration.
-        required: false
-        default: null
         choices: ['false', 'true']
-        aliases: []
     standby:
         description:
             - Specifies that the active unit or cluster fails over to a Standby state, causing the standby unit or cluster to become Active.
-        required: false
-        default: null
         choices: ['false', 'true']
-        aliases: []
     traffic_group:
         description:
             - Specifies the traffic-group that should fail over to the Standby state, the traffic-group will become Active on another device.
-        required: false
-        default: null
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -73,6 +63,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 import re
 import time
@@ -91,10 +85,10 @@ class F5BigIpSysFailover(F5BigIpUnnamedObject):
             'update':           self.mgmt_root.tm.sys.failover.update,
             'run':              self.mgmt_root.tm.sys.failover.exec_cmd
         }
-  
+
     def get_failover_state(self):
         return re.findall('[A-z]+', self.methods['read']().attrs['apiRawValues']['apiAnonymous'])[1]
-    
+
     def run(self):
         # Remove empty params
         params = dict((k, v) for k, v in self.params.iteritems() if v is not None)
@@ -112,19 +106,14 @@ class F5BigIpSysFailover(F5BigIpUnnamedObject):
         return { 'Failover state': self.get_failover_state(), 'changed': has_changed }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_FAILOVER_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpSysFailover(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysFailover(check_mode=module.supports_check_mode, **module.params)
         result = obj.run()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

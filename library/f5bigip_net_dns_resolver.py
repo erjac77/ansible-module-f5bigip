@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,110 +26,68 @@ module: f5bigip_net_dns_resolver
 short_description: BIG-IP net dns_resolver module
 description:
     - You can use the dns-resolver component to configure and view information about a DNS Resolver object.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin""
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)""
 options:
     answer_default_zones:
         description:
             - Specifies whether the resolver answers queries for default zones: localhost, reverse 127.0.0.1 and ::1, and AS112 zones.
-        required: false
         default: no
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     cache_size:
         description:
             - Specifies the maximum cache size in bytes of the DNS Resolver object.
-        required: false
         default: 5767168
-        choices: []
-        aliases: []
-        version_added: 2.3
     forward-zones:
         description:
             - Adds, deletes, modifies, or replaces a set of forward zones on a DNS Resolver, by specifying zone name(s).
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     randomize_query_name_case:
         description:
             - Specifies whether the resolver randomizes the case of query names.
-        required: false
         default: yes
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     route_domain:
         description:
             - Specifies the route domain the resolver uses for outbound traffic.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     use_ipv4:
         description:
             - Specifies whether the resolver sends DNS queries to IPv4 addresses.
-        required: false
         default: yes
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     use_ipv6:
         description:
             - Specifies whether the resolver sends DNS queries to IPv6 addresses.
-        required: false
         default: yes
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     use_tcp:
         description:
             - Specifies whether the resolver can send queries over the TCP protocol.
-        required: false
         default: yes
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     use_udp:
         description:
             - Specifies whether the resolver can send queries over the UDP protocol.
-        required: false
         default: yes
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -144,6 +104,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_DNS_RESOLVER_ARGS = dict(
@@ -169,19 +133,14 @@ class F5BigIpNetDnsResolver(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_DNS_RESOLVER_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpNetDnsResolver(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpNetDnsResolver(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

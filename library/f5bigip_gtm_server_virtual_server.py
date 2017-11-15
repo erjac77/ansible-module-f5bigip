@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,182 +26,96 @@ module: f5bigip_gtm_server_virtual_server
 short_description: BIG-IP gtm server virtual-server module
 description:
     - Configures a virtual servers.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     app_service:
         description:
             - Specifies the application service to which the object belongs.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     depends_on:
         description:
             - Specifies the vs-name of the server on which this virtual server depends.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     destination:
         description:
             - Specifies the IP address and port of the virtual server.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
-        required: false
         default: false
-        choices: []
-        aliases: []
-        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
-        required: false
         default: true
-        choices: []
-        aliases: []
-        version_added: 2.3
     explicit_link_name:
         description:
             - Specifies the explicit link name for the virtual server.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_bps:
         description:
             - Specifies the maximum allowable data throughput rate, in bits per second, for this server.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_bps_status:
         description:
             - Enables or disables the limit-max-bps option for this virtual server.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     limit_max_connections:
         description:
             - Specifies the number of current connections allowed for this virtual server.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_connections_status:
         description:
             - Enables or disables the limit-max-connections option for this virtual server.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     limit_max_pps:
         description:
             - Specifies the maximum allowable data transfer rate, in packets per second, for this virtual server.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_pps_status:
         description:
             - Enables or disables the limit-max-pps option for this virtual server.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     ltm_name:
         description:
             - The virtual server name found on the LTM.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     monitor:
         description:
             - Specifies the monitor you want to assign to this virtual server.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     server:
         description:
             - Specifies the server in which the virtual-server belongs.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     translation_address:
         description:
             - Specifies the public address that this virtual server translates into when the Global Traffic Manager communicates between the network and the Internet.
-        required: false
         default: ::
-        choices: []
-        aliases: []
-        version_added: 2.3
     translation_port:
         description:
             - Specifies the translation port number or service name for the virtual server, if necessary.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -217,6 +133,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_SERVER_VIRTUAL_SERVER_ARGS = dict(
@@ -253,8 +173,8 @@ class F5BigIpGtmServerVirtualServer(F5BigIpNamedObject):
             'delete':   self.server.virtual_servers_s.virtual_server.delete,
             'exists':   self.server.virtual_servers_s.virtual_server.exists
         }
-        self.params.pop('partition', None)
-        self.params.pop('server', None)
+        del self.params['partition']
+        del self.params['server']
 
     def _exists(self):
         keys = self.server.virtual_servers_s.get_collection()
@@ -272,9 +192,6 @@ class F5BigIpGtmServerVirtualServer(F5BigIpNamedObject):
         )
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_SERVER_VIRTUAL_SERVER_ARGS,
         supports_check_mode=False,
@@ -282,15 +199,13 @@ def main():
             ['disabled', 'enabled']
         ]
     )
-    
+
     try:
-        obj = F5BigIpGtmServerVirtualServer(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpGtmServerVirtualServer(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,134 +26,71 @@ module: f5bigip_sys_snmp
 short_description: BIG-IP sys snmp module
 description:
     - Configures the simple network management protocol (SNMP) daemon.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     agent_addresses:
         description:
             - Indicates that the SNMP agent is to listen on the specified address.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     agent_trap:
         description:
             - Specifies, when enabled, that the snmpd daemon sends traps, for example, start and stop traps.
-        required: false
         default: enabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     allowed_addresses:
         description:
             - Configures the IP addresses of the SNMP clients from which the snmpd daemon accepts requests.
-        required: false
         default: 127
-        choices: []
-        aliases: []
-        version_added: 2.3
     auth_trap:
         description:
             - Specifies, when enabled, that the snmpd daemon generates authentication failure traps.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     bigip_traps:
         description:
             - Specifies, when enabled, that the BIG-IP system sends device warning traps to the trap destinations.
-        required: false
         default: enabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     l2forward_vlan:
         description:
             - Specifies the VLANs for which you want the snmpd daemon to expose Layer 2 forwarding information.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     load_max1:
         description:
             - Specifies the maximum 1-minute load average of the machine.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     load_max5:
         description:
             - Specifies the maximum 5-minute load average of the machine.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     load_max15:
         description:
             - Specifies the maximum 15-minute load average of the machine.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     sys_contact:
         description:
             - Specifies the name of the person who administers the snmpd daemon for this system.
-        required: false
         default: Customer Name <admin@customer.com>
-        choices: []
-        aliases: []
-        version_added: 2.3
     sys_location:
         description:
             - Describes this system's physical location.
-        required: false
         default: Network Closet 1
-        choices: []
-        aliases: []
-        version_added: 2.3
     sys_services:
         description:
             - Specifies the value of the system.sysServices.0 object.
-        required: false
         default: 78
-        choices: []
-        aliases: []
-        version_added: 2.3
     trap_community:
         description:
             - Specifies the community name for the trap destination.
-        required: false
         default: public
-        choices: []
-        aliases: []
-        version_added: 2.3
     trap_source:
         description:
             - Specifies the source of the SNMP trap.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -170,6 +109,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_ARGS = dict(
@@ -201,27 +144,22 @@ class F5BigIpSysSnmp(F5BigIpUnnamedObject):
             'read':     self.mgmt_root.tm.sys.snmp.load,
             'update':   self.mgmt_root.tm.sys.snmp.update
         }
-    
+
     def _absent(self):
         if not (self.params['agentAddresses'] or self.params['allowedAddresses']):
             raise AnsibleF5Error("Absent can only be used when removing Agent Addresses or Allowed Addresses")
-        
+
         return super(F5BigIpSysSnmp, self)._absent()
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_SNMP_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpSysSnmp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysSnmp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

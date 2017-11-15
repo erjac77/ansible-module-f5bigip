@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,222 +26,114 @@ module: f5bigip_gtm_listener
 short_description: BIG-IP gtm listener module
 description:
     - Configures a Global Traffic Manager listener.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     address:
         description:
             - Specifies the IP address on which the system listens.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     advertise:
         description:
             - Specifies whether to advertise the listener address to surrounding routers.
-        required: false
         default: no
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     app_service:
         description:
             - Specifies the application service that the object belongs to.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     auto_lasthop:
         description:
             - Specifies whether to automatically map last hop for pools or not.
-        required: false
         default: default
         choices: ['default', 'enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Specifies the state of the listener.
-        required: false
         default: false
-        choices: []
-        aliases: []
-        version_added: 2.3
     enabled:
         description:
             - Specifies the state of the listener.
-        required: false
         default: true
-        choices: []
-        aliases: []
-        version_added: 2.3
     fallback_persistence:
         description:
             - Specifies a fallback persistence profile for the listener to use when the default persistence profile is not available.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ip_protocol:
         description:
             - Specifies the protocol on which this listener receives network traffic.
-        required: false
         default: udp
         choices: ['tcp', 'udp']
-        aliases: []
-        version_added: 2.3
     last_hop_pool:
         description:
             - Specifies the name of the last hop pool that you want the listener to use to direct reply traffic to the last hop router.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     mask:
         description:
             - Specifies the netmask for a network listener only.
-        required: false
         default: ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     persist:
         description:
             - Specifies a list of profiles separated by spaces that the listener uses to manage connection persistence.
-        required: false
-        default: none
-        choices: []
-        aliases: []
-        version_added: 2.3
     pool:
         description:
             - Specifies a default pool to which you want the listener to automatically direct traffic.
-        required: false
         default: 5
-        choices: []
-        aliases: []
-        version_added: 2.3
     port:
         description:
             - Specifies the port on which the listener listens for connections.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     profiles:
         description:
             - Specifies the DNS, statistics and protocol profiles to use for this listener.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     rules:
         description:
             - Specifies a list of iRules, separated by spaces, that customize the listener to direct and manage traffic.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     source_address_translation:
         description:
             - Specifies the type of source address translation enabled for the listener as well as the pool that the source address translation will use.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     source_port:
         description:
             - Specifies whether the system preserves the source port of the connection.
-        required: false
         default: preserve
         choices: ['change', 'preserve', 'preserve-strict']
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     translate_address:
         description:
             - Enables or disables address translation for the listener.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     translate_port:
         description:
             - Enables or disables port translation.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     vlans:
         description:
             - Specifies a list of VLANs on which traffic is either disabled or enabled, based on the vlans-disabled and vlans-enabled settings.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     vlans_disabled:
         description:
             - Specifies that traffic will not be accepted by this listener on the VLANS specified in the vlans option.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     vlans_enabled:
         description:
             - Specifies that traffic will be accepted by this listener only on the VLANS specified in the vlans option.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -263,6 +157,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_LISTENER_ARGS = dict(
@@ -300,16 +198,13 @@ class F5BigIpGtmListener(F5BigIpNamedObject):
             'delete':   self.mgmt_root.tm.gtm.listeners.listener.delete,
             'exists':   self.mgmt_root.tm.gtm.listeners.listener.exists
         }
-        self.params.pop('partition')
-        
+        del self.params['partition']
+
         if isinstance(self.params['source_address_translation'], dict): 
             if self.params['source_address_translation']['type'] == 'automap' and 'pool' in self.params['source_address_translation']:
                 raise AnsibleF5Error('Cant specify a pool when using automap.')
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_LISTENER_ARGS,
         supports_check_mode=False,
@@ -320,13 +215,11 @@ def main():
     )
 
     try:
-        obj = F5BigIpGtmListener(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpGtmListener(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

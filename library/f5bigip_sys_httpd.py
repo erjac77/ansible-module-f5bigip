@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,262 +26,143 @@ module: f5bigip_sys_httpd
 short_description: BIG-IP sys httpd module
 description:
     - Configures the HTTP daemon for the BIG-IP system.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     allow:
         description:
             - Configures IP addresses and hostnames for the HTTP clients from which the httpd daemon accepts requests.
-        required: false
         default: all
-        choices: []
-        aliases: []
-        version_added: 2.3
     auth_name:
         description:
             - Specifies the name for the authentication realm.
-        required: false
         default: BIG-IP
-        choices: []
-        aliases: []
-        version_added: 2.3
     auth_pam_dashboard_timeout:
         description:
             - Specifies whether idle timeout while viewing the dashboard is enforced or not.
-        required: false
         default: off
         choices: ['on', 'off']
-        aliases: []
-        version_added: 2.3
     auth_pam_idle_timeout:
         description:
             - Specifies the number of seconds of inactivity that can elapse before the GUI session is automatically logged out.
-        required: false
         default: 1200
-        choices: []
-        aliases: []
-        version_added: 2.3
     auth_pam_validate_ip:
         description:
             - Specifies whether the check for consistent inbound IP for the entire web session is enforced or not.
-        required: false
         default: on
         choices: ['on', 'off']
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     fast_cgitimeout:
         description:
             - Specifies, in seconds, the timeout for FastCGI.
-        required: false
         default: 300
-        choices: []
-        aliases: []
-        version_added: 2.3
     hostname_lookup:
         description:
             - TODO
-        required: false
         default: off
         choices: ['on', 'off']
-        aliases: []
-        version_added: 2.3
     log_level:
         description:
             - Specifies the minimum httpd message level to include in the system log.
-        required: false
         default: warn
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
-        aliases: []
-        version_added: 2.3
     redirect_http_to_https:
         description:
             - Specifies whether the system should redirect HTTP requests targeted at the configuration utility to HTTPS.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     request_header_max_timeout:
         description:
             - Specifies, in seconds, the maximum time allowed to receive all of the .request headers
-        required: false
         default: 40
-        choices: []
-        aliases: []
-        version_added: 2.3
     request_header_min_rate:
         description:
             - Specifies, in bytes per second, the minimum average rate at which the request headers must be received.
-        required: false
         default: 500
-        choices: []
-        aliases: []
-        version_added: 2.3
     request_header_timeout:
         description:
             - Specifies, in seconds, the time allowed to receive all of the request headers.
-        required: false
         default: 20
-        choices: []
-        aliases: []
-        version_added: 2.3
     request_body_max_timeout:
         description:
             - Specifies, in seconds, the maximum time allowed to receive all of the request body.
-        required: false
         default: 0 (no limit)
-        choices: []
-        aliases: []
-        version_added: 2.3
     request_body_min_rate:
         description:
             - Specifies, in bytes per second, the minimum average rate at which the request body must be received.
-        required: false
         default: 500
-        choices: []
-        aliases: []
-        version_added: 2.3
     request_body_timeout:
         description:
             - Specifies, in seconds, the time allowed for reading all of the request body.
-        required: false
         default: 60
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_ca_cert_file:
         description:
             - Specifies the name of the file that contains the SSL Certificate Authority (CA) certificate file.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_certchainfile:
         description:
             - Specifies the name of the file that contains the SSL certificate chain.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_certfile:
         description:
             - Specifies the name of the file that contains the SSL certificate.
-        required: false
         default: /etc/httpd/conf/ssl.crt/server.crt
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_certkeyfile:
         description:
             - Specifies the name of the file that contains the SSL certificate key.
-        required: false
         default: /etc/httpd/conf/ssl.key/server.key
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_ciphersuite:
         description:
             - Specifies the ciphers that the system uses.
-        required: false
         default: "ALL:!ADH:!EXPORT:!eNULL:!MD5:!DES:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_include:
         description:
             - TODO
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_ocsp_default_responder:
         description:
             - Specifies the default responder URI for OCSP validation.
-        required: false
         default: http://localhost.localdomain
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_ocsp_enable:
         description:
             - Specifies OCSP validation of the client certificate chain.
-        required: false
         default: off
         choices: ['on', 'off']
-        aliases: []
-        version_added: 2.3
     ssl_ocsp_override_responder:
         description:
             - Specifies the force use of default responder URI for OCSP validation.
-        required: false
         default: off
         choices: ['on', 'off']
-        aliases: []
-        version_added: 2.3
     ssl_ocsp_responder_timeout:
         description:
             - Specifies the maximum allowable time in seconds for OCSP response.
-        required: false
         default: 300
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_ocsp_response_max_age:
         description:
             - Specifies the maximum allowable age ("freshness") for OCSP responses.
-        required: false
         default: -1
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_ocsp_response_time_skew:
         description:
             - Specifies the maximum allowable time skew in seconds for OCSP response validation.
-        required: false
         default: 300
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_protocol:
         description:
             - The list of SSL protocols to accept on the management console.
-        required: false
         default: all -SSLv2
-        choices: []
-        aliases: []
-        version_added: 2.3
     ssl_verify_client:
         description:
             - Specifies if the client certificate needs to be verified for SSL session establishment.
-        required: false
         default: no
         choices: ['yes', 'no']
-        aliases: []
-        version_added: 2.3
     ssl_verify_depth:
         description:
             - Specifies maximum depth of CA certificates in client certificate verification.
-        required: false
         default: 10
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -296,6 +179,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_HTTPD_ARGS = dict(
@@ -338,27 +225,22 @@ class F5BigIpSysHttpd(F5BigIpUnnamedObject):
             'read':     self.mgmt_root.tm.sys.httpd.load,
             'update':   self.mgmt_root.tm.sys.httpd.update
         }
-    
+
     def _absent(self):
         if not (self.params['allow']):
             raise AnsibleF5Error("Absent can only be used when removing allow hostnames or IP addresses")
-        
+
         return super(F5BigIpSysHttpd, self)._absent()
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_HTTPD_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpSysHttpd(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysHttpd(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

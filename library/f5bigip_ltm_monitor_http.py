@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,214 +26,110 @@ module: f5bigip_ltm_monitor_http
 short_description: BIG-IP ltm http monitor module
 description:
     - Configures a Hypertext Transfer Protocol (HTTP) monitor.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     adaptive:
         description:
             - Specifies whether the adaptive feature is enabled for this monitor.
-        required: false
-        default: null
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     adaptive_divergence_type:
         description:
             - Specifies whether the adaptive-divergence-value is relative or absolute.
-        required: false
-        default: null
         choices: ['relative', 'absolute']
-        aliases: []
-        version_added: 2.3
     adaptive_divergence_value:
         description:
             - Specifies how far from mean latency each monitor probe is allowed to be.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     adaptive_limit:
         description:
             - Specifies the hard limit, in milliseconds, which the probe is not allowed to exceed, regardless of the divergence value.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     adaptive_sampling_timespan:
         description:
             - Specifies the size of the sliding window, in seconds, which records probe history.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     app_service:
         description:
             - Specifies the application service to which the object belongs.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        required: false
         default: http
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        required: false
         default: *:*
-        choices: []
-        aliases: []
-        version_added: 2.3
     interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
-        required: false
         default: 5
-        choices: []
-        aliases: []
-        version_added: 2.3
     ip_dscp:
         description:
             - Specifies the differentiated services code point (DSCP).
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     manual_resume:
         description:
             - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     password:
         description:
             - Specifies the password if the monitored target requires authentication.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     recv:
         description:
             - Specifies the text string that the monitor looks for in the returned resource.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     recv_disable:
         description:
             - Specifies a text string that the monitor looks for in the returned resource.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     reverse:
         description:
             - Specifies whether the monitor operates in reverse mode.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     send:
         description:
             - Specifies the text string that the monitor sends to the target object.
-        required: false
         default: GET /
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     time_until_up:
         description:
             - Specifies the amount of time, in seconds, after the first successful response before a node is marked up.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     timeout:
         description:
             - Specifies the number of seconds the target has in which to respond to the monitor request.
-        required: false
         default: 16
-        choices: []
-        aliases: []
-        version_added: 2.3
     transparent:
         description:
             - Specifies whether the monitor operates in transparent mode.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     up_interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when the resource is up.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     username:
         description:
             - Specifies the username, if the monitored target requires authentication.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -249,6 +147,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_HTTP_ARGS = dict(
@@ -287,19 +189,14 @@ class F5BigIpLtmMonitorHttp(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_HTTP_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmMonitorHttp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmMonitorHttp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

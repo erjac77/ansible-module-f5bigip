@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,28 +26,23 @@ module: f5bigip_shared_file_transfer_madm
 short_description: BIG-IP shared file transfer madm module
 description:
     - Downloads files.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     file_name:
         description:
             - Specifies the name of the file to download.
         required: true
-        default: null
-        choices: []
-        aliases: []
     download_path:
         description:
             - Specifies the path where the file will be downloaded.
         required: true
-        default: null
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -60,6 +57,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS = dict(
@@ -85,19 +86,14 @@ class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
         return { 'changed': has_changed }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpSharedFileTransferMadm(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSharedFileTransferMadm(check_mode=module.supports_check_mode, **module.params)
         result = obj.download()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

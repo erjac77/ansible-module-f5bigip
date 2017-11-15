@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,126 +26,67 @@ module: f5bigip_ltm_snat_translation
 short_description: BIG-IP ltm snat-translation module
 description:
     - Explicitly defines the properties of a SNAT translation address.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     address:
         description:
             - The translation IP address.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     arp:
         description:
             - Indicates whether the system responds to ARP requests or sends gratuitous ARPs.
-        required: false
         default: enabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     app_service:
         description:
             - Specifies the name of the application service to which this object belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
-        version_added: 2.3
     connection_limit:
         description:
             - Specifies the number of connections a translation address must reach before it no longer initiates a connection.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - User-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Disables SNAT translation.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     enabled:
         description:
             - Enables SNAT translation.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ip_idle_timeout:
         description:
             - Specifies the number of seconds that IP connections initiated using a SNAT address are allowed to remain idle before being automatically disconnected.
-        required: false
         default: indefinite
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
    tcp_idle_timeout:
         description:
             - Specifies the number of seconds that TCP connections initiated using a SNAT address are allowed to remain idle before being automatically disconnected.
-        required: false
         default: indefinite
-        choices: []
-        aliases: []
-        version_added: 2.3
     traffic_group:
         description:
             - Specifies the traffic group of the failover device group on which the SNAT is active.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     udp_idle_timeout:
         description:
             - Specifies the number of seconds that UDP connections initiated using a SNAT address are allowed to remain idle before being automatically disconnected.
-        required: false
         default: indefinite
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -161,6 +104,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_SNAT_TRANSLATION_ARGS = dict(
@@ -188,9 +135,6 @@ class F5BigIpLtmSnatTranslation(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_LTM_SNAT_TRANSLATION_ARGS,
         supports_check_mode=False,
@@ -198,15 +142,13 @@ def main():
             ['disabled', 'enabled']
         ]
     )
-    
+
     try:
-        obj = F5BigIpLtmSnatTranslation(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmSnatTranslation(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()
