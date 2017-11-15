@@ -67,7 +67,7 @@ EXAMPLES = '''
     f5_username: admin
     f5_password: admin
     f5_port: 443
-    name: 'ldns: country US server: datacenter DC1'
+    name: 'ldns: country US server: datacenter /Common/DC1'
     description: My topology
     state: present
   delegate_to: localhost
@@ -77,6 +77,7 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from requests.exceptions import HTTPError
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_TOPOLOGY_ARGS = dict(
@@ -96,15 +97,15 @@ class F5BigIpGtmTopology(F5BigIpNamedObject):
             'exists':   self.mgmt_root.tm.gtm.topology_s.topology.exists
         }
         del self.params['partition']
-        del self.params['subPath']
+        del self.params['sub_path']
 
     def _exists(self):
         exists = True
 
         try:
             obj = self.methods['read'](name=self.params['name'])
-        except Exception as exception:
-            exists = False 
+        except HTTPError as err:
+            exists = False
 
         return exists
 
