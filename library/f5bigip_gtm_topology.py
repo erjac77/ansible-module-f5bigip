@@ -98,6 +98,16 @@ class F5BigIpGtmTopology(F5BigIpNamedObject):
         del self.params['partition']
         del self.params['subPath']
 
+    def _exists(self):
+        exists = True
+
+        try:
+            obj = self.methods['read'](name=self.params['name'])
+        except Exception as exception:
+            exists = False 
+
+        return exists
+
     def _update(self):
         raise AnsibleF5Error("%s does not support update" % self.__class__.__name__)
 
