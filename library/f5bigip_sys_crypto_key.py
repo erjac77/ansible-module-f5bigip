@@ -157,15 +157,6 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
             'exec_cmd': self.mgmt_root.tm.sys.crypto.keys.exec_cmd
         }
 
-    def _exists(self):
-        keys = self.mgmt_root.tm.sys.crypto.keys.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
-
     def _install(self):
         """Upload the key on the BIG-IP system."""
         name = self.params['name']
