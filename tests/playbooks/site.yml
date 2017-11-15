@@ -139,7 +139,7 @@
 - import_playbook: f5bigip_sys_httpd.yml
 - import_playbook: f5bigip_sys_ntp.yml
 - import_playbook: f5bigip_sys_performance.yml
-#- import_playbook: f5bigip_sys_provision.yml
+- import_playbook: f5bigip_sys_provision.yml
 #- import_playbook: f5bigip_sys_snmp.yml
 - import_playbook: f5bigip_sys_software_update.yml
 - import_playbook: f5bigip_sys_sshd.yml

@@ -47,6 +47,7 @@ options:
         description:
             - Specifies which module to use.
         required: true
+        choices: ['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg']
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:

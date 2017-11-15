@@ -42,6 +42,9 @@
     level: "{{ provision_level_default }}"
   delegate_to: localhost
   register: result
+  until: result|success
+  retries: 5
+  delay: 30
 
 - name: Assert Change SYS Provision level to default
   assert:
