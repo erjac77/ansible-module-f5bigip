@@ -148,6 +148,7 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
+from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
@@ -157,10 +158,10 @@ BIGIP_LTM_PROFILE_DIAMETER_ARGS = dict(
     defaults_from                 =    dict(type='str'),
     description                   =    dict(type='str'),
     destination_realm             =    dict(type='str'),
-    handshake_timeout             =    dict(type='int'),
+    handshake_timeout             =    dict(type='int', choices=range(0, 4294967296)),
     host_ip_rewrite               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    max_retransmit_attempts       =    dict(type='int'),
-    max_watchdog_failure          =    dict(type='int'),
+    max_retransmit_attempts       =    dict(type='int', choices=range(0, 4294967296)),
+    max_watchdog_failure          =    dict(type='int', choices=range(0, 4294967296)),
     origin_host_to_client         =    dict(type='str'),
     origin_host_to_server         =    dict(type='str'),
     origin_realm_to_client        =    dict(type='str'),
@@ -169,9 +170,9 @@ BIGIP_LTM_PROFILE_DIAMETER_ARGS = dict(
     parent_avp                    =    dict(type='str'),
     persist_avp                   =    dict(type='str'),
     reset_on_timeout              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    retransmit_timeout            =    dict(type='int'),
+    retransmit_timeout            =    dict(type='int', choices=range(0, 4294967296)),
     subscriber_aware              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    watchdog_timeout              =    dict(type='int')
+    watchdog_timeout              =    dict(type='int', choices=range(0, 4294967296))
 )
 
 class F5BigIpLtmProfileDiameter(F5BigIpNamedObject):

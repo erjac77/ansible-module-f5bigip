@@ -111,6 +111,7 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
+from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
@@ -120,9 +121,9 @@ BIGIP_GTM_GLOBAL_SETTINGS_METRICS_ARGS = dict(
     hops_packet_length                  =   dict(type='int'),
     hops_sample_count                   =   dict(type='int'),
     hops_timeout                        =   dict(type='int'),
-    inactive_ldns_ttl                   =   dict(type='int'),
+    inactive_ldns_ttl                   =   dict(type='int', choices=range(60, 4294967296)),
     ldns_update_interval                =   dict(type='int'),
-    inactive_paths_ttl                  =   dict(type='int'),
+    inactive_paths_ttl                  =   dict(type='int', choices=range(60, 4294967296)),
     max_synchronous_monitor_requests    =   dict(type='int'),
     metrics_caching                     =   dict(type='int', choices=range(0, 604801)),
     metrics_collection_protocols        =   dict(type='str', choices=['dns_dot', 'dns_rev', 'icmp', 'tcp', 'udp']),
