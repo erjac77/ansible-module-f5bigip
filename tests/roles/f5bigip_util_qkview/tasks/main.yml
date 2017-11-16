@@ -1,0 +1,36 @@
+---
+
+- name: Generate Util Qkview
+  f5bigip_util_qkview:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Generate Util Qkview
+  assert:
+    that:
+      result|changed
+
+- name: Move Qkview in madm folder
+  f5bigip_util_unix_mv:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    file_name: "{{ qkview_file_name }}"
+    source_path: "{{ qkview_source_path }}"
+    dest_path: "{{ qkview_dest_path }}"
+  delegate_to: localhost
+
+- name: Download Qkview
+  f5bigip_shared_file_transfer_madm:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    file_name: "{{ qkview_file_name }}"
+    download_path: "{{ qkview_download_path }}"
+  delegate_to: localhost

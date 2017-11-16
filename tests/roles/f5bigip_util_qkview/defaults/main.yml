@@ -1,0 +1,10 @@
+---
+
+files_path: "{{ role_path }}/files/"
+
+qkview_file_name: localhost.localdomain.qkview
+qkview_source_path: /var/tmp/
+qkview_dest_path: /var/config/rest/madm
+qkview_download_path: "{{ role_path }}/files/{{ qkview_file_name }}"
+
+madm_download_path: "{{ files_path }}{{ madm_file_name }}"
