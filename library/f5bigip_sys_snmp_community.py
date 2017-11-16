@@ -101,15 +101,6 @@ class F5BigIpSysSnmpCommunity(F5BigIpNamedObject):
             'exists':   self.snmp.communities_s.community.exists
         }
 
-    def _exists(self):
-        keys = self.snmp.communities_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
-
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_COMMUNITY_ARGS, supports_check_mode=False)
 

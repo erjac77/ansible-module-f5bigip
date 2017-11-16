@@ -124,19 +124,10 @@ class F5BigIpSysSnmpTrap(F5BigIpNamedObject):
         self.methods = {
             'create':   self.snmp.traps_s.trap.create,
             'read':     self.snmp.traps_s.trap.load,
-            'update':   self.snmp.traps_s.trap.update,
+            'modify':   self.snmp.traps_s.trap.modify,
             'delete':   self.snmp.traps_s.trap.delete,
             'exists':   self.snmp.traps_s.trap.exists
         }
-
-    def _exists(self):
-        keys = self.snmp.traps_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_TRAP_ARGS, supports_check_mode=False)
