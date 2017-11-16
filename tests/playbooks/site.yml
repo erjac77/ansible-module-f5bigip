@@ -143,7 +143,7 @@
 - import_playbook: f5bigip_sys_snmp.yml
 - import_playbook: f5bigip_sys_software_update.yml
 - import_playbook: f5bigip_sys_sshd.yml
-#- import_playbook: f5bigip_sys_syslog.yml
+- import_playbook: f5bigip_sys_syslog.yml
 - import_playbook: f5bigip_sys_ucs.yml
 - import_playbook: f5bigip_util_unix_ls.yml
 - import_playbook: f5bigip_util_unix_mv.yml
