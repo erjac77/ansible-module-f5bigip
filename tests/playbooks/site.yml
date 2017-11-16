@@ -145,5 +145,6 @@
 - import_playbook: f5bigip_sys_sshd.yml
 #- import_playbook: f5bigip_sys_syslog.yml
 - import_playbook: f5bigip_sys_ucs.yml
+- import_playbook: f5bigip_util_qkview.yml
 - import_playbook: f5bigip_util_unix_ls.yml
 - import_playbook: f5bigip_util_unix_mv.yml
