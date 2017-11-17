@@ -1,5 +1,6 @@
 ---
 
+- import_playbook: f5bigip_auth_partition.yml
 - import_playbook: f5bigip_auth_user.yml
 - import_playbook: f5bigip_cm_device.yml
 - import_playbook: f5bigip_cm_device_group.yml
