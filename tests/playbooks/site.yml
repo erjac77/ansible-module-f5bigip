@@ -13,6 +13,7 @@
 - import_playbook: f5bigip_gtm_listener.yml
 - import_playbook: f5bigip_gtm_pool.yml
 - import_playbook: f5bigip_gtm_region.yml
+- import_playbook: f5bigip_gtm_rule.yml
 - import_playbook: f5bigip_gtm_server.yml
 #- import_playbook: f5bigip_gtm_topology.yml
 - import_playbook: f5bigip_gtm_wideip.yml
