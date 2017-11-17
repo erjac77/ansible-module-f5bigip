@@ -73,7 +73,6 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
         try:
             obj = self.methods['run']('run', utilCmdArgs=self.params['args'])
             has_changed = True
-
         except Exception:
             raise AnsibleF5Error('Could not execute command.')
 
@@ -82,7 +81,7 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
         else:
             output = ''
 
-        return { 'ouput': output, 'changed': has_changed}
+        return { 'ouput': output, 'changed': has_changed }
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_BASH_ARGS, supports_check_mode=False)

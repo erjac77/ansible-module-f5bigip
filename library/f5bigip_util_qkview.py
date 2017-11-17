@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,12 +26,13 @@ module: f5bigip_util_qkview
 short_description: BIG-IP util qkview module
 description:
     - Generates a Qkview.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
+    - "Gabriel Fortin (@GabrielFortin)"
 notes:
     - Requires BIG-IP software version >= 12.0
 requirements:
+    - ansible-common-f5
     - f5-sdk
 '''
 
@@ -43,6 +46,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_QKVIEW_ARGS = dict(
@@ -54,7 +61,7 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
             'run':   self.mgmt_root.tm.util.qkview.exec_cmd
         }
 
-    def generate_qkview(self):
+    def run(self):
         has_changed = True
 
         try:
@@ -69,12 +76,10 @@ def main():
 
     try:
         obj = F5BigIpUtilQkview(check_mode=module.supports_check_mode, **module.params)
-        result = obj.generate_qkview()
+        result = obj.run()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

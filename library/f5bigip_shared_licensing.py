@@ -63,7 +63,7 @@ class F5BigIpSharedLicensing(F5BigIpUnnamedObject):
             'read':     self.mgmt_root.tm.shared.licensing.activation.load
         }
 
-    def flush(self):
+    def get_licensing(self):
         return { 'licensing': self.methods['read']().attrs }
 
 def main():
@@ -71,7 +71,7 @@ def main():
 
     try:
         obj = F5BigIpSharedLicensing(check_mode=module.supports_check_mode, **module.params)
-        result = obj.flush()
+        result = obj.get_licensing()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

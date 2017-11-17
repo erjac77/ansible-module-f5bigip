@@ -67,7 +67,7 @@ class F5BigIpSharedBigipFailoverState(F5BigIpUnnamedObject):
             'read':     self.mgmt_root.tm.shared.bigip_failover_state.load
         }
 
-    def flush(self):
+    def get_failover_state(self):
         return { 'bigip_failover_state': self.methods['read']().attrs }
 
 def main():
@@ -75,7 +75,7 @@ def main():
 
     try:
         obj = F5BigIpSharedBigipFailoverState(check_mode=module.supports_check_mode, **module.params)
-        result = obj.flush()
+        result = obj.get_failover_state()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

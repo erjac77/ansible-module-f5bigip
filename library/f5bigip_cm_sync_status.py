@@ -65,7 +65,7 @@ class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
     def _read(self):
         return self.methods['read']
 
-    def flush(self):
+    def get_sync_status(self):
         sync_status_desc = {}
         sync_status = self._read()
 
@@ -82,7 +82,7 @@ def main():
 
     try:
         obj = F5BigIpCmSyncStatus(check_mode=module.supports_check_mode, **module.params)
-        result = obj.flush()
+        result = obj.get_sync_status()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

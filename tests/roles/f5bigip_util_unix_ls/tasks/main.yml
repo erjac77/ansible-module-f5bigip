@@ -1,6 +1,6 @@
 ---
 
-- name: UTIL Unix ls
+- name: List directory contents
   f5bigip_util_unix_ls:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
@@ -10,11 +10,11 @@
   delegate_to: localhost
   register: result
 
-- name: Show folder
+- name: Show directory contents
   debug:
     msg: "{{ result.result }}"
 
-- name: Assert UTIL Unix ls
+- name: Assert List directory content
   assert:
     that:
-      - result|changed
+      - result|succeeded
