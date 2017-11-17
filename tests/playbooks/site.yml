@@ -132,7 +132,7 @@
 - import_playbook: f5bigip_shared_file_transfer.yml
 - import_playbook: f5bigip_shared_licensing.yml
 - import_playbook: f5bigip_sys_crypto.yml
-#- import_playbook: f5bigip_sys_db.yml
+- import_playbook: f5bigip_sys_db.yml
 - import_playbook: f5bigip_sys_dns.yml
 - import_playbook: f5bigip_sys_failover.yml
 - import_playbook: f5bigip_sys_file.yml

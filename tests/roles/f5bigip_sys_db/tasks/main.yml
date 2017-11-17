@@ -1,50 +1,50 @@
 ---
 
-- name: Disable SYS DB Setup Utility Wizard
+- name: Modify SYS DB Key
   f5bigip_sys_db:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ db_variable_name }}"
-    value: "{{ db_variable_value }}"
+    value: "{{ db_variable_new_value }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Disable SYS DB Setup Utility Wizard
+- name: Assert Modify SYS DB Key
   assert:
     that:
       - result|changed
   ignore_errors: yes
 
-- name: Disable SYS DB Setup Utility Wizard (idempotent)
+- name: Modify SYS DB Key (idempotent)
   f5bigip_sys_db:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ db_variable_name }}"
-    value: "{{ db_variable_value }}"
+    value: "{{ db_variable_new_value }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Disable SYS DB Setup Utility Wizard (idempotent)
+- name: Assert Modify SYS DB Key (idempotent)
   assert:
     that:
       - not result|changed
 
-#- name: Reset SYS DB Setup Wizard to Default
-#  f5bigip_sys_db:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ db_variable_name }}"
-#    reset_to_default: True
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Disable SYS DB Setup Wizard
-#  assert:
-#    that:
-#      - result|changed
+- name: Reset SYS DB Key
+  f5bigip_sys_db:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ db_variable_name }}"
+    value: "{{ db_variable_old_value }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Reset SYS DB Key
+  assert:
+    that:
+      - result|changed
