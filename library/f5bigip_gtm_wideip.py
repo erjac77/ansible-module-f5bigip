@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,166 +26,87 @@ module: f5bigip_gtm_wideip
 short_description: BIG-IP gtm wideip module
 description:
     - Configures a wide IP.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     aliases:
         description:
             - Specifies alternate domain names for the web site content you are load balancing.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     app_service:
         description:
             - Specifies the application service that the object belongs to.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Specifies whether the wide IP and its resources are available for load balancing.
-        required: false
         default: false
-        choices: []
-        aliases: []
-        version_added: 2.3
     enabled:
         description:
             - Specifies whether the wide IP and its resources are available for load balancing.
-        required: false
         default: true
-        choices: []
-        aliases: []
-        version_added: 2.3
     ipv6_no_error_neg_ttl:
         description:
             - Specifies the negative caching TTL of the SOA for the IPv6 NoError response.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     ipv6_no_error_response:
         description:
             - Specifies the negative caching TTL of the SOA for the IPv6 NoError response.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     last_resort_pool:
         description:
             - Specifies which pool for the system to use as the last resort pool when load balancing requests for this wide IP.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     load_balancing_decision_log_verbosity:
         description:
             - Specifies the amount of detail logged when making load balancing decisions.
-        required: false
-        default: null
         choices: ['pool-selection', 'pool-traversal', 'pool-member-selection', 'pool-member-traversal']
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     persistence:
         description:
             - When enabled, specifies that when a local DNS server makes repetitive requests on behalf of a client, the system reconnects the client to the same resource as previous requests.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     persist_cidr_ipv4:
         description:
             - Specifies a mask used to group IPv4 LDNS addresses.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     persist_cidr_ipv6:
         description:
             - Specifies a mask used to group IPv6 LDNS addresses.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     pool_lb_mode:
         description:
             - Specifies the load balancing method used to select a pool in this wide IP.
-        required: false
         default: round-robin
         choices: ['global-availability', 'random', 'ratio', 'round-robin', 'topology']
-        aliases: []
-        version_added: 2.3
     pools:
         description:
             - Configures the pools the system uses when load balancing requests for this wide IP.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     rules:
         description:
             - Specifies the iRules that this wide IP uses for load balancing decisions.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     ttl_persistence:
         description:
             - Specifies, in seconds, the length of time for which a persistence entry is valid.
-        required: false
         default: 3600
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -204,6 +127,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 from f5.bigip.resource import OrganizingCollection
 
@@ -247,9 +174,6 @@ class F5BigIpGtmWideip(F5BigIpNamedObject):
             }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_WIDEIP_ARGS,
         supports_check_mode=False,
@@ -257,15 +181,13 @@ def main():
             ['disabled', 'enabled']
         ]
     )
-    
+
     try:
-        obj = F5BigIpGtmWideip(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpGtmWideip(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

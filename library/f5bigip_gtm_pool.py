@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,286 +26,157 @@ module: f5bigip_gtm_pool
 short_description: BIG-IP gtm pool module
 description:
     - Configures load balancing pools for the Global Traffic Manager.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     alternate_mode:
         description:
             - Specifies the load balancing mode that the system uses to load balance name resolution requests among the members of this pool, if the preferred method is unsuccessful in picking a pool.
-        required: false
         default: round-robin
         choices: ['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
-        aliases: []
-        version_added: 2.3
     app_service:
         description:
             - Specifies the application service that the object belongs to.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     canonical_name:
         description:
             - Specifies the canonical name of the zone.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies a user-defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     disabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
-        required: false
         default: false
-        choices: []
-        aliases: []
-        version_added: 2.3
     dynamic_ratio:
         description:
             - Enables or disables a dynamic ratio load balancing algorithm for this pool.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     enabled:
         description:
             - Specifies whether the data center and its resources are available for load balancing.
-        required: false
         default: true
-        choices: []
-        aliases: []
-        version_added: 2.3
     fallback_ipv4:
         description:
             - Specifies the IPv4 address of the server to which the system directs requests in the event that the load balancing methods configured for this pool fail to return a valid virtual server.
-        required: false
         default: ::
-        choices: []
-        aliases: []
-        version_added: 2.3
     fallback_ipv6:
         description:
             - Specifies the IPv6 address of the server to which the system directs requests in the event that the load balancing methods configured for this pool fail to return a valid virtual server.
-        required: false
         default: ::
-        choices: []
-        aliases: []
-        version_added: 2.3
     fallback_mode:
         description:
             - Specifies the load balancing mode that the system uses to load balance name resolution requests among the members of this pool, if the preferred and alternate modes are unsuccessful in picking a pool.
-        required: false
         default: return-to-dns
         choices: ['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'none', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
-        aliases: []
-        version_added: 2.3
     limit_max_bps:
         description:
             - Specifies the maximum allowable data throughput rate, in bits per second, for the virtual servers in the pool.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_bps_status:
         description:
             - Enables or disables the limit-max-bps option for this pool.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     limit_max_connections:
         description:
             - Specifies the number of current connections allowed for the virtual servers in the pool.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_connections_status:
         description:
             - Enables or disables the limit-max-connections option for this pool.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     limit_max_pps:
         description:
             - Specifies the maximum allowable data transfer rate, in packets per second, for the virtual servers in the pool.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     limit_max_pps_status:
         description:
             - Enables or disables the limit-max-pps option for this pool.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     load_balancing_mode:
         description:
             - Specifies the preferred load balancing mode that the system uses to load balance name resolution requests among the members of this pool.
-        required: false
         default: round-robin
         choices: ['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops', 'global-availability', 'kilobytes-per-second', 'least-connections', 'lowest-round-trip-time', 'packet-rate', 'quality-of-service', 'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology', 'virtual-server-capacity', 'virtual-server-score']
-        aliases: []
-        version_added: 2.3
     manual_resume:
         description:
             - Enables or disables the manual resume function for this pool.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     max_addresses_returned:
         description:
             - Specifies the maximum number of available virtual servers that the system lists in an A record response.
-        required: false
         default: 1
-        choices: []
-        aliases: []
-        version_added: 2.3
     monitor:
         description:
             - Specifies the health monitors that the system uses to determine whether it can use this pool for load balancing.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_hit_ratio:
         description:
             - Assigns a weight to the Hit Ratio performance factor for the Quality of Service dynamic load balancing mode.
-        required: false
         default: 5
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_hops:
         description:
             - Assigns a weight to the Hops performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_kilobytes_second:
         description:
             - Assigns a weight to the Kilobytes per Second performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 3
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_lcs:
         description:
             - Assigns a weight to the Link Capacity performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 30
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_packet_rate:
         description:
             - Assigns a weight to the Packet Rate performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 1
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_rtt:
         description:
             - Assigns a weight to the Round Trip Time performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 50
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_topology:
         description:
             - Assigns a weight to the Topology performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_vs_capacity:
         description:
             - Assigns a weight to the Virtual Server performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     qos_vs_score:
         description:
             - Assigns a weight to the Virtual Server Score performance factor when the value of the either the load-balancing-mode or fallback-mode options is quality-of-service.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     ttl:
         description:
             - Specifies the number of seconds that the IP address, once found, is valid.
-        required: false
         default: 30
-        choices: []
-        aliases: []
-        version_added: 2.3
     verify_member_availability:
         description:
             - Specifies that the system verifies the availability of the members before sending a connection to those resources.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -321,6 +194,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 from f5.bigip.resource import OrganizingCollection
 
@@ -379,9 +256,6 @@ class F5BigIpGtmPool(F5BigIpNamedObject):
             }  
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_POOL_ARGS,
         supports_check_mode=False,
@@ -389,15 +263,13 @@ def main():
             ['disabled', 'enabled']
         ]
     )
-    
+
     try:
-        obj = F5BigIpGtmPool(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpGtmPool(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

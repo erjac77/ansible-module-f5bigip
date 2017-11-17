@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,78 +26,45 @@ module: f5bigip_sys_application_service
 short_description: BIG-IP sys application service module
 description:
     - Configures traffic management application services.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     device_group:
         description:
             - Specifies the name of the device group to which the application service is assigned.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     execute_action:
         description:
             - Runs the specified template action associated with the service.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     strict_updates:
         description:
             - Specifies whether configuration objects contained in the application service can be directly modified outside the context of the system's application service management interfaces.
-        required: false
         default: enabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     template:
         description:
             - The template defines the configuration for the application service.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     traffic_group:
         description:
             - Adds this folder and its configuration items to an existing traffic group.
-        required: false
         default: false
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -174,6 +143,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_APPLICATION_SERVICE_ARGS = dict(
@@ -200,19 +173,14 @@ class F5BigIpSysApplicationService(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_APPLICATION_SERVICE_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpSysApplicationService(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysApplicationService(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

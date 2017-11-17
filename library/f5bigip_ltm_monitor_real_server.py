@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,84 +26,54 @@ module: f5bigip_ltm_monitor_real_server
 short_description: BIG-IP ltm monitor real server module
 description:
     - Configures a RealServer monitor.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
-            - Specifies the name of the application service to which the monitor belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
+            - Specifies the name of the application service to which the monitor belongs
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        required: false
         default: real-server
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     interval:
         description:
             - Specifies the frequency at which the system issues the monitor check.
-        required: false
         default: 5
-        choices: []
-        aliases: []
     metrics:
         description:
             - Specifies the performance metrics that the commands collect from the target.
-        required: false
         default: ServerBandwidth:1.5, CPUPercentUsage, MemoryUsage, TotalClientCount
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     time_until_up:
         description:
             - Specifies the amount of time, in seconds, after the first successful response before a node is marked up.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     timeout:
         description:
             - Specifies the number of seconds the target has in which to respond to the monitor request.
-        required: false
         default: 16
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -118,6 +90,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_REAL_SERVER_ARGS = dict(
@@ -141,19 +117,14 @@ class F5BigIpLtmMonitorRealServer(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_REAL_SERVER_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmMonitorRealServer(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmMonitorRealServer(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

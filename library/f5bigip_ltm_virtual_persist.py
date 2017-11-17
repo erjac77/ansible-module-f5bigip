@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,54 +26,38 @@ module: f5bigip_ltm_virtual_persist
 short_description: BIG-IP ltm virtual persist module
 description:
     - Configures profiles on the specified virtual server to manage connection persistence.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     default:
         description:
             - Specifies which profile you want the virtual server to use if an iRule does not specify a persistence method.
-        required: false
         default: no
         choices: ['no', 'yes']
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     virtual:
         description:
             - Specifies the virtual to which the profile belongs.
         required: true
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -88,6 +74,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_PERSIST_ARGS = dict(
@@ -108,7 +98,7 @@ class F5BigIpLtmVirtualPersist(F5BigIpNamedObject):
             'delete':   self.virtual.profiles_s.profiles.delete,
             'exists':   self.virtual.profiles_s.profiles.exists
         }
-        self.params.pop('virtual', None)
+        del self.params['virtual']
 
     def _exists(self):
         keys = self.virtual.profiles_s.get_collection()
@@ -120,19 +110,14 @@ class F5BigIpLtmVirtualPersist(F5BigIpNamedObject):
         return False
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_PERSIST_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmVirtualPersist(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmVirtualPersist(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

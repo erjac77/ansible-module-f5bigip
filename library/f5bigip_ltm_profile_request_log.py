@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,189 +26,103 @@ module: f5bigip_ltm_profile_request_log
 short_description: BIG-IP ltm profile request log module
 description:
     - Configures a Request-Logging profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the profile belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the default values from this profile.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     log_request_logging_errors:
         description:
             - Enables secondary logging should the primary lack sufficient available bandwidth.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     log_response_by_default:
         description:
             - Indicates if response logging may be overridden via iRule.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     log_response_logging_error:
         description:
             - Enables secondary logging should the primary lack sufficient available bandwidth.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     partition:
         description:
             - Displays the administrative partition within which the profile resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     proxy_close_on_error:
         description:
             - Specifies, if enabled, that the logging profile will close the connection after sending its proxy-response.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     proxy_respond_on_logging_error:
         description:
             - Specifies that the logging profile respond directly (for example, with an HTTP 502) if the logging fails.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     proxy_response:
         description:
             - Specifies the response to send on logging errors.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     request_log_error_pool:
         description:
             - Specifies the name of the pool from which to select log servers.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     request_log_error_protocol:
         description:
             - Specifies the HighSpeedLogging protocol to use when logging.
-        required: false
-        default: null
         choices: ['TCP', 'UDP', 'none']
-        aliases: []
     request_log_error_template:
         description:
             - Specifies the template to use when generating log messages.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     request_log_pool:
         description:
             - Specifies the name of the pool from which to select log servers.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     request_log_protocol:
         description:
             - Specifies the HighSpeedLogging protocol to use when logging.
-        required: false
-        default: null
         choices: ['TCP', 'UDP', 'none']
-        aliases: []
     request_log_template:
         description:
             - Specifies the template to use when generating log messages.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     request_logging:
         description:
             - Enables or disables logging before the response is returned to the client.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     response_log_error_pool:
         description:
             - Specifies the name of the pool from which to select log servers.
-        required: false
-        default: null
         choices: ['TCP', 'UDP', 'none']
-        aliases: []
     response_log_error_protocol:
         description:
             - Specifies the HighSpeedLogging protocol to use when logging.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     response_log_error_template:
         description:
             - Specifies the template to use when generating log messages.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     response_log_pool:
         description:
             - Specifies the name of the pool from which to select log servers.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     response_log_protocol:
         description:
             - Specifies the HighSpeedLogging protocol to use when logging.
-        required: false
-        default: null
         choices: ['TCP', 'UDP', 'none']
-        aliases: []
     response_log_template:
         description:
             - Specifies the template to use when generating log messages.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     response_logging:
         description:
             - Enables or disables logging before the response is returned to the client.
-        required: false
-        default: null
         choices: ['disabled', 'enabled']
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -223,6 +139,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_REQUEST_LOG_ARGS = dict(
@@ -262,19 +182,14 @@ class F5BigIpLtmProfileRequestLog(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_REQUEST_LOG_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileRequestLog(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileRequestLog(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

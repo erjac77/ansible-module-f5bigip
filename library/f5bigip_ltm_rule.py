@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,62 +26,38 @@ module: f5bigip_ltm_rule
 short_description: BIG-IP ltm rule module
 description:
     - Configures an iRule for traffic management system configuration.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
-	app_service:
+    app_service:
         description:
             - Specifies the application service that the object belongs to.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     definition:
         description:
             - Specifies the iRule definition.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     ignore_verification:
         description:
-            - 
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+            - Allows the modified rule to load and changes the verification status to 'Not Verified'.
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -97,6 +75,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_RULE_ARGS = dict(
@@ -119,17 +101,15 @@ class F5BigIpLtmRule(F5BigIpNamedObject):
 def main():
     # Translation list for conflictual params
     tr = { 'definition':'api_anonymous' }
-    
+
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_RULE_ARGS, supports_check_mode=False)
-    
+
     try:
         obj = F5BigIpLtmRule(check_mode=module.supports_check_mode, tr=tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

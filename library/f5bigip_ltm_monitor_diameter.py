@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,161 +26,92 @@ module: f5bigip_ltm_monitor_diameter
 short_description: BIG-IP ltm monitor diameter module
 description:
     - Configures a monitor for Diameter protocol resources.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     acct_application_id:
         description:
             - Specifies the ID of the accounting portion of a Diameter application.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     app_service:
         description:
             - Specifies the name of the application service to which the monitor belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     auth_application_id:
         description:
             - Specifies the ID of the authentication and authorization portion of a Diameter application.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        required: false
         default: diameter
-        choices: []
-        aliases: []
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     host_ip_address:
         description:
             - Specifies the IP address of the sender of the Diameter message for the Diameter protocol peer discovery feature.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
-        required: false
         default: 10
-        choices: []
-        aliases: []
     manual_resume:
         description:
             - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     origin_host:
         description:
             - Specifies the IP address from which the Diameter message originates.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     origin_realm:
         description:
             - Specifies the realm in which the host from which the Diameter message originates resides.
-        required: false
         default: f5.com
-        choices: []
-        aliases: []
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
     product_name:
         description:
             - Specifies the vendor-assigned name of the Diameter application.
-        required: false
         default: F5 BIGIP Diameter Health Monitoring
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     time_until_up:
         description:
             - Specifies the amount of time, in seconds, after the first successful response before a node is marked up.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     timeout:
         description:
             - Specifies the number of seconds the target has in which to respond to the monitor request.
-        required: false
         default: 31
-        choices: []
-        aliases: []
     up_interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when the resource is up.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     vendor_id:
         description:
             - Specifies the IANA SMI Network Management Private Enterprise Code assigned to the vendor of the Diameter application.
-        required: false
         default: 3375
-        choices: []
-        aliases: []
     vendor_specific_acct_application_id:
         description:
             - Specifies Specifies the ID of the vendor-specific accounting portion of a Diameter application.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     vendor_specific_auth_application_id:
         description:
             - Specifies the ID of the vendor-specific authentication and authorization portion of a Diameter application.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     vendor_specific_vendor_id:
         description:
             - Specifies the ID of a vendor-specific Diameter application.
-        required: false
-        default: none
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -195,6 +128,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_DIAMETER_ARGS = dict(
@@ -229,19 +166,14 @@ class F5BigIpLtmMonitorDiameter(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_DIAMETER_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmMonitorDiameter(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmMonitorDiameter(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

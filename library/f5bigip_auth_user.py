@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,86 +26,44 @@ module: f5bigip_auth_user
 short_description: BIG-IP auth user module
 description:
     - Configures user accounts for the BIG-IP system.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     description:
         description:
             - Describes the user account in free form text.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Displays the name of the administrative partition in which the user account resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition_access:
         description:
             - Specifies the administrative partitions to which the user currently has access.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
-    role:
-        description:
-            - Specifies the user role that pertains to the partition specified by the partition-access property.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     password:
         description:
             - Sets the user password during creation or modification of a user account without prompting or confirmation.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     prompt_for_password:
         description:
             - Indicates that when the account is created or modified, the BIG-IP system prompts the administrator or user manager for both a password and a password confirmation for the account.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     shell:
         description:
             - Specifies the shell to which the user has access.
-        required: false
-        default: null
         choices: ['bash', 'none', 'tmsh']
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -116,7 +76,7 @@ EXAMPLES = '''
     name: user1
     partition: Common
     description: user 1
-    partitionAccess:
+    partition_access:
       - name: Common
         role: Guest
       - name: Test
@@ -125,13 +85,17 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_AUTH_USER_ARGS = dict(
     description             =   dict(type='str'),
     partition_access        =   dict(type='list'),
-    password                =   dict(type='str'),
-    prompt_for_password     =   dict(type='str'),
+    password                =   dict(type='str', no_log=True),
+    prompt_for_password     =   dict(type='str', no_log=True),
     shell                   =   dict(type='str', choices=['bash', 'none', 'tmsh'])
 )
 
@@ -144,23 +108,18 @@ class F5BigIpAuthUser(F5BigIpNamedObject):
             'delete':   self.mgmt_root.tm.auth.users.user.delete,
             'exists':   self.mgmt_root.tm.auth.users.user.exists
         }
-        self.params.pop('partition', None)
-        self.params.pop('sub_path', None)
+        del self.params['partition']
+        del self.params['sub_path']
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_AUTH_USER_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpAuthUser(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpAuthUser(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

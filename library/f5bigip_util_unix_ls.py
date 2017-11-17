@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,21 +26,18 @@ module: f5bigip_util_unix_ls
 short_description: BIG-IP util unix ls module
 description:
     - Shows contents of folders.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     path:
         description:
             - Specifies the path of the folder.
-        required: false
-        default: null
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -52,6 +51,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_UNIX_LS_ARGS = dict(
@@ -66,7 +69,7 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
 
     def list(self):
         has_changed = False
-        
+
         try:
             obj = self.methods['list']('run', utilCmdArgs=self.params['path'])
             has_changed = True
@@ -76,19 +79,14 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
         return { 'result': obj.commandResult, 'changed': has_changed }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_LS_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpUtilUnixLs(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpUtilUnixLs(check_mode=module.supports_check_mode, **module.params)
         result = obj.list()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,110 +26,61 @@ module: f5bigip_ltm_profile_ftp
 short_description: BIG-IP ltm ftp profile module
 description:
     - Configures an FTP profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the profile belongs. 
-        required: false
-        default: none
-        choices: []
-        aliases: []
-        version_added: 2.3
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: ftp
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     port:
         description:
             - Specifies a service for the data channel port used for this FTP profile.
-        required: false
         default: ftp-data
-        choices: []
-        aliases: []
-        version_added: 2.3
     security:
         description:
             - Enables or disables secure FTP traffic for the BIG-IP Application Security Manager. 
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     translate_extended:
         description:
             - Translates RFC2428 extended requests EPSV and EPRT to PASV and PORT when communicating with IPv4 servers.
-        required: false
         default: enabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
     inherit_parent_profile:
         description:
             - Enables the FTP data channel to inherit the TCP profile used by the control channel. If disabled, the data channel uses FastL4 (BigProto) only.
-        required: false
-        default: null
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
    log_publisher:
         description:
             - Specify the name of the log publisher which logs translation events.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
    log_profile:
         description:
             - Specify the name of the ALG log profile which controls the logging of ALG .
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = ''' 
@@ -145,6 +98,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_FTP_ARGS = dict(
@@ -169,19 +126,14 @@ class F5BigIpLtmProfileFtp(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FTP_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmProfileFtp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileFtp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,86 +26,51 @@ module: f5bigip_ltm_auth_ssl_crldp
 short_description: BIG-IP ltm auth ssl crldp module
 description:
     - Configures a Secure Socket Layer (SSL) Certificate Revocation List Distribution Point (CRLDP) configuration object for implementing SSL CRLDP to manage certificate revocation.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     cache_timeout:
         description:
             - Specifies the number of seconds that CRLs are cached.
-        required: false
         default: 86400
-        choices: []
-        aliases: []
-        version_added: 2.3
     connection_timeout:
         description:
             - Specifies the number of seconds before the connection times out.
-        required: false
         default: 15
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     servers:
         description:
             - Specifies a host name or IP address for the secure CRLDP server.
-        required: false
-        default: none
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     update_interval:
         description:
             - Specifies an update interval for CRL distribution points that ensures that CRL status is checked at regular intervals, regardless of the CRL timeout value.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     use_issuer:
         description:
             - Specifies whether the system extracts the CRL distribution point from the client certificate.
-        required: false
         default: disabled
         choices: ['enabled', 'disabled']
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -119,6 +86,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_AUTH_SSL_CRLDP_ARGS = dict(
@@ -141,19 +112,14 @@ class F5BigIpLtmAuthSslCrldp(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_SSL_CRLDP_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmAuthSslCrldp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmAuthSslCrldp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

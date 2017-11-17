@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,70 +26,45 @@ module: f5bigip_ltm_profile_pptp
 short_description: BIG-IP ltm profile pptp module
 description:
     - Configures a Point-to-Point Tunneling Protocol (PPTP) profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the object belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: pptp
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     include_destination_ip:
         description:
             - Specifies whether the log messages for call establishment/disconnect include the server's ip address.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     publisher_name:
         description:
             - Specifies the name of the log publisher for PPTP events.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -104,6 +81,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_PPTP_ARGS = dict(
@@ -125,19 +106,14 @@ class F5BigIpLtmProfilePptp(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_PPTP_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfilePptp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfilePptp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

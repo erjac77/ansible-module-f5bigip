@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,49 +26,34 @@ module: f5bigip_ltm_auth_ssl_ocsp
 short_description: BIG-IP ltm auth ssl ocsp
 description:
     - Configures OCSP authentication for client traffic passing through the traffic management system.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
     responders:
         description:
             - Specifies a list of OCSP responders that you configured using the ocsp-responder component in the ltm auth module.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -82,11 +69,15 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_AUTH_SSL_OCSP_ARGS = dict(
-    description         =   dict(type='str'),
-    responders          =   dict(type='list'),
+    description     =   dict(type='str'),
+    responders      =   dict(type='list'),
 )
 
 class F5BigIpLtmAuthSslOcsp(F5BigIpNamedObject):
@@ -100,19 +91,14 @@ class F5BigIpLtmAuthSslOcsp(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_SSL_OCSP_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmAuthSslOcsp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmAuthSslOcsp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

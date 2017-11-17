@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,119 +26,80 @@ module: f5bigip_ltm_profile_ntlm
 short_description: BIG-IP ltm profile ntlm module
 description:
     - Configures a Microsoft Windows NT Local Area Network (LAN) manager profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the profile belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: ntlm
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     insert_cookie_domain:
         description:
             - Specifies an optional domain for the inserted cookie.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     insert_cookie_name:
         description:
             - Specifies a cookie name that the system inserts in the cookie.
         required: true
         default: NTLMconnpool
-        choices: []
-        aliases: []
     insert_cookie_passphrase:
         description:
             - Specifies a cookie passphrase that the system inserts in the cookie.
-        required: false
         default: mypassphrase
-        choices: []
-        aliases: []
     key_by_cookie:
         description:
             - Specifies whether the system uses the value of the insert-cookie-name option as the key.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     key_by_cookie_name:
         description:
             - Specifies whether the system uses the value of the insert-cookie-name option as the key.
-        required: false
         default: mycookie
-        choices: []
-        aliases: []
     key_by_domain:
         description:
             - Specifies whether the system uses the NTLM domain as the key.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     key_by_ip_address:
         description:
             - Specifies whether the system uses the client IP address as the key.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     key_by_target:
         description:
             - Specifies whether the system uses the NTLM target as the key.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     key_by_user:
         description:
             - Specifies whether the system uses the NTLM user as the key.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     key_by_workstation:
         description:
             - Specifies whether the system uses the NTLM workstation as the key.
-        required: false
         default: disabled
         choices: ['disabled', 'enabled']
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -153,6 +116,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_NTLM_ARGS = dict(
@@ -161,7 +128,7 @@ BIGIP_LTM_PROFILE_NTLM_ARGS = dict(
     description                 =    dict(type='str'),
     insert_cookie_domain        =    dict(type='str'),
     insert_cookie_name          =    dict(type='str'),
-    insert_cookie_passphrase    =    dict(type='str'),
+    insert_cookie_passphrase    =    dict(type='str', no_log=True),
     key_by_cookie               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
     key_by_cookie_name          =    dict(type='str'),
     key_by_domain               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
@@ -182,19 +149,14 @@ class F5BigIpLtmProfileNtlm(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_NTLM_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileNtlm(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileNtlm(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

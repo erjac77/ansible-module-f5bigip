@@ -101,6 +101,7 @@
   assert:
     that:
       - not result|changed
+  ignore_errors: yes
 
 - name: Add SYS SNMP Traps
   f5bigip_sys_snmp_trap:
@@ -143,6 +144,7 @@
   assert:
     that:
       - not result|changed
+  ignore_errors: yes
 
 - name: Change SYS SNMP contact and location to default
   f5bigip_sys_snmp:

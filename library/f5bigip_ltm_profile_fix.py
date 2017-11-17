@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,91 +26,57 @@ module: f5bigip_ltm_profile_fix
 short_description: BIG-IP ltm profile fix module
 description:
     - Configures a Financial Information eXchange Protocol (FIX) profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which this object belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     error_action:
         description:
             - Specifies the error handling method.
-        required: false
-        default: null
         choices: ['drop_connection', 'dont_forward']
-        aliases: []
     full_logon_parsing:
         description:
             - Enable or disable logon message is always fully parsed.
-        required: false
         default: true
         choices: ['true', 'false']
-        aliases: []
     message_log_publisher:
         description:
             - Specifies the publisher for message logging.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Specifies the administrative partition within which the profile resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     quick_parsing:
         description:
             - Enable or disable quick parsing which parses the basic standard fields and validates message length and checksum.
-        required: false
         default: false
         choices: ['true', 'false']
-        aliases: []
     report_log_publisher:
         description:
             - Specifies the publisher for error message and status report.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     response_parsing:
         description:
             - Enable or disable response parsing which parses the messages from FIX server.
-        required: false
         default: false
         choices: ['true', 'false']
-        aliases: []
     sender_tag_class:
         description:
             - Specifies the tag substitution map between sender id and tag substitution data group.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     statistics_sample_interval:
         description:
             - Specifies the sample interval in seconds of the message rate.
-        required: false
-        default: null
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -124,6 +92,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_FIX_ARGS = dict(
@@ -149,19 +121,14 @@ class F5BigIpLtmProfileFix(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FIX_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileFix(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileFix(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

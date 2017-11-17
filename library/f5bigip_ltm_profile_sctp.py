@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,210 +26,128 @@ module: f5bigip_ltm_profile_sctp
 short_description: BIG-IP ltm profile sctp module
 description:
     - Configures a Stream Control Transmission Protocol (SCTP) profile.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     app_service:
         description:
             - Specifies the name of the application service to which the profile belongs.
-        required: false
-        default: none
-        choices: []
-        aliases: []
     cookie_expiration:
         description:
             - Specifies how many seconds the cookie is valid.
-        required: false
         default: 60
-        choices: []
-        aliases: []
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
-        required: false
         default: sctp
-        choices: []
-        aliases: []
     description:
         description:
             - User defined description.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     heartbeat_interval:
         description:
             - Specifies the number of seconds to wait before sending a heartbeat chunk.
-        required: false
         default: 30
-        choices: []
-        aliases: []
     heartbeat_max_burst:
         description:
             - Specifies the number of heartbeat packets to be sent in a single burst.
-        required: false
         default: 1
-        choices: []
-        aliases: []
     idle_timeout:
         description:
             - Specifies the number of seconds without traffic before a connection is eligible for deletion.
-        required: false
         default: 300
-        choices: []
-        aliases: []
     in_streams:
         description:
             - Specifies the number of inbound streams.
-        required: false
         default: 2
-        choices: []
-        aliases: []
     init_max_retries:
         description:
             - Specifies the maximum number of retries to establish a connection.
-        required: false
         default: 4
-        choices: []
-        aliases: []
     ip_tos:
         description:
             - Specifies the Type of Service (ToS) that is set in packets sent to the peer.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     link_qos:
         description:
             - Specifies the Link Quality of Service (QoS) that is set in sent packets.
-        required: false
         default: 0
-        choices: []
-        aliases: []
     max_burst:
         description:
             - Specifies the maximum number of data packets to send in a single burst.
-        required: false
         default: 4
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: none
-        choices: []
-        aliases: []
     out_streams:
         description:
             - Specifies the number of outbound streams.
-        required: false
         default: 2
-        choices: []
-        aliases: []
     partition:
         description:
             - Displays the administrative partition within which the component resides.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     proxy_buffer_high:
         description:
             - Specifies the proxy buffer level after which the system closes the receive window.
-        required: false
         default: 16384
-        choices: []
-        aliases: []
     proxy_buffer_low:
         description:
             - Specifies the proxy buffer level after which the system opens the receive window.
-        required: false
         default: 4096
-        choices: []
-        aliases: []
     receive_chunks:
         description:
             - Specifies the size (in chunks) of the rx_chunk buffer.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     receive_ordered:
         description:
             - When enabled, the default, the system delivers messages to the application layer in order.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     receive_window_size:
         description:
             - Specifies the size (in bytes) of the receive window.
-        required: false
         default: 65535
-        choices: []
-        aliases: []
     reset_on_timeout:
         description:
             - When enabled, the default, the system resets the connection when the connection times out.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     secret:
         description:
             - Specifies the internal secret string used for HTTP Message Authenticated Code (HMAC) cookies.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     send_buffer_size:
         description:
             - Specifies the size in bytes of the buffer.
-        required: false
         default: 65536
-        choices: []
-        aliases: []
     send_max_retries:
         description:
             - Specifies the maximum number of time the system tries again to send the data.
-        required: false
         default: 8
-        choices: []
-        aliases: []
     send_partial:
         description:
             - When enabled, the default, the system accepts partial application data.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
     tcp_shutdown:
         description:
             - When enabled, the system emulates the closing of a TCP connection.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
     transmit_chunks:
         description:
             - Specifies the size of the tx_chunk buffer.
-        required: false
         default: 256
-        choices: []
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -244,6 +164,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_SCTP_ARGS = dict(
@@ -285,19 +209,14 @@ class F5BigIpLtmProfileSctp(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_SCTP_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmProfileSctp(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmProfileSctp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

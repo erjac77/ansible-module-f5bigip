@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,38 +26,28 @@ module: f5bigip_ltm_virtual_source_address_translation
 short_description: BIG-IP ltm virtual source address translation module
 description:
     - Configures the type of source address translation enabled for the virtual server as well as the pool that the source address translation will use.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     pool:
         description:
             - Specifies the name of a LSN or SNAT pool used by the specified virtual server.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     type:
         description:
             - Specifies the type of source address translation associated with the specified virtual server.
         required: true
-        default: null
         choices: ['automap', 'lsn', 'snat', 'none']
-        aliases: []
-        version_added: 2.3
     virtual:
         description:
             - Specifies the full path of the virtual to which the profile belongs.
         required: true
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -72,6 +64,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS = dict(
@@ -83,11 +79,11 @@ BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS = dict(
 class F5BigIpLtmVirtualSourceAddressTranslation(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
-        self.params.pop('virtual', None)
+        del self.params['virtual']
 
     def _read(self):
         return self.virtual.sourceAddressTranslation
-    
+
     def flush(self):
         has_changed = False
         result = dict()
@@ -115,24 +111,19 @@ class F5BigIpLtmVirtualSourceAddressTranslation(F5BigIpUnnamedObject):
             self.virtual.sourceAddressTranslation = sat
             self.virtual.update()
             self.virtual.refresh()
-        
+
         result.update(dict(changed=has_changed))
         return result
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_LTM_VIRTUAL_SOURCE_ADDRESS_TRANSLATION_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpLtmVirtualSourceAddressTranslation(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmVirtualSourceAddressTranslation(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,38 +26,24 @@ module: f5bigip_sys_dns
 short_description: BIG-IP sys dns module
 description:
     - Configures the Domain Name System (DNS) for the BIG-IP system.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name_servers:
         description:
             - Configures a group of DNS name servers for the BIG-IP system.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     search:
         description:
             - Configures a list of domain names in a specific order.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -72,6 +60,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_DNS_ARGS = dict(
@@ -86,27 +78,22 @@ class F5BigIpSysDns(F5BigIpUnnamedObject):
             'read':     self.mgmt_root.tm.sys.dns.load,
             'update':   self.mgmt_root.tm.sys.dns.update
         }
-    
+
     def _absent(self):
         if not (self.params['nameServers'] or self.params['search']):
             raise AnsibleF5Error("Absent can only be used when removing name servers or search domains")
-        
+
         return super(F5BigIpSysDns, self)._absent()
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_DNS_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpSysDns(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpSysDns(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

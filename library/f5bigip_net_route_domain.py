@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ANSIBLE_METADATA = {'metadata_version': '1.1',
-                    'status': ['preview'],
-                    'supported_by': 'community'}
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,110 +26,58 @@ module: f5bigip_net_route_domain
 short_description: BIG-IP net route-domain module
 description:
     - Configures route-domains for traffic management.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Eric Jacob, @erjac77"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Eric Jacob (@erjac77)"
 options:
     app_service:
         description:
             - Specifies the application service that the object belongs to.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     bwc_policy:
         description:
             - Configures the bandwidth control policy for the route-domain.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     connection_limit:
         description:
             - Configures the connection limit for the route domain.
-        required: false
         default: 0
-        choices: []
-        aliases: []
-        version_added: 2.3
     description:
         description:
             - Specifies descriptive text that identifies the component.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     flow_eviction_policy:
         description:
             - Specifies a flow eviction policy for the route domain to use, to select which flows to evict when the number of connections approaches the connection limit on the route domain.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     id:
         description:
             - Specifies a unique numeric identifier for the route-domain.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     name:
         description:
             - Specifies unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     parent:
         description:
             - Specifies the route domain the system searches when it cannot find a route in the configured domain.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
-        version_added: 2.3
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
-        version_added: 2.3
     strict:
         description:
             - Specifies whether the system allows a connection to span route domains.
-        required: false
         default: enabled
         choices: ['disabled', 'enabled']
-        aliases: []
-        version_added: 2.3
     vlans:
         description:
             - Specifies VLANs, by name, for the system to use in the route domain.
-        required: false
-        default: null
-        choices: []
-        aliases: []
-        version_added: 2.3
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -144,6 +94,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_ROUTE_DOMAIN_ARGS = dict(
@@ -173,19 +127,14 @@ class F5BigIpNetRouteDomain(F5BigIpNamedObject):
         }
 
 def main():
-    # Translation list for conflictual params
-    tr = {}
-    
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_ROUTE_DOMAIN_ARGS, supports_check_mode=False)
-    
+
     try:
-        obj = F5BigIpNetRouteDomain(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpNetRouteDomain(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()
