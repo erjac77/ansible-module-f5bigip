@@ -1,0 +1,16 @@
+---
+
+- name: Run Util Bash
+  f5bigip_util_bash:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    args: "{{ bash_args }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Run Util Bash
+  assert:
+    that:
+      - result|changed
