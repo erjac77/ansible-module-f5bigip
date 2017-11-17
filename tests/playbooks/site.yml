@@ -15,7 +15,7 @@
 - import_playbook: f5bigip_gtm_region.yml
 - import_playbook: f5bigip_gtm_rule.yml
 - import_playbook: f5bigip_gtm_server.yml
-#- import_playbook: f5bigip_gtm_topology.yml
+- import_playbook: f5bigip_gtm_topology.yml
 - import_playbook: f5bigip_gtm_wideip.yml
 - import_playbook: f5bigip_ltm_auth_crldp_server.yml
 - import_playbook: f5bigip_ltm_auth_ocsp_responder.yml

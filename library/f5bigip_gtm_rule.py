@@ -16,7 +16,8 @@
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
-                    'supported_by': 'community'}
+                    'supported_by': 'community'
+}
 
 DOCUMENTATION = '''
 ---
@@ -24,42 +25,31 @@ module: f5bigip_gtm_rule
 short_description: BIG-IP gtm rule module
 description:
     - Configures iRules for traffic management system configuration.
-version_added: 2.3
+version_added: "2.4"
 author:
-    - "Gabriel Fortin"
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - f5-sdk
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     api_anonymous:
         description:
             - Specifies the definition of the rule.
-        required: false
-        default: null
-        choices: []
-        aliases: []
     name:
         description:
             - Specifies a unique name for the component.
         required: true
-        default: null
-        choices: []
-        aliases: []
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
-        required: false
         default: Common
-        choices: []
-        aliases: []
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
-        required: false
         default: present
         choices: ['absent', 'present']
-        aliases: []
+notes:
+    - Requires BIG-IP software version >= 11.6
+requirements:
+    - ansible-common-f5
+    - f5-sdk
 '''
 
 EXAMPLES = '''
@@ -76,6 +66,10 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
+RETURN = '''
+'''
+
+from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_RULE_ARGS = dict(
