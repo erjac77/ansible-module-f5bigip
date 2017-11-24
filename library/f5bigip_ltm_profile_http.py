@@ -80,7 +80,7 @@ options:
         description:
             - Specifies the maximum number of columns that a header that is inserted into an HTTP request can have.
         default: 80
-   name:
+    name:
         description:
             - Specifies a unique name for the component.
         required: true
@@ -177,7 +177,7 @@ BIGIP_LTM_PROFILE_HTTP_ARGS = dict(
     description                 =   dict(type='str'),
     encrypt_cookie_secret       =   dict(type='str'),
     encrypt_cookies             =   dict(type='str'),
-    #enforcement                =   dict(type='list'),
+    enforcement                 =   dict(type='dict'),
     fallback_host               =   dict(type='str'),
     fallback_status_codes       =   dict(type='int'),
     header_erase                =   dict(type='str'),
@@ -191,8 +191,8 @@ BIGIP_LTM_PROFILE_HTTP_ARGS = dict(
     response_chunking           =   dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
     response_headers_permitted  =   dict(type='str'),
     server_agent_name           =   dict(type='str'),
-    #explicit_proxy             =   dict(type='list'),
-    #sflow                      =   dict(type='list'),
+    explicit_proxy              =   dict(type='dict'),
+    sflow                       =   dict(type='dict'),
     via_host_name               =   dict(type='str'),
     via_request                 =   dict(type='str', choices=['append', 'preserve', 'remove']),
     via_response                =   dict(type='str', choices=['append', 'preserve', 'remove']),
@@ -208,10 +208,10 @@ class F5BigIpLtmProfileHttp(F5BigIpNamedObject):
             'delete':   self.mgmt_root.tm.ltm.profile.https.http.delete,
             'exists':   self.mgmt_root.tm.ltm.profile.https.http.exists
         }
-
+        
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_HTTP_ARGS, supports_check_mode=False)
-
+    
     try:
         obj = F5BigIpLtmProfileHttp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()

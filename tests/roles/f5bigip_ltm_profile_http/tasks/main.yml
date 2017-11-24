@@ -45,6 +45,9 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
+    enforcement: "{{ profile_enforcement }}"
+    explicit_proxy: "{{ profile_explicit_proxy }}"
+    sflow: "{{ profile_sflow }}"
     insert_xforwarded_for: "{{ profile_insert_xforwarded_for }}"
   delegate_to: localhost
   register: result
@@ -63,6 +66,9 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
+    enforcement: "{{ profile_enforcement }}"
+    explicit_proxy: "{{ profile_explicit_proxy }}"
+    sflow: "{{ profile_sflow }}"
     insert_xforwarded_for: "{{ profile_insert_xforwarded_for }}"
   delegate_to: localhost
   register: result
