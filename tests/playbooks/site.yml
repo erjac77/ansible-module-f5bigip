@@ -1,10 +1,12 @@
 ---
 
+- import_playbook: f5bigip_auth_partition.yml
 - import_playbook: f5bigip_auth_user.yml
 - import_playbook: f5bigip_cm_device.yml
 - import_playbook: f5bigip_cm_device_group.yml
 - import_playbook: f5bigip_cm_sync_status.yml
 - import_playbook: f5bigip_cm_traffic_group.yml
+- import_playbook: f5bigip_cm_trust_domain.yml
 - import_playbook: f5bigip_facts.yml
 - import_playbook: f5bigip_gtm_datacenter.yml
 - import_playbook: f5bigip_gtm_global_settings_general.yml
@@ -131,7 +133,7 @@
 - import_playbook: f5bigip_shared_file_transfer.yml
 - import_playbook: f5bigip_shared_licensing.yml
 - import_playbook: f5bigip_sys_crypto.yml
-#- import_playbook: f5bigip_sys_db.yml
+- import_playbook: f5bigip_sys_db.yml
 - import_playbook: f5bigip_sys_dns.yml
 - import_playbook: f5bigip_sys_failover.yml
 - import_playbook: f5bigip_sys_file.yml

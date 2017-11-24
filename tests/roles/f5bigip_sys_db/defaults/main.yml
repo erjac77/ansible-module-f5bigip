@@ -1,4 +1,5 @@
 ---
 
-db_variable_name: 'setup.run'
-db_variable_value: 'false'
+db_variable_name: 'connection.syncookies.algorithm'
+db_variable_old_value: 'hardware'
+db_variable_new_value: 'software'

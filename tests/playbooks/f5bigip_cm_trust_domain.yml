@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_cm_trust_domain module
+  hosts: all
+  connection: local
+  roles:
+    - f5bigip_cm_trust_domain

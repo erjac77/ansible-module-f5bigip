@@ -1,0 +1,7 @@
+---
+
+- name: Test the f5bigip_auth_partition module
+  hosts: all
+  connection: local
+  roles:
+    - f5bigip_auth_partition

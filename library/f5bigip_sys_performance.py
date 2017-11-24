@@ -85,7 +85,7 @@ class F5BigIpSysPerformance(F5BigIpUnnamedObject):
         #elif self.params['name'] == 'throughput':
         #    return self.methods['throughput_read']
 
-    def flush(self):
+    def get_stats(self):
         result = dict()
         stats = self._read()
 
@@ -102,7 +102,7 @@ def main():
 
     try:
         obj = F5BigIpSysPerformance(check_mode=module.supports_check_mode, **module.params)
-        result = obj.flush()
+        result = obj.get_stats()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

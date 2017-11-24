@@ -41,7 +41,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Util Unix ls
+- name: List directory contents
   f5bigip_util_unix_ls:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -76,7 +76,7 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
         except Exception:
             raise AnsibleF5Error('Cant show the contents of this folder.')
 
-        return { 'result': obj.commandResult, 'changed': has_changed }
+        return { 'result': obj.commandResult }
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_LS_ARGS, supports_check_mode=False)

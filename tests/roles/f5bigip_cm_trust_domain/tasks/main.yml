@@ -1,0 +1,69 @@
+---
+
+- name: Remove self device from CM Trust Domain
+  f5bigip_cm_trust_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ trust_domain_name }}"
+    ca_devices: []
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove self device from CM Trust Domain
+  assert:
+    that:
+      - result|changed
+
+- name: Remove self device from CM Trust Domain (idempotent)
+  f5bigip_cm_trust_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ trust_domain_name }}"
+    ca_devices: []
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove self device from CM Trust Domain (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Add self device to CM Trust Domain
+  f5bigip_cm_trust_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ trust_domain_name }}"
+    ca_devices: ["{{ device_name}}"]
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add self device to CM Trust Domain
+  assert:
+    that:
+      - result|changed
+
+- name: Add self device to CM Trust Domain (idempotent)
+  f5bigip_cm_trust_domain:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ trust_domain_name }}"
+    ca_devices: ["{{ device_name}}"]
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add self device to CM Trust Domain (idempotent)
+  assert:
+    that:
+      - not result|changed

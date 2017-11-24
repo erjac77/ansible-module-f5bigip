@@ -89,7 +89,5 @@ def main():
     except Exception as exc:
         module.fail_json(msg=str(exc))
 
-from ansible.module_utils.basic import *
-
 if __name__ == '__main__':
     main()
