@@ -3,3 +3,25 @@
 profile_name: my_http_profile
 profile_description: My http profile_description
 profile_insert_xforwarded_for: enabled
+
+profile_explicit_proxy: 
+  defaultConnectHandling: allow
+
+profile_enforcement:
+  excessClientHeaders: reject
+  excessServerHeaders: reject
+  maxHeaderCount: 65
+  maxHeaderSize: 32000
+  maxRequests: 0
+  oversizeClientHeaders: reject
+  oversizeServerHeaders: reject
+  pipeline: allow
+  truncatedRedirects: disabled
+  unknownMethod: allow
+  knownMethods: ["CONNECT", "DELETE", "GET", "HEAD", "LOCK", "OPTIONS", "POST", "PROPFIND", "PUT", "TRACE", "UNLOCK"]
+
+profile_sflow:
+  pollInterval: 100
+  pollIntervalGlobal: 'no'
+  samplingRate: 100
+  samplingRateGlobal: 'no'
