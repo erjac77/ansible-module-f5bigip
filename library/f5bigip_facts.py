@@ -136,7 +136,7 @@ def main():
             resource += '/' + module.params['sub_module']
         resource += '/' + module.params['component']
 
-        facts[resource.replace('/', '_')] = get_facts(uri='/mgmt/tm/' + resource + '/', **module.params)
+        facts[resource.replace('/', '_')] = get_facts(uri='/mgmt/tm/'+resource+'/', **module.params)
         result = { 'ansible_facts': facts }
         module.exit_json(**result)
     except Exception as exc:

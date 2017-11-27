@@ -73,7 +73,7 @@ from ansible_common_f5.f5_bigip import *
 
 BIGIP_AUTH_PARTITION_ARGS = dict(
     default_route_domain    =   dict(type='int'),
-    description             =   dict(type='str'),
+    description             =   dict(type='str')
 )
 
 class F5BigIpAuthPartition(F5BigIpNamedObject):

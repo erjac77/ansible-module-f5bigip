@@ -69,7 +69,7 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
         except Exception:
             has_changed = False
 
-        return { 'changed': has_changed}
+        return { 'changed': has_changed }
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_QKVIEW_ARGS, supports_check_mode=False)

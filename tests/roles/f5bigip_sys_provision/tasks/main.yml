@@ -42,7 +42,7 @@
     level: "{{ provision_level_default }}"
   delegate_to: localhost
   register: result
-  until: result|success
+  until: result|succeeded
   retries: 5
   delay: 30
 

@@ -56,7 +56,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: 
+- name: Provision GTM with minimal resources
   f5bigip_sys_provision:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -79,7 +79,7 @@ BIGIP_SYS_PROVISION_ARGS = dict(
     disk_ratio      =   dict(type='int'),
     level           =   dict(type='str', choices=['custom', 'dedicated', 'minimum', 'nominal', 'none']),
     memory_ratio    =   dict(type='int'),
-    name            =   dict(type='str', choices=['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg']),
+    name            =   dict(type='str', choices=['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg'])
 )
 
 class F5BigIpSysProvision(F5BigIpUnnamedObject):
