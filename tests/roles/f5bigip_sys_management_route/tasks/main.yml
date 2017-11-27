@@ -1,0 +1,140 @@
+---
+
+- name: Set SYS Management Route default gateway
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name_default }}"
+    gateway: "{{ mgmt_route_gateway }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Set SYS Management Route default gateway
+  assert:
+    that:
+      - result|changed
+#  ignore_errors: yes
+
+- name: Set SYS Management Route default gateway (idempotent)
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name_default }}"
+    gateway: "{{ mgmt_route_gateway }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Set SYS Management Route default gateway (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Create a SYS Management Route
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name }}"
+    network: "{{ mgmt_route_network }}"
+    gateway: "{{ mgmt_route_gateway }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create a SYS Management Route
+  assert:
+    that:
+      - result|changed
+
+- name: Create a SYS Management Route (idempotent)
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name }}"
+    network: "{{ mgmt_route_network }}"
+    gateway: "{{ mgmt_route_gateway }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create a SYS Management Route (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Reset SYS Management Route to default settings
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name_default }}"
+    network: "{{ mgmt_route_network_default }}"
+    gateway: "{{ mgmt_route_gateway_default }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Reset SYS Management Route to default settings
+  assert:
+    that:
+      - result|changed
+
+- name: Reset SYS Management Route to default settings (idempotent)
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name_default }}"
+    network: "{{ mgmt_route_network_default }}"
+    gateway: "{{ mgmt_route_gateway_default }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Reset SYS Management Route to default settings (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete a SYS Management Route
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete a SYS Management Route
+  assert:
+    that:
+      - result|changed
+
+- name: Delete a SYS Management Route (idempotent)
+  f5bigip_sys_management_route:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ mgmt_route_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete a SYS Management Route (idempotent)
+  assert:
+    that:
+      - not result|changed

@@ -140,6 +140,7 @@
 - import_playbook: f5bigip_sys_folder.yml
 - import_playbook: f5bigip_sys_global_settings.yml
 - import_playbook: f5bigip_sys_httpd.yml
+- import_playbook: f5bigip_sys_management_route.yml
 - import_playbook: f5bigip_sys_ntp.yml
 - import_playbook: f5bigip_sys_performance.yml
 - import_playbook: f5bigip_sys_provision.yml
