@@ -105,6 +105,7 @@
 - import_playbook: f5bigip_ltm_profile_rtsp.yml
 - import_playbook: f5bigip_ltm_profile_sctp.yml
 - import_playbook: f5bigip_ltm_profile_server_ldap.yml
+- import_playbook: f5bigip_ltm_profile_ocsp_stapling_params.yml
 - import_playbook: f5bigip_ltm_profile_one_connect.yml
 - import_playbook: f5bigip_ltm_profile_server_ssl.yml
 - import_playbook: f5bigip_ltm_profile_sip.yml
