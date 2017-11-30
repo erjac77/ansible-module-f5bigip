@@ -1,0 +1,4 @@
+---
+
+password_policy_min_duration: 2
+password_policy_min_duration_default: 0
