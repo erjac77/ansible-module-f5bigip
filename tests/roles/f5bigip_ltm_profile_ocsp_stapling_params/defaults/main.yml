@@ -1,0 +1,10 @@
+---
+
+profile_ocsp_stapling_params_name: my_ocsp_stapling_params_profile
+profile_ocsp_stapling_params_trusted_ca: /Common/ca-bundle.crt
+profile_ocsp_stapling_params_use_proxy_server: disabled
+profile_oscp_stapling_params_dns_resolver_name: /Common/my_dns_resolver
+profile_ocsp_stapling_params_sign_hash: sha1
+
+dns_resolver_name: my_dns_resolver
+dns_resolver_description: my dns resolver
