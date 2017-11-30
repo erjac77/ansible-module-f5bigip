@@ -25,7 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_profile_ocsp_stapling_params
 short_description: BIG-IP ltm profile ocsp stapling params module
 description:
-    - Configures an OCSP Stapling Params profile .
+    - Configures an OCSP Stapling Params profile.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -56,7 +56,7 @@ options:
         description:
             - Specifies the hash algorithm used for signing the OCSP request.
         default: sha256
-        choices: [sha256, sha1]
+        choices: ['sha256', 'sha1']
     signer_cert:
         description:
             - Specifies the certificate corresponding to the key used for signing the OCSP request.
@@ -130,10 +130,10 @@ BIGIP_LTM_PROFILE_OCSP_STAPLING_PARAMS_ARGS = dict(
     dns_resolver              =    dict(type='str'),
     proxy_server_pool         =    dict(type='str'),
     responder_url             =    dict(type='str'),
-    sign_hash                 =    dict(type='str', choices=["sha1", "sha256"]),
+    sign_hash                 =    dict(type='str', choices=['sha1', 'sha256']),
     signer_cert               =    dict(type='str'),
     signer_key                =    dict(type='str'),
-    signer_key_passphrase     =    dict(type='str'),
+    signer_key_passphrase     =    dict(type='str', no_log=True),
     status_age                =    dict(type='int'),
     strict_resp_cert_check    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
     timeout                   =    dict(type='int'),
