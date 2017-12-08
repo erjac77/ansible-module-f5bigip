@@ -39,20 +39,26 @@ options:
     execute_action:
         description:
             - Runs the specified template action associated with the service.
+    lists:
+        description:
+            - Provides the set of list variables and values that are passed to template scripts.
     name:
         description:
             - Specifies unique name for the component.
         required: true
-    strict_updates:
-        description:
-            - Specifies whether configuration objects contained in the application service can be directly modified outside the context of the system's application service management interfaces.
-        default: enabled
-        choices: ['enabled', 'disabled']
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
         default: present
         choices: ['absent', 'present']
+    strict_updates:
+        description:
+            - Specifies whether configuration objects contained in the application service can be directly modified outside the context of the system's application service management interfaces.
+        default: enabled
+        choices: ['enabled', 'disabled']
+    tables:
+        description:
+            - Provides the set of table variables and values that are passed to template scripts.
     template:
         description:
             - The template defines the configuration for the application service.
@@ -60,6 +66,9 @@ options:
         description:
             - Adds this folder and its configuration items to an existing traffic group.
         default: false
+    variables:
+        description:
+            - The set of atomic variables and values that are passed to template scripts.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -155,7 +164,7 @@ BIGIP_SYS_APPLICATION_SERVICE_ARGS = dict(
     execute_action  =   dict(type='str'),
     lists           =   dict(type='list'),
     #metadata        =   dict(type='list'),
-    strict_updates  =   dict(type='str'),
+    strict_updates  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
     tables          =   dict(type='list'),
     template        =   dict(type='str'),
     traffic_group   =   dict(type='str'),
