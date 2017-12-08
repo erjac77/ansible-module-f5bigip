@@ -23,7 +23,7 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = '''
 ---
 module: f5bigip_sys_management_route
-short_description: BIG-IP SYS provision module
+short_description: BIG-IP SYS management route module
 description:
     - Configures route settings for the management interface (MGMT).
 version_added: "2.4"

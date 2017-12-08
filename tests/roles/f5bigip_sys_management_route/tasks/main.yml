@@ -16,7 +16,6 @@
   assert:
     that:
       - result|changed
-#  ignore_errors: yes
 
 - name: Set SYS Management Route default gateway (idempotent)
   f5bigip_sys_management_route:
