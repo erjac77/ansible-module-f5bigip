@@ -111,7 +111,7 @@ requirements:
 
 EXAMPLES = '''
 - name: Create GTM WideIP
-  f5bigip_gtm_server:
+  f5bigip_gtm_wideip:
     f5_hostname: 172.16.227.35
     f5_username: admin
     f5_password: admin

@@ -113,6 +113,7 @@ EXAMPLES = '''
     f5_port: 443
     name: 'my_server:my_vs1'
     partition: Common
+    pool: my_pool
     state: present
   delegate_to: localhost
 '''
