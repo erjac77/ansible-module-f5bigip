@@ -41,15 +41,15 @@ options:
             - Specifies administrator contact information.
     description:
         description:
-            - Specifies descriptive text that identifies the component.
+            - Specifies a user-defined description of the device.
     ha_capacity:
-        description:
-            - Specifies a hostname for the device.
-        default: 0
-    hostname:
         description:
             - Specifies a number that represents the relative capacity of the device to be active for a number of traffic groups.
         default: 0
+        choices: range(0, 100000)
+    hostname:
+        description:
+            - Specifies a hostname for the device.
     location:
         description:
             - Specifies the physical location of the device.
@@ -106,6 +106,7 @@ EXAMPLES = '''
     multicast_interface: eth0
     multicast_ip: 224.0.0.245
     multicast_port: 62960
+    unicast_address: 10.10.30.11
     state: present
   delegate_to: localhost
 '''
@@ -113,6 +114,7 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
+from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
@@ -121,14 +123,15 @@ BIGIP_CM_DEVICE_ARGS = dict(
     configsync_ip       =   dict(type='str'),
     contact             =   dict(type='str'),
     description         =   dict(type='str'),
-    ha_capacity         =   dict(type='int'),
+    ha_capacity         =   dict(type='int', choices=range(0, 100000)),
     hostname            =   dict(type='str'),
     location            =   dict(type='str'),
     mirror_ip           =   dict(type='str'),
     mirror_secondary_ip =   dict(type='str'),
     multicast_interface =   dict(type='str'),
     multicast_ip        =   dict(type='str'),
-    multicast_port      =   dict(type='int')
+    multicast_port      =   dict(type='int'),
+    unicast_address     =   dict(type='list')
 )
 
 class F5BigIpCmDevice(F5BigIpNamedObject):

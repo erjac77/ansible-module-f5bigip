@@ -1,18 +1,23 @@
 ---
 
-device_name: bigip.localhost
+device_name: "{{ inventory_hostname }}"
 device_comment: My lab device
 device_contact: 'admin@localhost'
 device_description: My device
 device_ha_capacity: 0
 device_location: Central Office
-device_internal_ip: 10.10.10.11
-device_ha_ip: 10.10.30.11
 
-device_unicast_addresses:
-  - { ip: 10.10.30.11, port: 1026 }
-  - { ip: 10.10.10.11, port: 1026 }
+device_internal_ip: 10.2.20.21
+device_ha_ip: 10.2.30.21
 
-device_multicast_interface: eth0
-device_multicast_ip: 224.0.0.245
-device_multicast_port: 62960
+device_configsync_ip: "{{ device_ha_ip }}"
+
+device_failover_unicast_addresses:
+  - { ip: "{{ device_ha_ip }}", port: 1026 }
+  - { ip: "{{ device_internal_ip }}", port: 1026 }
+device_failover_multicast_interface: eth0
+device_failover_multicast_ip: 224.0.0.245
+device_failover_multicast_port: 62960
+
+device_mirror_ip: "{{ device_ha_ip }}"
+device_mirror_secondary_ip: "{{ device_internal_ip }}"

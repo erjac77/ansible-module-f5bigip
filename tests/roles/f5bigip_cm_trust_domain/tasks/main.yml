@@ -16,6 +16,7 @@
   assert:
     that:
       - result|changed
+  ignore_errors: yes
 
 - name: Remove self device from CM Trust Domain (idempotent)
   f5bigip_cm_trust_domain:

@@ -1,4 +1,4 @@
 ---
 
 trust_domain_name: Root
-device_name: /Common/bigip1
+device_name: /Common/bigip.localhost

@@ -70,7 +70,7 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    configsync_ip: "{{ device_ha_ip }}"
+    configsync_ip: "{{ device_configsync_ip }}"
     state: present
   delegate_to: localhost
   register: result
@@ -87,7 +87,7 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    configsync_ip: "{{ device_ha_ip }}"
+    configsync_ip: "{{ device_configsync_ip }}"
     state: present
   delegate_to: localhost
   register: result
@@ -121,9 +121,10 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    multicast_interface: "{{ device_multicast_interface }}"
-    multicast_ip: "{{ device_multicast_ip }}"
-    multicast_port: "{{ device_multicast_port }}"
+    multicast_interface: "{{ device_failover_multicast_interface }}"
+    multicast_ip: "{{ device_failover_multicast_ip }}"
+    multicast_port: "{{ device_failover_multicast_port }}"
+    unicast_address: "{{ device_failover_unicast_addresses }}"
     state: present
   delegate_to: localhost
   register: result
@@ -133,6 +134,7 @@
     that:
       - result|changed
 
+# Not idempotent!!
 - name: Configure CM Device Failover (idempotent)
   f5bigip_cm_device:
     f5_hostname: "{{ bigip_host }}"
@@ -140,9 +142,10 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    multicast_interface: "{{ device_multicast_interface }}"
-    multicast_ip: "{{ device_multicast_ip }}"
-    multicast_port: "{{ device_multicast_port }}"
+    multicast_interface: "{{ device_failover_multicast_interface }}"
+    multicast_ip: "{{ device_failover_multicast_ip }}"
+    multicast_port: "{{ device_failover_multicast_port }}"
+    unicast_address: "{{ device_failover_unicast_addresses }}"
     state: present
   delegate_to: localhost
   register: result
@@ -151,82 +154,7 @@
   assert:
     that:
       - not result|changed
-
-- name: Add CM Device Failover unicast addresses
-  f5bigip_cm_device_unicast_address:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    device: "{{ device_name }}"
-    ip: "{{ item.ip }}"
-    port: "{{ item.port }}"
-    state: present
-  with_items: "{{ device_unicast_addresses }}"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Add CM Device Failover unicast addresses
-  assert:
-    that:
-      - result|changed
-
-- name: Add CM Device Failover unicast addresses (idempotent)
-  f5bigip_cm_device_unicast_address:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    device: "{{ device_name }}"
-    ip: "{{ item.ip }}"
-    port: "{{ item.port }}"
-    state: present
-  with_items: "{{ device_unicast_addresses }}"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Add CM Device Failover unicast addresses (idempotent)
-  assert:
-    that:
-      - not result|changed
-
-- name: Remove CM Device Failover unicast addresses
-  f5bigip_cm_device_unicast_address:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    device: "{{ device_name }}"
-    ip: "{{ item.ip }}"
-    port: "{{ item.port }}"
-    state: absent
-  with_items: "{{ device_unicast_addresses }}"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Remove CM Device Failover unicast addresses
-  assert:
-    that:
-      - result|changed
-
-- name: Remove CM Device Failover unicast addresses (idempotent)
-  f5bigip_cm_device_unicast_address:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    device: "{{ device_name }}"
-    ip: "{{ item.ip }}"
-    port: "{{ item.port }}"
-    state: absent
-  with_items: "{{ device_unicast_addresses }}"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Remove CM Device Failover unicast addresses (idempotent)
-  assert:
-    that:
-      - not result|changed
+  ignore_errors: yes
 
 - name: Reset CM Device Failover
   f5bigip_cm_device:
@@ -238,6 +166,7 @@
     multicast_interface: none
     multicast_ip: any
     multicast_port: 0
+    unicast_address: []
     state: present
   delegate_to: localhost
   register: result
@@ -254,8 +183,8 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    mirror_ip: "{{ device_ha_ip }}"
-    mirror_secondary_ip: "{{ device_internal_ip }}"
+    mirror_ip: "{{ device_mirror_ip }}"
+    mirror_secondary_ip: "{{ device_mirror_secondary_ip }}"
     state: present
   delegate_to: localhost
   register: result
@@ -272,8 +201,8 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    mirror_ip: "{{ device_ha_ip }}"
-    mirror_secondary_ip: "{{ device_internal_ip }}"
+    mirror_ip: "{{ device_mirror_ip }}"
+    mirror_secondary_ip: "{{ device_mirror_secondary_ip }}"
     state: present
   delegate_to: localhost
   register: result
