@@ -15,6 +15,7 @@
   assert:
     that:
       - result|changed
+  ignore_errors: yes
 
 - name: Add SYS DNS Search (idempotent)
   f5bigip_sys_dns:

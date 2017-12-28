@@ -3,5 +3,5 @@
 route_name: my_route
 route_description: route
 route_network: 10.0.0.0/8
-route_gw: 10.2.2.254
-route_new_gw: 10.2.2.1
+route_gw: 10.2.10.254
+route_new_gw: 10.2.10.1

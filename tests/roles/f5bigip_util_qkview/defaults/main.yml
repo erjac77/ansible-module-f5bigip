@@ -1,6 +1,6 @@
 ---
 
-qkview_file_name: localhost.localdomain.qkview
+qkview_file_name: "{{ inventory_hostname }}.qkview"
 qkview_source_path: /var/tmp/
 qkview_dest_path: /var/config/rest/madm
 qkview_download_path: "{{ role_path }}/files/{{ qkview_file_name }}"
