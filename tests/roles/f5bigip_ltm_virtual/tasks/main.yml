@@ -47,6 +47,7 @@
     destination: "{{ virtual_destination }}"
     ip_protocol: "{{ virtual_ip_protocol }}"
     pool: "{{ virtual_pool }}"
+    source_address_translation: "{{ virtual_sat }}"
     vlans: "{{ virtual_vlans }}"
     vlans_enabled: "{{ virtual_vlans_enabled }}"
     state: present
@@ -71,6 +72,7 @@
     destination: "{{ virtual_destination }}"
     ip_protocol: "{{ virtual_ip_protocol }}"
     pool: "{{ virtual_pool }}"
+    source_address_translation: "{{ virtual_sat }}"
     vlans: "{{ virtual_vlans }}"
     vlans_enabled: "{{ virtual_vlans_enabled }}"
     state: present
