@@ -2,19 +2,26 @@
 
 pool_name: my_http_pool
 
+snatpool_name: my_snatpool
+snatpool_members:
+  - 10.10.10.251
+  - 10.10.10.252
+
 virtual_name: my_http_vs
 virtual_description: My http vs
 virtual_destination: '10.10.20.201:80'
 virtual_ip_protocol: tcp
-#virtual_persists:
-#  - { name: cookie, default: yes }
-#  - { name: source_addr, default: no }
+virtual_persists:
+  - { name: cookie }
+virtual_fallback_persistence: source_addr
+virtual_pool: "{{ pool_name }}"
 virtual_profiles:
   - { name: tcp, context: all }
   - { name: http, context: all }
   - { name: oneconnect, context: all }
-#virtual_sat: my_snatpool
-#virtual_sat: snat
+virtual_sat:
+  pool: my_snatpool
+  type: snat
 virtual_vlans:
   - external
 virtual_vlans_enabled: true

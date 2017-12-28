@@ -99,15 +99,6 @@ class F5BigIpLtmVirtualProfile(F5BigIpNamedObject):
         }
         del self.params['virtual']
 
-    def _exists(self):
-        keys = self.virtual.profiles_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
-
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_PROFILE_ARGS, supports_check_mode=False)
 
