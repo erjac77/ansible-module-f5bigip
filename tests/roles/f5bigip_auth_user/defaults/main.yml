@@ -1,11 +1,11 @@
 ---
 
-folder_name: Test
+partition_name: Test
 user_name: user1
 user_description: User1
 
 user_partition_access:
-  - { name: "{{ folder_name }}", role: 'operator' }
+  - { name: "{{ partition_name }}", role: 'operator' }
   - { name: 'Common', role: 'guest' }
  
 user_partition_access_default:

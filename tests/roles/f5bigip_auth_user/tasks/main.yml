@@ -1,5 +1,16 @@
 ---
 
+- name: Create Auth Partition
+  f5bigip_auth_partition:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ partition_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
 - name: Create Auth User
   f5bigip_auth_user:
     f5_hostname: "{{ bigip_host }}"
@@ -137,3 +148,14 @@
   assert:
     that:
       - not result|changed
+
+- name: Delete Auth Partition
+  f5bigip_auth_partition:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ partition_name }}"
+    state: absent
+  delegate_to: localhost
+  register: result
