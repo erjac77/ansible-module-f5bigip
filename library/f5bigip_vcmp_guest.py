@@ -37,6 +37,9 @@ options:
     app_service:
         description:
             - The application service that the object belongs to.
+    capabilities:
+        description:
+            - This list contains the various capability flags and an optional value associated with the guest.
     cores_per_slot:
         description:
             - Specifies the number of cores that should be allocated to this guest on each slot that the guest has been assigned to.
@@ -82,6 +85,9 @@ options:
             - Specifies the state of the component on the BIG-IP system.
         default: configured
         choices: ['configured', 'provisioned', 'deployed']
+    traffic_profile:
+        description:
+            - Specifies a traffic-profile to be used in defining characteristics of traffic which transits the guest's data-plane.
     virtual_disk:
         description:
             - The filename of the virtual disk to use for this guest.
@@ -124,6 +130,7 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_VCMP_GUEST_ARGS = dict(
     allowed_slots       =   dict(type='list'),
     app_service         =   dict(type='str'),
+    capabilities        =   dict(type='list'),
     cores_per_slot      =   dict(type='int'),
     hostname            =   dict(type='str'),
     initial_hotfix      =   dict(type='str'),
@@ -134,8 +141,9 @@ BIGIP_VCMP_GUEST_ARGS = dict(
     min_slots           =   dict(type='int'),
     state_guest         =   dict(type='str', choices=['configured', 'provisioned', 'deployed']),
     slots               =   dict(type='int'),
-    virtual_disk        =   dict(type='list'),
-    vlans               =   dict(type='str')
+    traffic_profile     =   dict(type='str'),
+    virtual_disk        =   dict(type='str'),
+    vlans               =   dict(type='list')
 )
 
 class F5BigIpVcmpGuest(F5BigIpNamedObject):
