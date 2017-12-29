@@ -168,6 +168,9 @@ options:
     source:
         description:
             - Specifies an IP address or network from which the virtual server will accept traffic.
+    source_address_translation:
+        description:
+            - Specifies the type of source address translation enabled for the virtual server as well as the pool that the source address translation will use.
     source_port:
         description:
             - Specifies whether the system preserves the source port of the connection.
