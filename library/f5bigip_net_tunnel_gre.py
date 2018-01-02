@@ -100,24 +100,26 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_TUNNEL_GRE_ARGS = dict(
-    app_service      =    dict(type='str'),
-    defaults_from    =    dict(type='str'),
-    description      =    dict(type='str'),
-    encapsulation    =    dict(type='str', choices=['standard', 'nvgre']),
-    flooding_type    =    dict(type='str', choices=['none', 'multipoint']),
-    rx_csum          =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tx_csum          =    dict(type='str', choices=F5_ACTIVATION_CHOICES)
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    encapsulation=dict(type='str', choices=['standard', 'nvgre']),
+    flooding_type=dict(type='str', choices=['none', 'multipoint']),
+    rx_csum=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    tx_csum=dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
+
 
 class F5BigIpNetTunnelGre(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.net.tunnels.gres.gre.create,
-            'read':     self.mgmt_root.tm.net.tunnels.gres.gre.load,
-            'update':   self.mgmt_root.tm.net.tunnels.gres.gre.update,
-            'delete':   self.mgmt_root.tm.net.tunnels.gres.gre.delete,
-            'exists':   self.mgmt_root.tm.net.tunnels.gres.gre.exists
+            'create': self.mgmt_root.tm.net.tunnels.gres.gre.create,
+            'read': self.mgmt_root.tm.net.tunnels.gres.gre.load,
+            'update': self.mgmt_root.tm.net.tunnels.gres.gre.update,
+            'delete': self.mgmt_root.tm.net.tunnels.gres.gre.delete,
+            'exists': self.mgmt_root.tm.net.tunnels.gres.gre.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_TUNNEL_GRE_ARGS, supports_check_mode=False)
@@ -128,6 +130,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

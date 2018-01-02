@@ -35,7 +35,8 @@ options:
             - User defined description.
     gateway:
         description:
-            - Specifies that the system forwards packets to the destination through the gateway with the specified IP address.
+            - Specifies that the system forwards packets to the destination through the gateway with the specified IP
+              address.
     mtu:
         description:
             - Specifies the maximum transmission unit (MTU) for the management interface.
@@ -85,23 +86,25 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_MANAGEMENT_ROUTE_ARGS = dict(
-    description     =   dict(type='str'),
-    gateway         =   dict(type='str'),
-    mtu             =   dict(type='int'),
-    network         =   dict(type='str')
+    description=dict(type='str'),
+    gateway=dict(type='str'),
+    mtu=dict(type='int'),
+    network=dict(type='str')
 )
+
 
 class F5BigIpSysManagementRoute(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.sys.management_routes.management_route.create,
-            'read':     self.mgmt_root.tm.sys.management_routes.management_route.load,
-            'update':   self.mgmt_root.tm.sys.management_routes.management_route.update,
-            'delete':   self.mgmt_root.tm.sys.management_routes.management_route.delete,
-            'exists':   self.mgmt_root.tm.sys.management_routes.management_route.exists
+            'create': self.mgmt_root.tm.sys.management_routes.management_route.create,
+            'read': self.mgmt_root.tm.sys.management_routes.management_route.load,
+            'update': self.mgmt_root.tm.sys.management_routes.management_route.update,
+            'delete': self.mgmt_root.tm.sys.management_routes.management_route.delete,
+            'exists': self.mgmt_root.tm.sys.management_routes.management_route.exists
         }
         del self.params['partition']
-        del self.params['sub_path']
+        # del self.params['sub_path']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_MANAGEMENT_ROUTE_ARGS, supports_check_mode=False)
@@ -112,6 +115,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

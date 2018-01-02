@@ -113,7 +113,7 @@ EXAMPLES = '''
     f5_port: 443
     name: 'my_server:my_vs1'
     partition: Common
-    pool: my_pool
+    pool: /Common/my_pool
     state: present
   delegate_to: localhost
 '''
@@ -126,52 +126,39 @@ from ansible_common_f5.f5_bigip import *
 from f5.bigip.resource import OrganizingCollection
 
 BIGIP_GTM_POOL_MEMBER_ARGS = dict(
-    app_service                     =   dict(type='str'),
-    depends_on                      =   dict(type='list'),
-    description                     =   dict(type='str'),
-    disabled                        =   dict(type='bool'),
-    enabled                         =   dict(type='bool'),
-    limit_max_bps                   =   dict(type='int'),
-    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_connections           =   dict(type='int'),
-    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_pps                   =   dict(type='int'),
-    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    monitor                         =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    pool                            =   dict(type='str'),
-    order                           =   dict(type='int'),
-    ratio                           =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    app_service=dict(type='str'),
+    depends_on=dict(type='list'),
+    description=dict(type='str'),
+    disabled=dict(type='bool'),
+    enabled=dict(type='bool'),
+    limit_max_bps=dict(type='int'),
+    limit_max_bps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections=dict(type='int'),
+    limit_max_connections_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps=dict(type='int'),
+    limit_max_pps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    monitor=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    pool=dict(type='str'),
+    order=dict(type='int'),
+    ratio=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
 )
+
 
 class F5BigIpGtmPoolMember(F5BigIpNamedObject):
     def set_crud_methods(self):
         if isinstance(self.mgmt_root.tm.gtm.pools, OrganizingCollection):
-            self.pool = self.mgmt_root.tm.gtm.pools.a_s.a.load(
-                name=self.params['pool'],
-                partition=self.params['partition']
-        )
+            self.pool = self.mgmt_root.tm.gtm.pools.a_s.a.load(**self._get_resource_id_from_path(self.params['pool']))
         else:
-            self.pool = self.mgmt_root.tm.gtm.pools.pool.load(
-                name=self.params['pool'],
-                partition=self.params['partition']
-            )
+            self.pool = self.mgmt_root.tm.gtm.pools.pool.load(**self._get_resource_id_from_path(self.params['pool']))
         self.methods = {
-            'create':   self.pool.members_s.member.create,
-            'read':     self.pool.members_s.member.load,
-            'update':   self.pool.members_s.member.update,
-            'delete':   self.pool.members_s.member.delete,
-            'exists':   self.pool.members_s.member.exists
+            'create': self.pool.members_s.member.create,
+            'read': self.pool.members_s.member.load,
+            'update': self.pool.members_s.member.update,
+            'delete': self.pool.members_s.member.delete,
+            'exists': self.pool.members_s.member.exists
         }
         del self.params['pool']
 
-    def _exists(self):
-        keys = self.pool.members_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -188,6 +175,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

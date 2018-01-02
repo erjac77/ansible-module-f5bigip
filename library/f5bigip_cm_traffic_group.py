@@ -44,17 +44,20 @@ options:
         default: 0
     description:
         description:
-            - Specifies descriptive text that identifies the component.
+            - Specifies a user-defined description.
     ha_group:
         description:
-            - This specifies the name of the HA group that the traffic group uses to decide the active device within the traffic group.
+            - This specifies the name of the HA group that the traffic group uses to decide the active device within the
+              traffic group.
     ha_load_factor:
         description:
-            - Specifies a number for this traffic group that represents the load this traffic group presents to the system relative to other traffic groups.
+            - Specifies a number for this traffic group that represents the load this traffic group presents to the
+              system relative to other traffic groups.
         default: 1
     ha_order:
         description:
-            - This list of devices specifies the order in which the devices will become active for the traffic group when a failure occurs.
+            - This list of devices specifies the order in which the devices will become active for the traffic group
+            when a failure occurs.
     mac:
         description:
             - Specifies a MAC address for the traffic group.
@@ -97,25 +100,27 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_TRAFFIC_GROUP_ARGS = dict(
-    app_service             =   dict(type='str'),
-    auto_failback_enabled   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    auto_failback_time      =   dict(type='int'),
-    description             =   dict(type='str'),
-    ha_group                =   dict(type='str'),
-    ha_load_factor          =   dict(type='int'),
-    ha_order                =   dict(type='list'),
-    mac                     =   dict(type='str')
+    app_service=dict(type='str'),
+    auto_failback_enabled=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    auto_failback_time=dict(type='int'),
+    description=dict(type='str'),
+    ha_group=dict(type='str'),
+    ha_load_factor=dict(type='int'),
+    ha_order=dict(type='list'),
+    mac=dict(type='str')
 )
+
 
 class F5BigIpCmTrafficGroup(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.create,
-            'read':     self.mgmt_root.tm.cm.traffic_groups.traffic_group.load,
-            'update':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.update,
-            'delete':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.delete,
-            'exists':   self.mgmt_root.tm.cm.traffic_groups.traffic_group.exists
+            'create': self.mgmt_root.tm.cm.traffic_groups.traffic_group.create,
+            'read': self.mgmt_root.tm.cm.traffic_groups.traffic_group.load,
+            'update': self.mgmt_root.tm.cm.traffic_groups.traffic_group.update,
+            'delete': self.mgmt_root.tm.cm.traffic_groups.traffic_group.delete,
+            'exists': self.mgmt_root.tm.cm.traffic_groups.traffic_group.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_TRAFFIC_GROUP_ARGS, supports_check_mode=False)
@@ -126,6 +131,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

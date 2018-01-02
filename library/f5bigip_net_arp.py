@@ -25,7 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_net_arp
 short_description: BIG-IP net arp module
 description:
-    - You can use the arp component to add entries to or delete entries from the ARP table.
+    - Manages entries in the Address Resolution Protocol (ARP) table.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -83,20 +83,22 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_ARP_ARGS = dict(
-    description     =   dict(type='str'),
-    ip_address      =   dict(type='str'),
-    mac_address     =   dict(type='str')
+    description=dict(type='str'),
+    ip_address=dict(type='str'),
+    mac_address=dict(type='str')
 )
+
 
 class F5BigIpNetArp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.net.arps.arp.create,
-            'read':     self.mgmt_root.tm.net.arps.arp.load,
-            'update':   self.mgmt_root.tm.net.arps.arp.update,
-            'delete':   self.mgmt_root.tm.net.arps.arp.delete,
-            'exists':   self.mgmt_root.tm.net.arps.arp.exists
+            'create': self.mgmt_root.tm.net.arps.arp.create,
+            'read': self.mgmt_root.tm.net.arps.arp.load,
+            'update': self.mgmt_root.tm.net.arps.arp.update,
+            'delete': self.mgmt_root.tm.net.arps.arp.delete,
+            'exists': self.mgmt_root.tm.net.arps.arp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_ARP_ARGS, supports_check_mode=False)
@@ -107,6 +109,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

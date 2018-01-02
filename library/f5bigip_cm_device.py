@@ -44,7 +44,8 @@ options:
             - Specifies a user-defined description of the device.
     ha_capacity:
         description:
-            - Specifies a number that represents the relative capacity of the device to be active for a number of traffic groups.
+            - Specifies a number that represents the relative capacity of the device to be active for a number of
+              traffic groups.
         default: 0
         choices: range(0, 100000)
     hostname:
@@ -72,15 +73,14 @@ options:
         description:
             - Specifies unique name for the component.
         required: true
-    partition:
-        description:
-            - Displays the administrative partition in which the component object resides.
-        default: Common
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
         default: present
         choices: ['absent', 'present']
+    unicast-address:
+        description:
+            - Displays the set of unicast IP addresses used for failover.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -106,7 +106,9 @@ EXAMPLES = '''
     multicast_interface: eth0
     multicast_ip: 224.0.0.245
     multicast_port: 62960
-    unicast_address: 10.10.30.11
+    unicast_address:
+      - { ip: 10.10.30.11, port: 1026 }
+      - { ip: 10.10.20.11, port: 1026 }
     state: present
   delegate_to: localhost
 '''
@@ -119,30 +121,33 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_ARGS = dict(
-    comment             =   dict(type='str'),
-    configsync_ip       =   dict(type='str'),
-    contact             =   dict(type='str'),
-    description         =   dict(type='str'),
-    ha_capacity         =   dict(type='int', choices=range(0, 100000)),
-    hostname            =   dict(type='str'),
-    location            =   dict(type='str'),
-    mirror_ip           =   dict(type='str'),
-    mirror_secondary_ip =   dict(type='str'),
-    multicast_interface =   dict(type='str'),
-    multicast_ip        =   dict(type='str'),
-    multicast_port      =   dict(type='int'),
-    unicast_address     =   dict(type='list')
+    comment=dict(type='str'),
+    configsync_ip=dict(type='str'),
+    contact=dict(type='str'),
+    description=dict(type='str'),
+    ha_capacity=dict(type='int', choices=range(0, 100000)),
+    hostname=dict(type='str'),
+    location=dict(type='str'),
+    mirror_ip=dict(type='str'),
+    mirror_secondary_ip=dict(type='str'),
+    multicast_interface=dict(type='str'),
+    multicast_ip=dict(type='str'),
+    multicast_port=dict(type='int'),
+    unicast_address=dict(type='list')
 )
+
 
 class F5BigIpCmDevice(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.cm.devices.device.create,
-            'read':     self.mgmt_root.tm.cm.devices.device.load,
-            'update':   self.mgmt_root.tm.cm.devices.device.update,
-            'delete':   self.mgmt_root.tm.cm.devices.device.delete,
-            'exists':   self.mgmt_root.tm.cm.devices.device.exists
+            'create': self.mgmt_root.tm.cm.devices.device.create,
+            'read': self.mgmt_root.tm.cm.devices.device.load,
+            'update': self.mgmt_root.tm.cm.devices.device.update,
+            'delete': self.mgmt_root.tm.cm.devices.device.delete,
+            'exists': self.mgmt_root.tm.cm.devices.device.exists
         }
+        del self.params['partition']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_ARGS, supports_check_mode=False)
@@ -153,6 +158,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

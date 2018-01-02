@@ -43,7 +43,8 @@ options:
         choices: ['no', 'yes']
     debug:
         description:
-            - Specifies whether the monitor sends error messages and additional information to a log file created and labeled specifically for this monitor.
+            - Specifies whether the monitor sends error messages and additional information to a log file created and
+              labeled specifically for this monitor.
         default: no
         choices: ['no', 'yes']
     defaults_from:
@@ -61,7 +62,8 @@ options:
             - Specifies an LDAP key for which the monitor searches.
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 10
     mandatory_attributes:
         description:
@@ -70,7 +72,8 @@ options:
         choices: ['no', 'yes']
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['disabled', 'enabled']
     name:
@@ -136,34 +139,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_LDAP_ARGS = dict(
-    app_service             =   dict(type='str'),
-    base                    =   dict(type='str'),
-    chase_referrals         =   dict(type='str', choices=F5_POLAR_CHOICES),
-    debug                   =   dict(type='str', choices=F5_POLAR_CHOICES),
-    defaults_from           =   dict(type='str'),
-    description             =   dict(type='str'),
-    destination             =   dict(type='str'),
-    filter                  =   dict(type='str'),
-    interval                =   dict(type='int'),
-    mandatory_attributes    =   dict(type='str', choices=F5_POLAR_CHOICES),
-    manual_resume           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    password                =   dict(type='str', no_log=True),
-    security                =   dict(type='str', choices=['none', 'ssl', 'tls']),
-    time_until_up           =   dict(type='int'),
-    timeout                 =   dict(type='int'),
-    up_interval             =   dict(type='int'),
-    username                =   dict(type='str')
+    app_service=dict(type='str'),
+    base=dict(type='str'),
+    chase_referrals=dict(type='str', choices=F5_POLAR_CHOICES),
+    debug=dict(type='str', choices=F5_POLAR_CHOICES),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    filter=dict(type='str'),
+    interval=dict(type='int'),
+    mandatory_attributes=dict(type='str', choices=F5_POLAR_CHOICES),
+    manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    password=dict(type='str', no_log=True),
+    security=dict(type='str', choices=['none', 'ssl', 'tls']),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    up_interval=dict(type='int'),
+    username=dict(type='str')
 )
+
 
 class F5BigIpLtmMonitorLdap(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.ldaps.ldap.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.ldaps.ldap.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.ldaps.ldap.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.ldaps.ldap.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.ldaps.ldap.exists
+            'create': self.mgmt_root.tm.ltm.monitor.ldaps.ldap.create,
+            'read': self.mgmt_root.tm.ltm.monitor.ldaps.ldap.load,
+            'update': self.mgmt_root.tm.ltm.monitor.ldaps.ldap.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.ldaps.ldap.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.ldaps.ldap.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_LDAP_ARGS, supports_check_mode=False)
@@ -174,6 +179,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

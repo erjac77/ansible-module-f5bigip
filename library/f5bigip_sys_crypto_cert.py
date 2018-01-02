@@ -66,14 +66,16 @@ options:
         required: true
     lifetime:
         description:
-            - Specifies the certificate life time to be used in creation of the certificate associated with the given key.
+            - Specifies the certificate life time to be used in creation of the certificate associated with the given
+              key.
         default: 365
     organization:
         description:
             - Specifies the x509 organization to be used in creation of the certificate associated with the given key.
     ou:
         description:
-            - Specifies the x509 organizational unit to be used in creation of the certificate associated with the given key.
+            - Specifies the x509 organizational unit to be used in creation of the certificate associated with the given
+              key.
     name:
         description:
             - Specifies unique name for the component.
@@ -113,6 +115,7 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: exemple.localhost.crt
+    partition: Common
     from_local_file: /tmp/exemple.localhost.crt
     state: present
   delegate_to: localhost
@@ -124,6 +127,7 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: exemple.localhost.crt
+    partition: Common
     key: exemple.localhost.key
     common_name: exemple.localhost
     city: city
@@ -143,34 +147,35 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_CRYPTO_CERT_ARGS = dict(
-    consumer                    =   dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
+    consumer=dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
     # create
-    city                        =   dict(type='str'),
-    common_name                 =   dict(type='str'),
-    country                     =   dict(type='str'),
-    email_address               =   dict(type='str'),
-    key                         =   dict(type='str'),
-    lifetime                    =   dict(type='int'),
-    organization                =   dict(type='str'),
-    ou                          =   dict(type='str'),
-    state_province              =   dict(type='str'),
-    subject_alternative_name    =   dict(type='str'),
+    city=dict(type='str'),
+    common_name=dict(type='str'),
+    country=dict(type='str'),
+    email_address=dict(type='str'),
+    key=dict(type='str'),
+    lifetime=dict(type='int'),
+    organization=dict(type='str'),
+    ou=dict(type='str'),
+    state_province=dict(type='str'),
+    subject_alternative_name=dict(type='str'),
     # install
-    command                     =   dict(type='str', choices=['install']),
-    from_editor                 =   dict(type='str'),
-    from_local_file             =   dict(type='str'),
-    from_url                    =   dict(type='str'),
-    no_overwrite                =   dict(type='bool')
+    command=dict(type='str', choices=['install']),
+    from_editor=dict(type='str'),
+    from_local_file=dict(type='str'),
+    from_url=dict(type='str'),
+    no_overwrite=dict(type='bool')
 )
+
 
 class F5BigIpSysCryptoCert(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.sys.crypto.certs.cert.create,
-            'read':     self.mgmt_root.tm.sys.crypto.certs.cert.load,
-            'update':   self.mgmt_root.tm.sys.crypto.certs.cert.update,
-            'delete':   self.mgmt_root.tm.sys.crypto.certs.cert.delete,
-            'exists':   self.mgmt_root.tm.sys.crypto.certs.cert.exists,
+            'create': self.mgmt_root.tm.sys.crypto.certs.cert.create,
+            'read': self.mgmt_root.tm.sys.crypto.certs.cert.load,
+            'update': self.mgmt_root.tm.sys.crypto.certs.cert.update,
+            'delete': self.mgmt_root.tm.sys.crypto.certs.cert.delete,
+            'exists': self.mgmt_root.tm.sys.crypto.certs.cert.exists,
             'exec_cmd': self.mgmt_root.tm.sys.crypto.certs.exec_cmd
         }
 
@@ -179,18 +184,18 @@ class F5BigIpSysCryptoCert(F5BigIpNamedObject):
         name = self.params['name']
 
         if self.params['fromEditor']:
-            param_set = { 'from-editor': self.params['fromEditor'] }
+            param_set = {'from-editor': self.params['fromEditor']}
         if self.params['fromLocalFile']:
-            param_set = { 'from-local-file': self.params['fromLocalFile'] }
+            param_set = {'from-local-file': self.params['fromLocalFile']}
         if self.params['fromUrl']:
-            param_set = { 'from-url': self.params['fromUrl'] }
+            param_set = {'from-url': self.params['fromUrl']}
 
         if param_set:
-            param_set.update({ 'name': name })
+            param_set.update({'name': name})
             if self.params['consumer']:
-                param_set.update({ 'consumer': self.params['consumer'] })
+                param_set.update({'consumer': self.params['consumer']})
             if self.params['noOverwrite']:
-                param_set.update({ 'no-overwrite': self.params['noOverwrite'] })
+                param_set.update({'no-overwrite': self.params['noOverwrite']})
 
             # Install the key
             self.methods['exec_cmd']('install', **param_set)
@@ -205,7 +210,7 @@ class F5BigIpSysCryptoCert(F5BigIpNamedObject):
 
     def _present(self):
         has_changed = False
-        
+
         if self.params['command'] == 'install':
             if not self._exists() or (self.params['noOverwrite'] is not None and self.params['noOverwrite'] is False):
                 has_changed = self._install()
@@ -215,9 +220,10 @@ class F5BigIpSysCryptoCert(F5BigIpNamedObject):
 
         return has_changed
 
+
 def main():
     # Translation list for conflictual params
-    tr = { 'state_province':'state' }
+    tr = {'state_province': 'state'}
 
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_SYS_CRYPTO_CERT_ARGS,
@@ -233,6 +239,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

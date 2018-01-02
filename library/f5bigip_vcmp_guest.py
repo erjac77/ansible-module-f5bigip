@@ -26,7 +26,6 @@ module: f5bigip_vcmp_guest
 short_description: BIG-IP vcmp guest module
 description:
     - Configures a cluster of virtual machines (VMs) that run on one or all slots.
-      *** IMPORTANT: THIS COMPONENT HAS NOT BEEN TESTED!! HELP WANTED! ***
 version_added: "2.4"
 author:
     - "Eric Jacob (@erjac77)"
@@ -36,31 +35,32 @@ options:
             - Specifies the list of slots that the guest is allowed to be assigned to.
     app_service:
         description:
-            - The application service that the object belongs to.
+            - Specifies the name of the application service to which the guest belongs.
     capabilities:
         description:
             - This list contains the various capability flags and an optional value associated with the guest.
     cores_per_slot:
         description:
-            - Specifies the number of cores that should be allocated to this guest on each slot that the guest has been assigned to.
+            - Specifies the number of cores that should be allocated to this guest on each slot that the guest has been
+              assigned to.
     hostname:
         description:
             - The FQDN to assign to the guest.
     initial_hotfix:
         description:
-            - The hotfix image to install onto any of this guest's newly created virtual disks.
+            - Specifies which hotfix image to install on newly created virtual disks for this guest.
     initial_image:
         description:
-            - The software image to install onto any of this guest's newly created virtual disks.
+            - Specifies which software image to install on newly created virtual disks for this guest.
     management_gw:
         description:
-            - Management gateway IP address for the guest.
+            - Specifies the IP address of the default gateway for the management network.
     management_ip:
         description:
-            - Management IP address configuration for the guest.
+            - Specifies the management IP address and netmask to assign to the guest.
     management_network:
         description:
-            - Accessibility of this vCMP guest's management network.
+            - Specifies the management network mode for this guest.
         default: bridged
         choices: ['bridged', 'isolated']
     min_slots:
@@ -73,24 +73,25 @@ options:
         required: true
     slots:
         description:
-            - Specifies the number of slots the guest should be assigned to.
+            - Specifies the number of slots to which this guest should be assigned.
         default: 1
     state:
         description:
-            - Specifies the state of the guest.
+            - Specifies the state of the component on the BIG-IP system.
         default: present
         choices: ['absent', 'present']
     state_guest:
         description:
-            - Specifies the state of the component on the BIG-IP system.
+            - Specifies the state of the guest.
         default: configured
         choices: ['configured', 'provisioned', 'deployed']
     traffic_profile:
         description:
-            - Specifies a traffic-profile to be used in defining characteristics of traffic which transits the guest's data-plane.
+            - Specifies a traffic-profile to be used in defining characteristics of traffic which transits the guest's
+              data-plane.
     virtual_disk:
         description:
-            - The filename of the virtual disk to use for this guest.
+            - Specifies the filename of the virtual disk to use for this guest's VMs.
     vlans:
         description:
             - The VLANs that should be passed to the host. The guest will be able to use these VLANs to pass traffic.
@@ -128,38 +129,40 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_VCMP_GUEST_ARGS = dict(
-    allowed_slots       =   dict(type='list'),
-    app_service         =   dict(type='str'),
-    capabilities        =   dict(type='list'),
-    cores_per_slot      =   dict(type='int'),
-    hostname            =   dict(type='str'),
-    initial_hotfix      =   dict(type='str'),
-    initial_image       =   dict(type='str'),
-    management_ip       =   dict(type='str'),
-    management_gw       =   dict(type='str'),
-    management_network  =   dict(type='str', choices=['bridged', 'isolated']),
-    min_slots           =   dict(type='int'),
-    state_guest         =   dict(type='str', choices=['configured', 'provisioned', 'deployed']),
-    slots               =   dict(type='int'),
-    traffic_profile     =   dict(type='str'),
-    virtual_disk        =   dict(type='str'),
-    vlans               =   dict(type='list')
+    allowed_slots=dict(type='list'),
+    app_service=dict(type='str'),
+    capabilities=dict(type='list'),
+    cores_per_slot=dict(type='int'),
+    hostname=dict(type='str'),
+    initial_hotfix=dict(type='str'),
+    initial_image=dict(type='str'),
+    management_gw=dict(type='str'),
+    management_ip=dict(type='str'),
+    management_network=dict(type='str', choices=['bridged', 'isolated']),
+    min_slots=dict(type='int'),
+    slots=dict(type='int'),
+    state_guest=dict(type='str', choices=['configured', 'provisioned', 'deployed']),
+    traffic_profile=dict(type='str'),
+    virtual_disk=dict(type='str'),
+    vlans=dict(type='list')
 )
+
 
 class F5BigIpVcmpGuest(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.vcmp.guests.guest.create,
-            'read':     self.mgmt_root.tm.vcmp.guests.guest.load,
-            'update':   self.mgmt_root.tm.vcmp.guests.guest.update,
-            'delete':   self.mgmt_root.tm.vcmp.guests.guest.delete,
-            'exists':   self.mgmt_root.tm.vcmp.guests.guest.exists
+            'create': self.mgmt_root.tm.vcmp.guests.guest.create,
+            'read': self.mgmt_root.tm.vcmp.guests.guest.load,
+            'update': self.mgmt_root.tm.vcmp.guests.guest.update,
+            'delete': self.mgmt_root.tm.vcmp.guests.guest.delete,
+            'exists': self.mgmt_root.tm.vcmp.guests.guest.exists
         }
         del self.params['partition']
 
+
 def main():
     # Translation list for conflictual params
-    tr = { 'state_guest':'state' }
+    tr = {'state_guest': 'state'}
 
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_VCMP_GUEST_ARGS, supports_check_mode=False)
 
@@ -169,6 +172,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

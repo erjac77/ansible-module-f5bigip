@@ -66,10 +66,11 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_SYS_UCS_ARGS = dict(
 )
 
+
 class F5BigIpSysUcs(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'save':   self.mgmt_root.tm.sys.ucs.exec_cmd
+            'save': self.mgmt_root.tm.sys.ucs.exec_cmd
         }
 
     def save(self):
@@ -77,11 +78,12 @@ class F5BigIpSysUcs(F5BigIpNamedObject):
 
         try:
             self.methods['save']('save', name=self.params['name'])
-            has_changed = True 
+            has_changed = True
         except Exception:
-            raise AnsibleF5Error('Cannot save ucs.')
+            raise AnsibleF5Error("Cannot save ucs")
 
-        return { 'changed': has_changed }
+        return {'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_UCS_ARGS, supports_check_mode=False)
@@ -92,6 +94,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

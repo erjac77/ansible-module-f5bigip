@@ -43,7 +43,8 @@ options:
             - Specifies the name of the application service to which this object belongs.
     connection_limit:
         description:
-            - Specifies the number of connections a translation address must reach before it no longer initiates a connection.
+            - Specifies the number of connections a translation address must reach before it no longer initiates a
+              connection.
         default: 0
     description:
         description:
@@ -56,7 +57,8 @@ options:
             - Enables SNAT translation.
     ip_idle_timeout:
         description:
-            - Specifies the number of seconds that IP connections initiated using a SNAT address are allowed to remain idle before being automatically disconnected.
+            - Specifies the number of seconds that IP connections initiated using a SNAT address are allowed to remain
+              idle before being automatically disconnected.
         default: indefinite
     name:
         description:
@@ -73,14 +75,16 @@ options:
         choices: ['absent', 'present']
    tcp_idle_timeout:
         description:
-            - Specifies the number of seconds that TCP connections initiated using a SNAT address are allowed to remain idle before being automatically disconnected.
+            - Specifies the number of seconds that TCP connections initiated using a SNAT address are allowed to remain
+              idle before being automatically disconnected.
         default: indefinite
     traffic_group:
         description:
             - Specifies the traffic group of the failover device group on which the SNAT is active.
     udp_idle_timeout:
         description:
-            - Specifies the number of seconds that UDP connections initiated using a SNAT address are allowed to remain idle before being automatically disconnected.
+            - Specifies the number of seconds that UDP connections initiated using a SNAT address are allowed to remain
+              idle before being automatically disconnected.
         default: indefinite
 notes:
     - Requires BIG-IP software version >= 11.6
@@ -111,28 +115,30 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_SNAT_TRANSLATION_ARGS = dict(
-    address             =   dict(type='str'),
-    arp                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service         =   dict(type='str'),
-    connection_limit    =   dict(type='int'),
-    description         =   dict(type='str'),
-    disabled            =   dict(type='bool'),
-    enabled             =   dict(type='bool'),
-    ip_idle_timeout     =   dict(type='int'),
-    tcp_idle_timeout    =   dict(type='int'),
-    traffic_group       =   dict(type='str'),
-    udp_idle_timeout    =   dict(type='int')
+    address=dict(type='str'),
+    arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    app_service=dict(type='str'),
+    connection_limit=dict(type='int'),
+    description=dict(type='str'),
+    disabled=dict(type='bool'),
+    enabled=dict(type='bool'),
+    ip_idle_timeout=dict(type='int'),
+    tcp_idle_timeout=dict(type='int'),
+    traffic_group=dict(type='str'),
+    udp_idle_timeout=dict(type='int')
 )
+
 
 class F5BigIpLtmSnatTranslation(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.snat_translations.snat_translation.create,
-            'read':     self.mgmt_root.tm.ltm.snat_translations.snat_translation.load,
-            'update':   self.mgmt_root.tm.ltm.snat_translations.snat_translation.update,
-            'delete':   self.mgmt_root.tm.ltm.snat_translations.snat_translation.delete,
-            'exists':   self.mgmt_root.tm.ltm.snat_translations.snat_translation.exists
+            'create': self.mgmt_root.tm.ltm.snat_translations.snat_translation.create,
+            'read': self.mgmt_root.tm.ltm.snat_translations.snat_translation.load,
+            'update': self.mgmt_root.tm.ltm.snat_translations.snat_translation.update,
+            'delete': self.mgmt_root.tm.ltm.snat_translations.snat_translation.delete,
+            'exists': self.mgmt_root.tm.ltm.snat_translations.snat_translation.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -149,6 +155,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

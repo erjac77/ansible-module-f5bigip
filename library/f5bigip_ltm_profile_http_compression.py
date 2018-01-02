@@ -45,7 +45,8 @@ options:
         choices: ['disabled', 'enabled']
     buffer_size:
         description:
-            - Specifies the maximum number of uncompressed bytes that the system buffers before determining whether to compress the response.
+            - Specifies the maximum number of uncompressed bytes that the system buffers before determining whether to
+              compress the response.
         default: 4096
     content_type_exclude:
         description:
@@ -55,16 +56,19 @@ options:
             - Specifies a string list of HTTP Content-Type responses that you want the system to compress.
     cpu_saver:
         description:
-            - Specifies the percent of CPU usage at which the system resumes content compression at the user-defined rates.
+            - Specifies the percent of CPU usage at which the system resumes content compression at the user-defined
+              rates.
         default: enabled
         choices: ['disabled', 'enabled']
     cpu_saver_high:
         description:
-            - Specifies the percent of CPU usage at which the system starts automatically decreasing the amount of content being compressed, as well as the amount of compression that the system is applying.
+            - Specifies the percent of CPU usage at which the system starts automatically decreasing the amount of
+              content being compressed, as well as the amount of compression that the system is applying.
         default: 90
     cpu_saver_low:
         description:
-            - Specifies the percent of CPU usage at which the system resumes content compression at the user-defined rates.
+            - Specifies the percent of CPU usage at which the system resumes content compression at the user-defined
+              rates.
         default: 75
     defaults_from:
         description:
@@ -75,7 +79,8 @@ options:
             - User defined description.
     gzip_level:
         description:
-            - Specifies a value that determines the amount of memory that the system uses when compressing a server response.
+            - Specifies a value that determines the amount of memory that the system uses when compressing a server
+              response.
         default: 1
     gzip_memory_level:
         description:
@@ -83,7 +88,8 @@ options:
         default: 8
     gzip_window_size:
         description:
-            - Specifies the number of kilobytes in the window size that the system uses when compressing a server response.
+            - Specifies the number of kilobytes in the window size that the system uses when compressing a server
+              response.
         default: 16k
     keep_accept_encoding:
         description:
@@ -150,41 +156,44 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_HTTP_COMPRESSION_ARGS = dict(
-    allow_http_10           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service             =    dict(type='str'),
-    browser_workarounds     =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    buffer_size             =    dict(type='int'),
-    content_type_exclude    =    dict(type='list'),
-    content_type_include    =    dict(type='list'),
-    cpu_saver               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    cpu_saver_high          =    dict(type='int'),
-    cpu_saver_low           =    dict(type='int'),
-    defaults_from           =    dict(type='str'),
-    description             =    dict(type='str'),
-    gzip_level              =    dict(type='int'),
-    gzip_memory_level       =    dict(type='int'),
-    gzip_window_size        =    dict(type='int'),
-    keep_accept_encoding    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    method_prefer           =    dict(type='str', choices=['deflate', 'gzip']),
-    min_size                =    dict(type='int'),
-    selective               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    uri_exclude             =    dict(type='list'),
-    uri_include             =    dict(type='list'),
-    vary_header             =    dict(type='str', choices=F5_ACTIVATION_CHOICES)
+    allow_http_10=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    app_service=dict(type='str'),
+    browser_workarounds=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    buffer_size=dict(type='int'),
+    content_type_exclude=dict(type='list'),
+    content_type_include=dict(type='list'),
+    cpu_saver=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    cpu_saver_high=dict(type='int'),
+    cpu_saver_low=dict(type='int'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    gzip_level=dict(type='int'),
+    gzip_memory_level=dict(type='int'),
+    gzip_window_size=dict(type='int'),
+    keep_accept_encoding=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    method_prefer=dict(type='str', choices=['deflate', 'gzip']),
+    min_size=dict(type='int'),
+    selective=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    uri_exclude=dict(type='list'),
+    uri_include=dict(type='list'),
+    vary_header=dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
+
 
 class F5BigIpLtmProfileHttpCompression(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.create,
-            'read':     self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.load,
-            'update':   self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.exists
+            'create': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.create,
+            'read': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.load,
+            'update': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.update,
+            'delete': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_HTTP_COMPRESSION_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_HTTP_COMPRESSION_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmProfileHttpCompression(check_mode=module.supports_check_mode, **module.params)
@@ -192,6 +201,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

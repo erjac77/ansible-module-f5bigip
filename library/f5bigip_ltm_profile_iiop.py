@@ -32,7 +32,8 @@ author:
 options:
     abort_on_timeout:
         description:
-            - Specifies whether the system aborts the connection if there is no response received within the time specified in the timeout option.
+            - Specifies whether the system aborts the connection if there is no response received within the time
+              specified in the timeout option.
         default: disabled
         choices: ['disabled', 'enabled']
     app_service:
@@ -99,24 +100,26 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_IIOP_ARGS = dict(
-    abort_on_timeout      =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service           =    dict(type='str'),
-    defaults_from         =    dict(type='str'),
-    description           =    dict(type='str'),
-    persist_object_key    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    persist_request_id    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    timeout               =    dict(type='int')
+    abort_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    persist_object_key=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    persist_request_id=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    timeout=dict(type='int')
 )
+
 
 class F5BigIpLtmProfileIiop(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.iiops.iiop.create,
-            'read':     self.mgmt_root.tm.ltm.profile.iiops.iiop.load,
-            'update':   self.mgmt_root.tm.ltm.profile.iiops.iiop.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.iiops.iiop.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.iiops.iiop.exists
+            'create': self.mgmt_root.tm.ltm.profile.iiops.iiop.create,
+            'read': self.mgmt_root.tm.ltm.profile.iiops.iiop.load,
+            'update': self.mgmt_root.tm.ltm.profile.iiops.iiop.update,
+            'delete': self.mgmt_root.tm.ltm.profile.iiops.iiop.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.iiops.iiop.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_IIOP_ARGS, supports_check_mode=False)
@@ -127,6 +130,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

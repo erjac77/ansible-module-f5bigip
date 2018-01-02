@@ -48,11 +48,13 @@ options:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 5
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['disabled', 'enabled']
     name:
@@ -65,7 +67,8 @@ options:
         default: Common
     run:
         description:
-            - Specifies the path and file name of a program to run as the external monitor, for example /config/monitors/myMonitor.
+            - Specifies the path and file name of a program to run as the external monitor, for example
+              /config/monitors/myMonitor.
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -111,29 +114,31 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_EXTERNAL_ARGS = dict(
-    args            =   dict(type='str'),
-    app_service     =   dict(type='str'),
-    defaults_from   =   dict(type='str'),
-    description     =   dict(type='str'),
-    destination     =   dict(type='str'),
-    interval        =   dict(type='int'),
-    manual_resume   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    run             =   dict(type='str'),
-    time_until_up   =   dict(type='int'),
-    timeout         =   dict(type='int'),
-    user_defined    =   dict(type='str'),
-    up_interval     =   dict(type='int')
+    args=dict(type='str'),
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    interval=dict(type='int'),
+    manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    run=dict(type='str'),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    user_defined=dict(type='str'),
+    up_interval=dict(type='int')
 )
+
 
 class F5BigIpLtmMonitorExternal(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.externals.external.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.externals.external.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.externals.external.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.externals.external.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.externals.external.exists
+            'create': self.mgmt_root.tm.ltm.monitor.externals.external.create,
+            'read': self.mgmt_root.tm.ltm.monitor.externals.external.load,
+            'update': self.mgmt_root.tm.ltm.monitor.externals.external.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.externals.external.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.externals.external.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_EXTERNAL_ARGS, supports_check_mode=False)
@@ -144,6 +149,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

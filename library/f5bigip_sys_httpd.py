@@ -45,7 +45,8 @@ options:
         choices: ['on', 'off']
     auth_pam_idle_timeout:
         description:
-            - Specifies the number of seconds of inactivity that can elapse before the GUI session is automatically logged out.
+            - Specifies the number of seconds of inactivity that can elapse before the GUI session is automatically
+              logged out.
         default: 1200
     auth_pam_validate_ip:
         description:
@@ -166,7 +167,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Add SYS HTTPD allow clients
+- name: Set SYS HTTPD allow clients
   f5bigip_sys_httpd:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -175,7 +176,17 @@ EXAMPLES = '''
     allow:
       - 172.16.227.0/24
       - 10.0.0.0/8
-    state: present
+  delegate_to: localhost
+
+- name: Reset SYS HTTPD allow clients
+  f5bigip_sys_httpd:
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
+    allow:
+      - ALL
+      - 127.
   delegate_to: localhost
 '''
 
@@ -186,51 +197,47 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_HTTPD_ARGS = dict(
-    allow                       =   dict(type='list'),
-    auth_name                   =   dict(type='str'),
-    auth_pam_dashboard_timeout  =   dict(type='str', choices=F5_SWITCH_CHOICES),
-    auth_pam_idle_timeout       =   dict(type='int'),
-    auth_pam_validate_ip        =   dict(type='str', choices=F5_SWITCH_CHOICES),
-    description                 =   dict(type='str'),
-    fastcgi_timeout             =   dict(type='int'),
-    hostname_lookup             =   dict(type='str', choices=F5_SWITCH_CHOICES),
-    log_level                   =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    redirect_http_to_https      =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    request_header_max_timeout  =   dict(type='int'),
-    request_header_min_rate     =   dict(type='int'),
-    request_header_timeout      =   dict(type='int'),
-    request_body_max_timeout    =   dict(type='int'),
-    request_body_min_rate       =   dict(type='int'),
-    request_body_timeout        =   dict(type='int'),
-    ssl_ca_cert_file            =   dict(type='str'),
-    ssl_certchainfile           =   dict(type='str'),
-    ssl_certfile                =   dict(type='str'),
-    ssl_certkeyfile             =   dict(type='str'),
-    ssl_ciphersuite             =   dict(type='str'),
-    ssl_include                 =   dict(type='str'),
-    ssl_ocsp_enable             =   dict(type='str', choices=['no', 'require', 'optional', 'optional-no-ca']),
-    ssl_ocsp_default_responder  =   dict(type='str'),
-    ssl_ocsp_override_responder =   dict(type='str', choices=F5_SWITCH_CHOICES),
-    ssl_ocsp_responder_timeout  =   dict(type='int'),
-    ssl_ocsp_response_max_age   =   dict(type='int'),
-    ssl_ocsp_response_time_skew =   dict(type='int'),
-    ssl_protocol                =   dict(type='str'),
-    ssl_verify_client           =   dict(type='str'),
-    ssl_verify_depth            =   dict(type='int')
+    allow=dict(type='list'),
+    auth_name=dict(type='str'),
+    auth_pam_dashboard_timeout=dict(type='str', choices=F5_SWITCH_CHOICES),
+    auth_pam_idle_timeout=dict(type='int'),
+    auth_pam_validate_ip=dict(type='str', choices=F5_SWITCH_CHOICES),
+    description=dict(type='str'),
+    fastcgi_timeout=dict(type='int'),
+    hostname_lookup=dict(type='str', choices=F5_SWITCH_CHOICES),
+    log_level=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    redirect_http_to_https=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    request_header_max_timeout=dict(type='int'),
+    request_header_min_rate=dict(type='int'),
+    request_header_timeout=dict(type='int'),
+    request_body_max_timeout=dict(type='int'),
+    request_body_min_rate=dict(type='int'),
+    request_body_timeout=dict(type='int'),
+    ssl_ca_cert_file=dict(type='str'),
+    ssl_certchainfile=dict(type='str'),
+    ssl_certfile=dict(type='str'),
+    ssl_certkeyfile=dict(type='str'),
+    ssl_ciphersuite=dict(type='str'),
+    ssl_include=dict(type='str'),
+    ssl_ocsp_enable=dict(type='str', choices=['no', 'require', 'optional', 'optional-no-ca']),
+    ssl_ocsp_default_responder=dict(type='str'),
+    ssl_ocsp_override_responder=dict(type='str', choices=F5_SWITCH_CHOICES),
+    ssl_ocsp_responder_timeout=dict(type='int'),
+    ssl_ocsp_response_max_age=dict(type='int'),
+    ssl_ocsp_response_time_skew=dict(type='int'),
+    ssl_protocol=dict(type='str'),
+    ssl_verify_client=dict(type='str'),
+    ssl_verify_depth=dict(type='int')
 )
+
 
 class F5BigIpSysHttpd(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.httpd.load,
-            'update':   self.mgmt_root.tm.sys.httpd.update
+            'read': self.mgmt_root.tm.sys.httpd.load,
+            'update': self.mgmt_root.tm.sys.httpd.update
         }
 
-    def _absent(self):
-        if not (self.params['allow']):
-            raise AnsibleF5Error("Absent can only be used when removing allow hostnames or IP addresses")
-
-        return super(F5BigIpSysHttpd, self)._absent()
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_HTTPD_ARGS, supports_check_mode=False)
@@ -241,6 +248,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

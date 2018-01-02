@@ -90,10 +90,6 @@ options:
         description:
             - Specifies unique name for the component.
         required: true
-    partition:
-        description:
-            - Specifies the administrative partition in which the component object resides.
-        default: Common
     server:
         description:
             - Specifies the server in which the virtual-server belongs.
@@ -105,7 +101,8 @@ options:
         choices: ['absent', 'present']
     translation_address:
         description:
-            - Specifies the public address that this virtual server translates into when the Global Traffic Manager communicates between the network and the Internet.
+            - Specifies the public address that this virtual server translates into when the Global Traffic Manager
+              communicates between the network and the Internet.
         default: ::
     translation_port:
         description:
@@ -126,7 +123,6 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: my_vs
-    partition: Common
     destination: '10.10.20.201:80'
     server: my_server
     state: present
@@ -140,56 +136,41 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_SERVER_VIRTUAL_SERVER_ARGS = dict(
-    app_service                     =   dict(type='str'),
-    depends_on                      =   dict(type='list'),
-    description                     =   dict(type='str'),
-    destination                     =   dict(type='str'),
-    disabled                        =   dict(type='bool'),
-    enabled                         =   dict(type='bool'),
-    explicit_link_name              =   dict(type='str'),
-    limit_max_bps                   =   dict(type='int'),
-    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_connections           =   dict(type='int'),
-    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_pps                   =   dict(type='int'),
-    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    ltm_name                        =   dict(type='str'),
-    monitor                         =   dict(type='str'),
-    server                          =   dict(type='str'),
-    translation_address             =   dict(type='str'),
-    translation_port                =   dict(type='str')
+    app_service=dict(type='str'),
+    depends_on=dict(type='list'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    disabled=dict(type='bool'),
+    enabled=dict(type='bool'),
+    explicit_link_name=dict(type='str'),
+    limit_max_bps=dict(type='int'),
+    limit_max_bps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections=dict(type='int'),
+    limit_max_connections_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps=dict(type='int'),
+    limit_max_pps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    ltm_name=dict(type='str'),
+    monitor=dict(type='str'),
+    server=dict(type='str'),
+    translation_address=dict(type='str'),
+    translation_port=dict(type='str')
 )
+
 
 class F5BigIpGtmServerVirtualServer(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.server = self.mgmt_root.tm.gtm.servers.server.load(
-            name=self.params['server'],
-            partition=self.params['partition']
-        )
+            **self._get_resource_id_from_path(self.params['server']))
         self.methods = {
-            'create':   self.server.virtual_servers_s.virtual_server.create,
-            'read':     self.server.virtual_servers_s.virtual_server.load,
-            'update':   self.server.virtual_servers_s.virtual_server.update,
-            'delete':   self.server.virtual_servers_s.virtual_server.delete,
-            'exists':   self.server.virtual_servers_s.virtual_server.exists
+            'create': self.server.virtual_servers_s.virtual_server.create,
+            'read': self.server.virtual_servers_s.virtual_server.load,
+            'update': self.server.virtual_servers_s.virtual_server.update,
+            'delete': self.server.virtual_servers_s.virtual_server.delete,
+            'exists': self.server.virtual_servers_s.virtual_server.exists
         }
         del self.params['partition']
         del self.params['server']
 
-    def _exists(self):
-        keys = self.server.virtual_servers_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
-
-    def _read(self):
-        self._check_load_params()
-        return self.methods['read'](
-            name=self.params['name']
-        )
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -206,6 +187,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

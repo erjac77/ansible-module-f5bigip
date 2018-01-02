@@ -32,7 +32,8 @@ author:
 options:
     automatic_configuration_save_timeout:
         description:
-            - Sets the timeout, in seconds, indicating how long to wait after a GTM configuration change before automatically saving the GTM configuration to the bigip_gtm.conf.
+            - Sets the timeout, in seconds, indicating how long to wait after a GTM configuration change before
+              automatically saving the GTM configuration to the bigip_gtm.conf.
         default: 15
     auto_discovery:
         description:
@@ -55,16 +56,19 @@ options:
         choices: ['allow_underscore', 'idn_compatible', 'none', 'strict']
     drain_persistent_requests:
         description:
-            - Specifies, when set to yes, that when you disable a pool, load-balanced, persistent connections remain connected until the TTL expires.
+            - Specifies, when set to yes, that when you disable a pool, load-balanced, persistent connections remain
+              connected until the TTL expires.
         default: yes
         choices: ['yes', 'no']
     forward_status:
         description:
-            - Specifies, when set to enabled, that the availibility status change for GTM objects will be shared with subscribers.
+            - Specifies, when set to enabled, that the availibility status change for GTM objects will be shared with
+              subscribers.
         choices: ['enabled', 'disabled']
     gtm_sets_recursion:
         description:
-            - Specifies, when set to yes, that the system enables recursive DNS queries, regardless of whether the requesting local DNS enabled recursive queries.
+            - Specifies, when set to yes, that the system enables recursive DNS queries, regardless of whether the
+              requesting local DNS enabled recursive queries.
         default: no
         choices: ['yes', 'no']
     heartbeat_interval:
@@ -74,7 +78,8 @@ options:
         choices: range(0, 11)
     monitor_disabled_objects:
         description:
-            - Specifies, when set to yes, that the system will continue to monitor objects even if the objects are disabled.
+            - Specifies, when set to yes, that the system will continue to monitor objects even if the objects are
+              disabled.
         default: no
         choices: ['yes', 'no']
     nethsm_timeout:
@@ -83,22 +88,26 @@ options:
         default: 20
     peer_leader:
         description:
-            - Specifies the name of a GTM server to be used for executing certain features, such as creating DNSSEC keys.
+            - Specifies the name of a GTM server to be used for executing certain features, such as creating DNSSEC
+              keys.
     port:
         description:
             - Specifies the port on which the listener listens for connections.
-   send-wildcard-rrs:
+    send-wildcard-rrs:
         description:
-            - Specifies, when set to enable, that WideIPs or WideIP aliases that contain wildcards will autogenerate Resource Records in the BIND database.
+            - Specifies, when set to enable, that WideIPs or WideIP aliases that contain wildcards will autogenerate
+              Resource Records in the BIND database.
         default: disable
         choices: ['enable', 'disable']
     static_persist_cidr_ipv4:
         description:
-            - Specifies the number of bits of the IPv4 address that the system considers when using the Static Persist load balancing mode.
+            - Specifies the number of bits of the IPv4 address that the system considers when using the Static Persist
+              load balancing mode.
         default: 32
     static_persist_cidr_ipv6:
         description:
-            - Specifies the number of bits of the IPv6 address that the system considers when using the Static Persist load balancing mode.
+            - Specifies the number of bits of the IPv6 address that the system considers when using the Static Persist
+              load balancing mode.
         default: 128
     synchronization
         description:
@@ -111,12 +120,14 @@ options:
         default: default
     synchronization_time_tolerance:
         description:
-            - Specifies the number of seconds that one system clock can be out of sync with another system clock, in the synchronization group.
+            - Specifies the number of seconds that one system clock can be out of sync with another system clock, in the
+              synchronization group.
         default: 10
         choices: [0, range(5, 601)]
     synchronization_timeout:
         description:
-            - Specifies the number of seconds that the system attempts to synchronize the Global Traffic Manager configuration with a synchronization group member.
+            - Specifies the number of seconds that the system attempts to synchronize the Global Traffic Manager
+              configuration with a synchronization group member.
         default: 180
     synchronize_zone_files:
         description:
@@ -125,16 +136,19 @@ options:
         choices: ['yes', 'no']
     synchronize_zone_files_timeout:
         description:
-            - Specifies the number of seconds that a synchronization group member attempts to synchronize its zone files with a synchronization group member.
+            - Specifies the number of seconds that a synchronization group member attempts to synchronize its zone files
+              with a synchronization group member.
         default: 300
     topology_allow_zero_scores:
         description:
-            - Specifies if topology load-balancing or QoS load-balancing with topology enabled will return pool members with zero topology scores.
+            - Specifies if topology load-balancing or QoS load-balancing with topology enabled will return pool members
+              with zero topology scores.
         default: yes
         choices: ['yes', 'no']
     virtuals_depend_on_server_state:
         description:
-            - Specifies whether the system marks a virtual server down when the server on which the virtual server is configured can no longer be reached via iQuery.
+            - Specifies whether the system marks a virtual server down when the server on which the virtual server is
+              configured can no longer be reached via iQuery.
         default: yes
         choices: ['yes', 'no']
 notes:
@@ -163,40 +177,43 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_GLOBAL_SETTINGS_GENERAL_ARGS = dict(
-    automatic_configuration_save_timeout    =   dict(type='int'),
-    auto_discovery                          =   dict(type='str', choices=F5_POLAR_CHOICES),
-    auto_discovery_interval                 =   dict(type='int'),
-    cache_ldns_servers                      =   dict(type='str', choices=F5_POLAR_CHOICES),
-    domain_name_check                       =   dict(type='str', choices=['allow_underscore', 'idn_compatible', 'none', 'strict']),
-    drain_persistent_requests               =   dict(type='str', choices=F5_POLAR_CHOICES),
-    forward_status                          =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    gtm_sets_recursion                      =   dict(type='str', choices=F5_POLAR_CHOICES),
-    heartbeat_interval                      =   dict(type='int', choices=range(0, 11)),
-    monitor_disabled_objects                =   dict(type='str', choices=F5_POLAR_CHOICES),
-    nethsm_timeout                          =   dict(type='int'),
-    peer_leader                             =   dict(type='str'),
-    send_wildcards_rrs                      =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    static_persist_cidr_ipv4                =   dict(type='int'),
-    static_persist_cidr_ipv6                =   dict(type='int'),
-    synchronization                         =   dict(type='str', choices=F5_POLAR_CHOICES),
-    synchronization_group_name              =   dict(type='str'),
-    synchronization_time_tolerance          =   dict(type='int', choices=[0, range(5, 601)]),
-    synchronization_timeout                 =   dict(type='int'),
-    synchronize_zone_files                  =   dict(type='str', choices=F5_POLAR_CHOICES),
-    synchronize_zone_files_timeout          =   dict(type='int'),
-    topology_allow_zero_scores              =   dict(type='str', choices=F5_POLAR_CHOICES),
-    virtuals_depend_on_server_state         =   dict(type='str', choices=F5_POLAR_CHOICES)
+    automatic_configuration_save_timeout=dict(type='int'),
+    auto_discovery=dict(type='str', choices=F5_POLAR_CHOICES),
+    auto_discovery_interval=dict(type='int'),
+    cache_ldns_servers=dict(type='str', choices=F5_POLAR_CHOICES),
+    domain_name_check=dict(type='str', choices=['allow_underscore', 'idn_compatible', 'none', 'strict']),
+    drain_persistent_requests=dict(type='str', choices=F5_POLAR_CHOICES),
+    forward_status=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    gtm_sets_recursion=dict(type='str', choices=F5_POLAR_CHOICES),
+    heartbeat_interval=dict(type='int', choices=range(0, 11)),
+    monitor_disabled_objects=dict(type='str', choices=F5_POLAR_CHOICES),
+    nethsm_timeout=dict(type='int'),
+    peer_leader=dict(type='str'),
+    send_wildcards_rrs=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    static_persist_cidr_ipv4=dict(type='int'),
+    static_persist_cidr_ipv6=dict(type='int'),
+    synchronization=dict(type='str', choices=F5_POLAR_CHOICES),
+    synchronization_group_name=dict(type='str'),
+    synchronization_time_tolerance=dict(type='int', choices=[0, range(5, 601)]),
+    synchronization_timeout=dict(type='int'),
+    synchronize_zone_files=dict(type='str', choices=F5_POLAR_CHOICES),
+    synchronize_zone_files_timeout=dict(type='int'),
+    topology_allow_zero_scores=dict(type='str', choices=F5_POLAR_CHOICES),
+    virtuals_depend_on_server_state=dict(type='str', choices=F5_POLAR_CHOICES)
 )
+
 
 class F5BigIpGtmGlobalSettingsGeneral(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.gtm.global_settings.general.load,
-            'update':   self.mgmt_root.tm.gtm.global_settings.general.update
+            'read': self.mgmt_root.tm.gtm.global_settings.general.load,
+            'update': self.mgmt_root.tm.gtm.global_settings.general.update
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_GENERAL_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_GENERAL_ARGS,
+                                               supports_check_mode=False)
 
     try:
         obj = F5BigIpGtmGlobalSettingsGeneral(check_mode=module.supports_check_mode, **module.params)
@@ -204,6 +221,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

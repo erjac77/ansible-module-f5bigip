@@ -35,7 +35,8 @@ options:
             - Specifies the authenticate depth.
     ca_file:
         description:
-            - Specifies the certificate authority file name or, you can use default for the default certificate authority file name.
+            - Specifies the certificate authority file name or, you can use default for the default certificate
+              authority file name.
     crl_file:
         description:
             - Specifies the certificate revocation list file name.
@@ -89,26 +90,29 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_CERTIFICATE_AUTHORITY_ARGS = dict(
-    authenticate_depth    =    dict(type='str'),
-    ca_file               =    dict(type='str'),
-    crl_file              =    dict(type='str'),
-    default_name          =    dict(type='str'),
-    description           =    dict(type='str'),
-    update_crl            =    dict(type='str')
+    authenticate_depth=dict(type='str'),
+    ca_file=dict(type='str'),
+    crl_file=dict(type='str'),
+    default_name=dict(type='str'),
+    description=dict(type='str'),
+    update_crl=dict(type='str')
 )
+
 
 class F5BigIpLtmProfileCertificateAuthority(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.create,
-            'read':     self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.load,
-            'update':   self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.exists
+            'create': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.create,
+            'read': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.load,
+            'update': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.update,
+            'delete': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_CERTIFICATE_AUTHORITY_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_CERTIFICATE_AUTHORITY_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmProfileCertificateAuthority(check_mode=module.supports_check_mode, **module.params)
@@ -116,6 +120,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

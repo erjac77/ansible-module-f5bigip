@@ -83,52 +83,54 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_STATISTICS_ARGS = dict(
-    app_service      =    dict(type='str'),
-    defaults_from    =    dict(type='str'),
-    description      =    dict(type='str'),
-    field1           =    dict(type='str'),
-    field2           =    dict(type='str'),
-    field3           =    dict(type='str'),
-    field4           =    dict(type='str'),
-    field5           =    dict(type='str'),
-    field6           =    dict(type='str'),
-    field7           =    dict(type='str'),
-    field8           =    dict(type='str'),
-    field9           =    dict(type='str'),
-    field10          =    dict(type='str'),
-    field11          =    dict(type='str'),
-    field12          =    dict(type='str'),
-    field13          =    dict(type='str'),
-    field14          =    dict(type='str'),
-    field15          =    dict(type='str'),
-    field16          =    dict(type='str'),
-    field17          =    dict(type='str'),
-    field18          =    dict(type='str'),
-    field19          =    dict(type='str'),
-    field20          =    dict(type='str'),
-    field21          =    dict(type='str'),
-    field22          =    dict(type='str'),
-    field23          =    dict(type='str'),
-    field24          =    dict(type='str'),
-    field25          =    dict(type='str'),
-    field26          =    dict(type='str'),
-    field27          =    dict(type='str'),
-    field28          =    dict(type='str'),
-    field29          =    dict(type='str'),
-    field30          =    dict(type='str'),
-    field31          =    dict(type='str'),
-    field32          =    dict(type='str')
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    field1=dict(type='str'),
+    field2=dict(type='str'),
+    field3=dict(type='str'),
+    field4=dict(type='str'),
+    field5=dict(type='str'),
+    field6=dict(type='str'),
+    field7=dict(type='str'),
+    field8=dict(type='str'),
+    field9=dict(type='str'),
+    field10=dict(type='str'),
+    field11=dict(type='str'),
+    field12=dict(type='str'),
+    field13=dict(type='str'),
+    field14=dict(type='str'),
+    field15=dict(type='str'),
+    field16=dict(type='str'),
+    field17=dict(type='str'),
+    field18=dict(type='str'),
+    field19=dict(type='str'),
+    field20=dict(type='str'),
+    field21=dict(type='str'),
+    field22=dict(type='str'),
+    field23=dict(type='str'),
+    field24=dict(type='str'),
+    field25=dict(type='str'),
+    field26=dict(type='str'),
+    field27=dict(type='str'),
+    field28=dict(type='str'),
+    field29=dict(type='str'),
+    field30=dict(type='str'),
+    field31=dict(type='str'),
+    field32=dict(type='str')
 )
+
 
 class F5BigIpLtmProfileStatistics(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.statistics_s.statistics.create,
-            'read':     self.mgmt_root.tm.ltm.profile.statistics_s.statistics.load,
-            'update':   self.mgmt_root.tm.ltm.profile.statistics_s.statistics.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.statistics_s.statistics.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.statistics_s.statistics.exists
+            'create': self.mgmt_root.tm.ltm.profile.statistics_s.statistics.create,
+            'read': self.mgmt_root.tm.ltm.profile.statistics_s.statistics.load,
+            'update': self.mgmt_root.tm.ltm.profile.statistics_s.statistics.update,
+            'delete': self.mgmt_root.tm.ltm.profile.statistics_s.statistics.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.statistics_s.statistics.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_STATISTICS_ARGS, supports_check_mode=False)
@@ -139,6 +141,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

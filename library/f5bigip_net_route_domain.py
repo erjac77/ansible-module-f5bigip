@@ -45,7 +45,8 @@ options:
             - Specifies descriptive text that identifies the component.
     flow_eviction_policy:
         description:
-            - Specifies a flow eviction policy for the route domain to use, to select which flows to evict when the number of connections approaches the connection limit on the route domain.
+            - Specifies a flow eviction policy for the route domain to use, to select which flows to evict when the
+              number of connections approaches the connection limit on the route domain.
     id:
         description:
             - Specifies a unique numeric identifier for the route-domain.
@@ -101,30 +102,32 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_ROUTE_DOMAIN_ARGS = dict(
-    app_service             =   dict(type='str'),
-    bwc_policy              =   dict(type='str'),
-    connection_limit        =   dict(type='int'),
-    description             =   dict(type='str'),
-    flow_eviction_policy    =   dict(type='str'),
-    fw_enforced_policy      =   dict(type='str'),
-    #fw_rules                =   dict(type='list'),
-    fw_staged_policy        =   dict(type='str'),
-    id                      =   dict(type='int'),
-    parent                  =   dict(type='str'),
-    routing_protocol        =   dict(type='list'),
-    strict                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    vlans                   =   dict(type='list')
+    app_service=dict(type='str'),
+    bwc_policy=dict(type='str'),
+    connection_limit=dict(type='int'),
+    description=dict(type='str'),
+    flow_eviction_policy=dict(type='str'),
+    fw_enforced_policy=dict(type='str'),
+    # fw_rules=dict(type='list'),
+    fw_staged_policy=dict(type='str'),
+    id=dict(type='int'),
+    parent=dict(type='str'),
+    routing_protocol=dict(type='list'),
+    strict=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    vlans=dict(type='list')
 )
+
 
 class F5BigIpNetRouteDomain(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.net.route_domains.route_domain.create,
-            'read':     self.mgmt_root.tm.net.route_domains.route_domain.load,
-            'update':   self.mgmt_root.tm.net.route_domains.route_domain.update,
-            'delete':   self.mgmt_root.tm.net.route_domains.route_domain.delete,
-            'exists':   self.mgmt_root.tm.net.route_domains.route_domain.exists
+            'create': self.mgmt_root.tm.net.route_domains.route_domain.create,
+            'read': self.mgmt_root.tm.net.route_domains.route_domain.load,
+            'update': self.mgmt_root.tm.net.route_domains.route_domain.update,
+            'delete': self.mgmt_root.tm.net.route_domains.route_domain.delete,
+            'exists': self.mgmt_root.tm.net.route_domains.route_domain.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_ROUTE_DOMAIN_ARGS, supports_check_mode=False)
@@ -135,6 +138,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

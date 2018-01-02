@@ -69,27 +69,31 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_UNIX_MV_ARGS = dict(
-    dest_path       =   dict(type='str', required=True),
-    file_name       =   dict(type='str', required=True),
-    source_path     =   dict(type='str', required=True)
+    dest_path=dict(type='str', required=True),
+    file_name=dict(type='str', required=True),
+    source_path=dict(type='str', required=True)
 )
+
 
 class F5BigIpUtilUnixMv(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'move':   self.mgmt_root.tm.util.unix_mv.exec_cmd,
+            'move': self.mgmt_root.tm.util.unix_mv.exec_cmd,
         }
 
     def move(self):
         has_changed = False
 
         try:
-            self.methods['move']('run', utilCmdArgs='{0}/{2} {1}/{2}'.format(self.params['sourcePath'], self.params['destPath'], self.params['fileName']))
-            has_changed = True 
+            self.methods['move']('run', utilCmdArgs='{0}/{2} {1}/{2}'.format(self.params['sourcePath'],
+                                                                             self.params['destPath'],
+                                                                             self.params['fileName']))
+            has_changed = True
         except Exception:
-            raise AnsibleF5Error('Cant move the file')
+            raise AnsibleF5Error("Can't move the file.")
 
-        return { 'changed': has_changed }
+        return {'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_MV_ARGS, supports_check_mode=False)
@@ -100,6 +104,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

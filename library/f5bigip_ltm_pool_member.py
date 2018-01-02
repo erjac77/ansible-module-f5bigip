@@ -45,7 +45,8 @@ options:
             - Specifies descriptive text that identifies the component.
     dynamic_ratio:
         description:
-            - Specifies a range of numbers that you want the system to use in conjunction with the ratio load balancing method.
+            - Specifies a range of numbers that you want the system to use in conjunction with the ratio load balancing
+              method.
         default: 1
     inherit-profile
         description:
@@ -129,39 +130,41 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_POOL_MEMBER_ARGS = dict(
-    address             =   dict(type='str'),
-    app_service         =   dict(type='str'),
-    connection_limit    =   dict(type='int'),
-    description         =   dict(type='str'),
-    dynamic_ratio       =   dict(type='int'),
-    fqdn                =   dict(type='dict'),
-    inherit_profile     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    logging             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    monitor             =   dict(type='str'),
-    pool                =   dict(type='str'),
-    priority_group      =   dict(type='int'),
-    profiles            =   dict(type='str'),
-    rate_limit          =   dict(type='int'),
-    ratio               =   dict(type='int'),
-    session             =   dict(type='str', choices=['user-enabled', 'user-disabled']),
-    state_user          =   dict(type='str', choices=['user-down', 'user-up'])
+    address=dict(type='str'),
+    app_service=dict(type='str'),
+    connection_limit=dict(type='int'),
+    description=dict(type='str'),
+    dynamic_ratio=dict(type='int'),
+    fqdn=dict(type='dict'),
+    inherit_profile=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    logging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    monitor=dict(type='str'),
+    pool=dict(type='str'),
+    priority_group=dict(type='int'),
+    profiles=dict(type='str'),
+    rate_limit=dict(type='int'),
+    ratio=dict(type='int'),
+    session=dict(type='str', choices=['user-enabled', 'user-disabled']),
+    state_user=dict(type='str', choices=['user-down', 'user-up'])
 )
+
 
 class F5BigIpLtmPoolMember(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.pool = self.mgmt_root.tm.ltm.pools.pool.load(**self._get_resource_id_from_path(self.params['pool']))
         self.methods = {
-            'create':   self.pool.members_s.members.create,
-            'read':     self.pool.members_s.members.load,
-            'update':   self.pool.members_s.members.update,
-            'delete':   self.pool.members_s.members.delete,
-            'exists':   self.pool.members_s.members.exists
+            'create': self.pool.members_s.members.create,
+            'read': self.pool.members_s.members.load,
+            'update': self.pool.members_s.members.update,
+            'delete': self.pool.members_s.members.delete,
+            'exists': self.pool.members_s.members.exists
         }
         del self.params['pool']
 
+
 def main():
     # Translation list for conflictual params
-    tr = { 'state_user':'state' }
+    tr = {'state_user': 'state'}
 
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POOL_MEMBER_ARGS, supports_check_mode=False)
 
@@ -171,6 +174,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

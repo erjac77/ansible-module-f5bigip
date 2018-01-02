@@ -61,7 +61,8 @@ options:
             - Specifies a list of folder prefixes that can be applied for file objects.
     gui_security_banner:
         description:
-            - Specifies whether the system presents on the login screen the text you specify in the gui-security-banner-text option.
+            - Specifies whether the system presents on the login screen the text you specify in the
+              gui-security-banner-text option.
         default: enabled
         choices: ['enabled', 'disabled']
     gui_security_banner_text:
@@ -143,35 +144,38 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_GLOBAL_SETTINGS_ARGS = dict(
-    aws_access_key              =   dict(type='str'),
-    aws_secret_key              =   dict(type='str'),
-    aws_api_max_concurrency     =   dict(type='int'),
-    console_inactivity_timeout  =   dict(type='int'),
-    custom_addr                 =   dict(type='str'),
-    description                 =   dict(type='str'),
-    failsafe_action             =   dict(type='str', choices=['go-offline', 'reboot', 'resetart-all', 'go-offline-restart-tm', 'failover-restart-tm']),
-    file_local_path_prefix      =   dict(type='str'),
-    gui_security_banner         =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    gui_security_banner_text    =   dict(type='str'),
-    gui_setup                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    host_addr_mode              =   dict(type='str', choices=['custom', 'management', 'state-mirror']),
-    hostname                    =   dict(type='str'),
-    hosts_allow_include         =   dict(type='str'),
-    lcd_display                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    net_reboot                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    password_prompt             =   dict(type='str', no_log=True),
-    mgmt_dhcp                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    quiet_boot                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    #remote_host                 =   dict(type='list'),
-    username_prompt             =   dict(type='str')
+    aws_access_key=dict(type='str'),
+    aws_secret_key=dict(type='str'),
+    aws_api_max_concurrency=dict(type='int'),
+    console_inactivity_timeout=dict(type='int'),
+    custom_addr=dict(type='str'),
+    description=dict(type='str'),
+    failsafe_action=dict(type='str', choices=['go-offline', 'reboot', 'resetart-all', 'go-offline-restart-tm',
+                                              'failover-restart-tm']),
+    file_local_path_prefix=dict(type='str'),
+    gui_security_banner=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    gui_security_banner_text=dict(type='str'),
+    gui_setup=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    host_addr_mode=dict(type='str', choices=['custom', 'management', 'state-mirror']),
+    hostname=dict(type='str'),
+    hosts_allow_include=dict(type='str'),
+    lcd_display=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    net_reboot=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    password_prompt=dict(type='str', no_log=True),
+    mgmt_dhcp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    quiet_boot=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    # remote_host=dict(type='list'),
+    username_prompt=dict(type='str')
 )
+
 
 class F5BigIpSysGlobalSettings(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.global_settings.load,
-            'update':   self.mgmt_root.tm.sys.global_settings.update
+            'read': self.mgmt_root.tm.sys.global_settings.load,
+            'update': self.mgmt_root.tm.sys.global_settings.update
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_GLOBAL_SETTINGS_ARGS, supports_check_mode=False)
@@ -182,6 +186,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

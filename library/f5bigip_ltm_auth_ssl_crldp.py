@@ -25,7 +25,8 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_auth_ssl_crldp
 short_description: BIG-IP ltm auth ssl crldp module
 description:
-    - Configures a Secure Socket Layer (SSL) Certificate Revocation List Distribution Point (CRLDP) configuration object for implementing SSL CRLDP to manage certificate revocation.
+    - Configures a Secure Socket Layer (SSL) Certificate Revocation List Distribution Point (CRLDP) configuration object
+      for implementing SSL CRLDP to manage certificate revocation.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -59,7 +60,8 @@ options:
         choices: ['absent', 'present']
     update_interval:
         description:
-            - Specifies an update interval for CRL distribution points that ensures that CRL status is checked at regular intervals, regardless of the CRL timeout value.
+            - Specifies an update interval for CRL distribution points that ensures that CRL status is checked at
+              regular intervals, regardless of the CRL timeout value.
         default: 0
     use_issuer:
         description:
@@ -93,23 +95,25 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_AUTH_SSL_CRLDP_ARGS = dict(
-    cache_timeout       =   dict(type='int'),
-    connection_timeout  =   dict(type='int'),
-    description         =   dict(type='str'),
-    servers             =   dict(type='list'),
-    update_interval     =   dict(type='int'),
-    use_issuer          =   dict(type='str', choices=F5_ACTIVATION_CHOICES)
+    cache_timeout=dict(type='int'),
+    connection_timeout=dict(type='int'),
+    description=dict(type='str'),
+    servers=dict(type='list'),
+    update_interval=dict(type='int'),
+    use_issuer=dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
+
 
 class F5BigIpLtmAuthSslCrldp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.create,
-            'read':     self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.load,
-            'update':   self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.update,
-            'delete':   self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.delete,
-            'exists':   self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.exists
+            'create': self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.create,
+            'read': self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.load,
+            'update': self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.update,
+            'delete': self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.delete,
+            'exists': self.mgmt_root.tm.ltm.auth.ssl_crldps.ssl_crldp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_SSL_CRLDP_ARGS, supports_check_mode=False)
@@ -120,6 +124,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

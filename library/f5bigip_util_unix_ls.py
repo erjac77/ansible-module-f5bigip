@@ -58,13 +58,14 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_UNIX_LS_ARGS = dict(
-    path    =    dict(type='str', required=True),
+    path=dict(type='str', required=True),
 )
+
 
 class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'list':   self.mgmt_root.tm.util.unix_ls.exec_cmd
+            'list': self.mgmt_root.tm.util.unix_ls.exec_cmd
         }
 
     def list(self):
@@ -74,9 +75,10 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
             obj = self.methods['list']('run', utilCmdArgs=self.params['path'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error('Cant show the contents of this folder.')
+            raise AnsibleF5Error("Can't show the contents of this folder.")
 
-        return { 'result': obj.commandResult }
+        return {'result': obj.commandResult, 'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_LS_ARGS, supports_check_mode=False)
@@ -87,6 +89,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

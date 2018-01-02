@@ -36,14 +36,16 @@ options:
         default: ucd
     app_service:
         description:
-            - Specifies the name of the application service to which the monitor belongs
+            - Specifies the name of the application service to which the monitor belongs.
     community:
         description:
-            - Specifies the community name that the BIG-IP system must use to authenticate with the host server through SNMP.
+            - Specifies the community name that the BIG-IP system must use to authenticate with the host server through
+              SNMP.
         default: public
     cpu_coefficient:
         description:
-            - Specifies the coefficient that the system uses to calculate the weight of the CPU threshold in the dynamic ratio load balancing algorithm.
+            - Specifies the coefficient that the system uses to calculate the weight of the CPU threshold in the dynamic
+              ratio load balancing algorithm.
         default: 1.5
     cpu_threshold:
         description:
@@ -58,7 +60,8 @@ options:
             - User defined description.
     disk_coefficient:
         description:
-            - Specifies the coefficient that the system uses to calculate the weight of the disk threshold in the dynamic ratio load balancing algorithm.
+            - Specifies the coefficient that the system uses to calculate the weight of the disk threshold in the
+              dynamic ratio load balancing algorithm.
         default: 2.0
     disk_threshold:
         description:
@@ -70,7 +73,8 @@ options:
         default: 10
     memory_coefficient:
         description:
-            - Specifies the coefficient that the system uses to calculate the weight of the memory threshold in the dynamic ratio load balancing algorithm.
+            - Specifies the coefficient that the system uses to calculate the weight of the memory threshold in the
+              dynamic ratio load balancing algorithm.
         default: 1.0
     memory_threshold:
         description:
@@ -99,10 +103,10 @@ options:
         default: 30
     user_defined:
         description:
-            - Specifies attributes for a monitor that you define
+            - Specifies attributes for a monitor that you define.
     version:
         description:
-            - Specifies the version of SNMP that the host server uses
+            - Specifies the version of SNMP that the host server uses.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -131,33 +135,35 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_SNMP_DCA_ARGS = dict(
-    agent_type            =    dict(type='str', choices=['generic', 'other', 'win2000', 'ucd']),
-    app_service           =    dict(type='str'),
-    community             =    dict(type='str'),
-    cpu_coefficient       =    dict(type='int'),
-    cpu_threshold         =    dict(type='int'),
-    defaults_from         =    dict(type='str'),
-    description           =    dict(type='str'),
-    disk_coefficient      =    dict(type='int'),
-    disk_threshold        =    dict(type='int'),
-    interval              =    dict(type='int'),
-    memory_coefficient    =    dict(type='int'),
-    memory_threshold      =    dict(type='int'),
-    time_until_up         =    dict(type='int'),
-    timeout               =    dict(type='int'),
-    user_defined          =    dict(type='str'),
-    version               =    dict(type='int')
+    agent_type=dict(type='str', choices=['generic', 'other', 'win2000', 'ucd']),
+    app_service=dict(type='str'),
+    community=dict(type='str'),
+    cpu_coefficient=dict(type='int'),
+    cpu_threshold=dict(type='int'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    disk_coefficient=dict(type='int'),
+    disk_threshold=dict(type='int'),
+    interval=dict(type='int'),
+    memory_coefficient=dict(type='int'),
+    memory_threshold=dict(type='int'),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    user_defined=dict(type='str'),
+    version=dict(type='int')
 )
+
 
 class F5BigIpLtmMonitorSnmpDca(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.exists
+            'create': self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.create,
+            'read': self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.load,
+            'update': self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.snmp_dcas.snmp_dca.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_SNMP_DCA_ARGS, supports_check_mode=False)
@@ -168,6 +174,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

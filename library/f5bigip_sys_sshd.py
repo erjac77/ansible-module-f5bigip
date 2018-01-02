@@ -41,7 +41,8 @@ options:
         choices: ['enabled', 'disabled']
     banner_text:
         description:
-            - When the banner option is enabled, specifies the text to include in the banner that displays when a user attempts to log on to the system.
+            - When the banner option is enabled, specifies the text to include in the banner that displays when a user
+              attempts to log on to the system.
     inactivity_timeout:
         description:
             - Specifies the number of seconds before inactivity causes an SSH session to log out.
@@ -63,7 +64,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Add SYS SSHD allow clients
+- name: Set SYS SSHD allow clients and banner
   f5bigip_sys_sshd:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -72,7 +73,19 @@ EXAMPLES = '''
     allow:
       - 172.16.227.0/24
       - 10.0.0./8
-    state: present
+    banner: enabled
+    banner_text: "NOTICE: Improper use of this computer may result in prosecution!"
+  delegate_to: localhost
+
+- name: Reset SYS SSHD allow clients
+  f5bigip_sys_sshd:
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
+    allow:
+      - ALL
+      - 127.
   delegate_to: localhost
 '''
 
@@ -83,26 +96,23 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SSHD_ARGS = dict(
-    allow               =   dict(type='list'),
-    banner              =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    banner_text         =   dict(type='str'),
-    inactivity_timeout  =   dict(type='int'),
-    login               =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    log_level           =   dict(type='str', choices=['debug', 'debug1', 'debug2', 'debug3', 'error', 'fatal', 'info', 'quiet', 'verbose']),
+    allow=dict(type='list'),
+    banner=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    banner_text=dict(type='str'),
+    inactivity_timeout=dict(type='int'),
+    login=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    log_level=dict(type='str',
+                   choices=['debug', 'debug1', 'debug2', 'debug3', 'error', 'fatal', 'info', 'quiet', 'verbose']),
 )
+
 
 class F5BigIpSysSshd(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.sshd.load,
-            'update':   self.mgmt_root.tm.sys.sshd.update
+            'read': self.mgmt_root.tm.sys.sshd.load,
+            'update': self.mgmt_root.tm.sys.sshd.update
         }
 
-    def _absent(self):
-        if not (self.params['allow']):
-            raise AnsibleF5Error("Absent can only be used when removing allow hostnames or IP addresses")
-
-        return super(F5BigIpSysSshd, self)._absent()
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_SSHD_ARGS, supports_check_mode=False)
@@ -113,6 +123,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

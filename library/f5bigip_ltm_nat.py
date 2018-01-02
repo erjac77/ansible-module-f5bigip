@@ -25,7 +25,8 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_nat
 short_description: BIG-IP ltm nat module
 description:
-    - A network address translation (NAT) defines a mapping between an originating IP address and an IP address that you specify.
+    - A network address translation (NAT) defines a mapping between an originating IP address and an IP address that you
+      specify.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -39,7 +40,8 @@ options:
         choices: ['enabled', 'disabled']
     auto_lasthop:
         description:
-            - When enabled, allows the system to send return traffic to the MAC address that transmitted the request, even if the routing table points to a different network or interface.
+            - When enabled, allows the system to send return traffic to the MAC address that transmitted the request,
+              even if the routing table points to a different network or interface.
         choices: ['default, 'enabled', 'disabled']
     description:
         description:
@@ -75,7 +77,8 @@ options:
             - Specifies the traffic group of the failover device group on which the NAT is active.
     translation_address:
         description:
-            - Specifies the IP address that is translated or mapped, and the IP address to which it is translated or mapped.
+            - Specifies the IP address that is translated or mapped, and the IP address to which it is translated or
+              mapped.
     vlans:
         description:
             - Specifies a list of existing VLANs on which access to the NAT is enabled or disabled.
@@ -117,33 +120,35 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_NAT_ARGS = dict(
-    app_service             =   dict(type='str'),
-    arp                     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    auto_lasthop            =   dict(type='str', choices=['default', 'enabled', 'disabled']),
-    description             =   dict(type='str'),
-    disabled                =   dict(type='bool'),
-    enabled                 =   dict(type='bool'),
-    originating_address     =   dict(type='str'),
-    traffic_group           =   dict(type='str'),
-    translation_address     =   dict(type='str'),
-    vlans                   =   dict(type='list'),
-    vlans_disabled          =   dict(type='bool'),
-    vlans_enabled           =   dict(type='bool')
+    app_service=dict(type='str'),
+    arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    auto_lasthop=dict(type='str', choices=['default', 'enabled', 'disabled']),
+    description=dict(type='str'),
+    disabled=dict(type='bool'),
+    enabled=dict(type='bool'),
+    originating_address=dict(type='str'),
+    traffic_group=dict(type='str'),
+    translation_address=dict(type='str'),
+    vlans=dict(type='list'),
+    vlans_disabled=dict(type='bool'),
+    vlans_enabled=dict(type='bool')
 )
+
 
 class F5BigIpLtmNat(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.nats.nat.create,
-            'read':     self.mgmt_root.tm.ltm.nats.nat.load,
-            'update':   self.mgmt_root.tm.ltm.nats.nat.update,
-            'delete':   self.mgmt_root.tm.ltm.nats.nat.delete,
-            'exists':   self.mgmt_root.tm.ltm.nats.nat.exists
+            'create': self.mgmt_root.tm.ltm.nats.nat.create,
+            'read': self.mgmt_root.tm.ltm.nats.nat.load,
+            'update': self.mgmt_root.tm.ltm.nats.nat.update,
+            'delete': self.mgmt_root.tm.ltm.nats.nat.delete,
+            'exists': self.mgmt_root.tm.ltm.nats.nat.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_LTM_NAT_ARGS, 
+        argument_spec=BIGIP_LTM_NAT_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[
             ['enabled', 'disabled'], ['vlans_disabled', 'vlans_enabled']
@@ -156,6 +161,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

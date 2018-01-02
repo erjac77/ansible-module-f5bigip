@@ -83,21 +83,24 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_PROFILE_ARGS = dict(
-    context     =   dict(type='str', choices=['all', 'clientside', 'serverside']),
-    virtual     =   dict(type='str')
+    context=dict(type='str', choices=['all', 'clientside', 'serverside']),
+    virtual=dict(type='str')
 )
+
 
 class F5BigIpLtmVirtualProfile(F5BigIpNamedObject):
     def set_crud_methods(self):
-        self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(**self._get_resource_id_from_path(self.params['virtual']))
+        self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(
+            **self._get_resource_id_from_path(self.params['virtual']))
         self.methods = {
-            'create':   self.virtual.profiles_s.profiles.create,
-            'read':     self.virtual.profiles_s.profiles.load,
-            'update':   self.virtual.profiles_s.profiles.update,
-            'delete':   self.virtual.profiles_s.profiles.delete,
-            'exists':   self.virtual.profiles_s.profiles.exists
+            'create': self.virtual.profiles_s.profiles.create,
+            'read': self.virtual.profiles_s.profiles.load,
+            'update': self.virtual.profiles_s.profiles.update,
+            'delete': self.virtual.profiles_s.profiles.delete,
+            'exists': self.virtual.profiles_s.profiles.exists
         }
         del self.params['virtual']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_PROFILE_ARGS, supports_check_mode=False)
@@ -108,6 +111,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

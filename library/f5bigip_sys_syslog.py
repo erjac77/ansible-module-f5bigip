@@ -139,7 +139,6 @@ EXAMPLES = '''
     f5_port: 443
     user_log_from: alert
     user_log_to: alert
-    state: present
   delegate_to: localhost
 '''
 
@@ -150,33 +149,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SYSLOG_ARGS = dict(
-    auth_priv_from  =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    auth_priv_to    =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    cron_from       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    cron_to         =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    daemon_from     =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    daemon_to       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    description     =   dict(type='str'),
-    iso_date        =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    console_log     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    kern_from       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    kern_to         =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    local6_from     =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    local6_to       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    mail_from       =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    mail_to         =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    messages_from   =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    messages_to     =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    user_log_from   =   dict(type='str', choices=F5_SEVERITY_CHOICES),
-    user_log_to     =   dict(type='str', choices=F5_SEVERITY_CHOICES)
+    auth_priv_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    auth_priv_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    cron_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    cron_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    daemon_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    daemon_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    description=dict(type='str'),
+    iso_date=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    console_log=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    kern_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    kern_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    local6_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    local6_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    mail_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    mail_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    messages_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    messages_to=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    remote_servers=dict(type='list'),
+    user_log_from=dict(type='str', choices=F5_SEVERITY_CHOICES),
+    user_log_to=dict(type='str', choices=F5_SEVERITY_CHOICES)
 )
+
 
 class F5BigIpSysSyslog(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.syslog.load,
-            'update':   self.mgmt_root.tm.sys.syslog.update
+            'read': self.mgmt_root.tm.sys.syslog.load,
+            'update': self.mgmt_root.tm.sys.syslog.update
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_SYSLOG_ARGS, supports_check_mode=False)
@@ -187,6 +189,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

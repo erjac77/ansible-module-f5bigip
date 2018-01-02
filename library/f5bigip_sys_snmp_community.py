@@ -52,7 +52,8 @@ options:
             - Specifies to restrict access by the community to every object below the specified object identifier (OID).
     source:
         description:
-            - Specifies the source addresses with the specified community name that can access the management information base (MIB).
+            - Specifies the source addresses with the specified community name that can access the management
+              information base (MIB).
         default: default
 notes:
     - Requires BIG-IP software version >= 11.6
@@ -82,24 +83,27 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_COMMUNITY_ARGS = dict(
-    access          =   dict(type='str', choices=['ro', 'rw']),
-    community_name  =   dict(type='str'),
-    description     =   dict(type='str'),
-    ipv6            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    oid_subset      =   dict(type='str'),
-    source          =   dict(type='str')
+    access=dict(type='str', choices=['ro', 'rw']),
+    community_name=dict(type='str'),
+    description=dict(type='str'),
+    ipv6=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    oid_subset=dict(type='str'),
+    source=dict(type='str')
 )
+
 
 class F5BigIpSysSnmpCommunity(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.snmp = self.mgmt_root.tm.sys.snmp.load()
         self.methods = {
-            'create':   self.snmp.communities_s.community.create,
-            'read':     self.snmp.communities_s.community.load,
-            'update':   self.snmp.communities_s.community.update,
-            'delete':   self.snmp.communities_s.community.delete,
-            'exists':   self.snmp.communities_s.community.exists
+            'create': self.snmp.communities_s.community.create,
+            'read': self.snmp.communities_s.community.load,
+            'update': self.snmp.communities_s.community.update,
+            'delete': self.snmp.communities_s.community.delete,
+            'exists': self.snmp.communities_s.community.exists
         }
+        del self.params['partition']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_COMMUNITY_ARGS, supports_check_mode=False)
@@ -110,6 +114,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -32,10 +32,10 @@ author:
 options:
     app_service:
         description:
-            - Specifies the name of the application service to which the monitor belongs
+            - Specifies the name of the application service to which the monitor belongs.
     cert:
         description:
-            - Specifies a fully-qualified path for a client certificate that the monitor sends to the target SSL server
+            - Specifies a fully-qualified path for a client certificate that the monitor sends to the target SSL server.
     cipherlist:
         description:
             - Specifies the list of ciphers for this monitor.
@@ -47,7 +47,8 @@ options:
         choices: ['disabled', 'enabled']
     debug:
         description:
-            - Specifies whether the monitor sends error messages and additional information to a log file created and labeled specifically for this monitor.
+            - Specifies whether the monitor sends error messages and additional information to a log file created and
+              labeled specifically for this monitor.
         default: no
         choices: ['no', 'yes']
     defaults_from:
@@ -73,14 +74,16 @@ options:
             - Specifies the set of SIP headers in the SIP message that is sent to the target
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 5
     key:
         description:
             - Specifies the key if the monitored target requires authentication
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['disabled', 'enabled']
     mode:
@@ -98,7 +101,7 @@ options:
         default: Common
     request:
         description:
-            - Specifies the SIP request line in the SIP message that is sent to the target
+            - Specifies the SIP request line in the SIP message that is sent to the target.
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -113,7 +116,7 @@ options:
         default: 0
     username:
         description:
-            - Specifies the username, if the monitored target requires authentication
+            - Specifies the username, if the monitored target requires authentication.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -142,36 +145,38 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_SIP_ARGS = dict(
-    app_service     =   dict(type='str'),
-    cert            =   dict(type='str'),
-    cipherlist      =   dict(type='list'),
-    compatibility   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    debug           =   dict(type='str', choices=F5_POLAR_CHOICES),
-    defaults_from   =   dict(type='str'),
-    description     =   dict(type='str'),
-    destination     =   dict(type='str'),
-    filter          =   dict(type='str', choices=['any', 'none', 'status']),
-    filter_neg      =   dict(type='str', choices=['any', 'none', 'status']),
-    headers         =   dict(type='str'),
-    interval        =   dict(type='int'),
-    key             =   dict(type='str'),
-    manual_resume   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mode            =   dict(type='str', choices=['sips', 'tcp', 'tls', 'udp']),
-    request         =   dict(type='str'),
-    time_until_up   =   dict(type='int'),
-    up_interval     =   dict(type='int'),
-    username        =   dict(type='str')
+    app_service=dict(type='str'),
+    cert=dict(type='str'),
+    cipherlist=dict(type='list'),
+    compatibility=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    debug=dict(type='str', choices=F5_POLAR_CHOICES),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    filter=dict(type='str', choices=['any', 'none', 'status']),
+    filter_neg=dict(type='str', choices=['any', 'none', 'status']),
+    headers=dict(type='str'),
+    interval=dict(type='int'),
+    key=dict(type='str'),
+    manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    mode=dict(type='str', choices=['sips', 'tcp', 'tls', 'udp']),
+    request=dict(type='str'),
+    time_until_up=dict(type='int'),
+    up_interval=dict(type='int'),
+    username=dict(type='str')
 )
+
 
 class F5BigIpLtmMonitorSip(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.sips.sip.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.sips.sip.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.sips.sip.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.sips.sip.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.sips.sip.exists
+            'create': self.mgmt_root.tm.ltm.monitor.sips.sip.create,
+            'read': self.mgmt_root.tm.ltm.monitor.sips.sip.load,
+            'update': self.mgmt_root.tm.ltm.monitor.sips.sip.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.sips.sip.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.sips.sip.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_SIP_ARGS, supports_check_mode=False)
@@ -182,6 +187,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

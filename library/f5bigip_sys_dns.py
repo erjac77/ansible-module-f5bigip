@@ -67,23 +67,19 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_DNS_ARGS = dict(
-    description     =   dict(type='str'),
-    name_servers    =   dict(type='list'),
-    search          =   dict(type='list')
+    description=dict(type='str'),
+    name_servers=dict(type='list'),
+    search=dict(type='list')
 )
+
 
 class F5BigIpSysDns(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.dns.load,
-            'update':   self.mgmt_root.tm.sys.dns.update
+            'read': self.mgmt_root.tm.sys.dns.load,
+            'update': self.mgmt_root.tm.sys.dns.update
         }
 
-    def _absent(self):
-        if not (self.params['nameServers'] or self.params['search']):
-            raise AnsibleF5Error("Absent can only be used when removing name servers or search domains")
-
-        return super(F5BigIpSysDns, self)._absent()
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_DNS_ARGS, supports_check_mode=False)
@@ -94,6 +90,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -44,7 +44,8 @@ options:
         choices: ['enabled', 'disabled']
     auto_delete:
         description:
-            - Indicates if the virtual address will be deleted automatically on deletion of the last associated virtual server or not.
+            - Indicates if the virtual address will be deleted automatically on deletion of the last associated virtual
+              server or not.
         default: true
         choices: [true, false]
     connection_limit:
@@ -118,30 +119,32 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_VIRTUAL_ADDRESS_ARGS = dict(
-    address             =   dict(type='str'),
-    app_service         =   dict(type='str'),
-    arp                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    auto_delete         =   dict(type='bool'),
-    connection_limit    =   dict(type='int'),
-    description         =   dict(type='str'),
-    enable              =   dict(type='bool'),
-    icmp_echo           =   dict(type='str', choices=['enabled', 'disabled', 'selective']),
-    mask                =   dict(type='str'),
-    #metadata            =   dict(type='list'),
-    route_advertisement =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_scope        =   dict(type='str', choices=['all', 'any', 'none']),
-    traffic_group       =   dict(type='str')
+    address=dict(type='str'),
+    app_service=dict(type='str'),
+    arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    auto_delete=dict(type='bool'),
+    connection_limit=dict(type='int'),
+    description=dict(type='str'),
+    enable=dict(type='bool'),
+    icmp_echo=dict(type='str', choices=['enabled', 'disabled', 'selective']),
+    mask=dict(type='str'),
+    # metadata=dict(type='list'),
+    route_advertisement=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    server_scope=dict(type='str', choices=['all', 'any', 'none']),
+    traffic_group=dict(type='str')
 )
+
 
 class F5BigIpLtmVirtualAddress(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.create,
-            'read':     self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.load,
-            'update':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.update,
-            'delete':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.delete,
-            'exists':   self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.exists
+            'create': self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.create,
+            'read': self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.load,
+            'update': self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.update,
+            'delete': self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.delete,
+            'exists': self.mgmt_root.tm.ltm.virtual_address_s.virtual_address.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_ADDRESS_ARGS, supports_check_mode=False)
@@ -152,6 +155,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

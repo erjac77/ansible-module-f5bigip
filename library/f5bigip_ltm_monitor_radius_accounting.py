@@ -35,7 +35,8 @@ options:
             - Specifies the name of the application service to which the monitor belongs
     debug:
         description:
-            - Specifies whether the monitor sends error messages and additional information to a log file created and labeled specifically for this monitor.
+            - Specifies whether the monitor sends error messages and additional information to a log file created and
+              labeled specifically for this monitor.
         default: no
         choices: ['no', 'yes']
     defaults_from:
@@ -50,11 +51,13 @@ options:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 10
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['disabled', 'enabled']
     name:
@@ -63,7 +66,8 @@ options:
         required: true
     nas_ip_address:
         description:
-            - Specifies the network access server IP address that the system uses to identify itself to the RADIUS server
+            - Specifies the network access server IP address that the system uses to identify itself to the RADIUS
+              server.
     partition:
         description:
             - Specifies the administrative partition in which the component object resides.
@@ -90,7 +94,7 @@ options:
         default: 0
     username:
         description:
-            - Specifies the username, if the monitored target requires authentication
+            - Specifies the username, if the monitored target requires authentication.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -119,33 +123,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_RADIUS_ACCOUNTING_ARGS = dict(
-    app_service       =    dict(type='str'),
-    debug             =    dict(type='str', choices=F5_POLAR_CHOICES),
-    defaults_from     =    dict(type='str'),
-    description       =    dict(type='str'),
-    destination       =    dict(type='str'),
-    interval          =    dict(type='int'),
-    manual_resume     =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    nas_ip_address    =    dict(type='str'),
-    secret            =    dict(type='str'),
-    time_until_up     =    dict(type='int'),
-    timeout           =    dict(type='int'),
-    up_interval       =    dict(type='int'),
-    username          =    dict(type='str')
+    app_service=dict(type='str'),
+    debug=dict(type='str', choices=F5_POLAR_CHOICES),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    interval=dict(type='int'),
+    manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    nas_ip_address=dict(type='str'),
+    secret=dict(type='str'),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    up_interval=dict(type='int'),
+    username=dict(type='str')
 )
+
 
 class F5BigIpLtmMonitorRadiusAccounting(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.exists
+            'create': self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.create,
+            'read': self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.load,
+            'update': self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.radius_accountings.radius_accounting.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_RADIUS_ACCOUNTING_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_RADIUS_ACCOUNTING_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmMonitorRadiusAccounting(check_mode=module.supports_check_mode, **module.params)
@@ -153,6 +160,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

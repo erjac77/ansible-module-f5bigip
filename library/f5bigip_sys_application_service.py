@@ -53,7 +53,8 @@ options:
         choices: ['absent', 'present']
     strict_updates:
         description:
-            - Specifies whether configuration objects contained in the application service can be directly modified outside the context of the system's application service management interfaces.
+            - Specifies whether configuration objects contained in the application service can be directly modified
+              outside the context of the system's application service management interfaces.
         default: enabled
         choices: ['enabled', 'disabled']
     tables:
@@ -159,30 +160,33 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_APPLICATION_SERVICE_ARGS = dict(
-    description     =   dict(type='str'),
-    device_group    =   dict(type='str'),
-    execute_action  =   dict(type='str'),
-    lists           =   dict(type='list'),
-    #metadata        =   dict(type='list'),
-    strict_updates  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tables          =   dict(type='list'),
-    template        =   dict(type='str'),
-    traffic_group   =   dict(type='str'),
-    variables       =   dict(type='list')
+    description=dict(type='str'),
+    device_group=dict(type='str'),
+    execute_action=dict(type='str'),
+    lists=dict(type='list'),
+    # metadata=dict(type='list'),
+    strict_updates=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    tables=dict(type='list'),
+    template=dict(type='str'),
+    traffic_group=dict(type='str'),
+    variables=dict(type='list')
 )
+
 
 class F5BigIpSysApplicationService(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.sys.application.services.service.create,
-            'read':     self.mgmt_root.tm.sys.application.services.service.load,
-            'update':   self.mgmt_root.tm.sys.application.services.service.update,
-            'delete':   self.mgmt_root.tm.sys.application.services.service.delete,
-            'exists':   self.mgmt_root.tm.sys.application.services.service.exists
+            'create': self.mgmt_root.tm.sys.application.services.service.create,
+            'read': self.mgmt_root.tm.sys.application.services.service.load,
+            'update': self.mgmt_root.tm.sys.application.services.service.update,
+            'delete': self.mgmt_root.tm.sys.application.services.service.delete,
+            'exists': self.mgmt_root.tm.sys.application.services.service.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_APPLICATION_SERVICE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_APPLICATION_SERVICE_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpSysApplicationService(check_mode=module.supports_check_mode, **module.params)
@@ -190,6 +194,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

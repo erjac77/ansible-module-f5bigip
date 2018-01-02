@@ -68,14 +68,15 @@ options:
         choices: ['enabled', 'disabled']
     inherit_parent_profile:
         description:
-            - Enables the FTP data channel to inherit the TCP profile used by the control channel. If disabled, the data channel uses FastL4 (BigProto) only.
+            - Enables the FTP data channel to inherit the TCP profile used by the control channel. If disabled, the data
+              channel uses FastL4 (BigProto) only.
         choices: ['enabled', 'disabled']
    log_publisher:
         description:
             - Specify the name of the log publisher which logs translation events.
    log_profile:
         description:
-            - Specify the name of the ALG log profile which controls the logging of ALG .
+            - Specify the name of the ALG log profile which controls the logging of ALG.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -105,25 +106,27 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_FTP_ARGS = dict(
-    app_service                 =   dict(type='str'),
-    defaults_from               =   dict(type='str'),
-    description                 =   dict(type='str'),
-    security                    =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    translate_extented          =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    inherit_parent_profile      =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    log_publisher               =   dict(type='str'),
-    log_profile                 =   dict(type='str')
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    security=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    translate_extented=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    inherit_parent_profile=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    log_publisher=dict(type='str'),
+    log_profile=dict(type='str')
 )
+
 
 class F5BigIpLtmProfileFtp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.ftps.ftp.create,
-            'read':     self.mgmt_root.tm.ltm.profile.ftps.ftp.load,
-            'update':   self.mgmt_root.tm.ltm.profile.ftps.ftp.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.ftps.ftp.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.ftps.ftp.exists
+            'create': self.mgmt_root.tm.ltm.profile.ftps.ftp.create,
+            'read': self.mgmt_root.tm.ltm.profile.ftps.ftp.load,
+            'update': self.mgmt_root.tm.ltm.profile.ftps.ftp.update,
+            'delete': self.mgmt_root.tm.ltm.profile.ftps.ftp.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.ftps.ftp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FTP_ARGS, supports_check_mode=False)
@@ -134,6 +137,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -73,18 +73,19 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SHARED_FILE_TRANSFER_UPLOAD_ARGS = dict(
-    bytestring      =   dict(type='str'),
-    filepathname    =   dict(type='str'),
-    stringio        =   dict(type='str'),
-    target          =   dict(type='str')
+    bytestring=dict(type='str'),
+    filepathname=dict(type='str'),
+    stringio=dict(type='str'),
+    target=dict(type='str')
 )
+
 
 class F5BigIpSharedFileTransferUpload(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'upload_file':      self.mgmt_root.shared.file_transfer.uploads.upload_file,
-            'upload_stringio':  self.mgmt_root.shared.file_transfer.uploads.upload_stringio,
-            'upload_bytes':     self.mgmt_root.shared.file_transfer.uploads.upload_bytes
+            'upload_file': self.mgmt_root.shared.file_transfer.uploads.upload_file,
+            'upload_stringio': self.mgmt_root.shared.file_transfer.uploads.upload_stringio,
+            'upload_bytes': self.mgmt_root.shared.file_transfer.uploads.upload_bytes
         }
 
     def upload(self):
@@ -99,9 +100,10 @@ class F5BigIpSharedFileTransferUpload(F5BigIpUnnamedObject):
                 self.methods['upload_bytes'](self.params['bytestring'])
             has_changed = True
         except Exception as exc:
-            AnsibleF5Error("Cannot upload the file")
+            AnsibleF5Error("Cannot upload the file.")
 
-        return { 'changed': has_changed }
+        return {'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(
@@ -118,6 +120,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

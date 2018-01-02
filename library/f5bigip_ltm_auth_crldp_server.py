@@ -25,7 +25,8 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_auth_crldp_server
 short_description: BIG-IP ltm auth crldp server
 description:
-    - Creates a Certificate Revocation List Distribution Point (CRDLP) server for implementing a CRLDP authentication module.
+    - Creates a Certificate Revocation List Distribution Point (CRDLP) server for implementing a CRLDP authentication
+      module.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -35,7 +36,8 @@ options:
             - Specifies the application service to which the object belongs.
     base_dn:
         description:
-            - Specifies the LDAP base directory name for certificates that specify the CRL distribution point in directory name format (dirName).
+            - Specifies the LDAP base directory name for certificates that specify the CRL distribution point in
+              directory name format (dirName).
     description:
         description:
             - User defined description.
@@ -57,7 +59,8 @@ options:
         default: 389
     reverse_dn:
         description:
-            - Specifies in which order the system attempts to match the value of the base-dn option to the value of the X509v3 attribute crlDistributionPoints.
+            - Specifies in which order the system attempts to match the value of the base-dn option to the value of the
+              X509v3 attribute crlDistributionPoints.
         default: disabled
         choices: ['enabled', 'disabled']
     state:
@@ -94,23 +97,25 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_AUTH_CRLDP_SERVER_ARGS = dict(
-    app_service     =   dict(type='str'),
-    base_dn         =   dict(type='str'),
-    description     =   dict(type='str'),
-    host            =   dict(type='str'),
-    port            =   dict(type='int'),
-    reverse_dn      =   dict(type='str', choices=F5_ACTIVATION_CHOICES)
+    app_service=dict(type='str'),
+    base_dn=dict(type='str'),
+    description=dict(type='str'),
+    host=dict(type='str'),
+    port=dict(type='int'),
+    reverse_dn=dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
+
 
 class F5BigIpLtmAuthCrldpServer(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.create,
-            'read':     self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.load,
-            'update':   self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.update,
-            'delete':   self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.delete,
-            'exists':   self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.exists
+            'create': self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.create,
+            'read': self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.load,
+            'update': self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.update,
+            'delete': self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.delete,
+            'exists': self.mgmt_root.tm.ltm.auth.crldp_servers.crldp_server.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_CRLDP_SERVER_ARGS, supports_check_mode=False)
@@ -121,6 +126,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

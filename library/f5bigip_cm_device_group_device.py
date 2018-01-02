@@ -75,8 +75,9 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS = dict(
-    device_group    =   dict(type='str')
+    device_group=dict(type='str')
 )
+
 
 class F5BigIpCmDeviceGroupDevice(F5BigIpNamedObject):
     def set_crud_methods(self):
@@ -85,22 +86,14 @@ class F5BigIpCmDeviceGroupDevice(F5BigIpNamedObject):
             partition=self.params['partition']
         )
         self.methods = {
-            'create':   self.device_group.devices_s.devices.create,
-            'read':     self.device_group.devices_s.devices.load,
-            'update':   self.device_group.devices_s.devices.update,
-            'delete':   self.device_group.devices_s.devices.delete,
-            'exists':   self.device_group.devices_s.devices.exists
+            'create': self.device_group.devices_s.devices.create,
+            'read': self.device_group.devices_s.devices.load,
+            'update': self.device_group.devices_s.devices.update,
+            'delete': self.device_group.devices_s.devices.delete,
+            'exists': self.device_group.devices_s.devices.exists
         }
         del self.params['device_group']
 
-    def _exists(self):
-        keys = self.device_group.devices_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS, supports_check_mode=False)
@@ -111,6 +104,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

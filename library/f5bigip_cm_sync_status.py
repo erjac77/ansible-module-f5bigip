@@ -56,26 +56,27 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_CM_SYNC_STATUS_ARGS = dict(
 )
 
+
 class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.cm.sync_status
+            'read': self.mgmt_root.tm.cm.sync_status
         }
-    
-    def _read(self):
-        return self.methods['read']
 
     def get_sync_status(self):
         sync_status_desc = {}
-        sync_status = self._read()
+        sync_status = self.methods['read']
 
         if sync_status._meta_data['uri'].endswith("/mgmt/tm/cm/sync-status/"):
             sync_status.refresh()
-            sync_status_desc = sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status']['description']
+            sync_status_desc = \
+                sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status'][
+                    'description']
         else:
             raise AnsibleF5Error("Unable to retrieve the sync status of the device.")
-        
-        return { 'sync_status': sync_status_desc }
+
+        return {'sync_status': sync_status_desc}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_CM_SYNC_STATUS_ARGS, supports_check_mode=False)
@@ -86,6 +87,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

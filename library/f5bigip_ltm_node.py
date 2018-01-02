@@ -136,34 +136,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_NODE_ARGS = dict(
-    address             =   dict(type='str'),
-    app_service         =   dict(type='str'),
-    connection_limit    =   dict(type='int'),
-    description         =   dict(type='str'),
-    dynamic_ratio       =   dict(type='int'),
-    fqdn                =   dict(type='str'),
-    logging             =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    metadata            =   dict(type='list'),
-    monitor             =   dict(type='str'),
-    rate_limit          =   dict(type='int'),
-    ratio               =   dict(type='int'),
-    session             =   dict(type='str', choices=['user-enabled', 'user-disabled']),
-    state_user          =   dict(type='str', choices=['user-down', 'user-up'])
+    address=dict(type='str'),
+    app_service=dict(type='str'),
+    connection_limit=dict(type='int'),
+    description=dict(type='str'),
+    dynamic_ratio=dict(type='int'),
+    fqdn=dict(type='str'),
+    logging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    metadata=dict(type='list'),
+    monitor=dict(type='str'),
+    rate_limit=dict(type='str'),
+    ratio=dict(type='int'),
+    session=dict(type='str', choices=['user-enabled', 'user-disabled']),
+    state_user=dict(type='str', choices=['user-down', 'user-up'])
 )
+
 
 class F5BigIpLtmNode(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.nodes.node.create,
-            'read':     self.mgmt_root.tm.ltm.nodes.node.load,
-            'update':   self.mgmt_root.tm.ltm.nodes.node.update,
-            'delete':   self.mgmt_root.tm.ltm.nodes.node.delete,
-            'exists':   self.mgmt_root.tm.ltm.nodes.node.exists
+            'create': self.mgmt_root.tm.ltm.nodes.node.create,
+            'read': self.mgmt_root.tm.ltm.nodes.node.load,
+            'update': self.mgmt_root.tm.ltm.nodes.node.update,
+            'delete': self.mgmt_root.tm.ltm.nodes.node.delete,
+            'exists': self.mgmt_root.tm.ltm.nodes.node.exists
         }
+
 
 def main():
     # Translation list for conflictual params
-    tr = { 'state_user':'state' }
+    tr = {'state_user': 'state'}
 
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_NODE_ARGS, supports_check_mode=False)
 
@@ -173,6 +175,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

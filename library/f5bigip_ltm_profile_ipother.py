@@ -83,21 +83,23 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_IPOTHER_ARGS = dict(
-    app_service      =    dict(type='str'),
-    defaults_from    =    dict(type='str'),
-    description      =    dict(type='str'),
-    idle_timeout     =    dict(type='int')
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    idle_timeout=dict(type='int')
 )
+
 
 class F5BigIpLtmProfileIpother(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.ipothers.ipother.create,
-            'read':     self.mgmt_root.tm.ltm.profile.ipothers.ipother.load,
-            'update':   self.mgmt_root.tm.ltm.profile.ipothers.ipother.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.ipothers.ipother.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.ipothers.ipother.exists
+            'create': self.mgmt_root.tm.ltm.profile.ipothers.ipother.create,
+            'read': self.mgmt_root.tm.ltm.profile.ipothers.ipother.load,
+            'update': self.mgmt_root.tm.ltm.profile.ipothers.ipother.update,
+            'delete': self.mgmt_root.tm.ltm.profile.ipothers.ipother.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.ipothers.ipother.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_IPOTHER_ARGS, supports_check_mode=False)
@@ -108,6 +110,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

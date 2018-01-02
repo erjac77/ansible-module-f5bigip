@@ -36,15 +36,18 @@ options:
         choices: ['false', 'true']
     online:
         description:
-            - Changes the status of a unit or cluster from Forced Offline to either Active or Standby, depending upon the status of the other unit or cluster in a redundant system configuration.
+            - Changes the status of a unit or cluster from Forced Offline to either Active or Standby, depending upon
+              the status of the other unit or cluster in a redundant system configuration.
         choices: ['false', 'true']
     standby:
         description:
-            - Specifies that the active unit or cluster fails over to a Standby state, causing the standby unit or cluster to become Active.
+            - Specifies that the active unit or cluster fails over to a Standby state, causing the standby unit or
+              cluster to become Active.
         choices: ['false', 'true']
     traffic_group:
         description:
-            - Specifies the traffic-group that should fail over to the Standby state, the traffic-group will become Active on another device.
+            - Specifies the traffic-group that should fail over to the Standby state, the traffic-group will become
+              Active on another device.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -72,18 +75,19 @@ import re
 import time
 
 BIGIP_SYS_FAILOVER_ARGS = dict(
-    online          =   dict(type='bool'),
-    offline         =   dict(type='bool'),
-    standby         =   dict(type='bool'),
-    traffic_group   =   dict(type='str')
+    online=dict(type='bool'),
+    offline=dict(type='bool'),
+    standby=dict(type='bool'),
+    traffic_group=dict(type='str')
 )
+
 
 class F5BigIpSysFailover(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':             self.mgmt_root.tm.sys.failover.load,
-            'update':           self.mgmt_root.tm.sys.failover.update,
-            'run':              self.mgmt_root.tm.sys.failover.exec_cmd
+            'read': self.mgmt_root.tm.sys.failover.load,
+            'update': self.mgmt_root.tm.sys.failover.update,
+            'run': self.mgmt_root.tm.sys.failover.exec_cmd
         }
 
     def get_failover_state(self):
@@ -103,7 +107,8 @@ class F5BigIpSysFailover(F5BigIpUnnamedObject):
         else:
             has_changed = False
 
-        return { 'Failover state': self.get_failover_state(), 'changed': has_changed }
+        return {'Failover state': self.get_failover_state(), 'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_FAILOVER_ARGS, supports_check_mode=False)
@@ -114,6 +119,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

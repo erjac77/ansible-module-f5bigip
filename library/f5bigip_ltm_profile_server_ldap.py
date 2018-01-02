@@ -25,7 +25,8 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_profile_server_ldap
 short_description: BIG-IP ltm profile server ldap module
 description:
-    - Configure the server-ldap component within the ltm profile module using the syntax shown in the following sections.
+    - Configure the server-ldap component within the ltm profile module using the syntax shown in the following
+      sections.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -82,25 +83,28 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_SERVER_LDAP_ARGS = dict(
-    activation_mode       =    dict(type='str', choices=['none', 'allow', 'require']),
-    app_service           =    dict(type='str'),
-    defaults_from         =    dict(type='str'),
-    description           =    dict(type='str'),
-    ss_activation_mode    =    dict(type='str', choices=['none', 'allow', 'require'])
+    activation_mode=dict(type='str', choices=['none', 'allow', 'require']),
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    ss_activation_mode=dict(type='str', choices=['none', 'allow', 'require'])
 )
+
 
 class F5BigIpLtmProfileServerLdap(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.create,
-            'read':     self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.load,
-            'update':   self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.exists
+            'create': self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.create,
+            'read': self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.load,
+            'update': self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.update,
+            'delete': self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.server_ldaps.server_ldap.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_SERVER_LDAP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_SERVER_LDAP_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmProfileServerLdap(check_mode=module.supports_check_mode, **module.params)
@@ -108,6 +112,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

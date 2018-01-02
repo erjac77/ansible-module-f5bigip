@@ -35,7 +35,8 @@ options:
             - Specifies the name of the application service to which the object belongs.
     bypass_list:
         description:
-            - Specifies a list of URIs that are bypassesed inside a web page when the page is accessed using Portal Access.
+            - Specifies a list of URIs that are bypassesed inside a web page when the page is accessed using Portal
+              Access.
     client_caching_type:
         description:
             - Specifies one of four options for client caching.
@@ -64,12 +65,14 @@ options:
         default: default
     location_specific:
         description:
-            - Specifies whether or not this object contains one or more attributes with values that are specific to the location where the BIG-IP device resides.
+            - Specifies whether or not this object contains one or more attributes with values that are specific to the
+              location where the BIG-IP device resides.
         default: false
         choices: ['false', 'true']
     rewrite_list:
         description:
-            - Specifies a list of URIs that are rewritten inside a web page when the page is accessed using Portal Access.
+            - Specifies a list of URIs that are rewritten inside a web page when the page is accessed using Portal
+              Access.
     rewrite_mode:
         description:
             - Specifies the mode of rewriting.
@@ -116,32 +119,34 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_REWRITE_ARGS = dict(
-    app_service                 =    dict(type='str'),
-    bypass_list                 =    dict(type='list'),
-    client_caching_type         =    dict(type='str', choices=['cache-all', 'cache-css-js', 'cache-img-css-js', 'no-cache']),
-    defaults_from               =    dict(type='str'),
-    java_ca_file                =    dict(type='str'),
-    java_crl                    =    dict(type='str'),
-    java_sign_key               =    dict(type='str'),
-    java_sign_key_passphrase    =    dict(type='str', no_log=True),
-    java_signer                 =    dict(type='str'),
-    location_specific           =    dict(type='str', choices=['false', 'true']),
-    rewrite_list                =    dict(type='list'),
-    rewrite_mode                =    dict(type='str', chocies=['portal', 'uri-translation']),
-    set_cookie_rules            =    dict(type='list'),
-    split_tunneling             =    dict(type='str', choices=['false', 'true']),
-    uri_rules                   =    dict(type='list')
+    app_service=dict(type='str'),
+    bypass_list=dict(type='list'),
+    client_caching_type=dict(type='str', choices=['cache-all', 'cache-css-js', 'cache-img-css-js', 'no-cache']),
+    defaults_from=dict(type='str'),
+    java_ca_file=dict(type='str'),
+    java_crl=dict(type='str'),
+    java_sign_key=dict(type='str'),
+    java_sign_key_passphrase=dict(type='str', no_log=True),
+    java_signer=dict(type='str'),
+    location_specific=dict(type='str', choices=['false', 'true']),
+    rewrite_list=dict(type='list'),
+    rewrite_mode=dict(type='str', chocies=['portal', 'uri-translation']),
+    set_cookie_rules=dict(type='list'),
+    split_tunneling=dict(type='str', choices=['false', 'true']),
+    uri_rules=dict(type='list')
 )
+
 
 class F5BigIpLtmProfileRewrite(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.rewrites.rewrite.create,
-            'read':     self.mgmt_root.tm.ltm.profile.rewrites.rewrite.load,
-            'update':   self.mgmt_root.tm.ltm.profile.rewrites.rewrite.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.rewrites.rewrite.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.rewrites.rewrite.exists
+            'create': self.mgmt_root.tm.ltm.profile.rewrites.rewrite.create,
+            'read': self.mgmt_root.tm.ltm.profile.rewrites.rewrite.load,
+            'update': self.mgmt_root.tm.ltm.profile.rewrites.rewrite.update,
+            'delete': self.mgmt_root.tm.ltm.profile.rewrites.rewrite.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.rewrites.rewrite.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_REWRITE_ARGS, supports_check_mode=False)
@@ -152,6 +157,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -87,24 +87,27 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_DATA_GROUP_INTERNAL_ARGS = dict(
-    app_service         =   dict(type='str'),
-    description         =   dict(type='str'),
-    records	            =   dict(type='list'),
-    type                =   dict(type='str', choices=['integer', 'ip', 'string']),
+    app_service=dict(type='str'),
+    description=dict(type='str'),
+    records=dict(type='list'),
+    type=dict(type='str', choices=['integer', 'ip', 'string']),
 )
+
 
 class F5BigIpLtmDataGroupInternal(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.data_group.internals.internal.create,
-            'read':     self.mgmt_root.tm.ltm.data_group.internals.internal.load,
-            'update':   self.mgmt_root.tm.ltm.data_group.internals.internal.update,
-            'delete':   self.mgmt_root.tm.ltm.data_group.internals.internal.delete,
-            'exists':   self.mgmt_root.tm.ltm.data_group.internals.internal.exists
+            'create': self.mgmt_root.tm.ltm.data_group.internals.internal.create,
+            'read': self.mgmt_root.tm.ltm.data_group.internals.internal.load,
+            'update': self.mgmt_root.tm.ltm.data_group.internals.internal.update,
+            'delete': self.mgmt_root.tm.ltm.data_group.internals.internal.delete,
+            'exists': self.mgmt_root.tm.ltm.data_group.internals.internal.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_DATA_GROUP_INTERNAL_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_DATA_GROUP_INTERNAL_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmDataGroupInternal(check_mode=module.supports_check_mode, **module.params)
@@ -112,6 +115,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -58,13 +58,14 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_BASH_ARGS = dict(
-    args    =    dict(type='str')
+    args=dict(type='str')
 )
+
 
 class F5BigIpUtilBash(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'run':   self.mgmt_root.tm.util.bash.exec_cmd
+            'run': self.mgmt_root.tm.util.bash.exec_cmd
         }
 
     def run(self):
@@ -74,14 +75,15 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
             obj = self.methods['run']('run', utilCmdArgs=self.params['args'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error('Could not execute command.')
+            raise AnsibleF5Error("Could not execute command")
 
         if 'commandResult' in obj.attrs:
             output = obj.commandResult
         else:
             output = ''
 
-        return { 'ouput': output, 'changed': has_changed }
+        return {'ouput': output, 'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_BASH_ARGS, supports_check_mode=False)
@@ -92,6 +94,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 from ansible.module_utils.basic import *
 

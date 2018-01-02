@@ -35,7 +35,9 @@ options:
             - Specifies the name of the application service to which the profile belongs.
     connection_prime:
         description:
-            - When enabled, and the system receives a capabilities exchange request from the client, the system will establish connections and perform handshaking with all the servers prior to sending the capabilities exchange answer to the client.
+            - When enabled, and the system receives a capabilities exchange request from the client, the system will
+              establish connections and perform handshaking with all the servers prior to sending the capabilities
+              exchange answer to the client.
         default: disabled
         choices: ['disabled', 'enabled']
     defaults_from:
@@ -55,7 +57,8 @@ options:
         choices: range(0,4294967296)
     host_ip_rewrite:
         description:
-            - When enabled and the message is a capabilities exchange request or capabilities exchange answer, rewrite the host-ip-address attribute with the system's egress IP address.
+            - When enabled and the message is a capabilities exchange request or capabilities exchange answer, rewrite
+              the host-ip-address attribute with the system's egress IP address.
         default: enabled
         choices: ['disabled', 'enabled']
     max_retransmit_attempts:
@@ -65,7 +68,8 @@ options:
         choices: range(0,4294967296)
     max_watchdog_failure:
         description:
-            - Specifies the maximum number of device watchdog failures that the traffic management system can take before it tears down the connection.
+            - Specifies the maximum number of device watchdog failures that the traffic management system can take
+              before it tears down the connection.
         default: 10
         choices: range(0,4294967296)
     name:
@@ -91,7 +95,8 @@ options:
         choices: ['disabled', 'enabled']
     parent_avp:
         description:
-            - Specifies the name of the Diameter attribute that the system uses to indicate if the persist-avp option is embedded in a grouped avp.
+            - Specifies the name of the Diameter attribute that the system uses to indicate if the persist-avp option is
+              embedded in a grouped avp.
         choices: range(0, 4294967296)
     partition:
         description:
@@ -101,7 +106,8 @@ options:
             - Specifies the name of the Diameter attribute that the system persists on.
     reset_on_timeout:
         description:
-            - When it is enabled and the watchdog failures exceed the max watchdog failure, the system resets the connection.
+            - When it is enabled and the watchdog failures exceed the max watchdog failure, the system resets the
+              connection.
         default: enabled
         choices: ['disabled', 'enabled']
     retransmit_timeout:
@@ -111,7 +117,8 @@ options:
         choices: range(0, 4294967296)
     subscriber_aware:
         description:
-            - When you enable this option, the system extracts available subscriber information, such as phone number or phone model, from diameter authentication and/or accounting packets.
+            - When you enable this option, the system extracts available subscriber information, such as phone number or
+              phone model, from diameter authentication and/or accounting packets.
         default: disabled
         choices: ['disabled', 'enabled']
     state:
@@ -153,37 +160,39 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_DIAMETER_ARGS = dict(
-    app_service                   =    dict(type='str'),
-    connection_prime              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    defaults_from                 =    dict(type='str'),
-    description                   =    dict(type='str'),
-    destination_realm             =    dict(type='str'),
-    handshake_timeout             =    dict(type='int', choices=range(0, 4294967296)),
-    host_ip_rewrite               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    max_retransmit_attempts       =    dict(type='int', choices=range(0, 4294967296)),
-    max_watchdog_failure          =    dict(type='int', choices=range(0, 4294967296)),
-    origin_host_to_client         =    dict(type='str'),
-    origin_host_to_server         =    dict(type='str'),
-    origin_realm_to_client        =    dict(type='str'),
-    origin_realm_to_server        =    dict(type='str'),
-    overwrite_destination_host    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    parent_avp                    =    dict(type='str'),
-    persist_avp                   =    dict(type='str'),
-    reset_on_timeout              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    retransmit_timeout            =    dict(type='int', choices=range(0, 4294967296)),
-    subscriber_aware              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    watchdog_timeout              =    dict(type='int', choices=range(0, 4294967296))
+    app_service=dict(type='str'),
+    connection_prime=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination_realm=dict(type='str'),
+    handshake_timeout=dict(type='int', choices=range(0, 4294967296)),
+    host_ip_rewrite=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    max_retransmit_attempts=dict(type='int', choices=range(0, 4294967296)),
+    max_watchdog_failure=dict(type='int', choices=range(0, 4294967296)),
+    origin_host_to_client=dict(type='str'),
+    origin_host_to_server=dict(type='str'),
+    origin_realm_to_client=dict(type='str'),
+    origin_realm_to_server=dict(type='str'),
+    overwrite_destination_host=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    parent_avp=dict(type='str'),
+    persist_avp=dict(type='str'),
+    reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    retransmit_timeout=dict(type='int', choices=range(0, 4294967296)),
+    subscriber_aware=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    watchdog_timeout=dict(type='int', choices=range(0, 4294967296))
 )
+
 
 class F5BigIpLtmProfileDiameter(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.diameters.diameter.create,
-            'read':     self.mgmt_root.tm.ltm.profile.diameters.diameter.load,
-            'update':   self.mgmt_root.tm.ltm.profile.diameters.diameter.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.diameters.diameter.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.diameters.diameter.exists
+            'create': self.mgmt_root.tm.ltm.profile.diameters.diameter.create,
+            'read': self.mgmt_root.tm.ltm.profile.diameters.diameter.load,
+            'update': self.mgmt_root.tm.ltm.profile.diameters.diameter.update,
+            'delete': self.mgmt_root.tm.ltm.profile.diameters.diameter.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.diameters.diameter.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_DIAMETER_ARGS, supports_check_mode=False)
@@ -194,6 +203,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

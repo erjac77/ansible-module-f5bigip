@@ -40,7 +40,8 @@ options:
         default: 99999
     max_login_failures:
         description:
-            - Specifies the number of consecutive unsuccessful login attempts that the system allows before locking out the user.
+            - Specifies the number of consecutive unsuccessful login attempts that the system allows before locking out
+              the user.
         default: 0
     min_duration:
         description:
@@ -61,19 +62,23 @@ options:
         choices: ['disabled', 'enabled']
     required_lowercase:
         description:
-            - Specifies the number of lowercase alpha characters that must be present in a password for the password to be valid.
+            - Specifies the number of lowercase alpha characters that must be present in a password for the password to
+              be valid.
         default: 0
     required_numeric:
         description:
-            - Specifies the number of numeric characters that must be present in a password for the password to be valid.
+            - Specifies the number of numeric characters that must be present in a password for the password to be
+              valid.
         default: 0
     required_special:
         description:
-            - Specifies the number of special characters that must be present in a password for the password to be valid.
+            - Specifies the number of special characters that must be present in a password for the password to be
+              valid.
         default: 0
     required_uppercase:
         description:
-            - Specifies the number of uppercase alpha characters that must be present in a password for the password to be valid.
+            - Specifies the number of uppercase alpha characters that must be present in a password for the password to
+              be valid.
         default: 0
 notes:
     - Requires BIG-IP software version >= 11.6
@@ -83,13 +88,20 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Change Password Policy min duration
+- name: Change Password Policy
   f5bigip_auth_password_policy:
     f5_hostname: 172.16.227.35
     f5_username: admin
     f5_password: admin
     f5_port: 443
-    min_duration: 2
+    max_duration: 90
+    min_duration: 30
+    minimum_length: 8
+    required_lowercase: 2
+    required_uppercase: 2
+    required_special: 1
+    required_numeric: 1
+    expiration_warning: 5
   delegate_to: localhost
   register: result
 '''
@@ -101,28 +113,27 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_AUTH_PASSWORD_POLICY_ARGS = dict(
-    expiration_warning    =    dict(type='int'),
-    max_duration          =    dict(type='int'),
-    max_login_failures    =    dict(type='int'),
-    min_duration          =    dict(type='int'),
-    minimum_length        =    dict(type='int'),
-    password_memory       =    dict(type='int'),
-    policy_enforcement    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    required_lowercase    =    dict(type='int'),
-    required_numeric      =    dict(type='int'),
-    required_special      =    dict(type='int'),
-    required_uppercase    =    dict(type='int')
+    expiration_warning=dict(type='int'),
+    max_duration=dict(type='int'),
+    max_login_failures=dict(type='int'),
+    min_duration=dict(type='int'),
+    minimum_length=dict(type='int'),
+    password_memory=dict(type='int'),
+    policy_enforcement=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    required_lowercase=dict(type='int'),
+    required_numeric=dict(type='int'),
+    required_special=dict(type='int'),
+    required_uppercase=dict(type='int')
 )
+
 
 class F5BigIpAuthPasswordPolicy(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.auth.password_policy.load,
-            'update':   self.mgmt_root.tm.auth.password_policy.update,
+            'read': self.mgmt_root.tm.auth.password_policy.load,
+            'update': self.mgmt_root.tm.auth.password_policy.update,
         }
 
-    def exists(self):
-        return True  
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_AUTH_PASSWORD_POLICY_ARGS, supports_check_mode=False)
@@ -133,6 +144,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

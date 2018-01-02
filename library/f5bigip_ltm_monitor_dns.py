@@ -47,13 +47,15 @@ options:
             - Specifies how far from mean latency each monitor probe is allowed to be.
     adaptive_limit:
         description:
-            - Specifies the hard limit, in milliseconds, which the probe is not allowed to exceed, regardless of the divergence value.
+            - Specifies the hard limit, in milliseconds, which the probe is not allowed to exceed, regardless of the
+              divergence value.
     adaptive_sampling_timespan:
         description:
             - Specifies the size of the sliding window, in seconds, which records probe history.
     answer_contains:
         description:
-            - Specifies the record types required in the answer section of the response in order to mark the status of a node up.
+            - Specifies the record types required in the answer section of the response in order to mark the status of a
+              node up.
         default: query-type
         choices: ['query-type', 'any-type', 'anything']
     app_service:
@@ -71,11 +73,13 @@ options:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 5
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['enabled', 'disabled']
     name:
@@ -152,38 +156,40 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_DNS_ARGS = dict(
-    accept_rcode                =   dict(type='str', choices=['no-error', 'anything']),
-    adaptive                    =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    adaptive_divergence_type    =   dict(type='str', choices=['absolute', 'relative']),
-    adaptive_divergence_value   =   dict(type='int'),
-    adaptive_limit              =   dict(type='int'),
-    adaptive_sampling_timespan  =   dict(type='int'),
-    answer_contains             =   dict(type='str', choices=['query-type', 'any-type', 'anything']),
-    app_service                 =   dict(type='str'),
-    defaults_from               =   dict(type='str'),
-    description                 =   dict(type='str'),
-    destination                 =   dict(type='str'),
-    interval                    =   dict(type='int'),
-    manual_resume               =   dict(type='int', choices=F5_ACTIVATION_CHOICES),
-    qname                       =   dict(type='str'),
-    qtype                       =   dict(type='str', choices=['a', 'aaa']),
-    recv                        =   dict(type='str'),
-    reverse                     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    time_until_up               =   dict(type='int'),
-    timeout                     =   dict(type='int'),
-    transparent                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    up_interval                 =   dict(type='int')
+    accept_rcode=dict(type='str', choices=['no-error', 'anything']),
+    adaptive=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    adaptive_divergence_type=dict(type='str', choices=['absolute', 'relative']),
+    adaptive_divergence_value=dict(type='int'),
+    adaptive_limit=dict(type='int'),
+    adaptive_sampling_timespan=dict(type='int'),
+    answer_contains=dict(type='str', choices=['query-type', 'any-type', 'anything']),
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    interval=dict(type='int'),
+    manual_resume=dict(type='int', choices=F5_ACTIVATION_CHOICES),
+    qname=dict(type='str'),
+    qtype=dict(type='str', choices=['a', 'aaa']),
+    recv=dict(type='str'),
+    reverse=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    transparent=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    up_interval=dict(type='int')
 )
+
 
 class F5BigIpLtmMonitorDns(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.dns_s.dns.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.dns_s.dns.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.dns_s.dns.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.dns_s.dns.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.dns_s.dns.exists
+            'create': self.mgmt_root.tm.ltm.monitor.dns_s.dns.create,
+            'read': self.mgmt_root.tm.ltm.monitor.dns_s.dns.load,
+            'update': self.mgmt_root.tm.ltm.monitor.dns_s.dns.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.dns_s.dns.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.dns_s.dns.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_DNS_ARGS, supports_check_mode=False)
@@ -194,6 +200,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

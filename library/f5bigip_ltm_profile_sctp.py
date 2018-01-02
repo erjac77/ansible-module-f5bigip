@@ -171,42 +171,44 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_SCTP_ARGS = dict(
-    app_service            =    dict(type='str'),
-    cookie_expiration      =    dict(type='int'),
-    defaults_from          =    dict(type='str'),
-    description            =    dict(type='str'),
-    heartbeat_interval     =    dict(type='int'),
-    heartbeat_max_burst    =    dict(type='int'),
-    idle_timeout           =    dict(type='int'),
-    in_streams             =    dict(type='int'),
-    init_max_retries       =    dict(type='int'),
-    ip_tos                 =    dict(type='int'),
-    link_qos               =    dict(type='int'),
-    max_burst              =    dict(type='int'),
-    out_streams            =    dict(type='int'),
-    proxy_buffer_high      =    dict(type='int'),
-    proxy_buffer_low       =    dict(type='int'),
-    receive_chunks         =    dict(type='int'),
-    receive_ordered        =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    receive_window_size    =    dict(type='int'),
-    reset_on_timeout       =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    secret                 =    dict(type='str'),
-    send_buffer_size       =    dict(type='int'),
-    send_max_retries       =    dict(type='int'),
-    send_partial           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_shutdown           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    transmit_chunks        =    dict(type='int')
+    app_service=dict(type='str'),
+    cookie_expiration=dict(type='int'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    heartbeat_interval=dict(type='int'),
+    heartbeat_max_burst=dict(type='int'),
+    idle_timeout=dict(type='int'),
+    in_streams=dict(type='int'),
+    init_max_retries=dict(type='int'),
+    ip_tos=dict(type='int'),
+    link_qos=dict(type='int'),
+    max_burst=dict(type='int'),
+    out_streams=dict(type='int'),
+    proxy_buffer_high=dict(type='int'),
+    proxy_buffer_low=dict(type='int'),
+    receive_chunks=dict(type='int'),
+    receive_ordered=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    receive_window_size=dict(type='int'),
+    reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    secret=dict(type='str'),
+    send_buffer_size=dict(type='int'),
+    send_max_retries=dict(type='int'),
+    send_partial=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    tcp_shutdown=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    transmit_chunks=dict(type='int')
 )
+
 
 class F5BigIpLtmProfileSctp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.sctps.sctp.create,
-            'read':     self.mgmt_root.tm.ltm.profile.sctps.sctp.load,
-            'update':   self.mgmt_root.tm.ltm.profile.sctps.sctp.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.sctps.sctp.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.sctps.sctp.exists
+            'create': self.mgmt_root.tm.ltm.profile.sctps.sctp.create,
+            'read': self.mgmt_root.tm.ltm.profile.sctps.sctp.load,
+            'update': self.mgmt_root.tm.ltm.profile.sctps.sctp.update,
+            'delete': self.mgmt_root.tm.ltm.profile.sctps.sctp.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.sctps.sctp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_SCTP_ARGS, supports_check_mode=False)
@@ -217,6 +219,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

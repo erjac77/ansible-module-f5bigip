@@ -36,7 +36,7 @@ options:
         default: Mozilla/4.0 (compatible: MSIE 5.0; Windows NT)
     app_service:
         description:
-            - Specifies the name of the application service to which the monitor belongs
+            - Specifies the name of the application service to which the monitor belongs.
     command:
         description:
             - Specifies the command that the system uses to obtain the metrics from the resource.
@@ -65,7 +65,7 @@ options:
         default: Common
     password:
         description:
-            - Specifies the password if the monitored target requires authentication
+            - Specifies the password if the monitored target requires authentication.
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -85,7 +85,7 @@ options:
         default: /scripts/f5Isapi.dll
     username:
         description:
-            - Specifies the user name if the monitored target requires authentication
+            - Specifies the user name if the monitored target requires authentication.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -114,29 +114,31 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_WMI_ARGS = dict(
-    agent            =    dict(type='str'),
-    app_service      =    dict(type='str'),
-    command          =    dict(type='str'),
-    defaults_from    =    dict(type='str'),
-    description      =    dict(type='str'),
-    interval         =    dict(type='int'),
-    metrics          =    dict(type='str'),
-    password         =    dict(type='str', no_log=True),
-    time_until_up    =    dict(type='int'),
-    timeout          =    dict(type='int'),
-    url              =    dict(type='str'),
-    username         =    dict(type='str')
+    agent=dict(type='str'),
+    app_service=dict(type='str'),
+    command=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    interval=dict(type='int'),
+    metrics=dict(type='str'),
+    password=dict(type='str', no_log=True),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    url=dict(type='str'),
+    username=dict(type='str')
 )
+
 
 class F5BigIpLtmMonitorWmi(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.wmis.wmi.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.wmis.wmi.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.wmis.wmi.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.wmis.wmi.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.wmis.wmi.exists
+            'create': self.mgmt_root.tm.ltm.monitor.wmis.wmi.create,
+            'read': self.mgmt_root.tm.ltm.monitor.wmis.wmi.load,
+            'update': self.mgmt_root.tm.ltm.monitor.wmis.wmi.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.wmis.wmi.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.wmis.wmi.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_WMI_ARGS, supports_check_mode=False)
@@ -147,6 +149,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

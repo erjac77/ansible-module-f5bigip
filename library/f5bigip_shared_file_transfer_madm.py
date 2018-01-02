@@ -64,14 +64,15 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS = dict(
-    file_name           =   dict(type='str', required=True),
-    download_path       =   dict(type='str', required=True)
+    file_name=dict(type='str', required=True),
+    download_path=dict(type='str', required=True)
 )
+
 
 class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'download_file':   self.mgmt_root.shared.file_transfer.madm.download_file
+            'download_file': self.mgmt_root.shared.file_transfer.madm.download_file
         }
 
     def download(self):
@@ -81,12 +82,14 @@ class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
             self.methods['download_file'](self.params['fileName'], self.params['downloadPath'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error('Cant download the file')
+            raise AnsibleF5Error("Can't download the file")
 
-        return { 'changed': has_changed }
+        return {'changed': has_changed}
+
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS,
+                                               supports_check_mode=False)
 
     try:
         obj = F5BigIpSharedFileTransferMadm(check_mode=module.supports_check_mode, **module.params)
@@ -94,6 +97,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

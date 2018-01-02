@@ -47,22 +47,27 @@ options:
         choices: ['carp', 'default']
     hash_buffer_limit:
         description:
-            - Specifies the maximum buffer length the system collects to locate the hashing pattern for hash persistence load balancing.
+            - Specifies the maximum buffer length the system collects to locate the hashing pattern for hash persistence
+              load balancing.
         default: 0
     hash_end_pattern:
         description:
-            - Specifies the string that describes the ending location of the hash pattern that the system uses to perform hash persistence load balancing.
+            - Specifies the string that describes the ending location of the hash pattern that the system uses to
+              perform hash persistence load balancing.
     hash_length:
         description:
-            - Specifies the length of data within the packet in bytes that the system uses to calculate the hash value when performing hash persistence load balancing.
+            - Specifies the length of data within the packet in bytes that the system uses to calculate the hash value
+              when performing hash persistence load balancing.
         default: 0
     hash_offset:
         description:
-            - Specifies the start offset within the packet from which the system begins the hash when performing hash persistence load balancing.
+            - Specifies the start offset within the packet from which the system begins the hash when performing hash
+              persistence load balancing.
         default: 0
     hash_start_pattern:
         description:
-            - Specifies the string that describes the start location of the hash pattern that the system uses to perform hash persistence load balancing.
+            - Specifies the string that describes the start location of the hash pattern that the system uses to perform
+              hash persistence load balancing.
     match_across_pools:
         description:
             - Specifies, when enabled, that the system can use any pool that contains this persistence record.
@@ -70,12 +75,14 @@ options:
         choices: ['enabled', 'disabled']
     match_across_services:
         description:
-            - Specifies, when enabled, that all persistent connections from a client IP address, which go to the same virtual IP address, also go to the same node.
+            - Specifies, when enabled, that all persistent connections from a client IP address, which go to the same
+              virtual IP address, also go to the same node.
         default: disabled
         choices: ['enabled', 'disabled']
     match_across_virtuals:
         description:
-            - Specifies, when enabled, that all persistent connections from the same client IP address go to the same node.
+            - Specifies, when enabled, that all persistent connections from the same client IP address go to the same
+              node.
         default: disabled
         choices: ['enabled', 'disabled']
     mirror:
@@ -137,33 +144,35 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PERSISTENCE_HASH_ARGS = dict(
-    app_service                 =   dict(type='str'),
-    defaults_from               =   dict(type='str'),
-    description                 =   dict(type='str'),
-    hash_algorithm              =   dict(type='str', choices=['carp', 'default']),
-    hash_buffer_limit           =   dict(type='int'),
-    hash_end_pattern            =   dict(type='str'),
-    hash_length                 =   dict(type='int'),
-    hash_offset                 =   dict(type='int'),
-    hash_start_pattern          =   dict(type='str'),
-    match_across_pools          =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    match_across_services       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    match_across_virtuals       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mirror                      =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    override_connection_limit   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rule                        =   dict(type='str'),
-    timeout                     =   dict(type='int')
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    hash_algorithm=dict(type='str', choices=['carp', 'default']),
+    hash_buffer_limit=dict(type='int'),
+    hash_end_pattern=dict(type='str'),
+    hash_length=dict(type='int'),
+    hash_offset=dict(type='int'),
+    hash_start_pattern=dict(type='str'),
+    match_across_pools=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    match_across_services=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    match_across_virtuals=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    mirror=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    override_connection_limit=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    rule=dict(type='str'),
+    timeout=dict(type='int')
 )
+
 
 class F5BigIpLtmPersistenceHash(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.persistence.hashs.hash.create,
-            'read':     self.mgmt_root.tm.ltm.persistence.hashs.hash.load,
-            'update':   self.mgmt_root.tm.ltm.persistence.hashs.hash.update,
-            'delete':   self.mgmt_root.tm.ltm.persistence.hashs.hash.delete,
-            'exists':   self.mgmt_root.tm.ltm.persistence.hashs.hash.exists
+            'create': self.mgmt_root.tm.ltm.persistence.hashs.hash.create,
+            'read': self.mgmt_root.tm.ltm.persistence.hashs.hash.load,
+            'update': self.mgmt_root.tm.ltm.persistence.hashs.hash.update,
+            'delete': self.mgmt_root.tm.ltm.persistence.hashs.hash.delete,
+            'exists': self.mgmt_root.tm.ltm.persistence.hashs.hash.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PERSISTENCE_HASH_ARGS, supports_check_mode=False)
@@ -174,6 +183,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

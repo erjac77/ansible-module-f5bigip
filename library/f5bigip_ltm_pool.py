@@ -55,7 +55,8 @@ options:
             - Specifies that the pool is a gateway failsafe pool in a redundant configuration.
     ignore_persisted_weight:
         description:
-            - Discounts the weight of connections made to pool members selected through persistence, rather than as a result of the algorithm configured on the pool.
+            - Discounts the weight of connections made to pool members selected through persistence, rather than as a
+              result of the algorithm configured on the pool.
         default: no
         choices: ['yes', 'no']
     ip_tos_to_client:
@@ -76,7 +77,8 @@ options:
         default: pass-through (or 65535)
     load_balancing_mode:
         description:
-            - Specifies the modes that the system uses to load balance name resolution requests among the members of this pool.
+            - Specifies the modes that the system uses to load balance name resolution requests among the members of
+              this pool.
         default: round-robin
         choices: [
             'dynamic-ratio-member', 'dynamic-ratio-node', 'fastest-app-response', 'fastest-node',
@@ -87,14 +89,17 @@ options:
         ]
     min_active_members:
         description:
-            - Specifies the minimum number of members that must be up for traffic to be confined to a priority group when using priority-based activation.
+            - Specifies the minimum number of members that must be up for traffic to be confined to a priority group
+              when using priority-based activation.
         default: 0
     min_up_members:
         description:
-            - Specifies the minimum number of pool members that must be up; otherwise, the system takes the action specified in the min-up-members-action option.
+            - Specifies the minimum number of pool members that must be up; otherwise, the system takes the action
+              specified in the min-up-members-action option.
     min_up_members_action:
         description:
-            - Specifies the action to take if min-up-members-checking is enabled, and the number of active pool members falls below the number specified in the min-up-members option.
+            - Specifies the action to take if min-up-members-checking is enabled, and the number of active pool members
+              falls below the number specified in the min-up-members option.
         default: failover
         choices: ['failover', 'reboot', 'restart-all']
     min_up_members_checking:
@@ -103,7 +108,8 @@ options:
         choices: ['enabled', 'disabled']
     monitor:
         description:
-            - Specifies the health monitors that the system uses to determine whether it can use this pool for load balancing.
+            - Specifies the health monitors that the system uses to determine whether it can use this pool for load
+              balancing.
     name:
         description:
             - Specifies unique name for the component.
@@ -168,42 +174,44 @@ BIGIP_LTM_POOL_LB_MODE_CHOICES = [
 ]
 
 BIGIP_LTM_POOL_ARGS = dict(
-    all                         =   dict(type='bool'),
-    allow_nat                   =   dict(type='str', choices=F5_POLAR_CHOICES),
-    allow_snat                  =   dict(type='str', choices=F5_POLAR_CHOICES),
-    app_service                 =   dict(type='str'),
-    description                 =   dict(type='str'),
-    gateway_failsafe_device     =   dict(type='str'),
-    ignore_persisted_weight     =   dict(type='str', choices=F5_POLAR_CHOICES),
-    ip_tos_to_client            =   dict(type='str'),
-    ip_tos_to_server            =   dict(type='str'),
-    link_qos_to_client          =   dict(type='str'),
-    link_qos_to_server          =   dict(type='str'),
-    load_balancing_mode         =   dict(type='str', choices=BIGIP_LTM_POOL_LB_MODE_CHOICES),
-    metadata                    =   dict(type='list'),
-    min_active_members          =   dict(type='int'),
-    min_up_members              =   dict(type='int'),
-    min_up_members_action       =   dict(type='str', choices=['failover', 'reboot', 'restart-all']),
-    min_up_members_checking     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    monitor                     =   dict(type='str'),
-    profiles                    =   dict(type='list'),
-    queue_depth_limit           =   dict(type='int'),
-    queue_on_connection_limit   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    queue_time_limit            =   dict(type='int'),
-    reselect_tries              =   dict(type='int'),
-    service_down_action         =   dict(type='str', choices=['drop', 'none', 'reselect', 'reset']),
-    slow_ramp_time              =   dict(type='int')
+    all=dict(type='bool'),
+    allow_nat=dict(type='str', choices=F5_POLAR_CHOICES),
+    allow_snat=dict(type='str', choices=F5_POLAR_CHOICES),
+    app_service=dict(type='str'),
+    description=dict(type='str'),
+    gateway_failsafe_device=dict(type='str'),
+    ignore_persisted_weight=dict(type='str', choices=F5_POLAR_CHOICES),
+    ip_tos_to_client=dict(type='str'),
+    ip_tos_to_server=dict(type='str'),
+    link_qos_to_client=dict(type='str'),
+    link_qos_to_server=dict(type='str'),
+    load_balancing_mode=dict(type='str', choices=BIGIP_LTM_POOL_LB_MODE_CHOICES),
+    metadata=dict(type='list'),
+    min_active_members=dict(type='int'),
+    min_up_members=dict(type='int'),
+    min_up_members_action=dict(type='str', choices=['failover', 'reboot', 'restart-all']),
+    min_up_members_checking=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    monitor=dict(type='str'),
+    profiles=dict(type='list'),
+    queue_depth_limit=dict(type='int'),
+    queue_on_connection_limit=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    queue_time_limit=dict(type='int'),
+    reselect_tries=dict(type='int'),
+    service_down_action=dict(type='str', choices=['drop', 'none', 'reselect', 'reset']),
+    slow_ramp_time=dict(type='int')
 )
+
 
 class F5BigIpLtmPool(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.pools.pool.create,
-            'read':     self.mgmt_root.tm.ltm.pools.pool.load,
-            'update':   self.mgmt_root.tm.ltm.pools.pool.update,
-            'delete':   self.mgmt_root.tm.ltm.pools.pool.delete,
-            'exists':   self.mgmt_root.tm.ltm.pools.pool.exists
+            'create': self.mgmt_root.tm.ltm.pools.pool.create,
+            'read': self.mgmt_root.tm.ltm.pools.pool.load,
+            'update': self.mgmt_root.tm.ltm.pools.pool.update,
+            'delete': self.mgmt_root.tm.ltm.pools.pool.delete,
+            'exists': self.mgmt_root.tm.ltm.pools.pool.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POOL_ARGS, supports_check_mode=False)
@@ -214,6 +222,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

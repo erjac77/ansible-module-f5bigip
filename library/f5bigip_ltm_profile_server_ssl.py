@@ -61,7 +61,8 @@ options:
         choices: range(0, 86401)
     cert:
         description:
-            - Specifies the name of the certificate installed on the traffic management system for the purpose of terminating or initiating an SSL connection.
+            - Specifies the name of the certificate installed on the traffic management system for the purpose of
+              terminating or initiating an SSL connection.
     chain:
         description:
             - Specifies or builds a certificate chain file that a client can use to authenticate the profile.
@@ -106,10 +107,12 @@ options:
             - Enables options, including some industry-related workarounds.
         default: dont-insert-empty-fragments
         choices: [
-            'all_bugfixes', 'cipher_server_preference', 'dont_insert_empty_fragments', 'ephemeral_rsa', 'microsoft_big_sslv3_buffer', 'microsoft_sess_id_bug', 'msie_sslv2_rsa_padding', 
-            'netscape_ca_dn_bug', 'netscape_challenge_bug', 'netscape_demo_cipher_change_bug', 'netscape_reuse_cipher_change_bug', 'no_session_resumption_on_renegotiation', 'no_ssl',
-            'no_sslv2', 'no_sslv3', 'no_tls', 'no_tlsv1', 'no_tlsv1_1', 'no_tlsv1_2', 'no_dtls', 'passive_close, none, pkcs1_check_1', 'pkcs1_check_2, single_dh_use', 'ssleay_080_client_dh_bug',
-            'sslref2_reuse_cert_type_bug', 'tls_d5_bug', 'tls_rollback_bug'
+            'all_bugfixes', 'cipher_server_preference', 'dont_insert_empty_fragments', 'ephemeral_rsa',
+            'microsoft_big_sslv3_buffer', 'microsoft_sess_id_bug', 'msie_sslv2_rsa_padding', 'netscape_ca_dn_bug',
+            'netscape_challenge_bug', 'netscape_demo_cipher_change_bug', 'netscape_reuse_cipher_change_bug',
+            'no_session_resumption_on_renegotiation', 'no_ssl', 'no_sslv2', 'no_sslv3', 'no_tls', 'no_tlsv1',
+            'no_tlsv1_1', 'no_tlsv1_2', 'no_dtls', 'passive_close, none, pkcs1_check_1', 'pkcs1_check_2, single_dh_use',
+            'ssleay_080_client_dh_bug', 'sslref2_reuse_cert_type_bug', 'tls_d5_bug', 'tls_rollback_bug'
         ]
     name:
         description:
@@ -131,16 +134,19 @@ options:
             - Specifies a service for the data channel port used for this Server SSL profile.
     proxy_ssl:
         description:
-            - Enabling this option requires a corresponding server ssl profile with proxy-ssl enabled to perform transparent SSL decryption.
+            - Enabling this option requires a corresponding server ssl profile with proxy-ssl enabled to perform
+              transparent SSL decryption.
         choices: ['enabled', 'disabled']
     proxy_ssl_passthrough:
         description:
-            - This allows Proxy SSL to passthrough the traffic when ciphersuite negotiated between the client and server is not supported.
+            - This allows Proxy SSL to passthrough the traffic when ciphersuite negotiated between the client and server
+              is not supported.
         default: disabled
         choices: ['enabled', 'disabled']
     renegotiate_period:
         description:
-            - Specifies the number of seconds from the initial connect time after which the system renegotiates an SSL session.
+            - Specifies the number of seconds from the initial connect time after which the system renegotiates an SSL
+              session.
         default: indefinite
     renegotiate_size:
         description:
@@ -153,7 +159,8 @@ options:
         choices: ['enabled', 'disabled']
     retain_certificate:
         description:
-            - APM module requires storing certificate in SSL session. When set to false, certificate will not be stored in SSL session.
+            - APM module requires storing certificate in SSL session. When set to false, certificate will not be stored
+              in SSL session.
         default: True
         choices: [True, False]
     generic_alert:
@@ -168,7 +175,8 @@ options:
         choices: ['request', 'require', 'require-strict']
     server_name:
         description:
-            - Specifies the server name to be included in SNI (server name indication) extension during SSL handshake in ClientHello.
+            - Specifies the server name to be included in SNI (server name indication) extension during SSL handshake in
+              ClientHello.
     session_mirroring:
         description:
             - Enables or disables the mirroring of sessions to high availability peer.
@@ -186,7 +194,8 @@ options:
         choices: ['absent', 'present']
     sni_default:
         description:
-            - When true, this profile is the default SSL profile when the server name in a client connection does not match any configured server names, or a client connection does not specify any server name at all.
+            - When true, this profile is the default SSL profile when the server name in a client connection does not
+              match any configured server names, or a client connection does not specify any server name at all.
         choices: [true, false]
     sni_require:
         description:
@@ -204,7 +213,8 @@ options:
         choices: ['enabled', 'disabled']
     ssl_sign_hash:
         description:
-            - Specifies SSL sign hash algorithm which is used to sign and verify SSL Server Key Exchange and Certificate Verify messages for the specified SSL profiles.
+            - Specifies SSL sign hash algorithm which is used to sign and verify SSL Server Key Exchange and Certificate
+              Verify messages for the specified SSL profiles.
         default: sha1
     strict_resume:
         description:
@@ -213,7 +223,8 @@ options:
         choices: ['enabled', 'disabled']
     unclean_shutdown:
         description:
-            - When enabled, the SSL profile performs unclean shutdowns of all SSL connections without exchanging the required SSL shutdown alerts.
+            - When enabled, the SSL profile performs unclean shutdowns of all SSL connections without exchanging the
+              required SSL shutdown alerts.
         choices: ['enabled', 'disabled]
     untrusted_cert_response_control:
         description:
@@ -248,65 +259,69 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_SERVER_SSL_OPTIONS_CHOICES = [
-    'all_bugfixes', 'cipher_server_preference', 'dont_insert_empty_fragments', 'ephemeral_rsa', 'microsoft_big_sslv3_buffer', 'microsoft_sess_id_bug', 'msie_sslv2_rsa_padding', 
-    'netscape_ca_dn_bug', 'netscape_challenge_bug', 'netscape_demo_cipher_change_bug', 'netscape_reuse_cipher_change_bug', 'no_session_resumption_on_renegotiation', 'no_ssl',
-    'no_sslv2', 'no_sslv3', 'no_tls', 'no_tlsv1', 'no_tlsv1_1', 'no_tlsv1_2', 'no_dtls', 'passive_close, none, pkcs1_check_1', 'pkcs1_check_2, single_dh_use', 'ssleay_080_client_dh_bug',
-    'sslref2_reuse_cert_type_bug', 'tls_d5_bug', 'tls_rollback_bug'
+    'all_bugfixes', 'cipher_server_preference', 'dont_insert_empty_fragments', 'ephemeral_rsa',
+    'microsoft_big_sslv3_buffer', 'microsoft_sess_id_bug', 'msie_sslv2_rsa_padding', 'netscape_ca_dn_bug',
+    'netscape_challenge_bug', 'netscape_demo_cipher_change_bug', 'netscape_reuse_cipher_change_bug',
+    'no_session_resumption_on_renegotiation', 'no_ssl', 'no_sslv2', 'no_sslv3', 'no_tls', 'no_tlsv1', 'no_tlsv1_1',
+    'no_tlsv1_2', 'no_dtls', 'passive_close, none, pkcs1_check_1', 'pkcs1_check_2, single_dh_use',
+    'ssleay_080_client_dh_bug', 'sslref2_reuse_cert_type_bug', 'tls_d5_bug', 'tls_rollback_bug'
 ]
 
 BIGIP_LTM_PROFILE_SERVER_SSL_ARGS = dict(
-    alert_timeout                   =   dict(type='int'),
-    app_service                     =   dict(type='str'),
-    authenticate                    =   dict(type='str'),
-    authenticate_depth              =   dict(type='int'),
-    authenticate_name               =   dict(type='str'),
-    ca_file                         =   dict(type='str'),
-    cache_size                      =   dict(type='int'),
-    cache_timeout                   =   dict(type='int', choices=range(0, 86401)),
-    cert                            =   dict(type='str'),
-    chain                           =   dict(type='str'),
-    ciphers                         =   dict(type='str'),
-    crl_file                        =   dict(type='str'),
-    defaults_from                   =   dict(type='str'),
-    description                     =   dict(type='str'),
-    expire_cert_response_control    =   dict(type='str', choices=['drop', 'ignore']),
-    handshake_timeout               =   dict(type='int'),
-    key                             =   dict(type='str'),
-    mod_ssl_methods                 =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mode                            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    options                         =   dict(type='str', choices=BIGIP_LTM_PROFILE_SERVER_SSL_OPTIONS_CHOICES),
-    passphrase                      =   dict(type='str', no_log=True),
-    peer_cert_mode                  =   dict(type='str', choices=['ignore', 'require']),
-    proxy_ssl                       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    proxy_ssl_passthrough           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    renegotiate_period              =   dict(type='str'),
-    renegotiate_size                =   dict(type='str'),
-    renegotiation                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    retain_certificate              =   dict(type='bool'),
-    generic_alert                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    secure_renegotiation            =   dict(type='str', choices=['request', 'require', 'require-strict']),
-    server_name                     =   dict(type='str'),
-    session_mirroring               =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    session_ticket                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    sni_default                     =   dict(type='bool'),
-    sni_require                     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    ssl_forward_proxy               =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    ssl_forward_proxy_bypass        =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    ssl_sign_hash                   =   dict(type='str'),
-    strict_resume                   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    unclean_shutdown                =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    untrusted_cert_response_control =   dict(type='str', choices=['drop', 'ignore'])
+    alert_timeout=dict(type='int'),
+    app_service=dict(type='str'),
+    authenticate=dict(type='str'),
+    authenticate_depth=dict(type='int'),
+    authenticate_name=dict(type='str'),
+    ca_file=dict(type='str'),
+    cache_size=dict(type='int'),
+    cache_timeout=dict(type='int', choices=range(0, 86401)),
+    cert=dict(type='str'),
+    chain=dict(type='str'),
+    ciphers=dict(type='str'),
+    crl_file=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    expire_cert_response_control=dict(type='str', choices=['drop', 'ignore']),
+    handshake_timeout=dict(type='int'),
+    key=dict(type='str'),
+    mod_ssl_methods=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    mode=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    options=dict(type='str', choices=BIGIP_LTM_PROFILE_SERVER_SSL_OPTIONS_CHOICES),
+    passphrase=dict(type='str', no_log=True),
+    peer_cert_mode=dict(type='str', choices=['ignore', 'require']),
+    proxy_ssl=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    proxy_ssl_passthrough=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    renegotiate_period=dict(type='str'),
+    renegotiate_size=dict(type='str'),
+    renegotiation=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    retain_certificate=dict(type='bool'),
+    generic_alert=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    secure_renegotiation=dict(type='str', choices=['request', 'require', 'require-strict']),
+    server_name=dict(type='str'),
+    session_mirroring=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    session_ticket=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    sni_default=dict(type='bool'),
+    sni_require=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    ssl_forward_proxy=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    ssl_forward_proxy_bypass=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    ssl_sign_hash=dict(type='str'),
+    strict_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    unclean_shutdown=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    untrusted_cert_response_control=dict(type='str', choices=['drop', 'ignore'])
 )
+
 
 class F5BigIpLtmProfileServerSsl(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.create,
-            'read':     self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.load,
-            'update':   self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.exists
+            'create': self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.create,
+            'read': self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.load,
+            'update': self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.update,
+            'delete': self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.server_ssls.server_ssl.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_SERVER_SSL_ARGS, supports_check_mode=False)
@@ -317,6 +332,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

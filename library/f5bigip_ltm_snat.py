@@ -25,14 +25,17 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_snat
 short_description: BIG-IP ltm snat module
 description:
-    - You can use the snat component to configure a SNAT. A SNAT defines the relationship between an externally visible IP address, SNAT IP address, or translated address, and a group of internal IP addresses, or originating addresses, of individual servers at your site.
+    - You can use the snat component to configure a SNAT.
+    - A SNAT defines the relationship between an externally visible IP address, SNAT IP address, or translated address,
+      and a group of internal IP addresses, or originating addresses, of individual servers at your site.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
 options:
     automap:
         description:
-            - Specifies that the system translates the source IP address to an available self IP address when establishing connections through the virtual server.
+            - Specifies that the system translates the source IP address to an available self IP address when
+              establishing connections through the virtual server.
         default: enabled
         choices: ['none', 'enabled']
     app_service:
@@ -114,34 +117,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_SNAT_ARGS = dict(
-    auto_lasthop    =   dict(type='str', default='default'),
-    automap         =   dict(type='bool'),
-    app_service     =   dict(type='str'),
-    description     =   dict(type='str'),
-    metadata        =   dict(type='list'),
-    mirror          =   dict(type='str', choices=['none', 'enabled', 'disabled'], default='disabled'),
-    origins         =   dict(type='list'),
-    snatpool        =   dict(type='str'),
-    source_port     =   dict(type='str', choices=['change', 'preserve', 'preserve-strict'], default='preserve'),
-    translation     =   dict(type='str'),
-    vlans           =   dict(type='str'),
-    vlans_disabled  =   dict(type='bool', default=True),
-    vlans_enabled   =   dict(type='bool')
+    auto_lasthop=dict(type='str', default='default'),
+    automap=dict(type='bool'),
+    app_service=dict(type='str'),
+    description=dict(type='str'),
+    metadata=dict(type='list'),
+    mirror=dict(type='str', choices=['none', 'enabled', 'disabled'], default='disabled'),
+    origins=dict(type='list'),
+    snatpool=dict(type='str'),
+    source_port=dict(type='str', choices=['change', 'preserve', 'preserve-strict'], default='preserve'),
+    translation=dict(type='str'),
+    vlans=dict(type='str'),
+    vlans_disabled=dict(type='bool', default=True),
+    vlans_enabled=dict(type='bool')
 )
+
 
 class F5BigIpLtmSnat(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.snats.snat.create,
-            'read':     self.mgmt_root.tm.ltm.snats.snat.load,
-            'update':   self.mgmt_root.tm.ltm.snats.snat.update,
-            'delete':   self.mgmt_root.tm.ltm.snats.snat.delete,
-            'exists':   self.mgmt_root.tm.ltm.snats.snat.exists
+            'create': self.mgmt_root.tm.ltm.snats.snat.create,
+            'read': self.mgmt_root.tm.ltm.snats.snat.load,
+            'update': self.mgmt_root.tm.ltm.snats.snat.update,
+            'delete': self.mgmt_root.tm.ltm.snats.snat.delete,
+            'exists': self.mgmt_root.tm.ltm.snats.snat.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_LTM_SNAT_ARGS, 
+        argument_spec=BIGIP_LTM_SNAT_ARGS,
         supports_check_mode=False,
         mutually_exclusive=[
             ['vlans_disabled', 'vlans_enabled'],
@@ -155,6 +160,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

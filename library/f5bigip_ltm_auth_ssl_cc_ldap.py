@@ -52,7 +52,8 @@ options:
             - Specifies the name of the certificate map that the certmap search method uses.
     certmap_user_serial:
         description:
-            - Specifies whether the system uses the client certificate's subject or serial number (in conjunction with the certificate's issuer) when trying to match an entry in the certificate map subtree.
+            - Specifies whether the system uses the client certificate's subject or serial number (in conjunction with
+              the certificate's issuer) when trying to match an entry in the certificate map subtree.
         default: no
         choices: ['yes', 'no']
     description:
@@ -63,7 +64,8 @@ options:
             - Specifies the search base for the subtree used by group searches.
     group_key:
         description:
-            - Specifies the name of the attribute in the LDAP database that specifies the group name in the group subtree.
+            - Specifies the name of the attribute in the LDAP database that specifies the group name in the group
+              subtree.
     group_member_key:
         description:
             - Specifies the name of the attribute in the LDAP database that specifies members (DNs) of a group.
@@ -98,7 +100,8 @@ options:
         choices: ['absent', 'present']
     user_base:
         description:
-            - Specifies the search base for the subtree used when you select for the search option either of the values user or cert.
+            - Specifies the search base for the subtree used when you select for the search option either of the values
+              user or cert.
     user_class:
         description:
             - Specifies the object class in the LDAP database to which the user must belong to be authenticated.
@@ -107,7 +110,8 @@ options:
             - Specifies the key that denotes a user ID in the LDAP database.
     valid_groups:
         description:
-            - Specifies a space-delimited list of the names of groups to which the client must belong in order to be authorized
+            - Specifies a space-delimited list of the names of groups to which the client must belong in order to be
+              authorized.
     valid_roles:
         description:
             - Specifies a space-delimited list of the valid roles that clients must have to be authorized.
@@ -142,37 +146,39 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_AUTH_SSL_CC_LDAP_ARGS = dict(
-    admin_dn                =   dict(type='str'),
-    admin_password          =   dict(type='str', no_log=True),
-    cache_size              =   dict(type='int'),
-    cache_timeout           =   dict(type='int'),
-    certmap_base            =   dict(type='str'),
-    certmap_key             =   dict(type='str'),
-    certmap_user_serial     =   dict(type='str', choices=['yes', 'no']),
-    description             =   dict(type='str'),
-    group_base              =   dict(type='str'),
-    group_key               =   dict(type='str'),
-    group_member_key        =   dict(type='str'),
-    role_key                =   dict(type='str'),
-    search_type             =   dict(type='str', choices=['cert', 'certmap', 'user']),
-    secure                  =   dict(type='str', choices=['yes', 'no']),
-    servers                 =   dict(type='list'),
-    user_base               =   dict(type='str'),
-    user_class              =   dict(type='str'),
-    user_key                =   dict(type='str'),
-    valid_groups            =   dict(type='list'),
-    valid_roles             =   dict(type='list')
+    admin_dn=dict(type='str'),
+    admin_password=dict(type='str', no_log=True),
+    cache_size=dict(type='int'),
+    cache_timeout=dict(type='int'),
+    certmap_base=dict(type='str'),
+    certmap_key=dict(type='str'),
+    certmap_user_serial=dict(type='str', choices=['yes', 'no']),
+    description=dict(type='str'),
+    group_base=dict(type='str'),
+    group_key=dict(type='str'),
+    group_member_key=dict(type='str'),
+    role_key=dict(type='str'),
+    search_type=dict(type='str', choices=['cert', 'certmap', 'user']),
+    secure=dict(type='str', choices=['yes', 'no']),
+    servers=dict(type='list'),
+    user_base=dict(type='str'),
+    user_class=dict(type='str'),
+    user_key=dict(type='str'),
+    valid_groups=dict(type='list'),
+    valid_roles=dict(type='list')
 )
+
 
 class F5BigIpLtmAuthSslCcLdap(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.create,
-            'read':     self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.load,
-            'update':   self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.update,
-            'delete':   self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.delete,
-            'exists':   self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.exists
+            'create': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.create,
+            'read': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.load,
+            'update': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.update,
+            'delete': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.delete,
+            'exists': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_SSL_CC_LDAP_ARGS, supports_check_mode=False)
@@ -183,6 +189,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

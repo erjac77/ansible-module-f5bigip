@@ -32,7 +32,8 @@ author:
 options:
     accept_xff:
         description:
-            - Enables or disables trusting the client IP address, and statistics from the client IP address, based on the request's XFF (X-forwarded-for) headers, if they exist.
+            - Enables or disables trusting the client IP address, and statistics from the client IP address, based on
+              the request's XFF (X-forwarded-for) headers, if they exist.
         choices: ['enabled', 'disabled']
     app_service:
         description:
@@ -75,7 +76,8 @@ options:
         choices: ['enabled', 'disabled']
     lws_separator:
         description:
-            - Specifies the linear white space separator that the system uses between HTTP headers when a header exceeds the maximum width specified in the lws-width option.
+            - Specifies the linear white space separator that the system uses between HTTP headers when a header exceeds
+              the maximum width specified in the lws-width option.
     lws_width:
         description:
             - Specifies the maximum number of columns that a header that is inserted into an HTTP request can have.
@@ -86,7 +88,8 @@ options:
         required: true
     oneconnect_transformations:
         description:
-            - Specifies whether the system performs HTTP header transformations for the purpose of keeping server-side connections open.
+            - Specifies whether the system performs HTTP header transformations for the purpose of keeping server-side
+              connections open.
         default: enabled
         choices: ['enabled', 'disabled']
     partition:
@@ -170,54 +173,57 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_HTTP_ARGS = dict(
-    accept_xff                  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service                 =   dict(type='str'),
-    basic_auth_realm            =   dict(type='str'),
-    defaults_from               =   dict(type='str'),
-    description                 =   dict(type='str'),
-    encrypt_cookie_secret       =   dict(type='str'),
-    encrypt_cookies             =   dict(type='str'),
-    enforcement                 =   dict(type='dict'),
-    fallback_host               =   dict(type='str'),
-    fallback_status_codes       =   dict(type='int'),
-    header_erase                =   dict(type='str'),
-    header_insert               =   dict(type='str'),
-    insert_xforwarded_for       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    lws_separator               =   dict(type='str'),
-    lws_width                   =   dict(type='int'),
-    oneconnect_transformations  =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    redirect_rewrite            =   dict(type='str', choices=['all', 'matching', 'nodes', 'none']),
-    request_chunking            =   dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
-    response_chunking           =   dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
-    response_headers_permitted  =   dict(type='str'),
-    server_agent_name           =   dict(type='str'),
-    explicit_proxy              =   dict(type='dict'),
-    sflow                       =   dict(type='dict'),
-    via_host_name               =   dict(type='str'),
-    via_request                 =   dict(type='str', choices=['append', 'preserve', 'remove']),
-    via_response                =   dict(type='str', choices=['append', 'preserve', 'remove']),
-    xff_alternative_names       =   dict(type='str')
+    accept_xff=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    app_service=dict(type='str'),
+    basic_auth_realm=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    encrypt_cookie_secret=dict(type='str'),
+    encrypt_cookies=dict(type='str'),
+    enforcement=dict(type='dict'),
+    fallback_host=dict(type='str'),
+    fallback_status_codes=dict(type='int'),
+    header_erase=dict(type='str'),
+    header_insert=dict(type='str'),
+    insert_xforwarded_for=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    lws_separator=dict(type='str'),
+    lws_width=dict(type='int'),
+    oneconnect_transformations=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    redirect_rewrite=dict(type='str', choices=['all', 'matching', 'nodes', 'none']),
+    request_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
+    response_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
+    response_headers_permitted=dict(type='str'),
+    server_agent_name=dict(type='str'),
+    explicit_proxy=dict(type='dict'),
+    sflow=dict(type='dict'),
+    via_host_name=dict(type='str'),
+    via_request=dict(type='str', choices=['append', 'preserve', 'remove']),
+    via_response=dict(type='str', choices=['append', 'preserve', 'remove']),
+    xff_alternative_names=dict(type='str')
 )
+
 
 class F5BigIpLtmProfileHttp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.https.http.create,
-            'read':     self.mgmt_root.tm.ltm.profile.https.http.load,
-            'update':   self.mgmt_root.tm.ltm.profile.https.http.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.https.http.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.https.http.exists
+            'create': self.mgmt_root.tm.ltm.profile.https.http.create,
+            'read': self.mgmt_root.tm.ltm.profile.https.http.load,
+            'update': self.mgmt_root.tm.ltm.profile.https.http.update,
+            'delete': self.mgmt_root.tm.ltm.profile.https.http.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.https.http.exists
         }
-        
+
+
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_HTTP_ARGS, supports_check_mode=False)
-    
+
     try:
         obj = F5BigIpLtmProfileHttp(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

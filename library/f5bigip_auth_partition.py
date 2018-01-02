@@ -32,7 +32,8 @@ author:
 options:
     default_route_domain:
         description:
-            - Specifies the ID of the route domain that is associated with the IP addresses that reside in the partition.
+            - Specifies the ID of the route domain that is associated with the IP addresses that reside in the
+              partition.
     description:
         description:
             - Specifies descriptive text that identifies the component.
@@ -72,21 +73,23 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_AUTH_PARTITION_ARGS = dict(
-    default_route_domain    =   dict(type='int'),
-    description             =   dict(type='str')
+    default_route_domain=dict(type='int'),
+    description=dict(type='str')
 )
+
 
 class F5BigIpAuthPartition(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.auth.partitions.partition.create,
-            'read':     self.mgmt_root.tm.auth.partitions.partition.load,
-            'update':   self.mgmt_root.tm.auth.partitions.partition.update,
-            'delete':   self.mgmt_root.tm.auth.partitions.partition.delete,
-            'exists':   self.mgmt_root.tm.auth.partitions.partition.exists
+            'create': self.mgmt_root.tm.auth.partitions.partition.create,
+            'read': self.mgmt_root.tm.auth.partitions.partition.load,
+            'update': self.mgmt_root.tm.auth.partitions.partition.update,
+            'delete': self.mgmt_root.tm.auth.partitions.partition.delete,
+            'exists': self.mgmt_root.tm.auth.partitions.partition.exists
         }
         del self.params['partition']
         del self.params['sub_path']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_AUTH_PARTITION_ARGS, supports_check_mode=False)
@@ -97,6 +100,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

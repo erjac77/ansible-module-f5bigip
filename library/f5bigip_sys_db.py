@@ -63,29 +63,19 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_DB_ARGS = dict(
-    #reset_to_default    =   dict(type='bool'),
-    value               =   dict(type='str')
+    # reset_to_default=dict(type='bool'),
+    value=dict(type='str')
 )
+
 
 class F5BigIpSysDb(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.dbs.db.load,
-            'update':   self.mgmt_root.tm.sys.dbs.db.update,
-            'exists':   self.mgmt_root.tm.sys.dbs.db.exists
+            'read': self.mgmt_root.tm.sys.dbs.db.load,
+            'update': self.mgmt_root.tm.sys.dbs.db.update,
+            'exists': self.mgmt_root.tm.sys.dbs.db.exists
         }
         del self.params['partition']
-
-    def _exists(self):
-        if self._read():
-            return True
-        else:
-            return False
-
-    def _read(self):
-        return self.methods['read'](
-            name=self.params['name']
-        )
 
     def _create(self):
         raise AnsibleF5Error("%s does not support create" % self.__class__.__name__)
@@ -101,6 +91,7 @@ class F5BigIpSysDb(F5BigIpNamedObject):
         result.update(dict(changed=has_changed))
         return result
 
+
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_DB_ARGS, supports_check_mode=False)
 
@@ -110,6 +101,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

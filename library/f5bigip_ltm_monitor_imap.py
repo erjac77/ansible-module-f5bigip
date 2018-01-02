@@ -35,7 +35,8 @@ options:
             - Specifies the name of the application service to which the monitor belongs.
     debug:
         description:
-            - Specifies whether the monitor sends error messages and additional information to a log file created and labeled specifically for this monitor.
+            - Specifies whether the monitor sends error messages and additional information to a log file created and
+              labeled specifically for this monitor.
         default: no
         choices: ['no', 'yes']
     defaults_from:
@@ -54,11 +55,13 @@ options:
         default: INBOX
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 10
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['enabled', 'disabled']
     name:
@@ -120,30 +123,32 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_IMAP_ARGS = dict(
-    app_service         =   dict(type='str'),
-    debug               =   dict(type='str', choices=F5_POLAR_CHOICES),
-    defaults_from       =   dict(type='str'),
-    description         =   dict(type='str'),
-    destination         =   dict(type='str'),
-    folder              =   dict(type='str'),
-    interval            =   dict(type='int'),
-    manual_resume       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    password            =   dict(type='str', no_log=True),
-    time_until_up       =   dict(type='int'),
-    timeout             =   dict(type='int'),
-    up_interval         =   dict(type='int'),
-    username            =   dict(type='str')
+    app_service=dict(type='str'),
+    debug=dict(type='str', choices=F5_POLAR_CHOICES),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    destination=dict(type='str'),
+    folder=dict(type='str'),
+    interval=dict(type='int'),
+    manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    password=dict(type='str', no_log=True),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    up_interval=dict(type='int'),
+    username=dict(type='str')
 )
+
 
 class F5BigIpLtmMonitorImap(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.imaps.imap.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.imaps.imap.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.imaps.imap.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.imaps.imap.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.imaps.imap.exists
+            'create': self.mgmt_root.tm.ltm.monitor.imaps.imap.create,
+            'read': self.mgmt_root.tm.ltm.monitor.imaps.imap.load,
+            'update': self.mgmt_root.tm.ltm.monitor.imaps.imap.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.imaps.imap.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.imaps.imap.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_IMAP_ARGS, supports_check_mode=False)
@@ -154,6 +159,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -38,7 +38,8 @@ options:
             - Manages the subscriber authentication attributes.
     default_lease_time:
         description:
-            - Provides the default value in seconds of DHCPv6 lease time in case it was missing in the client-server exchange.
+            - Provides the default value in seconds of DHCPv6 lease time in case it was missing in the client-server
+              exchange.
         default: 86400
     defaults_from:
         description:
@@ -110,28 +111,30 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_DHCPV6_ARGS = dict(
-    app_service             =    dict(type='str'),
-    authentication          =    dict(type='dict'),
-    default_lease_time      =    dict(type='int'),
-    defaults_from           =    dict(type='str'),
-    description             =    dict(type='str'),
-    idle_timeout            =    dict(type='int'),
-    mode                    =    dict(type='str', choices=['relay', 'forwarding']),
-    remote_id_option        =    dict(type='dict'),
-    subscriber_discovery    =    dict(type='dict'),
-    subscriber_id_option    =    dict(type='dict'),
-    transaction_timeout     =    dict(type='int')
+    app_service=dict(type='str'),
+    authentication=dict(type='dict'),
+    default_lease_time=dict(type='int'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    idle_timeout=dict(type='int'),
+    mode=dict(type='str', choices=['relay', 'forwarding']),
+    remote_id_option=dict(type='dict'),
+    subscriber_discovery=dict(type='dict'),
+    subscriber_id_option=dict(type='dict'),
+    transaction_timeout=dict(type='int')
 )
+
 
 class F5BigIpLtmProfileDhcpv6(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.create,
-            'read':     self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.load,
-            'update':   self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.exists
+            'create': self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.create,
+            'read': self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.load,
+            'update': self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.update,
+            'delete': self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.dhcpv6s.dhcpv6.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_DHCPV6_ARGS, supports_check_mode=False)
@@ -142,6 +145,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -70,7 +70,7 @@ EXAMPLES = '''
     name: dns
     partition: Common
     context: all
-    listener: my_listener
+    listener: /Common/my_listener
     state: present
   delegate_to: localhost
 '''
@@ -82,30 +82,24 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_LISTENER_PROFILE_ARGS = dict(
-    context          =   dict(type='str', choices=['all', 'clientside', 'serverside']),
-    listener         =   dict(type='str')
+    context=dict(type='str', choices=['all', 'clientside', 'serverside']),
+    listener=dict(type='str')
 )
+
 
 class F5BigIpGtmListenerProfile(F5BigIpNamedObject):
     def set_crud_methods(self):
-        self.listener = self.mgmt_root.tm.gtm.listeners.listener.load(**self._get_resource_id_from_path(self.params['listener']))
+        self.listener = self.mgmt_root.tm.gtm.listeners.listener.load(
+            **self._get_resource_id_from_path(self.params['listener']))
         self.methods = {
-            'create':   self.listener.profiles_s.profile.create,
-            'read':     self.listener.profiles_s.profile.load,
-            'update':   self.listener.profiles_s.profile.update,
-            'delete':   self.listener.profiles_s.profile.delete,
-            'exists':   self.listener.profiles_s.profile.exists
+            'create': self.listener.profiles_s.profile.create,
+            'read': self.listener.profiles_s.profile.load,
+            'update': self.listener.profiles_s.profile.update,
+            'delete': self.listener.profiles_s.profile.delete,
+            'exists': self.listener.profiles_s.profile.exists
         }
         del self.params['listener']
 
-    def _exists(self):
-        keys = self.listener.profiles_s.get_collection()
-        for key in keys:
-            name = self.params['name']
-            if key.name == name:
-                return True
-
-        return False
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_GTM_LISTENER_PROFILE_ARGS, supports_check_mode=False)
@@ -116,6 +110,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

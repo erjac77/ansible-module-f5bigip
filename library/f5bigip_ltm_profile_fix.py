@@ -50,7 +50,8 @@ options:
             - Specifies the administrative partition within which the profile resides.
     quick_parsing:
         description:
-            - Enable or disable quick parsing which parses the basic standard fields and validates message length and checksum.
+            - Enable or disable quick parsing which parses the basic standard fields and validates message length and
+              checksum.
         default: false
         choices: ['true', 'false']
     report_log_publisher:
@@ -99,26 +100,28 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_FIX_ARGS = dict(
-    app_service                   =    dict(type='str'),
-    error_action                  =    dict(type='str', choices=['drop_connection', 'dont_forward']),
-    full_logon_parsing            =    dict(type='str', choices=['true', 'false']),
-    message_log_publisher         =    dict(type='str'),
-    quick_parsing                 =    dict(type='str', choices=['true', 'false']),
-    report_log_publisher          =    dict(type='str'),
-    response_parsing              =    dict(type='str', choices=['true', 'false']),
-    sender_tag_class              =    dict(type='dict'),
-    statistics_sample_interval    =    dict(type='int')
+    app_service=dict(type='str'),
+    error_action=dict(type='str', choices=['drop_connection', 'dont_forward']),
+    full_logon_parsing=dict(type='str', choices=['true', 'false']),
+    message_log_publisher=dict(type='str'),
+    quick_parsing=dict(type='str', choices=['true', 'false']),
+    report_log_publisher=dict(type='str'),
+    response_parsing=dict(type='str', choices=['true', 'false']),
+    sender_tag_class=dict(type='dict'),
+    statistics_sample_interval=dict(type='int')
 )
+
 
 class F5BigIpLtmProfileFix(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.fixs.fix.create,
-            'read':     self.mgmt_root.tm.ltm.profile.fixs.fix.load,
-            'update':   self.mgmt_root.tm.ltm.profile.fixs.fix.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.fixs.fix.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.fixs.fix.exists
+            'create': self.mgmt_root.tm.ltm.profile.fixs.fix.create,
+            'read': self.mgmt_root.tm.ltm.profile.fixs.fix.load,
+            'update': self.mgmt_root.tm.ltm.profile.fixs.fix.update,
+            'delete': self.mgmt_root.tm.ltm.profile.fixs.fix.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.fixs.fix.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FIX_ARGS, supports_check_mode=False)
@@ -129,6 +132,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -42,7 +42,8 @@ options:
             - User defined description.
     idle_timeout_override:
         description:
-            - Specifies the number of seconds that a connection is idle before the connection flow is eligible for deletion.
+            - Specifies the number of seconds that a connection is idle before the connection flow is eligible for
+              deletion.
         default: disabled
         choices: ['enabled', 'disabled']
     name:
@@ -57,7 +58,8 @@ options:
             - Specifies a service for the data channel port used for this one-connect profile.
    share_pools:
         description:
-            - Indicates that connections may be shared not only within a virtual server, but also among similar virtual servers (e.g. those that differ only in destination address).
+            - Indicates that connections may be shared not only within a virtual server, but also among similar virtual
+              servers (e.g. those that differ only in destination address).
         choices: ['enabled', 'disabled']
     state:
         description:
@@ -111,29 +113,32 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_ONE_CONNECT_ARGS = dict(
-    app_service     =   dict(type='str'),
-    defaults_from   =   dict(type='str'),
-    description     =   dict(type='str'),
-    share_pools     =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    max_age         =   dict(type='int'),
-    max_reuse       =   dict(type='int'),
-    max_size        =   dict(type='int'),
-    source_mask     =   dict(type='str'),
-    limit_type      =   dict(type='str', choices=['none', 'idle', 'strict'])
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    share_pools=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    max_age=dict(type='int'),
+    max_reuse=dict(type='int'),
+    max_size=dict(type='int'),
+    source_mask=dict(type='str'),
+    limit_type=dict(type='str', choices=['none', 'idle', 'strict'])
 )
+
 
 class F5BigIpLtmProfileOneConnect(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.one_connects.one_connect.create,
-            'read':     self.mgmt_root.tm.ltm.profile.one_connects.one_connect.load,
-            'update':   self.mgmt_root.tm.ltm.profile.one_connects.one_connect.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.one_connects.one_connect.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.one_connects.one_connect.exists
+            'create': self.mgmt_root.tm.ltm.profile.one_connects.one_connect.create,
+            'read': self.mgmt_root.tm.ltm.profile.one_connects.one_connect.load,
+            'update': self.mgmt_root.tm.ltm.profile.one_connects.one_connect.update,
+            'delete': self.mgmt_root.tm.ltm.profile.one_connects.one_connect.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.one_connects.one_connect.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_ONE_CONNECT_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_ONE_CONNECT_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmProfileOneConnect(check_mode=module.supports_check_mode, **module.params)
@@ -141,6 +146,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

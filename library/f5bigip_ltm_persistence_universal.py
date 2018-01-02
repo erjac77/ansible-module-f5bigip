@@ -47,12 +47,14 @@ options:
         choices: ['enabled', 'disabled']
     match_across_services:
         description:
-            - Specifies, when enabled, that all persistent connections from a client IP address, which go to the same virtual IP address, also go to the same node.
+            - Specifies, when enabled, that all persistent connections from a client IP address, which go to the same
+              virtual IP address, also go to the same node.
         default: disabled
         choices: ['enabled', 'disabled']
     match_across_virtuals:
         description:
-            - Specifies, when enabled, that all persistent connections from the same client IP address go to the same node.
+            - Specifies, when enabled, that all persistent connections from the same client IP address go to the same
+              node.
         default: disabled
         choices: ['enabled', 'disabled']
     mirror:
@@ -114,30 +116,33 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PERSISTENCE_UNIVERSAL_ARGS = dict(
-    app_service                 =   dict(type='str'),
-    defaults_from               =   dict(type='str'),
-    description                 =   dict(type='str'),
-    match_across_pools          =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    match_across_services       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    match_across_virtuals       =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mirror                      =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    override_connection_limit   =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rule                        =   dict(type='str'),
-    timeout                     =   dict(type='int')
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    match_across_pools=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    match_across_services=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    match_across_virtuals=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    mirror=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    override_connection_limit=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    rule=dict(type='str'),
+    timeout=dict(type='int')
 )
+
 
 class F5BigIpLtmPersistenceUniversal(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.persistence.universals.universal.create,
-            'read':     self.mgmt_root.tm.ltm.persistence.universals.universal.load,
-            'update':   self.mgmt_root.tm.ltm.persistence.universals.universal.update,
-            'delete':   self.mgmt_root.tm.ltm.persistence.universals.universal.delete,
-            'exists':   self.mgmt_root.tm.ltm.persistence.universals.universal.exists
+            'create': self.mgmt_root.tm.ltm.persistence.universals.universal.create,
+            'read': self.mgmt_root.tm.ltm.persistence.universals.universal.load,
+            'update': self.mgmt_root.tm.ltm.persistence.universals.universal.update,
+            'delete': self.mgmt_root.tm.ltm.persistence.universals.universal.delete,
+            'exists': self.mgmt_root.tm.ltm.persistence.universals.universal.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PERSISTENCE_UNIVERSAL_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PERSISTENCE_UNIVERSAL_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmPersistenceUniversal(check_mode=module.supports_check_mode, **module.params)
@@ -145,6 +150,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

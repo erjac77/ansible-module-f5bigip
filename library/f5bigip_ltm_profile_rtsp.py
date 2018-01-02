@@ -35,7 +35,9 @@ options:
             - Specifies the name of the application service to which the profile belongs.
     check_source:
         description:
-            - When enabled the system uses the source attribute in the transport header to establish the target address of the RTP stream, and before the response is forwarded to the client, updates the value of the source attribute to be the virtual address of the BIG-IP system.
+            - When enabled the system uses the source attribute in the transport header to establish the target address
+              of the RTP stream, and before the response is forwarded to the client, updates the value of the source
+              attribute to be the virtual address of the BIG-IP system.
         default: enabled
         choices: ['disabled', 'enabled']
     defaults_from:
@@ -57,7 +59,8 @@ options:
             - Specify the name of the log publisher which logs translation events.
     max_header_size:
         description:
-            - Specifies the maximum size of an RTSP request or response header that the RTSP filter accepts before dropping the connection.
+            - Specifies the maximum size of an RTSP request or response header that the RTSP filter accepts before
+              dropping the connection.
         default: 4096
     max_queued_data:
         description:
@@ -77,10 +80,11 @@ options:
             - Displays the administrative partition within which the component resides.
     proxy:
         description:
-            - When the proxy option is set, specifies the name of the header in the RTSP proxy configuration that is passed from the client-side virtual server to the server-side virtual server.
+            - Specifies whether the RTSP filter is associated with an RTSP proxy configuration.
     proxy_header:
         description:
-            - When the proxy option is set, specifies the name of the header in the RTSP proxy configuration that is passed from the client-side virtual server to the server-side virtual server.
+            - When the proxy option is set, specifies the name of the header in the RTSP proxy configuration that is
+              passed from the client-side virtual server to the server-side virtual server.
     real_http_persistence:
         description:
             - Specifies whether to enable or disable real HTTP persistence.
@@ -136,34 +140,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_RTSP_ARGS = dict(
-    app_service              =    dict(type='str'),
-    check_source             =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    defaults_from            =    dict(type='str'),
-    description              =    dict(type='str'),
-    idle_timeout             =    dict(type='int'),
-    log_profile              =    dict(type='str'),
-    log_publisher            =    dict(type='str'),
-    max_header_size          =    dict(type='int'),
-    max_queued_data          =    dict(type='int'),
-    multicast_redirect       =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    proxy                    =    dict(type='str'),
-    proxy_header             =    dict(type='str'),
-    real_http_persistence    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rtcp_port                =    dict(type='int'),
-    rtp_port                 =    dict(type='int'),
-    session_reconnect        =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    unicast_redirect         =    dict(type='str', choices=F5_ACTIVATION_CHOICES)
+    app_service=dict(type='str'),
+    check_source=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    idle_timeout=dict(type='int'),
+    log_profile=dict(type='str'),
+    log_publisher=dict(type='str'),
+    max_header_size=dict(type='int'),
+    max_queued_data=dict(type='int'),
+    multicast_redirect=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    proxy=dict(type='str'),
+    proxy_header=dict(type='str'),
+    real_http_persistence=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    rtcp_port=dict(type='int'),
+    rtp_port=dict(type='int'),
+    session_reconnect=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    unicast_redirect=dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
+
 
 class F5BigIpLtmProfileRtsp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.rtsps.rtsp.create,
-            'read':     self.mgmt_root.tm.ltm.profile.rtsps.rtsp.load,
-            'update':   self.mgmt_root.tm.ltm.profile.rtsps.rtsp.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.rtsps.rtsp.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.rtsps.rtsp.exists
+            'create': self.mgmt_root.tm.ltm.profile.rtsps.rtsp.create,
+            'read': self.mgmt_root.tm.ltm.profile.rtsps.rtsp.load,
+            'update': self.mgmt_root.tm.ltm.profile.rtsps.rtsp.update,
+            'delete': self.mgmt_root.tm.ltm.profile.rtsps.rtsp.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.rtsps.rtsp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_RTSP_ARGS, supports_check_mode=False)
@@ -174,6 +180,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

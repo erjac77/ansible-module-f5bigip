@@ -57,14 +57,16 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_SHARED_LICENSING_ARGS = dict(
 )
 
+
 class F5BigIpSharedLicensing(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.shared.licensing.activation.load
+            'read': self.mgmt_root.tm.shared.licensing.activation.load
         }
 
     def get_licensing(self):
-        return { 'licensing': self.methods['read']().attrs }
+        return {'licensing': self.methods['read']().attrs}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_LICENSING_ARGS, supports_check_mode=False)
@@ -75,6 +77,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -25,14 +25,15 @@ DOCUMENTATION = '''
 module: f5bigip_net_dns_resolver
 short_description: BIG-IP net dns_resolver module
 description:
-    - You can use the dns-resolver component to configure and view information about a DNS Resolver object.
+    - Configures a DNS resolver on the BIG-IP system.
 version_added: "2.4"
 author:
-    - "Gabriel Fortin (@GabrielFortin)""
+    - "Gabriel Fortin (@GabrielFortin)"
 options:
     answer_default_zones:
         description:
-            - Specifies whether the resolver answers queries for default zones: localhost, reverse 127.0.0.1 and ::1, and AS112 zones.
+            - Specifies whether the resolver answers queries for default zones: localhost, reverse 127.0.0.1 and ::1,
+              and AS112 zones.
         default: no
         choices: ['yes', 'no']
     cache_size:
@@ -111,26 +112,28 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_DNS_RESOLVER_ARGS = dict(
-    answer_default_zones        =   dict(type='str', choices=F5_POLAR_CHOICES),
-    cache_size                  =   dict(type='int'),
-    #forward_zones               =   dict(type='list'),
-    randomize_query_name_case   =   dict(type='str', choices=F5_POLAR_CHOICES),
-    route_domain                =   dict(type='str'),
-    use_ipv4                    =   dict(type='str', choices=F5_POLAR_CHOICES),
-    use_ipv6                    =   dict(type='str', choices=F5_POLAR_CHOICES),
-    use_tcp                     =   dict(type='str', choices=F5_POLAR_CHOICES),
-    use_udp                     =   dict(type='str', choices=F5_POLAR_CHOICES)
+    answer_default_zones=dict(type='str', choices=F5_POLAR_CHOICES),
+    cache_size=dict(type='int'),
+    # forward_zones=dict(type='list'),
+    randomize_query_name_case=dict(type='str', choices=F5_POLAR_CHOICES),
+    route_domain=dict(type='str'),
+    use_ipv4=dict(type='str', choices=F5_POLAR_CHOICES),
+    use_ipv6=dict(type='str', choices=F5_POLAR_CHOICES),
+    use_tcp=dict(type='str', choices=F5_POLAR_CHOICES),
+    use_udp=dict(type='str', choices=F5_POLAR_CHOICES)
 )
+
 
 class F5BigIpNetDnsResolver(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.net.dns_resolvers.dns_resolver.create,
-            'read':     self.mgmt_root.tm.net.dns_resolvers.dns_resolver.load,
-            'update':   self.mgmt_root.tm.net.dns_resolvers.dns_resolver.update,
-            'delete':   self.mgmt_root.tm.net.dns_resolvers.dns_resolver.delete,
-            'exists':   self.mgmt_root.tm.net.dns_resolvers.dns_resolver.exists
+            'create': self.mgmt_root.tm.net.dns_resolvers.dns_resolver.create,
+            'read': self.mgmt_root.tm.net.dns_resolvers.dns_resolver.load,
+            'update': self.mgmt_root.tm.net.dns_resolvers.dns_resolver.update,
+            'delete': self.mgmt_root.tm.net.dns_resolvers.dns_resolver.delete,
+            'exists': self.mgmt_root.tm.net.dns_resolvers.dns_resolver.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_DNS_RESOLVER_ARGS, supports_check_mode=False)
@@ -141,6 +144,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

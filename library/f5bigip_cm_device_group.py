@@ -48,7 +48,8 @@ options:
             - Specifies descriptive text that identifies the component.
     full_load_on_sync:
         description:
-            - Specifies that the entire configuration for a device group is sent when configuration synchronization is performed.
+            - Specifies that the entire configuration for a device group is sent when configuration synchronization is
+              performed.
         default: false
         choices: [true, false]
     incremental_config_sync_size_max:
@@ -70,7 +71,8 @@ options:
         default: Common
     save_on_auto_sync:
         description:
-            - Specifies whether to save the configuration on the remote devices following an automatic configuration synchronization.
+            - Specifies whether to save the configuration on the remote devices following an automatic configuration
+              synchronization.
         default: false
         choices: [true, false]
     state:
@@ -111,26 +113,28 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_DEVICE_GROUP_ARGS = dict(
-    app_service                         =   dict(type='str'),
-    asm_sync                            =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    auto_sync                           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    description                         =   dict(type='str'),
-    full_load_on_sync                   =   dict(type='bool'),
-    incremental_config_sync_size_max    =   dict(type='int'),
-    network_failover                    =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    save_on_auto_sync                   =   dict(type='bool'),
-    type                                =   dict(type='str', choices=['sync-only', 'sync-failover'])
+    app_service=dict(type='str'),
+    asm_sync=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    auto_sync=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    description=dict(type='str'),
+    full_load_on_sync=dict(type='bool'),
+    incremental_config_sync_size_max=dict(type='int'),
+    network_failover=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    save_on_auto_sync=dict(type='bool'),
+    type=dict(type='str', choices=['sync-only', 'sync-failover'])
 )
+
 
 class F5BigIpCmDeviceGroup(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.cm.device_groups.device_group.create,
-            'read':     self.mgmt_root.tm.cm.device_groups.device_group.load,
-            'update':   self.mgmt_root.tm.cm.device_groups.device_group.update,
-            'delete':   self.mgmt_root.tm.cm.device_groups.device_group.delete,
-            'exists':   self.mgmt_root.tm.cm.device_groups.device_group.exists
+            'create': self.mgmt_root.tm.cm.device_groups.device_group.create,
+            'read': self.mgmt_root.tm.cm.device_groups.device_group.load,
+            'update': self.mgmt_root.tm.cm.device_groups.device_group.update,
+            'delete': self.mgmt_root.tm.cm.device_groups.device_group.delete,
+            'exists': self.mgmt_root.tm.cm.device_groups.device_group.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_GROUP_ARGS, supports_check_mode=False)
@@ -141,6 +145,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

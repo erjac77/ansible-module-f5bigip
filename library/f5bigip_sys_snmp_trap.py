@@ -48,7 +48,8 @@ options:
             - Specifies the unique authoritative security engine ID.
     host:
         description:
-            - Specifies the trap destination that you are configuring, the IP address, FQDN, or either of these with an embedded protocol.
+            - Specifies the trap destination that you are configuring, the IP address, FQDN, or either of these with an
+              embedded protocol.
         required: true
     port:
         description:
@@ -104,30 +105,33 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_TRAP_ARGS = dict(
-    auth_password       =   dict(type='str', no_log=True),
-    auth_protocol       =   dict(type='str', choices=['md5', 'sha', 'none']),
-    community           =   dict(type='str'),
-    description         =   dict(type='str'),
-    engine_id           =   dict(type='str'),
-    host                =   dict(type='str'),
-    port                =   dict(type='int'),
-    privacy_password    =   dict(type='str', no_log=True),
-    privacy_protocol    =   dict(type='str', choices=['aes', 'des', 'none']),
-    security_level      =   dict(type='str', choices=['auth-no-privacy', 'auth-privacy', 'no-auth-no-privacy']),
-    security_name       =   dict(type='str'),
-    version             =   dict(type='str', choices=['1', '2c', '3'])
+    auth_password=dict(type='str', no_log=True),
+    auth_protocol=dict(type='str', choices=['md5', 'sha', 'none']),
+    community=dict(type='str'),
+    description=dict(type='str'),
+    engine_id=dict(type='str'),
+    host=dict(type='str'),
+    port=dict(type='int'),
+    privacy_password=dict(type='str', no_log=True),
+    privacy_protocol=dict(type='str', choices=['aes', 'des', 'none']),
+    security_level=dict(type='str', choices=['auth-no-privacy', 'auth-privacy', 'no-auth-no-privacy']),
+    security_name=dict(type='str'),
+    version=dict(type='str', choices=['1', '2c', '3'])
 )
+
 
 class F5BigIpSysSnmpTrap(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.snmp = self.mgmt_root.tm.sys.snmp.load()
         self.methods = {
-            'create':   self.snmp.traps_s.trap.create,
-            'read':     self.snmp.traps_s.trap.load,
-            'modify':   self.snmp.traps_s.trap.modify,
-            'delete':   self.snmp.traps_s.trap.delete,
-            'exists':   self.snmp.traps_s.trap.exists
+            'create': self.snmp.traps_s.trap.create,
+            'read': self.snmp.traps_s.trap.load,
+            'modify': self.snmp.traps_s.trap.modify,
+            'delete': self.snmp.traps_s.trap.delete,
+            'exists': self.snmp.traps_s.trap.exists
         }
+        del self.params['partition']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_TRAP_ARGS, supports_check_mode=False)
@@ -138,6 +142,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

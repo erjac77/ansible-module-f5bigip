@@ -61,17 +61,20 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_SHARED_BIGIP_FAILOVER_STATE_ARGS = dict(
 )
 
+
 class F5BigIpSharedBigipFailoverState(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.shared.bigip_failover_state.load
+            'read': self.mgmt_root.tm.shared.bigip_failover_state.load
         }
 
     def get_failover_state(self):
-        return { 'bigip_failover_state': self.methods['read']().attrs }
+        return {'bigip_failover_state': self.methods['read']().attrs}
+
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_BIGIP_FAILOVER_STATE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_BIGIP_FAILOVER_STATE_ARGS,
+                                               supports_check_mode=False)
 
     try:
         obj = F5BigIpSharedBigipFailoverState(check_mode=module.supports_check_mode, **module.params)
@@ -79,6 +82,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -65,7 +65,8 @@ options:
         choices: ['disabled', 'enabled']
     subscriber_id_type:
         description:
-            - Specifies the RADIUS attribute to be used as the subscriber Id when extracting subscriber information from the RADIUS message.
+            - Specifies the RADIUS attribute to be used as the subscriber Id when extracting subscriber information from
+              the RADIUS message.
         default: 3gpp-imsi
         choices: ['3gpp-imsi', 'calling-station-id', 'user-name']
 notes:
@@ -96,24 +97,26 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_RADIUS_ARGS = dict(
-    app_service           =    dict(type='str'),
-    clients               =    dict(type='str'),
-    defaults_from         =    dict(type='str'),
-    description           =    dict(type='str'),
-    persist_avp           =    dict(type='str'),
-    subscriber_aware      =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    subscriber_id_type    =    dict(type='str', choices=['3gpp-imsi', 'calling-station-id', 'user-name'])
+    app_service=dict(type='str'),
+    clients=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    persist_avp=dict(type='str'),
+    subscriber_aware=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    subscriber_id_type=dict(type='str', choices=['3gpp-imsi', 'calling-station-id', 'user-name'])
 )
+
 
 class F5BigIpLtmProfileRadius(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.radius_s.radius.create,
-            'read':     self.mgmt_root.tm.ltm.profile.radius_s.radius.load,
-            'update':   self.mgmt_root.tm.ltm.profile.radius_s.radius.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.radius_s.radius.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.radius_s.radius.exists
+            'create': self.mgmt_root.tm.ltm.profile.radius_s.radius.create,
+            'read': self.mgmt_root.tm.ltm.profile.radius_s.radius.load,
+            'update': self.mgmt_root.tm.ltm.profile.radius_s.radius.update,
+            'delete': self.mgmt_root.tm.ltm.profile.radius_s.radius.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.radius_s.radius.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_RADIUS_ARGS, supports_check_mode=False)
@@ -124,6 +127,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

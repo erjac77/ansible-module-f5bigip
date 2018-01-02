@@ -88,22 +88,24 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_PPTP_ARGS = dict(
-    app_service               =    dict(type='str'),
-    defaults_from             =    dict(type='str'),
-    description               =    dict(type='str'),
-    include_destination_ip    =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    publisher_name            =    dict(type='str')
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    include_destination_ip=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    publisher_name=dict(type='str')
 )
+
 
 class F5BigIpLtmProfilePptp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.pptps.pptp.create,
-            'read':     self.mgmt_root.tm.ltm.profile.pptps.pptp.load,
-            'update':   self.mgmt_root.tm.ltm.profile.pptps.pptp.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.pptps.pptp.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.pptps.pptp.exists
+            'create': self.mgmt_root.tm.ltm.profile.pptps.pptp.create,
+            'read': self.mgmt_root.tm.ltm.profile.pptps.pptp.load,
+            'update': self.mgmt_root.tm.ltm.profile.pptps.pptp.update,
+            'delete': self.mgmt_root.tm.ltm.profile.pptps.pptp.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.pptps.pptp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_PPTP_ARGS, supports_check_mode=False)
@@ -114,6 +116,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

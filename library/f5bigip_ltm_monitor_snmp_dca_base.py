@@ -32,14 +32,16 @@ author:
 options:
     app_service:
         description:
-            - Specifies the name of the application service to which the monitor belongs
+            - Specifies the name of the application service to which the monitor belongs.
     community:
         description:
-            - Specifies the community name that the BIG-IP system must use to authenticate with the host server through SNMP.
+            - Specifies the community name that the BIG-IP system must use to authenticate with the host server through
+              SNMP.
         default: public
     cpu_coefficient:
         description:
-            - Specifies the coefficient that the system uses to calculate the weight of the CPU threshold in the dynamic ratio load balancing algorithm.
+            - Specifies the coefficient that the system uses to calculate the weight of the CPU threshold in the dynamic
+              ratio load balancing algorithm.
         default: 1.5
     defaults_from:
         description:
@@ -78,7 +80,7 @@ options:
             - Specifies any user-defined command-line arguments and variables that the external program requires.
     version:
         description:
-            - Specifies the version of SNMP that the host server uses
+            - Specifies the version of SNMP that the host server uses.
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -107,30 +109,33 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_MONITOR_SNMP_DCA_BASE_ARGS = dict(
-    app_service        =    dict(type='str'),
-    community          =    dict(type='str'),
-    cpu_coefficient    =    dict(type='int'),
-    defaults_from      =    dict(type='str'),
-    description        =    dict(type='str'),
-    interval           =    dict(type='int'),
-    time_until_up      =    dict(type='int'),
-    timeout            =    dict(type='int'),
-    user_defined       =    dict(type='str'),
-    version            =    dict(type='int')
+    app_service=dict(type='str'),
+    community=dict(type='str'),
+    cpu_coefficient=dict(type='int'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    interval=dict(type='int'),
+    time_until_up=dict(type='int'),
+    timeout=dict(type='int'),
+    user_defined=dict(type='str'),
+    version=dict(type='int')
 )
+
 
 class F5BigIpLtmMonitorSnmpDcaBase(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.create,
-            'read':     self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.load,
-            'update':   self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.update,
-            'delete':   self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.delete,
-            'exists':   self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.exists
+            'create': self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.create,
+            'read': self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.load,
+            'update': self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.update,
+            'delete': self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.delete,
+            'exists': self.mgmt_root.tm.ltm.monitor.snmp_dca_bases.snmp_dca_base.exists
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_SNMP_DCA_BASE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_SNMP_DCA_BASE_ARGS,
+                                             supports_check_mode=False)
 
     try:
         obj = F5BigIpLtmMonitorSnmpDcaBase(check_mode=module.supports_check_mode, **module.params)
@@ -138,6 +143,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -93,24 +93,26 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_ROUTE_ARGS = dict(
-    blackhole   =   dict(type='bool'),
-    description =   dict(type='str'),
-    gw          =   dict(type='str'),
-    interface   =   dict(type='str'),
-    mtu         =   dict(type='int'),
-    network     =   dict(type='str'),
-    pool        =   dict(type='str')
+    blackhole=dict(type='bool'),
+    description=dict(type='str'),
+    gw=dict(type='str'),
+    interface=dict(type='str'),
+    mtu=dict(type='int'),
+    network=dict(type='str'),
+    pool=dict(type='str')
 )
+
 
 class F5BigIpNetRoute(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.net.routes.route.create,
-            'read':     self.mgmt_root.tm.net.routes.route.load,
-            'update':   self.mgmt_root.tm.net.routes.route.update,
-            'delete':   self.mgmt_root.tm.net.routes.route.delete,
-            'exists':   self.mgmt_root.tm.net.routes.route.exists
+            'create': self.mgmt_root.tm.net.routes.route.create,
+            'read': self.mgmt_root.tm.net.routes.route.load,
+            'update': self.mgmt_root.tm.net.routes.route.update,
+            'delete': self.mgmt_root.tm.net.routes.route.delete,
+            'exists': self.mgmt_root.tm.net.routes.route.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -127,6 +129,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -55,21 +55,24 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_UTIL_QKVIEW_ARGS = dict(
 )
 
+
 class F5BigIpUtilQkview(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'run':   self.mgmt_root.tm.util.qkview.exec_cmd
+            'run': self.mgmt_root.tm.util.qkview.exec_cmd
         }
 
     def run(self):
-        has_changed = True
+        has_changed = False
 
         try:
-            self.methods['run']('run', utilCmdArgs='')  
+            self.methods['run']('run', utilCmdArgs='')
+            has_changed = True
         except Exception:
-            has_changed = False
+            raise AnsibleF5Error("Can't generate Qkview file")
 
-        return { 'changed': has_changed }
+        return {'changed': has_changed}
+
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_QKVIEW_ARGS, supports_check_mode=False)
@@ -80,6 +83,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

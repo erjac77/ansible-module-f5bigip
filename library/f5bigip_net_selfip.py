@@ -32,7 +32,8 @@ author:
 options:
     address [ip address/netmask]:
         description:
-            - Specifies the IP address and netmask to be assigned to the system. Must appear in the format [ip address/mask].
+            - Specifies the IP address and netmask to be assigned to the system. Must appear in the format [ip
+              address/mask].
     allow_service:
         description:
             - Specifies the type of protocol/service that the VLAN handles.
@@ -91,25 +92,26 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_SELFIP_ARGS = dict(
-    address             =   dict(type='str'),
-    allow_service       =   dict(type='list'),
-    app_service         =   dict(type='str'),
-    description         =   dict(type='str'),
-    fw_enforced_policy  =   dict(type='str'),
-    #fw_rules            =   dict(type='list'),
-    fw_staged_policy    =   dict(type='str'),
-    traffic_group       =   dict(type='str'),
-    vlan                =   dict(type='str')
+    address=dict(type='str'),
+    allow_service=dict(type='list'),
+    app_service=dict(type='str'),
+    description=dict(type='str'),
+    fw_enforced_policy=dict(type='str'),
+    # fw_rules=dict(type='list'),
+    fw_staged_policy=dict(type='str'),
+    traffic_group=dict(type='str'),
+    vlan=dict(type='str')
 )
+
 
 class F5BigIpNetSelfip(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.net.selfips.selfip.create,
-            'read':     self.mgmt_root.tm.net.selfips.selfip.load,
-            'update':   self.mgmt_root.tm.net.selfips.selfip.update,
-            'delete':   self.mgmt_root.tm.net.selfips.selfip.delete,
-            'exists':   self.mgmt_root.tm.net.selfips.selfip.exists
+            'create': self.mgmt_root.tm.net.selfips.selfip.create,
+            'read': self.mgmt_root.tm.net.selfips.selfip.load,
+            'update': self.mgmt_root.tm.net.selfips.selfip.update,
+            'delete': self.mgmt_root.tm.net.selfips.selfip.delete,
+            'exists': self.mgmt_root.tm.net.selfips.selfip.exists
         }
 
     def _read(self):
@@ -120,6 +122,7 @@ class F5BigIpNetSelfip(F5BigIpNamedObject):
         selfip.vlan = self._strip_partition(selfip.vlan)
         return selfip
 
+
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_NET_SELFIP_ARGS, supports_check_mode=False)
 
@@ -129,6 +132,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

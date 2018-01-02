@@ -77,40 +77,31 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from requests.exceptions import HTTPError
+# from requests.exceptions import HTTPError
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_TOPOLOGY_ARGS = dict(
-    app_service     =   dict(type='str'),
-    description     =   dict(type='str'),
-    order           =   dict(type='list'),
-    score           =   dict(type='int')
+    app_service=dict(type='str'),
+    description=dict(type='str'),
+    order=dict(type='list'),
+    score=dict(type='int')
 )
+
 
 class F5BigIpGtmTopology(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.gtm.topology_s.topology.create,
-            'read':     self.mgmt_root.tm.gtm.topology_s.topology.load,
-            'update':   self.mgmt_root.tm.gtm.topology_s.topology.update,
-            'delete':   self.mgmt_root.tm.gtm.topology_s.topology.delete,
-            'exists':   self.mgmt_root.tm.gtm.topology_s.topology.exists
+            'create': self.mgmt_root.tm.gtm.topology_s.topology.create,
+            'read': self.mgmt_root.tm.gtm.topology_s.topology.load,
+            'update': self.mgmt_root.tm.gtm.topology_s.topology.update,
+            'delete': self.mgmt_root.tm.gtm.topology_s.topology.delete,
+            'exists': self.mgmt_root.tm.gtm.topology_s.topology.exists
         }
         del self.params['partition']
-        del self.params['sub_path']
-
-    def _exists(self):
-        exists = True
-
-        try:
-            obj = self.methods['read'](name=self.params['name'])
-        except HTTPError as err:
-            exists = False
-
-        return exists
 
     def _update(self):
         raise AnsibleF5Error("%s does not support update" % self.__class__.__name__)
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_GTM_TOPOLOGY_ARGS, supports_check_mode=False)
@@ -121,6 +112,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

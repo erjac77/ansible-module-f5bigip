@@ -56,34 +56,35 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import * 
+from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_PERFORMANCE_ARGS = dict(
-    name    =   dict(type='str', choices=['all-stats'], default='all-stats')
+    name=dict(type='str', choices=['all-stats'], default='all-stats')
 )
+
 
 class F5BigIpSysPerformance(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'all_stats_read':       self.mgmt_root.tm.sys.performances.all_stats.load
-            #'connections_read':     self.mgmt_root.tm.sys.performances.connections.load,
-            #'gtm_read':             self.mgmt_root.tm.sys.performances.gtm.load,
-            #'ramcache_read':        self.mgmt_root.tm.sys.performances.ramcache.load,
-            #'system_read':          self.mgmt_root.tm.sys.performances.system.load,
-            #'throughput_read':      self.mgmt_root.tm.sys.performances.throughput.load
+            'all_stats_read': self.mgmt_root.tm.sys.performances.all_stats.load
+            # 'connections_read':     self.mgmt_root.tm.sys.performances.connections.load,
+            # 'gtm_read':             self.mgmt_root.tm.sys.performances.gtm.load,
+            # 'ramcache_read':        self.mgmt_root.tm.sys.performances.ramcache.load,
+            # 'system_read':          self.mgmt_root.tm.sys.performances.system.load,
+            # 'throughput_read':      self.mgmt_root.tm.sys.performances.throughput.load
         }
 
     def _read(self):
         if self.params['name'] == 'all-stats':
             return self.methods['all_stats_read']()
-        #elif self.params['name'] == 'connections':
-        #    return self.methods['connections_read']
-        #elif self.params['name'] == 'ramcache':
-        #    return self.methods['ramcache_read']
-        #elif self.params['name'] == 'system' :
-        #    return self.methods['system_read']
-        #elif self.params['name'] == 'throughput':
-        #    return self.methods['throughput_read']
+            # elif self.params['name'] == 'connections':
+            #    return self.methods['connections_read']
+            # elif self.params['name'] == 'ramcache':
+            #    return self.methods['ramcache_read']
+            # elif self.params['name'] == 'system' :
+            #    return self.methods['system_read']
+            # elif self.params['name'] == 'throughput':
+            #    return self.methods['throughput_read']
 
     def get_stats(self):
         result = dict()
@@ -97,6 +98,7 @@ class F5BigIpSysPerformance(F5BigIpUnnamedObject):
 
         return result
 
+
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_PERFORMANCE_ARGS, supports_check_mode=False)
 
@@ -106,6 +108,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

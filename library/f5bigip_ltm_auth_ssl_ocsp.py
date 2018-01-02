@@ -43,7 +43,8 @@ options:
         default: Common
     responders:
         description:
-            - Specifies a list of OCSP responders that you configured using the ocsp-responder component in the ltm auth module.
+            - Specifies a list of OCSP responders that you configured using the ocsp-responder component in the ltm auth
+              module.
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -76,19 +77,21 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_AUTH_SSL_OCSP_ARGS = dict(
-    description     =   dict(type='str'),
-    responders      =   dict(type='list'),
+    description=dict(type='str'),
+    responders=dict(type='list'),
 )
+
 
 class F5BigIpLtmAuthSslOcsp(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.create,
-            'read':     self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.load,
-            'update':   self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.update,
-            'delete':   self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.delete,
-            'exists':   self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.exists
+            'create': self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.create,
+            'read': self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.load,
+            'update': self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.update,
+            'delete': self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.delete,
+            'exists': self.mgmt_root.tm.ltm.auth.ssl_ocsps.ssl_ocsp.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_SSL_OCSP_ARGS, supports_check_mode=False)
@@ -99,6 +102,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

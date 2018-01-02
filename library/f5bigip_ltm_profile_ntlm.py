@@ -123,30 +123,32 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_NTLM_ARGS = dict(
-    app_service                 =    dict(type='str'),
-    defaults_from               =    dict(type='str'),
-    description                 =    dict(type='str'),
-    insert_cookie_domain        =    dict(type='str'),
-    insert_cookie_name          =    dict(type='str'),
-    insert_cookie_passphrase    =    dict(type='str', no_log=True),
-    key_by_cookie               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    key_by_cookie_name          =    dict(type='str'),
-    key_by_domain               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    key_by_ip_address           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    key_by_target               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    key_by_user                 =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    key_by_workstation          =    dict(type='str', choices=F5_ACTIVATION_CHOICES)
+    app_service=dict(type='str'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    insert_cookie_domain=dict(type='str'),
+    insert_cookie_name=dict(type='str'),
+    insert_cookie_passphrase=dict(type='str', no_log=True),
+    key_by_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    key_by_cookie_name=dict(type='str'),
+    key_by_domain=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    key_by_ip_address=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    key_by_target=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    key_by_user=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    key_by_workstation=dict(type='str', choices=F5_ACTIVATION_CHOICES)
 )
+
 
 class F5BigIpLtmProfileNtlm(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.ntlms.ntlm.create,
-            'read':     self.mgmt_root.tm.ltm.profile.ntlms.ntlm.load,
-            'update':   self.mgmt_root.tm.ltm.profile.ntlms.ntlm.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.ntlms.ntlm.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.ntlms.ntlm.exists
+            'create': self.mgmt_root.tm.ltm.profile.ntlms.ntlm.create,
+            'read': self.mgmt_root.tm.ltm.profile.ntlms.ntlm.load,
+            'update': self.mgmt_root.tm.ltm.profile.ntlms.ntlm.update,
+            'delete': self.mgmt_root.tm.ltm.profile.ntlms.ntlm.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.ntlms.ntlm.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_NTLM_ARGS, supports_check_mode=False)
@@ -157,6 +159,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

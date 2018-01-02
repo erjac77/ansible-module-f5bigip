@@ -66,7 +66,8 @@ options:
         choices: ['dsa-private', 'ec-private', 'rsa-private']
     lifetime:
         description:
-            - Specifies the certificate life time to be used in creation of the certificate associated with the given key.
+            - Specifies the certificate life time to be used in creation of the certificate associated with the given
+              key.
         default: 365
     name:
         description:
@@ -107,6 +108,7 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: example.localhost.key
+    partition: Common
     from_local_file: /tmp/example.localhost.key
     state: present
   delegate_to: localhost
@@ -129,31 +131,32 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_CRYPTO_KEY_ARGS = dict(
-    consumer                    =   dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
+    consumer=dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
     # create
-    challenge_password          =   dict(type='str', no_log=True),
-    curve_name                  =   dict(type='str', choices=['prime256v1', 'secp384r1']),
-    key_size                    =   dict(type='str', choices=['512', '1024', '2048', '4096']),
-    key_type                    =   dict(type='str', choices=['dsa-private', 'ec-private', 'rsa-private']),
-    lifetime                    =   dict(type='int'),
-    passphrase                  =   dict(type='str', no_log=True),
-    security_type               =   dict(type='str', choices=['fips', 'normal', 'password', 'nethsm']),
+    challenge_password=dict(type='str', no_log=True),
+    curve_name=dict(type='str', choices=['prime256v1', 'secp384r1']),
+    key_size=dict(type='str', choices=['512', '1024', '2048', '4096']),
+    key_type=dict(type='str', choices=['dsa-private', 'ec-private', 'rsa-private']),
+    lifetime=dict(type='int'),
+    passphrase=dict(type='str', no_log=True),
+    security_type=dict(type='str', choices=['fips', 'normal', 'password', 'nethsm']),
     # install
-    command                     =   dict(type='str', choices=['install']),
-    from_editor                 =   dict(type='str'),
-    from_local_file             =   dict(type='str'),
-    from_url                    =   dict(type='str'),
-    no_overwrite                =   dict(type='bool')
+    command=dict(type='str', choices=['install']),
+    from_editor=dict(type='str'),
+    from_local_file=dict(type='str'),
+    from_url=dict(type='str'),
+    no_overwrite=dict(type='bool')
 )
+
 
 class F5BigIpSysCryptoKey(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.sys.crypto.keys.key.create,
-            'read':     self.mgmt_root.tm.sys.crypto.keys.key.load,
-            'update':   self.mgmt_root.tm.sys.crypto.keys.key.update,
-            'delete':   self.mgmt_root.tm.sys.crypto.keys.key.delete,
-            'exists':   self.mgmt_root.tm.sys.crypto.keys.key.exists,
+            'create': self.mgmt_root.tm.sys.crypto.keys.key.create,
+            'read': self.mgmt_root.tm.sys.crypto.keys.key.load,
+            'update': self.mgmt_root.tm.sys.crypto.keys.key.update,
+            'delete': self.mgmt_root.tm.sys.crypto.keys.key.delete,
+            'exists': self.mgmt_root.tm.sys.crypto.keys.key.exists,
             'exec_cmd': self.mgmt_root.tm.sys.crypto.keys.exec_cmd
         }
 
@@ -162,18 +165,18 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
         name = self.params['name']
 
         if self.params['fromEditor']:
-            param_set = { 'from-editor': self.params['fromEditor'] }
+            param_set = {'from-editor': self.params['fromEditor']}
         if self.params['fromLocalFile']:
-            param_set = { 'from-local-file': self.params['fromLocalFile'] }
+            param_set = {'from-local-file': self.params['fromLocalFile']}
         if self.params['fromUrl']:
-            param_set = { 'from-url': self.params['fromUrl'] }
+            param_set = {'from-url': self.params['fromUrl']}
 
         if param_set:
-            param_set.update({ 'name': name })
+            param_set.update({'name': name})
             if self.params['consumer']:
-                param_set.update({ 'consumer': self.params['consumer'] })
+                param_set.update({'consumer': self.params['consumer']})
             if self.params['noOverwrite']:
-                param_set.update({ 'no-overwrite': self.params['noOverwrite'] })
+                param_set.update({'no-overwrite': self.params['noOverwrite']})
 
             # Install the key
             self.methods['exec_cmd']('install', **param_set)
@@ -198,6 +201,7 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
 
         return has_changed
 
+
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_SYS_CRYPTO_KEY_ARGS,
@@ -213,6 +217,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

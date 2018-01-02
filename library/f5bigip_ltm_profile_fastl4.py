@@ -46,7 +46,8 @@ options:
             - User defined description.
     explicit_flow_migration:
         description:
-            - Specifies whether to have the iRule code determine exactly when the FIX stream drops down to the ePVA hardware.
+            - Specifies whether to have the iRule code determine exactly when the FIX stream drops down to the ePVA
+              hardware.
         default: disabled
         choices: ['disabled', 'enabled']
     hardware_syn_cookie:
@@ -85,12 +86,14 @@ options:
         default: 65535
     loose_close:
         description:
-            - Specifies that the system closes a loosely-initiated connection when the system receives the first FIN packet from either the client or the server.
+            - Specifies that the system closes a loosely-initiated connection when the system receives the first FIN
+              packet from either the client or the server.
         default: disabled
         choices: ['disabled', 'enabled']
     loose_initialization:
         description:
-            - Specifies that the system initializes a connection when it receives any Transmission Control Protocol (TCP) packet, rather than requiring a SYN packet for connection initiation.
+            - Specifies that the system initializes a connection when it receives any Transmission Control Protocol
+              (TCP) packet, rather than requiring a SYN packet for connection initiation.
         default: disabled
         choices: ['disabled', 'enabled']
     mss_override:
@@ -133,7 +136,8 @@ options:
         choices: ['disabled', 'enabled']
     pva_flow_evict:
         description:
-            - Specifies if this flow can be evicted upon hash collision with a new flow learn snoop request, defaults to enabled.
+            - Specifies if this flow can be evicted upon hash collision with a new flow learn snoop request, defaults to
+              enabled.
         default: enabled
         choices: ['disabled', 'enabled']
     pva_offload_dynamic:
@@ -153,7 +157,8 @@ options:
         choices: ['disabled', 'enabled']
     receive_window_size:
         description:
-            - Specifies the window size to use, minimum and default to 65535 bytes, the maximum is 2^31 for window scale enabling.
+            - Specifies the window size to use, minimum and default to 65535 bytes, the maximum is 2^31 for window scale
+              enabling.
     reset_on_timeout:
         description:
             - Specifies whether you want to reset connections on timeout.
@@ -199,7 +204,8 @@ options:
         default: 5
     tcp_generate_is:
         description:
-            - Specifies whether you want to generate TCP sequence numbers on all SYNs that conform with RFC1948, and allow timestamp recycling.
+            - Specifies whether you want to generate TCP sequence numbers on all SYNs that conform with RFC1948, and
+              allow timestamp recycling.
         default: disabled
         choices: ['disabled', 'enabled']
     tcp_handshake_timeout:
@@ -252,58 +258,60 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_LTM_PROFILE_FASTL4_ARGS = dict(
-    app_service                   =    dict(type='str'),
-    client_timeout                =    dict(type='int'),
-    defaults_from                 =    dict(type='str'),
-    description                   =    dict(type='str'),
-    explicit_flow_migration       =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    hardware_syn_cookie           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    idle_timeout                  =    dict(type='int'),
-    ip_tos_to_client              =    dict(type='int'),
-    ip_tos_to_server              =    dict(type='int'),
-    keep_alive_interval           =    dict(type='int'),
-    late_binding                  =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    link_qos_to_client            =    dict(type='int'),
-    link_qos_to_server            =    dict(type='int'),
-    loose_close                   =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    loose_initialization          =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mss_override                  =    dict(type='int', choices=range(256,9163)),
-    priority_to_client            =    dict(type='int'),
-    priority_to_server            =    dict(type='int'),
-    pva_acceleration              =    dict(type='str', choices=['full', 'none', 'partial', 'guaranteed']),
-    pva_dynamic_client_packets    =    dict(type='int'),
-    pva_dynamic_server_packets    =    dict(type='int'),
-    pva_flow_aging                =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pva_flow_evict                =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pva_offload_dynamic           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pva_offload_state             =    dict(type='str', choices=['embryonic', 'establish']),
-    reassemble_fragments          =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    receive_window_size           =    dict(type='str'),
-    reset_on_timeout              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rtt_from_client               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rtt_from_server               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_sack                   =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_timestamp              =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    software_syn_cookie           =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    syn_cookie_whitelist          =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_close_timeout             =    dict(type='int'),
-    tcp_generate_is               =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_handshake_timeout         =    dict(type='int'),
-    tcp_strip_sack                =    dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_timestamp_mode            =    dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
-    tcp_wscale_mode               =    dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
-    timeout_recovery              =    dict(type='str', choices=['disconnect', 'fallback'])
+    app_service=dict(type='str'),
+    client_timeout=dict(type='int'),
+    defaults_from=dict(type='str'),
+    description=dict(type='str'),
+    explicit_flow_migration=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    hardware_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    idle_timeout=dict(type='int'),
+    ip_tos_to_client=dict(type='int'),
+    ip_tos_to_server=dict(type='int'),
+    keep_alive_interval=dict(type='int'),
+    late_binding=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    link_qos_to_client=dict(type='int'),
+    link_qos_to_server=dict(type='int'),
+    loose_close=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    loose_initialization=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    mss_override=dict(type='int', choices=range(256, 9163)),
+    priority_to_client=dict(type='int'),
+    priority_to_server=dict(type='int'),
+    pva_acceleration=dict(type='str', choices=['full', 'none', 'partial', 'guaranteed']),
+    pva_dynamic_client_packets=dict(type='int'),
+    pva_dynamic_server_packets=dict(type='int'),
+    pva_flow_aging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    pva_flow_evict=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    pva_offload_dynamic=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    pva_offload_state=dict(type='str', choices=['embryonic', 'establish']),
+    reassemble_fragments=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    receive_window_size=dict(type='str'),
+    reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    rtt_from_client=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    rtt_from_server=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    server_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    server_timestamp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    software_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    syn_cookie_whitelist=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    tcp_close_timeout=dict(type='int'),
+    tcp_generate_is=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    tcp_handshake_timeout=dict(type='int'),
+    tcp_strip_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    tcp_timestamp_mode=dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
+    tcp_wscale_mode=dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
+    timeout_recovery=dict(type='str', choices=['disconnect', 'fallback'])
 )
+
 
 class F5BigIpLtmProfileFastl4(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.create,
-            'read':     self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.load,
-            'update':   self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.update,
-            'delete':   self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.delete,
-            'exists':   self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.exists
+            'create': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.create,
+            'read': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.load,
+            'update': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.update,
+            'delete': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.delete,
+            'exists': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FASTL4_ARGS, supports_check_mode=False)
@@ -314,6 +322,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

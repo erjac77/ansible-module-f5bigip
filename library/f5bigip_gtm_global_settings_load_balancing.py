@@ -32,21 +32,25 @@ author:
 options:
     ignore_path_ttl:
         description:
-            - Specifies, when set to yes, that dynamic load balancing methods can use path data, even after the time-to-live (TTL) for the path data expires.
+            - Specifies, when set to yes, that dynamic load balancing methods can use path data, even after the
+              time-to-live (TTL) for the path data expires.
         default: no
         choices: ['yes', 'no']
     respect_fallback_dependency:
         description:
-            - Specifies, when set to yes, that the system accepts virtual server status when the load balancing mode changes to the mode specified by the fallback-mode option of the pool.
+            - Specifies, when set to yes, that the system accepts virtual server status when the load balancing mode
+              changes to the mode specified by the fallback-mode option of the pool.
         default: no
         choices: ['yes', 'no']
     topology_longest_match:
         description:
-            - Specifies, when set to yes, that the system evaluates all topology records in the topology statement, and then selects the topology record that most specifically matches the IP address in an LDNS request.
+            - Specifies, when set to yes, that the system evaluates all topology records in the topology statement, and
+              then selects the topology record that most specifically matches the IP address in an LDNS request.
         choices: ['yes', 'no']
     verify_vs_availability:
         description:
-            - Specifies, when set to yes, that the system checks the availability of virtual servers before sending a connection to those virtual servers.
+            - Specifies, when set to yes, that the system checks the availability of virtual servers before sending a
+              connection to those virtual servers.
         default: no
         choices: ['yes', 'no']
     port:
@@ -77,21 +81,24 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS = dict(
-    ignore_path_ttl                 =   dict(type='str', choices=F5_POLAR_CHOICES),
-    respect_fallback_dependency     =   dict(type='str', choices=F5_POLAR_CHOICES),
-    topology_longest_match          =   dict(type='str', choices=F5_POLAR_CHOICES),
-    verify_vs_availability          =   dict(type='str', choices=F5_POLAR_CHOICES)
+    ignore_path_ttl=dict(type='str', choices=F5_POLAR_CHOICES),
+    respect_fallback_dependency=dict(type='str', choices=F5_POLAR_CHOICES),
+    topology_longest_match=dict(type='str', choices=F5_POLAR_CHOICES),
+    verify_vs_availability=dict(type='str', choices=F5_POLAR_CHOICES)
 )
+
 
 class F5BigIpGtmGlobalSettingsLoadBalancing(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.gtm.global_settings.load_balancing.load,
-            'update':   self.mgmt_root.tm.gtm.global_settings.load_balancing.update
+            'read': self.mgmt_root.tm.gtm.global_settings.load_balancing.load,
+            'update': self.mgmt_root.tm.gtm.global_settings.load_balancing.update
         }
 
+
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS,
+                                               supports_check_mode=False)
 
     try:
         obj = F5BigIpGtmGlobalSettingsLoadBalancing(check_mode=module.supports_check_mode, **module.params)
@@ -99,6 +106,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

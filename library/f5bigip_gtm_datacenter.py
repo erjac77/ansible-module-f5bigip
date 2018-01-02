@@ -54,10 +54,6 @@ options:
         description:
             - Specifies unique name for the component.
         required: true
-    partition:
-        description:
-            - Specifies the administrative partition in which the component object resides.
-        default: Common
     prober_pool:
         description:
             - Specifies a prober pool to use to monitor servers defined in this data center.
@@ -81,7 +77,6 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: my_datacenter
-    partition: Common
     contact: 'admin@localhost'
     description: My datacenter
     location: Somewhere
@@ -96,25 +91,27 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_DATACENTER_ARGS = dict(
-    app_service     =   dict(type='str'),
-    contact         =   dict(type='str'),
-    description     =   dict(type='str'),
-    disabled        =   dict(type='bool'),
-    enabled         =   dict(type='bool'),
-    location        =   dict(type='str'),
-    #metadata        =   dict(type='list'),
-    prober_pool     =   dict(type='str')
+    app_service=dict(type='str'),
+    contact=dict(type='str'),
+    description=dict(type='str'),
+    disabled=dict(type='bool'),
+    enabled=dict(type='bool'),
+    location=dict(type='str'),
+    # metadata        =   dict(type='list'),
+    prober_pool=dict(type='str')
 )
+
 
 class F5BigIpGtmDatacenter(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.gtm.datacenters.datacenter.create,
-            'read':     self.mgmt_root.tm.gtm.datacenters.datacenter.load,
-            'update':   self.mgmt_root.tm.gtm.datacenters.datacenter.update,
-            'delete':   self.mgmt_root.tm.gtm.datacenters.datacenter.delete,
-            'exists':   self.mgmt_root.tm.gtm.datacenters.datacenter.exists
+            'create': self.mgmt_root.tm.gtm.datacenters.datacenter.create,
+            'read': self.mgmt_root.tm.gtm.datacenters.datacenter.load,
+            'update': self.mgmt_root.tm.gtm.datacenters.datacenter.update,
+            'delete': self.mgmt_root.tm.gtm.datacenters.datacenter.delete,
+            'exists': self.mgmt_root.tm.gtm.datacenters.datacenter.exists
         }
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -131,6 +128,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

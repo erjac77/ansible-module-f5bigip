@@ -82,6 +82,7 @@ from ansible.module_utils.basic import AnsibleModule, json
 from ansible.module_utils.urls import open_url
 from ansible_common_f5.f5_bigip import *
 
+
 def get_facts(uri, **params):
     rparams = dict()
     rq_filter = params['filter']
@@ -105,25 +106,28 @@ def get_facts(uri, **params):
             req_params += "&$" + k + "=" + str(v)
 
     resp = open_url(
-        'https://' + params['f5_hostname'] + ':' + str(params['f5_port']) + uri + '?expandSubcollections=true' + req_params,
+        'https://' + params['f5_hostname'] + ':' + str(
+            params['f5_port']) + uri + '?expandSubcollections=true' + req_params,
         method="GET",
         url_username=params['f5_username'],
         url_password=params['f5_password'],
         validate_certs=False
     )
-    
+
     return json.loads(resp.read())
+
 
 def main():
     argument_spec = dict(
-        component   =   dict(type='str', required=True),
-        filter      =   dict(type='str'),
-        module      =   dict(type='str', required=True, choices=['actions', 'analytics', 'apm', 'asm', 'auth', 'cli', 'cm',
-            'gtm', 'ltm', 'net', 'pem', 'security', 'sys', 'transaction', 'util', 'vcmp', 'wam', 'wom']),
-        select      =   dict(type='str'),
-        sub_module  =   dict(type='str'),
-        skip        =   dict(type='int'),
-        top         =   dict(type='int')
+        component=dict(type='str', required=True),
+        filter=dict(type='str'),
+        module=dict(type='str', required=True, choices=['actions', 'analytics', 'apm', 'asm', 'auth', 'cli', 'cm',
+                                                        'gtm', 'ltm', 'net', 'pem', 'security', 'sys', 'transaction',
+                                                        'util', 'vcmp', 'wam', 'wom']),
+        select=dict(type='str'),
+        sub_module=dict(type='str'),
+        skip=dict(type='int'),
+        top=dict(type='int')
     )
 
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=argument_spec, supports_check_mode=False)
@@ -136,11 +140,12 @@ def main():
             resource += '/' + module.params['sub_module']
         resource += '/' + module.params['component']
 
-        facts[resource.replace('/', '_')] = get_facts(uri='/mgmt/tm/'+resource+'/', **module.params)
-        result = { 'ansible_facts': facts }
+        facts[resource.replace('/', '_')] = get_facts(uri='/mgmt/tm/' + resource + '/', **module.params)
+        result = {'ansible_facts': facts}
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

@@ -75,37 +75,38 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_PROVISION_ARGS = dict(
-    cpu_ratio       =   dict(type='int'),
-    disk_ratio      =   dict(type='int'),
-    level           =   dict(type='str', choices=['custom', 'dedicated', 'minimum', 'nominal', 'none']),
-    memory_ratio    =   dict(type='int'),
-    name            =   dict(type='str', choices=['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg'])
+    cpu_ratio=dict(type='int'),
+    disk_ratio=dict(type='int'),
+    level=dict(type='str', choices=['custom', 'dedicated', 'minimum', 'nominal', 'none']),
+    memory_ratio=dict(type='int'),
+    name=dict(type='str', choices=['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg'])
 )
+
 
 class F5BigIpSysProvision(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'afm_read':     self.mgmt_root.tm.sys.provision.afm.load,
-            'afm_update':   self.mgmt_root.tm.sys.provision.afm.update,
-            'am_read':      self.mgmt_root.tm.sys.provision.am.load,
-            'am_update':    self.mgmt_root.tm.sys.provision.am.update,
-            'apm_read':     self.mgmt_root.tm.sys.provision.apm.load,
-            'apm_update':   self.mgmt_root.tm.sys.provision.apm.update,
-            'asm_read':     self.mgmt_root.tm.sys.provision.asm.load,
-            'asm_update':   self.mgmt_root.tm.sys.provision.asm.update,
-            'avr_read':     self.mgmt_root.tm.sys.provision.avr.load,
-            'avr_update':   self.mgmt_root.tm.sys.provision.avr.update,
-            'fps_read':     self.mgmt_root.tm.sys.provision.fps.load,
-            'fps_update':   self.mgmt_root.tm.sys.provision.fps.update,
-            'gtm_read':     self.mgmt_root.tm.sys.provision.gtm.load,
-            'gtm_update':   self.mgmt_root.tm.sys.provision.gtm.update,
-            'lc_read':      self.mgmt_root.tm.sys.provision.lc.load,
-            'lc_update':    self.mgmt_root.tm.sys.provision.lc.update,
-            'ltm_read':     self.mgmt_root.tm.sys.provision.ltm.load,
-            'ltm_update':   self.mgmt_root.tm.sys.provision.ltm.update,
-            'pem_read':     self.mgmt_root.tm.sys.provision.pem.load,
-            'pem_update':   self.mgmt_root.tm.sys.provision.pem.update,
-            'swg_read':     self.mgmt_root.tm.sys.provision.swg.load
+            'afm_read': self.mgmt_root.tm.sys.provision.afm.load,
+            'afm_update': self.mgmt_root.tm.sys.provision.afm.update,
+            'am_read': self.mgmt_root.tm.sys.provision.am.load,
+            'am_update': self.mgmt_root.tm.sys.provision.am.update,
+            'apm_read': self.mgmt_root.tm.sys.provision.apm.load,
+            'apm_update': self.mgmt_root.tm.sys.provision.apm.update,
+            'asm_read': self.mgmt_root.tm.sys.provision.asm.load,
+            'asm_update': self.mgmt_root.tm.sys.provision.asm.update,
+            'avr_read': self.mgmt_root.tm.sys.provision.avr.load,
+            'avr_update': self.mgmt_root.tm.sys.provision.avr.update,
+            'fps_read': self.mgmt_root.tm.sys.provision.fps.load,
+            'fps_update': self.mgmt_root.tm.sys.provision.fps.update,
+            'gtm_read': self.mgmt_root.tm.sys.provision.gtm.load,
+            'gtm_update': self.mgmt_root.tm.sys.provision.gtm.update,
+            'lc_read': self.mgmt_root.tm.sys.provision.lc.load,
+            'lc_update': self.mgmt_root.tm.sys.provision.lc.update,
+            'ltm_read': self.mgmt_root.tm.sys.provision.ltm.load,
+            'ltm_update': self.mgmt_root.tm.sys.provision.ltm.update,
+            'pem_read': self.mgmt_root.tm.sys.provision.pem.load,
+            'pem_update': self.mgmt_root.tm.sys.provision.pem.update,
+            'swg_read': self.mgmt_root.tm.sys.provision.swg.load
         }
 
     def _read(self):
@@ -132,6 +133,7 @@ class F5BigIpSysProvision(F5BigIpUnnamedObject):
         elif self.params['name'] == 'swg':
             return self.methods['swg_read']()
 
+
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_PROVISION_ARGS, supports_check_mode=False)
 
@@ -141,6 +143,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

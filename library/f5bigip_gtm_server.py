@@ -59,17 +59,20 @@ options:
         choices: ['no', 'yes']
     iq_allow_path:
         description:
-            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct a path probe before delegating traffic to it.
+            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct a path probe before
+              delegating traffic to it.
         default: yes
         choices: ['no', 'yes']
     iq_allow_service_check:
         description:
-            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct a service check probe before delegating traffic to it.
+            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct a service check probe
+              before delegating traffic to it.
         default: yes
         choices: ['no', 'yes']
     iq_allow_snmp:
         description:
-            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct an SNMP probe before delegating traffic to it.
+            - Specifies whether the Global Traffic Manager uses this BIG-IP system to conduct an SNMP probe before
+              delegating traffic to it.
         default: yes
         choices: ['no', 'yes']
     limit_cpu_usage:
@@ -83,7 +86,8 @@ options:
         choices: ['disabled', 'enabled']
     limit_mem_avail:
         description:
-            - For a server configured as a generic host, specifies the available memory required by the virtual servers on the server.
+            - For a server configured as a generic host, specifies the available memory required by the virtual servers
+              on the server.
         default: 0
     limit_mem_avail_status:
         description:
@@ -124,15 +128,12 @@ options:
         choices: ['disabled', 'enabled', 'enabled-no-delete']
     monitor:
         description:
-            - Specifies the health monitors that the system uses to determine whether this server is available for load balancing.
+            - Specifies the health monitors that the system uses to determine whether this server is available for load
+              balancing.
     name:
         description:
             - Specifies unique name for the component.
         required: true
-    partition:
-        description:
-            - Specifies the administrative partition in which the component object resides.
-        default: Common
     prober_pool:
         description:
             - Specifies the name of a prober pool to use to monitor this server's resources.
@@ -163,11 +164,10 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: my_server
-    partition: Common
     addresses:
       - { name: 10.10.1.11, device-name: primary }
       - { name: 10.10.1.12, device-name: secondary }
-    datacenter: my_datacenter
+    datacenter: /Common/my_datacenter
     description: My server
     product: redundant-bigip
     state: present
@@ -181,43 +181,46 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_SERVER_ARGS = dict(
-    addresses                       =   dict(type='list'),
-    app_service                     =   dict(type='str'),
-    datacenter                      =   dict(type='str'),
-    description                     =   dict(type='str'),
-    disabled                        =   dict(type='bool'),
-    enabled                         =   dict(type='bool'),
-    expose_route_domains            =   dict(type='str', choices=[F5_POLAR_CHOICES]),
-    iq_allow_path                   =   dict(type='str', choices=[F5_POLAR_CHOICES]),
-    iq_allow_service_check          =   dict(type='str', choices=[F5_POLAR_CHOICES]),
-    iq_allow_snmp                   =   dict(type='str', choices=[F5_POLAR_CHOICES]),
-    limit_cpu_usage                 =   dict(type='int'),
-    limit_cpu_usage_status          =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_mem_avail                 =   dict(type='int'),
-    limit_mem_avail_status          =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_bps                   =   dict(type='int'),
-    limit_max_bps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_connections           =   dict(type='int'),
-    limit_max_connections_status    =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_pps                   =   dict(type='int'),
-    limit_max_pps_status            =   dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    link_discovery                  =   dict(type='str', choices=[F5_ACTIVATION_CHOICES, 'enabled-no-delete']),
-    #metadata                        =   dict(type='list'),
-    monitor                         =   dict(type='str'),
-    prober_pool                     =   dict(type='str'),
-    product                         =   dict(type='str'),
-    virtual_server_discovery        =   dict(type='str', choices=[F5_ACTIVATION_CHOICES, 'enabled-no-delete'])
+    addresses=dict(type='list'),
+    app_service=dict(type='str'),
+    datacenter=dict(type='str'),
+    description=dict(type='str'),
+    disabled=dict(type='bool'),
+    enabled=dict(type='bool'),
+    expose_route_domains=dict(type='str', choices=[F5_POLAR_CHOICES]),
+    iq_allow_path=dict(type='str', choices=[F5_POLAR_CHOICES]),
+    iq_allow_service_check=dict(type='str', choices=[F5_POLAR_CHOICES]),
+    iq_allow_snmp=dict(type='str', choices=[F5_POLAR_CHOICES]),
+    limit_cpu_usage=dict(type='int'),
+    limit_cpu_usage_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_mem_avail=dict(type='int'),
+    limit_mem_avail_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_bps=dict(type='int'),
+    limit_max_bps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_connections=dict(type='int'),
+    limit_max_connections_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    limit_max_pps=dict(type='int'),
+    limit_max_pps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    link_discovery=dict(type='str', choices=[F5_ACTIVATION_CHOICES, 'enabled-no-delete']),
+    # metadata=dict(type='list'),
+    monitor=dict(type='str'),
+    prober_pool=dict(type='str'),
+    product=dict(type='str'),
+    virtual_server_discovery=dict(type='str', choices=[F5_ACTIVATION_CHOICES, 'enabled-no-delete'])
 )
+
 
 class F5BigIpGtmServer(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.gtm.servers.server.create,
-            'read':     self.mgmt_root.tm.gtm.servers.server.load,
-            'update':   self.mgmt_root.tm.gtm.servers.server.update,
-            'delete':   self.mgmt_root.tm.gtm.servers.server.delete,
-            'exists':   self.mgmt_root.tm.gtm.servers.server.exists
+            'create': self.mgmt_root.tm.gtm.servers.server.create,
+            'read': self.mgmt_root.tm.gtm.servers.server.load,
+            'update': self.mgmt_root.tm.gtm.servers.server.update,
+            'delete': self.mgmt_root.tm.gtm.servers.server.delete,
+            'exists': self.mgmt_root.tm.gtm.servers.server.exists
         }
+        del self.params['partition']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -234,6 +237,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

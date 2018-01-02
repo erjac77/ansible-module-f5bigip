@@ -94,7 +94,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Add SYS SNMP contact, location and allowed addresses
+- name: Set SYS SNMP contact, location and allowed addresses
   f5bigip_sys_snmp:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -105,7 +105,17 @@ EXAMPLES = '''
       - 10.0.0./8
     sys_contact: 'admin@company.com'
     sys_location: Central Office
-    state: present
+  delegate_to: localhost
+
+- name: Clear SYS SNMP allowed addresses
+  f5bigip_sys_snmp:
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
+    allowed_addresses:
+      - ALL
+      - '127'
   delegate_to: localhost
 '''
 
@@ -116,40 +126,36 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_SNMP_ARGS = dict(
-    agent_addresses     =   dict(type='list'),
-    agent_trap          =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    allowed_addresses   =   dict(type='list'),
-    auth_trap           =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    bigip_traps         =   dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    description         =   dict(type='str'),
-    #disk_monitors       =   dict(type='list'),
-    l2forward_vlan      =   dict(type='list'),
-    load_max1           =   dict(type='int'),
-    load_max5           =   dict(type='int'),
-    load_max15          =   dict(type='int'),
-    #process_monitors    =   dict(type='list'),
-    sys_contact         =   dict(type='str'),
-    sys_location        =   dict(type='str'),
-    sys_services        =   dict(type='int'),
-    trap_community      =   dict(type='str'),
-    trap_source         =   dict(type='str')#,
-    #users               =   dict(type='list'),
-    #v1_traps            =   dict(type='list'),
-    #v2_traps            =   dict(type='list')
+    agent_addresses=dict(type='list'),
+    agent_trap=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    allowed_addresses=dict(type='list'),
+    auth_trap=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    bigip_traps=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    description=dict(type='str'),
+    # disk_monitors       =   dict(type='list'),
+    l2forward_vlan=dict(type='list'),
+    load_max1=dict(type='int'),
+    load_max5=dict(type='int'),
+    load_max15=dict(type='int'),
+    # process_monitors    =   dict(type='list'),
+    sys_contact=dict(type='str'),
+    sys_location=dict(type='str'),
+    sys_services=dict(type='int'),
+    trap_community=dict(type='str'),
+    trap_source=dict(type='str')  # ,
+    # users               =   dict(type='list'),
+    # v1_traps            =   dict(type='list'),
+    # v2_traps            =   dict(type='list')
 )
+
 
 class F5BigIpSysSnmp(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.sys.snmp.load,
-            'update':   self.mgmt_root.tm.sys.snmp.update
+            'read': self.mgmt_root.tm.sys.snmp.load,
+            'update': self.mgmt_root.tm.sys.snmp.update
         }
 
-    def _absent(self):
-        if not (self.params['agentAddresses'] or self.params['allowedAddresses']):
-            raise AnsibleF5Error("Absent can only be used when removing Agent Addresses or Allowed Addresses")
-
-        return super(F5BigIpSysSnmp, self)._absent()
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_SNMP_ARGS, supports_check_mode=False)
@@ -160,6 +166,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

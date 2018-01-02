@@ -38,14 +38,16 @@ options:
             - Specifies descriptive text that identifies the component.
     device_group:
         description:
-            - Adds this folder and all configuration items in this folder to a device group for device failover or config-sync purposes.
+            - Adds this folder and all configuration items in this folder to a device group for device failover or
+              config-sync purposes.
     name:
         description:
             - Specifies unique name for the component.
         required: true
     no_ref_check:
         description:
-            - Specifies whether strict device group reference validation is performed on configuration items in the folder.
+            - Specifies whether strict device group reference validation is performed on configuration items in the
+              folder.
         default: false
     state:
         description:
@@ -84,12 +86,13 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_SYS_FOLDER_ARGS = dict(
-    app_service     =   dict(type='str'),
-    description     =   dict(type='str'),
-    device_group    =   dict(type='str'),
-    no_ref_check    =   dict(type='bool'),
-    traffic_group   =   dict(type='str')
+    app_service=dict(type='str'),
+    description=dict(type='str'),
+    device_group=dict(type='str'),
+    no_ref_check=dict(type='bool'),
+    traffic_group=dict(type='str')
 )
+
 
 class F5BigIpSysFolder(F5BigIpNamedObject):
     def __init__(self, *args, **kwargs):
@@ -100,25 +103,13 @@ class F5BigIpSysFolder(F5BigIpNamedObject):
 
     def set_crud_methods(self):
         self.methods = {
-            'create':   self.mgmt_root.tm.sys.folders.folder.create,
-            'read':     self.mgmt_root.tm.sys.folders.folder.load,
-            'update':   self.mgmt_root.tm.sys.folders.folder.update,
-            'delete':   self.mgmt_root.tm.sys.folders.folder.delete,
-            'exists':   self.mgmt_root.tm.sys.folders.folder.exists
+            'create': self.mgmt_root.tm.sys.folders.folder.create,
+            'read': self.mgmt_root.tm.sys.folders.folder.load,
+            'update': self.mgmt_root.tm.sys.folders.folder.update,
+            'delete': self.mgmt_root.tm.sys.folders.folder.delete,
+            'exists': self.mgmt_root.tm.sys.folders.folder.exists
         }
 
-    def _exists(self):
-        return self.methods['exists'](
-            name=self.params['name'],
-            subPath=self.params['subPath']
-        )
-
-    def _read(self):
-        folder = self.methods['read'](
-            name=self.params['name'],
-            subPath=self.params['subPath']
-        )
-        return folder
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_FOLDER_ARGS, supports_check_mode=False)
@@ -129,6 +120,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

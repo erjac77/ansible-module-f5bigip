@@ -30,12 +30,6 @@ version_added: "2.4"
 author:
     - "Eric Jacob (@erjac77)"
 options:
-    app_service:
-        description:
-            - Specifies the application service that the object belongs to.
-    description:
-        description:
-            - Specifies descriptive text that identifies the component.
     name:
         description:
             - Specifies unique name for the component.
@@ -80,9 +74,9 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
     name: 1.1
-    partition: Common
-    vlan: internal
     untagged: true
+    tag_mode: none
+    vlan: /Common/internal
     state: present
   delegate_to: localhost
 '''
@@ -94,43 +88,26 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_NET_VLAN_INTERFACE_ARGS = dict(
-    app_service =   dict(type='str'),
-    description =   dict(type='str'),
-    tag_mode    =   dict(type='str', choices=['customer', 'service', 'double', 'none']),
-    tagged      =   dict(type='bool'),
-    untagged    =   dict(type='bool'),
-    vlan        =   dict(type='str', required=True)
+    tag_mode=dict(type='str', choices=['customer', 'service', 'double', 'none']),
+    tagged=dict(type='bool'),
+    untagged=dict(type='bool'),
+    vlan=dict(type='str', required=True)
 )
+
 
 class F5BigIpNetVlanInterface(F5BigIpNamedObject):
     def set_crud_methods(self):
-        self.vlan = self.mgmt_root.tm.net.vlans.vlan.load(
-            name=self.params['vlan'],
-            partition=self.params['partition']
-        )
+        self.vlan = self.mgmt_root.tm.net.vlans.vlan.load(**self._get_resource_id_from_path(self.params['vlan']))
         self.methods = {
-            'create':   self.vlan.interfaces_s.interfaces.create,
-            'read':     self.vlan.interfaces_s.interfaces.load,
-            'update':   self.vlan.interfaces_s.interfaces.update,
-            'delete':   self.vlan.interfaces_s.interfaces.delete,
-            'exists':   self.vlan.interfaces_s.interfaces.exists
+            'create': self.vlan.interfaces_s.interfaces.create,
+            'read': self.vlan.interfaces_s.interfaces.load,
+            'update': self.vlan.interfaces_s.interfaces.update,
+            'delete': self.vlan.interfaces_s.interfaces.delete,
+            'exists': self.vlan.interfaces_s.interfaces.exists
         }
-        del self.params['vlan']
         del self.params['partition']
+        del self.params['vlan']
 
-    def _exists(self):
-        interfaces = self.vlan.interfaces_s.get_collection()
-        for interface in interfaces:
-            name = self.params['name']
-            if interface.name == name:
-                return True
-
-        return False
-
-    def _read(self):
-        return self.methods['read'](
-            name=self.params['name']
-        )
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -147,6 +124,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()

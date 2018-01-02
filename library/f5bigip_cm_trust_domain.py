@@ -43,9 +43,6 @@ options:
     non_ca_devices:
         description:
             - Specifies a set of subordinate devices in the trust domain.
-    partition:
-        description:
-            - Displays the administrative partition in which the component object resides.    default: Common
     password:
         description:
             - Specifies the password for a new device.
@@ -95,21 +92,24 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_CM_TRUST_DOMAIN_ARGS = dict(
-    ca_devices          =   dict(type='list'),
-    md5_fingerprint     =   dict(type='str'),
-    non_ca_devices      =   dict(type='list'),
-    password            =   dict(type='str', no_log=True),
-    serial              =   dict(type='str'),
-    sha1_fingerprint    =   dict(type='str'),
-    username            =   dict(type='str')
+    ca_devices=dict(type='list'),
+    md5_fingerprint=dict(type='str'),
+    non_ca_devices=dict(type='list'),
+    password=dict(type='str', no_log=True),
+    serial=dict(type='str'),
+    sha1_fingerprint=dict(type='str'),
+    username=dict(type='str')
 )
+
 
 class F5BigIpCmTrustDomain(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'read':     self.mgmt_root.tm.cm.trust_domains.trust_domain.load,
-            'exists':   self.mgmt_root.tm.cm.trust_domains.trust_domain.exists
+            'read': self.mgmt_root.tm.cm.trust_domains.trust_domain.load,
+            'exists': self.mgmt_root.tm.cm.trust_domains.trust_domain.exists
         }
+        del self.params['partition']
+
 
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
@@ -126,6 +126,7 @@ def main():
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
+
 
 if __name__ == '__main__':
     main()
