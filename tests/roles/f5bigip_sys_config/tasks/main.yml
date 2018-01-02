@@ -1,0 +1,74 @@
+---
+
+- name: Save SYS Config
+  f5bigip_sys_config:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    command: save
+  delegate_to: localhost
+  register: result
+
+- name: Assert Save SYS Config
+  assert:
+    that:
+      - result|changed
+
+- name: Upload the config files
+  f5bigip_shared_file_transfer_upload:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    filepathname: "{{ files_path }}{{ config_file }}"
+  delegate_to: localhost
+  register: result
+
+- name: Move the config files
+  f5bigip_util_unix_mv:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    file_name: "{{ config_file }}"
+    source_path: "{{ rest_downloads_path }}"
+    dest_path: "{{ scf_files_path }}"
+  delegate_to: localhost
+  register: result
+
+- name: Load/Merge SYS Config (create nodes)
+  f5bigip_sys_config:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    command: load
+    merge: True
+    file: "{{ config_file }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Load/Merge SYS Config (create nodes)
+  assert:
+    that:
+      - result|changed
+
+- name: Delete loaded nodes
+  f5bigip_ltm_node:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - my_loaded_node1
+    - my_loaded_node2
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete loaded nodes
+  assert:
+    that:
+      - result|changed

@@ -1,5 +1,6 @@
 ---
 
+- import_playbook: f5bigip_sys_config.yml
 - import_playbook: f5bigip_sys_crypto.yml
 - import_playbook: f5bigip_sys_db.yml
 - import_playbook: f5bigip_sys_dns.yml

@@ -1,0 +1,8 @@
+---
+
+files_path: "{{ role_path }}/files/"
+
+config_file: nodes.conf
+
+rest_downloads_path: /var/config/rest/downloads/
+scf_files_path: /var/local/scf/
