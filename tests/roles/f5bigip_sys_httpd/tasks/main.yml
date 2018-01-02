@@ -1,65 +1,61 @@
 ---
 
-- name: Add SYS HTTPD allow clients
+- name: Set SYS HTTPD allow clients
   f5bigip_sys_httpd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ httpd_allow_clients }}"
-    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS HTTPD allow clients
+- name: Assert Set SYS HTTPD allow clients
   assert:
     that:
       - result|changed
 
-- name: Add SYS HTTPD allow clients (idempotent)
+- name: Set SYS HTTPD allow clients (idempotent)
   f5bigip_sys_httpd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ httpd_allow_clients }}"
-    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS HTTPD allow clients (idempotent)
+- name: Assert Set SYS HTTPD allow clients (idempotent)
   assert:
     that:
       - not result|changed
 
-- name: Remove SYS HTTPD allow clients
+- name: Clear SYS HTTPD allow clients
   f5bigip_sys_httpd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    allow: "{{ httpd_allow_clients }}"
-    state: absent
+    allow: "{{ httpd_allow_clients_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS HTTPD allow clients
+- name: Assert Clear SYS HTTPD allow clients
   assert:
     that:
       - result|changed
 
-- name: Remove SYS HTTPD allow clients (idempotent)
+- name: Clear SYS HTTPD allow clients (idempotent)
   f5bigip_sys_httpd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    allow: "{{ httpd_allow_clients }}"
-    state: absent
+    allow: "{{ httpd_allow_clients_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS HTTPD allow clients (idempotent)
+- name: Assert Clear SYS HTTPD allow clients (idempotent)
   assert:
     that:
       - not result|changed

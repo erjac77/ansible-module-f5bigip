@@ -1,13 +1,12 @@
 ---
 
-- name: Add SYS SSHD allow clients
+- name: Set SYS SSHD allow clients
   f5bigip_sys_sshd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ sshd_allow_clients }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -23,7 +22,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ sshd_allow_clients }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -32,7 +30,7 @@
     that:
       - not result|changed
 
-- name: Add SYS SSHD banner
+- name: Change SYS SSHD banner and inactivity timeout
   f5bigip_sys_sshd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
@@ -40,62 +38,63 @@
     f5_port: "{{ bigip_port }}"
     banner: "{{ sshd_banner }}"
     banner_text: "{{ sshd_banner_text }}"
-  delegate_to: localhost
-  register: result
-
-- name: Assert Add SYS SSHD banner
-  assert:
-    that:
-      - result|changed
-
-- name: Change SYS SSHD inactivity timeout
-  f5bigip_sys_sshd:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
     inactivity_timeout: "{{ sshd_inactivity_timeout }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change SYS SSHD inactivity timeout
+- name: Assert Change SYS SSHD banner and inactivity timeout
   assert:
     that:
       - result|changed
 
-- name: Remove SYS SSHD allow clients
+- name: Change SYS SSHD banner and inactivity timeout (idempotent)
   f5bigip_sys_sshd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    allow: "{{ sshd_allow_clients }}"
-    state: absent
+    banner: "{{ sshd_banner }}"
+    banner_text: "{{ sshd_banner_text }}"
+    inactivity_timeout: "{{ sshd_inactivity_timeout }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS SSHD allow clients
-  assert:
-    that:
-      - result|changed
-
-- name: Remove SYS SSHD allow clients (idempotent)
-  f5bigip_sys_sshd:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    allow: "{{ sshd_allow_clients }}"
-    state: absent
-  delegate_to: localhost
-  register: result
-
-- name: Assert Remove SYS SSHD allow clients (idempotent)
+- name: Assert Change SYS SSHD banner and inactivity timeout (idempotent)
   assert:
     that:
       - not result|changed
 
-- name: Disable SYS SSHD banner
+- name: Reset SYS SSHD allow clients
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    allow: "{{ sshd_allow_clients_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Clear SYS SSHD allow clients
+  assert:
+    that:
+      - result|changed
+
+- name: Reset SYS SSHD allow clients (idempotent)
+  f5bigip_sys_sshd:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    allow: "{{ sshd_allow_clients_default }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Clear SYS SSHD allow clients (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Disable SYS SSHD banner and inactivity timeout
   f5bigip_sys_sshd:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
@@ -103,25 +102,11 @@
     f5_port: "{{ bigip_port }}"
     banner: "disabled"
     banner_text: ""
-  delegate_to: localhost
-  register: result
-
-- name: Assert Disable SYS SSHD banner
-  assert:
-    that:
-      - result|changed
-
-- name: Disable SYS SSHD inactivity timeout
-  f5bigip_sys_sshd:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
     inactivity_timeout: 0
   delegate_to: localhost
   register: result
 
-- name: Assert Disable SYS SSHD inactivity timeout
+- name: Assert Disable SYS SSHD banner and inactivity timeout
   assert:
     that:
       - result|changed

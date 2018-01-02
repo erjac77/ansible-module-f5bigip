@@ -1,61 +1,89 @@
 ---
 
-- name: Change Password Policy min duration
+- name: Change Password Policy
   f5bigip_auth_password_policy:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
+    max_duration: "{{ password_policy_max_duration }}"
     min_duration: "{{ password_policy_min_duration }}"
+    minimum_length: "{{ password_policy_minimum_length }}"
+    required_lowercase: "{{ password_policy_required_lowercase }}"
+    required_uppercase: "{{ password_policy_required_uppercase }}"
+    required_special: "{{ password_policy_required_special }}"
+    required_numeric: "{{ password_policy_required_numeric }}"
+    expiration_warning: "{{ password_policy_expiration_warning }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change Password Policy min duration
+- name: Assert Change Password Policy
   assert:
     that:
       - result|changed
 
-- name: Change Password Policy min duration (idempotent)
+- name: Change Password Policy (idempotent)
   f5bigip_auth_password_policy:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
+    max_duration: "{{ password_policy_max_duration }}"
     min_duration: "{{ password_policy_min_duration }}"
+    minimum_length: "{{ password_policy_minimum_length }}"
+    required_lowercase: "{{ password_policy_required_lowercase }}"
+    required_uppercase: "{{ password_policy_required_uppercase }}"
+    required_special: "{{ password_policy_required_special }}"
+    required_numeric: "{{ password_policy_required_numeric }}"
+    expiration_warning: "{{ password_policy_expiration_warning }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change Password Policy min duration (idempotent)
+- name: Assert Change Password Policy (idempotent)
   assert:
     that:
       - not result|changed
 
-- name: Change Password Policy min duration back to default
+- name: Change Password Policy back to default
   f5bigip_auth_password_policy:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
+    max_duration: "{{ password_policy_max_duration_default }}"
     min_duration: "{{ password_policy_min_duration_default }}"
+    minimum_length: "{{ password_policy_minimum_length_default }}"
+    required_lowercase: "{{ password_policy_required_lowercase_default }}"
+    required_uppercase: "{{ password_policy_required_uppercase_default }}"
+    required_special: "{{ password_policy_required_special_default }}"
+    required_numeric: "{{ password_policy_required_numeric_default }}"
+    expiration_warning: "{{ password_policy_expiration_warning_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change Password Policy min duration back to default
+- name: Assert Change Password Policy back to default
   assert:
     that:
       - result|changed
 
-- name: Change Password Policy min duration back to default (idempotent)
+- name: Change Password Policy back to default (idempotent)
   f5bigip_auth_password_policy:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
+    max_duration: "{{ password_policy_max_duration_default }}"
     min_duration: "{{ password_policy_min_duration_default }}"
+    minimum_length: "{{ password_policy_minimum_length_default }}"
+    required_lowercase: "{{ password_policy_required_lowercase_default }}"
+    required_uppercase: "{{ password_policy_required_uppercase_default }}"
+    required_special: "{{ password_policy_required_special_default }}"
+    required_numeric: "{{ password_policy_required_numeric_default }}"
+    expiration_warning: "{{ password_policy_expiration_warning_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Change Password Policy min duration back to default (idempotent)
+- name: Assert Change Password Policy back to default (idempotent)
   assert:
     that:
       - not result|changed

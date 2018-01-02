@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     contact: "{{ datacenter_contact }}"
     description: "{{ datacenter_description }}"
     location: "{{ datacenter_location }}"
@@ -27,7 +26,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     contact: "{{ datacenter_contact }}"
     description: "{{ datacenter_description }}"
     location: "{{ datacenter_location }}"
@@ -47,7 +45,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     description: "new {{ datacenter_description }}"
   delegate_to: localhost
   register: result
@@ -64,7 +61,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     description: "new {{ datacenter_description }}"
   delegate_to: localhost
   register: result
@@ -81,7 +77,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result
@@ -98,7 +93,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result

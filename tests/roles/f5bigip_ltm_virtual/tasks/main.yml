@@ -94,7 +94,7 @@
     name: "{{ item.name }}"
     partition: "{{ bigip_partition }}"
     context: "{{ item.context }}"
-    virtual: "{{ virtual_name }}"
+    virtual: "/{{ bigip_partition }}/{{ virtual_name }}"
     state: present
   with_items: "{{ virtual_profiles }}"
   delegate_to: localhost
@@ -114,7 +114,7 @@
     name: "{{ item.name }}"
     partition: "{{ bigip_partition }}"
     context: "{{ item.context }}"
-    virtual: "{{ virtual_name }}"
+    virtual: "/{{ bigip_partition }}/{{ virtual_name }}"
     state: present
   with_items: "{{ virtual_profiles }}"
   delegate_to: localhost
@@ -143,6 +143,25 @@
   assert:
     that:
       - result|changed
+
+- name: Add LTM Virtual Server Persistence (idempotent)
+  f5bigip_ltm_virtual:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ virtual_name }}"
+    partition: "{{ bigip_partition }}"
+    persist: "{{ virtual_persists }}"
+    fallback_persistence: "{{ virtual_fallback_persistence }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add LTM Virtual Server Persistence (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete LTM Virtual Server
   f5bigip_ltm_virtual:

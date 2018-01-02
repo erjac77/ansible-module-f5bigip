@@ -3,3 +3,10 @@
 listener_name: my_listener
 listener_description: My listener
 listener_address: 10.10.1.1
+listener_persist:
+  - { name: dest_addr, partition: "{{ bigip_partition }}", tmDefault: 'yes' }
+listener_source_address_translation:
+  type: automap
+
+listener_profiles:
+ - { name: dns, context: all }

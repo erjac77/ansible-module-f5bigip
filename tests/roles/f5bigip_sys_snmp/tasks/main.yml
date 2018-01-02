@@ -32,34 +32,32 @@
     that:
       - not result|changed
 
-- name: Add SYS SNMP allowed addresses
+- name: Set SYS SNMP allowed addresses
   f5bigip_sys_snmp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allowed_addresses: "{{ snmp_allowed_addresses }}"
-    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS SNMP allowed addresses
+- name: Assert Set SYS SNMP allowed addresses
   assert:
     that:
       - result|changed
 
-- name: Add SYS SNMP allowed addresses (idempotent)
+- name: Set SYS SNMP allowed addresses (idempotent)
   f5bigip_sys_snmp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allowed_addresses: "{{ snmp_allowed_addresses }}"
-    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS SNMP allowed addresses (idempotent)
+- name: Assert Set SYS SNMP allowed addresses (idempotent)
   assert:
     that:
       - not result|changed
@@ -78,7 +76,7 @@
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS SNMP Communities
+- name: Assert Set SYS SNMP Communities
   assert:
     that:
       - result|changed
@@ -178,34 +176,32 @@
     that:
       - not result|changed
 
-- name: Remove SYS SNMP allowed addresses
+- name: Clear SYS SNMP allowed addresses
   f5bigip_sys_snmp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    allowed_addresses: "{{ snmp_allowed_addresses }}"
-    state: absent
+    allowed_addresses: "{{ snmp_allowed_addresses_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS SNMP allowed addresses
+- name: Assert Clear SYS SNMP allowed addresses
   assert:
     that:
       - result|changed
 
-- name: Remove SYS SNMP allowed addresses (idempotent)
+- name: Clear SYS SNMP allowed addresses (idempotent)
   f5bigip_sys_snmp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    allowed_addresses: "{{ snmp_allowed_addresses }}"
-    state: absent
+    allowed_addresses: "{{ snmp_allowed_addresses_default }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS SNMP allowed addresses (idempotent)
+- name: Assert Clear SYS SNMP allowed addresses (idempotent)
   assert:
     that:
       - not result|changed

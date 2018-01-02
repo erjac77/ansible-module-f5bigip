@@ -5,4 +5,4 @@ device_group_network_failover: enabled
 device_group_type: sync-failover
 
 devices:
-  - bigip.localhost
+  - "{{ inventory_hostname }}"

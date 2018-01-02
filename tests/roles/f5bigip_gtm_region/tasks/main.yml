@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
-    partition: "{{ bigip_partition }}"
     description: "{{ region_description }}"
     state: present
   delegate_to: localhost
@@ -25,7 +24,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
-    partition: "{{ bigip_partition }}"
     description: "{{ region_description }}"
     state: present
   delegate_to: localhost
@@ -43,7 +41,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
-    partition: "{{ bigip_partition }}"
     description: "new {{ region_description }}"
   delegate_to: localhost
   register: result
@@ -60,7 +57,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
-    partition: "{{ bigip_partition }}"
     description: "new {{ region_description }}"
   delegate_to: localhost
   register: result
@@ -77,7 +73,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result
@@ -94,7 +89,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result

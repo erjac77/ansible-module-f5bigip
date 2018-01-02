@@ -10,6 +10,8 @@
     partition: "{{ bigip_partition }}"
     description: "{{ listener_description }}"
     address: "{{ listener_address }}"
+    persist: "{{ listener_persist }}"
+    source_address_translation: "{{ listener_source_address_translation }}"
     state: present
   delegate_to: localhost
   register: result
@@ -29,6 +31,8 @@
     partition: "{{ bigip_partition }}"
     description: "{{ listener_description }}"
     address: "{{ listener_address }}"
+    persist: "{{ listener_persist }}"
+    source_address_translation: "{{ listener_source_address_translation }}"
     state: present
   delegate_to: localhost
   register: result
@@ -70,6 +74,47 @@
   register: result
 
 - name: Assert Modify GTM Listener description (idempotent)
+  assert:
+      that:
+        - not result|changed
+
+- name: Add GTM Listener Profiles
+  f5bigip_gtm_listener_profile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    context: "{{ item.context }}"
+    listener: "/{{ bigip_partition }}/{{ listener_name }}"
+    state: present
+  with_items: "{{ listener_profiles }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add GTM Listener Profiles
+  assert:
+      that:
+        - result|changed
+  ignore_errors: yes
+
+- name: Add GTM Listener Profiles (idempotent)
+  f5bigip_gtm_listener_profile:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    context: "{{ item.context }}"
+    listener: "/{{ bigip_partition }}/{{ listener_name }}"
+    state: present
+  with_items: "{{ listener_profiles }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add GTM Listener Profiles (idempotent)
   assert:
       that:
         - not result|changed

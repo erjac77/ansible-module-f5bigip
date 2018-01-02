@@ -13,11 +13,19 @@ device_ha_ip: 10.2.30.21
 device_configsync_ip: "{{ device_ha_ip }}"
 
 device_failover_unicast_addresses:
-  - { ip: "{{ device_ha_ip }}", port: 1026 }
-  - { ip: "{{ device_internal_ip }}", port: 1026 }
+  - { ip: "{{ device_ha_ip }}", effectiveIp: "{{ device_ha_ip }}", port: 1026, effectivePort: 1026 }
+  - { ip: "{{ device_internal_ip }}", effectiveIp: "{{ device_internal_ip }}", port: 1026, effectivePort: 1026 }
 device_failover_multicast_interface: eth0
 device_failover_multicast_ip: 224.0.0.245
 device_failover_multicast_port: 62960
 
+device_failover_unicast_addresses_default: []
+device_failover_multicast_interface_default: none
+device_failover_multicast_ip_default: any
+device_failover_multicast_port_default: 0
+
 device_mirror_ip: "{{ device_ha_ip }}"
 device_mirror_secondary_ip: "{{ device_internal_ip }}"
+
+device_mirror_ip_default: any6
+device_mirror_secondary_ip_default: any6

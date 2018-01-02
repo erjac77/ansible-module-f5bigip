@@ -1,4 +1,19 @@
 ---
 
-password_policy_min_duration: 2
+password_policy_max_duration: 90
+password_policy_min_duration: 30
+password_policy_minimum_length: 8
+password_policy_required_lowercase: 2
+password_policy_required_uppercase: 2
+password_policy_required_special: 1
+password_policy_required_numeric: 1
+password_policy_expiration_warning: 5
+
+password_policy_max_duration_default: 99999
 password_policy_min_duration_default: 0
+password_policy_minimum_length_default: 6
+password_policy_required_lowercase_default: 0
+password_policy_required_uppercase_default: 0
+password_policy_required_special_default: 0
+password_policy_required_numeric_default: 0
+password_policy_expiration_warning_default: 7

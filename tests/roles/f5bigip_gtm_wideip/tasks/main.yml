@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     state: present
   delegate_to: localhost
   register: result
@@ -24,9 +23,8 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
-    partition: "{{ bigip_partition }}"
     addresses: "{{ server_addresses }}"
-    datacenter: "{{ datacenter_name }}"
+    datacenter: "/Common/{{ datacenter_name }}"
     description: "{{ server_description }}"
     product: "{{ server_product }}"
     state: present
@@ -45,7 +43,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ item.name }}"
-    partition: "{{ bigip_partition }}"
     destination: "{{ item.destination }}"
     server: "{{ server_name }}"
     state: present
@@ -116,26 +113,25 @@
     that:
       - result|changed
 
-# Not idempotent !!
-#- name: Create GTM WideIP (idempotent)
-#  f5bigip_gtm_wideip:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ wideip_name }}"
-#    partition: "{{ bigip_partition }}"
-#    description: "{{ wideip_description }}"
-#    pool_lb_mode: "{{ wideip_pool_lb_mode }}"
-#    pools: "{{ wideip_pools }}"
-#    state: present
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Create GTM WideIP (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create GTM WideIP (idempotent)
+  f5bigip_gtm_wideip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ wideip_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ wideip_description }}"
+    pool_lb_mode: "{{ wideip_pool_lb_mode }}"
+    pools: "{{ wideip_pools }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM WideIP (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete GTM WideIP
   f5bigip_gtm_wideip:
@@ -195,7 +191,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result
@@ -212,7 +207,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result

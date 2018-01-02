@@ -56,6 +56,7 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
     partition_access: "{{ user_partition_access_default }}"
     state: present
   delegate_to: localhost
@@ -73,6 +74,7 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
     partition_access: "{{ user_partition_access_default }}"
     state: present
   delegate_to: localhost
@@ -90,6 +92,7 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ user_description }}"
   delegate_to: localhost
   register: result
@@ -106,6 +109,7 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ user_name }}"
+    partition: "{{ bigip_partition }}"
     description: "new {{ user_description }}"
   delegate_to: localhost
   register: result

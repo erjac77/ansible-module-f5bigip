@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     search: "{{ dns_search }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -24,7 +23,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     search: "{{ dns_search }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -40,7 +38,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name_servers: "{{ name_servers }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -56,7 +53,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name_servers: "{{ name_servers }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -71,8 +67,7 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    name_servers: "{{ name_servers }}"
-    state: absent
+    name_servers: []
   delegate_to: localhost
   register: result
 
@@ -87,8 +82,7 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    name_servers: "{{ name_servers }}"
-    state: absent
+    name_servers: []
   delegate_to: localhost
   register: result
 
@@ -103,8 +97,7 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    search: "{{ dns_search }}"
-    state: absent
+    search: []
   delegate_to: localhost
   register: result
 
@@ -119,8 +112,7 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    search: "{{ dns_search }}"
-    state: absent
+    search: []
   delegate_to: localhost
   register: result
 

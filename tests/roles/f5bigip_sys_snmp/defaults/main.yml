@@ -3,6 +3,9 @@
 snmp_allowed_addresses:
   - 172.16.227.0/24
   - 10.0.0.0/8
+snmp_allowed_addresses_default:
+  - ALL
+  - '127.'
 
 snmp_sys_contact: 'admin@localhost'
 snmp_sys_location: Central Office

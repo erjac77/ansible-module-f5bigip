@@ -134,7 +134,6 @@
     that:
       - result|changed
 
-# Not idempotent!!
 - name: Configure CM Device Failover (idempotent)
   f5bigip_cm_device:
     f5_hostname: "{{ bigip_host }}"
@@ -154,7 +153,6 @@
   assert:
     that:
       - not result|changed
-  ignore_errors: yes
 
 - name: Reset CM Device Failover
   f5bigip_cm_device:
@@ -163,10 +161,10 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    multicast_interface: none
-    multicast_ip: any
-    multicast_port: 0
-    unicast_address: []
+    multicast_interface: "{{ device_failover_multicast_interface_default }}"
+    multicast_ip: "{{ device_failover_multicast_ip_default }}"
+    multicast_port: "{{ device_failover_multicast_port_default }}"
+    unicast_address: "{{ device_failover_unicast_addresses_default }}"
     state: present
   delegate_to: localhost
   register: result
@@ -219,8 +217,8 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ device_name }}"
-    mirror_ip: any6
-    mirror_secondary_ip: any6
+    mirror_ip: "{{ device_mirror_ip_default }}"
+    mirror_secondary_ip: "{{ device_mirror_secondary_ip_default }}"
     state: present
   delegate_to: localhost
   register: result

@@ -9,19 +9,20 @@ snatpool_members:
 
 virtual_name: my_http_vs
 virtual_description: My http vs
-virtual_destination: '10.10.20.201:80'
+virtual_destination: "/{{ bigip_partition }}/10.10.20.201:80"
 virtual_ip_protocol: tcp
+virtual_pool: "/{{ bigip_partition }}/{{ pool_name }}"
+virtual_vlans:
+  - "/{{ bigip_partition }}/external"
+virtual_sat:
+  pool: "/{{ bigip_partition }}/my_snatpool"
+  type: snat
+virtual_vlans_enabled: true
 virtual_persists:
-  - { name: cookie }
-virtual_fallback_persistence: source_addr
-virtual_pool: "{{ pool_name }}"
+  - { partition: Common, name: 'cookie', tmDefault: 'yes' }
+virtual_fallback_persistence: '/Common/source_addr'
+
 virtual_profiles:
   - { name: tcp, context: all }
   - { name: http, context: all }
   - { name: oneconnect, context: all }
-virtual_sat:
-  pool: my_snatpool
-  type: snat
-virtual_vlans:
-  - external
-virtual_vlans_enabled: true

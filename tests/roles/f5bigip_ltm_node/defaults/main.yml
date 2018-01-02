@@ -7,5 +7,5 @@ node_monitor: /Common/icmp
 node_connection_limit: 10
 node_dynamic_ratio: 2
 node_logging: enabled
-node_rate_limit: 5
+node_rate_limit: '5'
 node_ratio: 2

@@ -3,6 +3,7 @@
 mgmt_route_name: my_mgmt_route
 mgmt_route_network: '10.10.20.0/24'
 mgmt_route_gateway: '10.10.10.254'
+
 mgmt_route_name_default: default
 mgmt_route_network_default: default
 mgmt_route_gateway_default: '10.0.2.2'

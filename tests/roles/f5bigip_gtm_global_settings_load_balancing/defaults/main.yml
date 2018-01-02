@@ -1,4 +1,5 @@
 ---
 
 global_settings_load_balancing_ignore_path_ttl: yes
+
 global_settings_load_balancing_ignore_path_ttl_default: no

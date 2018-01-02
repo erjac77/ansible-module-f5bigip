@@ -1,4 +1,8 @@
 ---
 
 trust_domain_name: Root
-device_name: /Common/bigip.localhost
+
+trust_domain_ca_devices:
+  - "/Common/{{ inventory_hostname }}"
+
+trust_domain_ca_devices_default: []

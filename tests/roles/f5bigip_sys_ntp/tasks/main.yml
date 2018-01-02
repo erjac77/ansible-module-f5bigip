@@ -1,6 +1,6 @@
 ---
 
-- name: Add SYS NTP Servers
+- name: Set SYS NTP Servers and Timezone
   f5bigip_sys_ntp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
@@ -8,16 +8,15 @@
     f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     timezone: "{{ ntp_timezone }}"
-    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS NTP Servers
+- name: Assert Set SYS NTP Servers and Timezone
   assert:
     that:
       - result|changed
 
-- name: Add SYS NTP Servers (idempotent)
+- name: Set SYS NTP Servers and Timezone (idempotent)
   f5bigip_sys_ntp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
@@ -25,43 +24,40 @@
     f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     timezone: "{{ ntp_timezone }}"
-    state: present
   delegate_to: localhost
   register: result
 
-- name: Assert Add SYS NTP Servers (idempotent)
+- name: Assert Set SYS NTP Servers and Timezone (idempotent)
   assert:
     that:
       - not result|changed
 
-- name: Remove SYS NTP Servers
+- name: Clear SYS NTP Servers
   f5bigip_sys_ntp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    servers: "{{ ntp_servers }}"
-    state: absent
+    servers: []
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS NTP Servers
+- name: Assert Clear SYS NTP Servers
   assert:
     that:
       - result|changed
 
-- name: Remove SYS NTP Servers (idempotent)
+- name: Clear SYS NTP Servers (idempotent)
   f5bigip_sys_ntp:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    servers: "{{ ntp_servers }}"
-    state: absent
+    servers: []
   delegate_to: localhost
   register: result
 
-- name: Assert Remove SYS NTP Servers (idempotent)
+- name: Assert Clear SYS NTP Servers (idempotent)
   assert:
     that:
       - not result|changed

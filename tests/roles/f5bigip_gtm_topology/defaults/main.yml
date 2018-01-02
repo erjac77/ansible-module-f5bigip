@@ -1,6 +1,6 @@
 ---
 
-datacenter_name: DC1
+datacenter_name: my_datacenter
 
-topology_name: 'ldns: country US server: datacenter /Common/DC1'
+topology_name: "ldns: country US server: datacenter /Common/{{ datacenter_name }}"
 topology_description: My topology

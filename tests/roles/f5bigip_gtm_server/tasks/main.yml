@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     state: present
   delegate_to: localhost
   register: result
@@ -24,9 +23,8 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
-    partition: "{{ bigip_partition }}"
     addresses: "{{ server_addresses }}"
-    datacenter: "{{ datacenter_name }}"
+    datacenter: "/Common/{{ datacenter_name }}"
     description: "{{ server_description }}"
     product: "{{ server_product }}"
     state: present
@@ -38,26 +36,24 @@
     that:
       - result|changed
 
-# Not idempotent !!
-#- name: Create GTM Server (idempotent)
-#  f5bigip_gtm_server:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ server_name }}"
-#    partition: "{{ bigip_partition }}"
-#    addresses: "{{ server_addresses }}"
-#    datacenter: "{{ datacenter_name }}"
-#    description: "{{ server_description }}"
-#    state: present
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Create GTM Server (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create GTM Server (idempotent)
+  f5bigip_gtm_server:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ server_name }}"
+    addresses: "{{ server_addresses }}"
+    datacenter: "/Common/{{ datacenter_name }}"
+    description: "{{ server_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM Server (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Add GTM Server Virtual Servers
   f5bigip_gtm_server_virtual_server:
@@ -66,7 +62,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ item.name }}"
-    partition: "{{ bigip_partition }}"
     destination: "{{ item.destination }}"
     server: "{{ server_name }}"
     state: present
@@ -86,7 +81,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ item.name }}"
-    partition: "{{ bigip_partition }}"
     destination: "{{ item.destination }}"
     server: "{{ server_name }}"
     state: present
@@ -106,7 +100,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_virtual_servers[0].name }}"
-    partition: "{{ bigip_partition }}"
     server: "{{ server_name }}"
     state: absent
   delegate_to: localhost
@@ -124,7 +117,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_virtual_servers[0].name }}"
-    partition: "{{ bigip_partition }}"
     server: "{{ server_name }}"
     state: absent
   delegate_to: localhost
@@ -142,7 +134,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result
@@ -159,7 +150,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result
@@ -176,7 +166,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
-    partition: "{{ bigip_partition }}"
     state: absent
   delegate_to: localhost
   register: result

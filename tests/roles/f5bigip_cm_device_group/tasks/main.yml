@@ -61,7 +61,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ item }}"
-    partition: Common
     device_group: "{{ device_group_name }}"
     state: present
   with_items: "{{ devices }}"

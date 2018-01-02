@@ -47,6 +47,7 @@
     name: "{{ vlan_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ vlan_description }}"
+  delegate_to: localhost
   register: result
 
 - name: Change NET VLAN description
@@ -63,6 +64,7 @@
     name: "{{ vlan_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ vlan_description }}"
+  delegate_to: localhost
   register: result
 
 - name: Change NET VLAN description (idempotent)
@@ -70,59 +72,81 @@
     that:
       - not result|changed
 
-# Doesn't work !!
-#- name: Add NET VLAN Interface
-#  f5bigip_net_vlan_interface:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ interface_name }}"
-#    partition: "{{ bigip_partition }}"
-#    tagged: "{{ vlan_tagged }}"
-#    vlan: "{{ vlan_name }}"
-#    state: present
-#  register: result
-#
-#- name: Assert Add NET VLAN Interface
-#  assert:
-#      that:
-#        - result|changed
-#
-#- name: Add NET VLAN Interface (idempotent)
-#  f5bigip_net_vlan_interface:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ interface_name }}"
-#    partition: "{{ bigip_partition }}"
-#    untagged: "{{ vlan_name }}"
-#    vlan: "{{ vlan_name }}"
-#    state: present
-#  register: result
-#
-#- name: Assert Add NET VLAN Interface (idempotent)
-#  assert:
-#      that:
-#        - not result|changed
-#
-#- name: Remove NET VLAN Interface
-#  f5bigip_net_vlan_interface:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ interface_name }}"
-#    partition: "{{ bigip_partition }}"
-#    vlan: "{{ vlan_name }}"
-#    state: absent
-#  register: result
-#
-#- name: Assert Remove NET VLAN Interface
-#  assert:
-#      that:
-#        - result|changed
+- name: Add NET VLAN Interfaces
+  f5bigip_net_vlan_interface:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    tagged: "{{ item.tagged }}"
+    tag_mode: "{{ item.tag_mode }}"
+    vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
+    state: present
+  with_items: "{{ vlan_interfaces }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add NET VLAN Interfaces
+  assert:
+      that:
+        - result|changed
+
+- name: Add NET VLAN Interfaces (idempotent)
+  f5bigip_net_vlan_interface:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    tagged: "{{ item.tagged }}"
+    tag_mode: "{{ item.tag_mode }}"
+    vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
+    state: present
+  with_items: "{{ vlan_interfaces }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add NET VLAN Interfaces (idempotent)
+  assert:
+      that:
+        - not result|changed
+
+- name: Remove NET VLAN Interfaces
+  f5bigip_net_vlan_interface:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
+    state: absent
+  with_items: "{{ vlan_interfaces }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove NET VLAN Interfaces
+  assert:
+      that:
+        - result|changed
+
+- name: Remove NET VLAN Interfaces (idempotent)
+  f5bigip_net_vlan_interface:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
+    state: absent
+  with_items: "{{ vlan_interfaces }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Remove NET VLAN Interfaces (idempotent)
+  assert:
+      that:
+        - not result|changed
 
 - name: Delete NET VLAN
   f5bigip_net_vlan:

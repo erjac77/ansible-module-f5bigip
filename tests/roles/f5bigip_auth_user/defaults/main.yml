@@ -5,8 +5,8 @@ user_name: user1
 user_description: User1
 
 user_partition_access:
-  - { name: "{{ partition_name }}", role: 'operator' }
-  - { name: 'Common', role: 'guest' }
+  - { name: "{{ partition_name }}", role: operator }
+  - { name: Common, role: guest }
  
 user_partition_access_default:
-  - { name: 'all-partitions', role: 'guest' }
+  - { name: all-partitions, role: guest }

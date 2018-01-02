@@ -4,8 +4,8 @@ datacenter_name: my_datacenter
 
 server_name: my_server
 server_addresses:
-  - { name: 10.10.20.11, device-name: primary }
-  - { name: 10.10.20.12, device-name: secondary }
+  - { name: 10.10.20.11, deviceName: primary, translation: none }
+  - { name: 10.10.20.12, deviceName: secondary, translation: none }
 server_description: My server
 server_product: redundant-bigip
 server_virtual_servers:
@@ -20,4 +20,4 @@ wideip_name: mywideip.root.local
 wideip_description: My wideip
 wideip_pool_lb_mode: global-availability
 wideip_pools:
-  - my_pool
+  - { name: my_pool, partition: Common, order: 0, ratio: 1 }
