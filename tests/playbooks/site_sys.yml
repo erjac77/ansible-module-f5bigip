@@ -1,0 +1,19 @@
+---
+
+- import_playbook: f5bigip_sys_crypto.yml
+- import_playbook: f5bigip_sys_db.yml
+- import_playbook: f5bigip_sys_dns.yml
+- import_playbook: f5bigip_sys_failover.yml
+- import_playbook: f5bigip_sys_file.yml
+- import_playbook: f5bigip_sys_folder.yml
+- import_playbook: f5bigip_sys_global_settings.yml
+- import_playbook: f5bigip_sys_httpd.yml
+- import_playbook: f5bigip_sys_management_route.yml
+- import_playbook: f5bigip_sys_ntp.yml
+- import_playbook: f5bigip_sys_performance.yml
+- import_playbook: f5bigip_sys_provision.yml
+- import_playbook: f5bigip_sys_snmp.yml
+- import_playbook: f5bigip_sys_software_update.yml
+- import_playbook: f5bigip_sys_sshd.yml
+- import_playbook: f5bigip_sys_syslog.yml
+- import_playbook: f5bigip_sys_ucs.yml

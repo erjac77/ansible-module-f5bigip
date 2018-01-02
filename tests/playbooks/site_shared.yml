@@ -1,0 +1,5 @@
+---
+
+- import_playbook: f5bigip_shared_bigip_failover_state.yml
+- import_playbook: f5bigip_shared_file_transfer.yml
+- import_playbook: f5bigip_shared_licensing.yml

@@ -1,0 +1,5 @@
+---
+
+- import_playbook: f5bigip_auth_partition.yml
+- import_playbook: f5bigip_auth_password_policy.yml
+- import_playbook: f5bigip_auth_user.yml

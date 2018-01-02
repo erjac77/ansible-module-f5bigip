@@ -1,0 +1,10 @@
+---
+
+- import_playbook: f5bigip_net_arp.yml
+- import_playbook: f5bigip_net_dns_resolver.yml
+- import_playbook: f5bigip_net_route.yml
+- import_playbook: f5bigip_net_route_domain.yml
+- import_playbook: f5bigip_net_selfip.yml
+- import_playbook: f5bigip_net_tunnel_gre.yml
+- import_playbook: f5bigip_net_tunnel_vxlan.yml
+- import_playbook: f5bigip_net_vlan.yml
