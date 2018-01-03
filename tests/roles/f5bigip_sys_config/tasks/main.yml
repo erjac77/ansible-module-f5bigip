@@ -37,24 +37,24 @@
   delegate_to: localhost
   register: result
 
-- name: Load/Merge SYS Config (create nodes)
+- name: Load/Merge SYS Config (Create nodes)
   f5bigip_sys_config:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     command: load
-    merge: True
+    merge: yes
     file: "{{ config_file }}"
   delegate_to: localhost
   register: result
 
-- name: Assert Load/Merge SYS Config (create nodes)
+- name: Assert Load/Merge SYS Config (Create nodes)
   assert:
     that:
       - result|changed
 
-- name: Delete loaded nodes
+- name: Delete nodes
   f5bigip_ltm_node:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
