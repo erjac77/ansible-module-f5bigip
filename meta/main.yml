@@ -9,8 +9,6 @@ galaxy_info:
   - name: Ubuntu
     versions:
       - all
-  categories:
-      - networking:f5:bigip
   galaxy_tags:
     - networking
     - f5
