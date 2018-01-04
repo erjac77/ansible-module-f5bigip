@@ -25,6 +25,19 @@
   delegate_to: localhost
   with_items: "{{ facts_pools }}"
 
+- name: Add LTM Pools Members
+  f5bigip_ltm_pool_member:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}:80"
+    partition: "{{ bigip_partition }}"
+    pool: "{{ facts_pools[0].name }}"
+    state: present
+  delegate_to: localhost
+  with_items: "{{ facts_nodes }}"
+
 - name: Gather BIG-IP facts
   f5bigip_facts:
     f5_hostname: "{{ bigip_host }}"
@@ -41,6 +54,26 @@
     that:
       - "'node1' in tm_ltm_node['items']|map(attribute='name') and 'node9' in tm_ltm_node['items']|map(attribute='name')"
       - "'pool1' in tm_ltm_pool['items']|map(attribute='name') and 'pool9' in tm_ltm_pool['items']|map(attribute='name')"
+      - "'items' not in tm_ltm_pool['items'][0]['membersReference']"
+
+- name: Gather BIG-IP facts with expanded subcollections
+  f5bigip_facts:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    module: "{{ item.module }}"
+    component: "{{ item.component }}"
+    expand_subcollections: yes
+  with_items: "{{ facts_objects }}"
+  delegate_to: localhost
+
+- name: Assert Gather BIG-IP facts with expanded subcollections
+  assert:
+    that:
+      - "'node1' in tm_ltm_node['items']|map(attribute='name') and 'node9' in tm_ltm_node['items']|map(attribute='name')"
+      - "'pool1' in tm_ltm_pool['items']|map(attribute='name') and 'pool9' in tm_ltm_pool['items']|map(attribute='name')"
+      - "'items' in tm_ltm_pool['items'][0]['membersReference']"
 
 - name: Gather filtered BIG-IP facts
   f5bigip_facts:
@@ -63,8 +96,17 @@
       - "'node5' not in tm_ltm_node['items']|map(attribute='name') and 'node9' not in tm_ltm_node['items']|map(attribute='name')"
       - "'pool5' not in tm_ltm_pool['items']|map(attribute='name') and 'pool9' not in tm_ltm_pool['items']|map(attribute='name')"
 
-- debug:
-    msg: "{{ tm_ltm_pool['items']|map(attribute='name')|list }}"
+- name: Delete LTM Pools
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  with_items: "{{ facts_pools }}"
 
 - name: Delete LTM Nodes
   f5bigip_ltm_node:
@@ -78,18 +120,6 @@
     state: absent
   delegate_to: localhost
   with_items: "{{ facts_nodes }}"
-
-- name: Delete LTM Pools
-  f5bigip_ltm_pool:
-    f5_hostname: "{{ bigip_host }}"
-    f5_username: "{{ bigip_username }}"
-    f5_password: "{{ bigip_password }}"
-    f5_port: "{{ bigip_port }}"
-    name: "{{ item.name }}"
-    partition: "{{ bigip_partition }}"
-    state: absent
-  delegate_to: localhost
-  with_items: "{{ facts_pools }}"
 
 - name: Gather Device Info Facts
   f5bigip_facts:

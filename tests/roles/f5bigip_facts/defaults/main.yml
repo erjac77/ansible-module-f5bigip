@@ -10,6 +10,7 @@ facts_nodes:
   - { name: node7, address: 7.7.7.7 }
   - { name: node8, address: 8.8.8.8 }
   - { name: node9, address: 9.9.9.9 }
+
 facts_pools:
   - { name: pool1 }
   - { name: pool2 }
@@ -24,6 +25,7 @@ facts_pools:
 facts_objects:
   - { module: ltm, component: node }
   - { module: ltm, component: pool }
+
 facts_filter: partition eq Common
 facts_select: name,partition
 facts_skip: 5

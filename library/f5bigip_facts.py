@@ -30,13 +30,16 @@ version_added: "2.4"
 author:
     - "Eric Jacob (@erjac77)"
 options:
-    filter:
-        description:
-            - Specifies an administrative partition to query for a result set.
     component:
         description:
             - Specifies the component to collect.
         required: true
+    expand_subcollections:
+        description:
+            - Specifies that iControl REST expand any references to sub collections when set to true/yes.
+    filter:
+        description:
+            - Specifies an administrative partition to query for a result set.
     module:
         description:
             - Specifies the module.
@@ -46,11 +49,9 @@ options:
             - Specifies the namespace of the request.
             - The default value is 'tm' (for traffic management).
         default: tm
-        choices: ['tm', 'shared']
     select:
         description:
             - Specifies a subset of the properties that will appear in the result set.
-        default: ltm
     sub_module:
         description:
             - Specifies the sub-module.
@@ -78,6 +79,7 @@ EXAMPLES = '''
     component: pool
     filter: partition eq Common
     select: name,partition
+    expand_subcollections: yes
   delegate_to: localhost
 
 - debug:
@@ -87,7 +89,7 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
-from ansible.module_utils.basic import json
+from ansible.module_utils.basic import AnsibleModule, json
 from ansible.module_utils.urls import open_url
 from ansible_common_f5.f5_bigip import *
 from six import iteritems, iterkeys
@@ -95,6 +97,7 @@ from six import iteritems, iterkeys
 
 def get_facts(uri, **params):
     rparams = dict()
+    rq_subcol = params['expand_subcollections']
     rq_filter = params['filter']
     rq_select = params['select']
     rq_skip = params['skip']
@@ -111,8 +114,11 @@ def get_facts(uri, **params):
         rparams['top'] = rq_top
 
     req_params = ""
+    if rq_subcol:
+        req_params += "?expandSubcollections=true"
     if rparams:
-        req_params = "?"
+        if not req_params:
+            req_params = "?"
         for k, v in iteritems(rparams):
             if len(req_params) > 1:
                 req_params += "&"
@@ -142,9 +148,10 @@ def convert_keys(data):
 def main():
     argument_spec = dict(
         component=dict(type='str', required=True),
+        expand_subcollections=dict(type='bool'),
         filter=dict(type='str'),
         module=dict(type='str', required=True),
-        namespace=dict(type='str', default='tm', choices=['tm', 'shared']),
+        namespace=dict(type='str', default='tm'),
         select=dict(type='str'),
         skip=dict(type='int'),
         sub_module=dict(type='str'),
