@@ -39,8 +39,8 @@
 - name: Assert Gather BIG-IP facts
   assert:
     that:
-      - "'node1' in ltm_node['items']|map(attribute='name') and 'node9' in ltm_node['items']|map(attribute='name')"
-      - "'pool1' in ltm_pool['items']|map(attribute='name') and 'pool9' in ltm_pool['items']|map(attribute='name')"
+      - "'node1' in tm_ltm_node['items']|map(attribute='name') and 'node9' in tm_ltm_node['items']|map(attribute='name')"
+      - "'pool1' in tm_ltm_pool['items']|map(attribute='name') and 'pool9' in tm_ltm_pool['items']|map(attribute='name')"
 
 - name: Gather filtered BIG-IP facts
   f5bigip_facts:
@@ -60,8 +60,11 @@
 - name: Assert Gather filtered BIG-IP facts
   assert:
     that:
-      - "'node5' not in ltm_node['items']|map(attribute='name') and 'node9' not in ltm_node['items']|map(attribute='name')"
-      - "'pool5' not in ltm_pool['items']|map(attribute='name') and 'pool9' not in ltm_pool['items']|map(attribute='name')"
+      - "'node5' not in tm_ltm_node['items']|map(attribute='name') and 'node9' not in tm_ltm_node['items']|map(attribute='name')"
+      - "'pool5' not in tm_ltm_pool['items']|map(attribute='name') and 'pool9' not in tm_ltm_pool['items']|map(attribute='name')"
+
+- debug:
+    msg: "{{ tm_ltm_pool['items']|map(attribute='name')|list }}"
 
 - name: Delete LTM Nodes
   f5bigip_ltm_node:
@@ -87,3 +90,20 @@
     state: absent
   delegate_to: localhost
   with_items: "{{ facts_pools }}"
+
+- name: Gather Device Info Facts
+  f5bigip_facts:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    namespace: shared
+    module: identified-devices
+    sub_module: config
+    component: device-info
+  delegate_to: localhost
+
+- name: Assert Gather Device Info Facts
+  assert:
+    that:
+      - "shared_identifieddevices_config_deviceinfo['hostname'] == inventory_hostname"
