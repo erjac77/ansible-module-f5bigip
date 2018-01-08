@@ -1,6 +1,7 @@
 ---
 
 - import_playbook: f5bigip_util_bash.yml
+- import_playbook: f5bigip_util_dig.yml
 - import_playbook: f5bigip_util_qkview.yml
 - import_playbook: f5bigip_util_unix_ls.yml
 - import_playbook: f5bigip_util_unix_mv.yml
