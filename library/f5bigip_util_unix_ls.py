@@ -75,7 +75,7 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
             obj = self.methods['list']('run', utilCmdArgs=self.params['path'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Can't show the contents of this folder.")
+            raise AnsibleF5Error("Cannot show the contents of this folder.")
 
         return {'result': obj.commandResult, 'changed': has_changed}
 

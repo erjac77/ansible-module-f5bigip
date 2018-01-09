@@ -90,7 +90,7 @@ class F5BigIpUtilUnixMv(F5BigIpUnnamedObject):
                                                                              self.params['fileName']))
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Can't move the file.")
+            raise AnsibleF5Error("Cannot move the file.")
 
         return {'changed': has_changed}
 

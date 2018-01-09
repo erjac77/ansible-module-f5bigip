@@ -80,7 +80,7 @@ class F5BigIpSysUcs(F5BigIpNamedObject):
             self.methods['save']('save', name=self.params['name'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Cannot save ucs")
+            raise AnsibleF5Error("Cannot save UCS file.")
 
         return {'changed': has_changed}
 

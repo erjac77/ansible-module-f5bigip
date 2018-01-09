@@ -77,7 +77,6 @@ RETURN = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-# from requests.exceptions import HTTPError
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_GTM_TOPOLOGY_ARGS = dict(

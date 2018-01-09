@@ -103,7 +103,6 @@ class F5BigIpSysManagementRoute(F5BigIpNamedObject):
             'exists': self.mgmt_root.tm.sys.management_routes.management_route.exists
         }
         del self.params['partition']
-        # del self.params['sub_path']
 
 
 def main():

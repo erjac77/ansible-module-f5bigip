@@ -82,7 +82,7 @@ class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
             self.methods['download_file'](self.params['fileName'], self.params['downloadPath'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Can't download the file")
+            raise AnsibleF5Error("Cannot download the file.")
 
         return {'changed': has_changed}
 

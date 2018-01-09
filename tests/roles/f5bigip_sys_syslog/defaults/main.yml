@@ -6,11 +6,5 @@ syslog_user_log_from_rst: notice
 syslog_user_log_to_rst: emerg
 
 remote_servers:
-  - name: /Common/remotesyslog1
-    host: 10.20.20.21
-    localIp: none
-    remotePort: 514
-  - name: /Common/remotesyslog2
-    host: 10.20.20.22
-    localIp: none
-    remotePort: 514
+  - { name: /Common/remotesyslog1, host: 10.20.20.21, localIp: none, remotePort: 514 }
+  - { name: /Common/remotesyslog2, host: 10.20.20.22, localIp: none, remotePort: 514 }

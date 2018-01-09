@@ -95,12 +95,6 @@ BIGIP_SYS_FOLDER_ARGS = dict(
 
 
 class F5BigIpSysFolder(F5BigIpNamedObject):
-    def __init__(self, *args, **kwargs):
-        super(F5BigIpSysFolder, self).__init__(*args, **kwargs)
-        if self.params['subPath'] is None:
-            self.params['subPath'] = '/'
-        del self.params['partition']
-
     def set_crud_methods(self):
         self.methods = {
             'create': self.mgmt_root.tm.sys.folders.folder.create,
@@ -109,6 +103,9 @@ class F5BigIpSysFolder(F5BigIpNamedObject):
             'delete': self.mgmt_root.tm.sys.folders.folder.delete,
             'exists': self.mgmt_root.tm.sys.folders.folder.exists
         }
+        if self.params['sub_path'] is None:
+            self.params['sub_path'] = "/"
+        del self.params['partition']
 
 
 def main():

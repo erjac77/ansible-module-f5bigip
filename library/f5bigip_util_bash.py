@@ -75,7 +75,7 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
             obj = self.methods['run']('run', utilCmdArgs=self.params['args'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Could not execute command")
+            raise AnsibleF5Error("Could not execute command.")
 
         if 'commandResult' in obj.attrs:
             output = obj.commandResult

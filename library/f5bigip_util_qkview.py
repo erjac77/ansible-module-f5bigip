@@ -69,7 +69,7 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
             self.methods['run']('run', utilCmdArgs='')
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Can't generate Qkview file")
+            raise AnsibleF5Error("Cannot generate Qkview file.")
 
         return {'changed': has_changed}
 

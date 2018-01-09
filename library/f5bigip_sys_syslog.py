@@ -40,6 +40,11 @@ options:
             - Specifies the highest level of messages about user authentication to include in the system log.
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
+    console_log:
+        description:
+            - Enables or disables logging emergency syslog messages to the console.
+        default: enabled
+        choices: ['enabled', 'disabled']
     cron_from:
         description:
             - Specifies the lowest level of messages about time-based scheduling to include in the system log.
@@ -67,11 +72,6 @@ options:
         description:
             - Enables or disables the ISO date format for messages in the log files.
         default: disabled
-        choices: ['enabled', 'disabled']
-    console_log:
-        description:
-            - Enables or disables logging emergency syslog messages to the console.
-        default: enabled
         choices: ['enabled', 'disabled']
     kern_from:
         description:
@@ -113,6 +113,9 @@ options:
             - Specifies the highest level of system messages to include in the system log.
         default: emerg
         choices: ['alert', 'crit', 'debug', 'emerg', 'err', 'info', 'notice', 'warning']
+    remote_servers:
+        description:
+            - Configures the remote servers, identified by IP address, to which syslog sends messages.
     user_log_from:
         description:
             - Specifies the lowest level of user account messages to include in the system log.
@@ -137,6 +140,9 @@ EXAMPLES = '''
     f5_username: admin
     f5_password: admin
     f5_port: 443
+    remote_servers:
+      - { name: /Common/remotesyslog1, host: 10.20.20.21, localIp: none, remotePort: 514 }
+      - { name: /Common/remotesyslog2, host: 10.20.20.22, localIp: none, remotePort: 514 }
     user_log_from: alert
     user_log_to: alert
   delegate_to: localhost

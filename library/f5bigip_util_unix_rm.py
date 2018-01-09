@@ -76,7 +76,7 @@ class F5BigIpUtilUnixRm(F5BigIpUnnamedObject):
             self.methods['remove']('run', utilCmdArgs=self.params['path'])
             has_changed = True
         except Exception:
-            raise AnsibleF5Error("Can't remove the file.")
+            raise AnsibleF5Error("Cannot remove the file.")
 
         return {'changed': has_changed}
 

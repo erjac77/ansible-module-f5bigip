@@ -88,7 +88,6 @@ class F5BigIpAuthPartition(F5BigIpNamedObject):
             'exists': self.mgmt_root.tm.auth.partitions.partition.exists
         }
         del self.params['partition']
-        del self.params['sub_path']
 
 
 def main():

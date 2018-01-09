@@ -206,7 +206,7 @@ class F5BigIpGtmListener(F5BigIpNamedObject):
         if self.params['source_address_translation']:
             if self.params['source_address_translation']['type'] == 'automap' and 'pool' in self.params[
                 'source_address_translation']:
-                raise AnsibleF5Error("Can't specify a pool when using automap")
+                raise AnsibleF5Error("Cannot specify a pool when using automap.")
 
 
 def main():
