@@ -72,6 +72,7 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 import re
+from six import iteritems
 import time
 
 BIGIP_SYS_FAILOVER_ARGS = dict(
@@ -95,7 +96,7 @@ class F5BigIpSysFailover(F5BigIpUnnamedObject):
 
     def run(self):
         # Remove empty params
-        params = dict((k, v) for k, v in self.params.iteritems() if v is not None)
+        params = dict((k, v) for k, v in iteritems(self.params) if v is not None)
 
         before = self.get_failover_state()
 

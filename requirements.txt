@@ -1,3 +1,4 @@
 ansible>=2.4.0
-f5-sdk>=3.0.3
+f5-sdk>=3.0.8
+six>=1.11.0
 -e git+https://github.com/erjac77/ansible-common-f5#egg=ansible-common-f5

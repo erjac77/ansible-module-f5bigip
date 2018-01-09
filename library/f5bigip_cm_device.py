@@ -116,9 +116,9 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
-from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
+from six.moves import range
 
 BIGIP_CM_DEVICE_ARGS = dict(
     comment=dict(type='str'),

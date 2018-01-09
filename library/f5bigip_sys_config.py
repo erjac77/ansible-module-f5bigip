@@ -120,6 +120,7 @@ RETURN = '''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
+from six import iteritems
 
 BIGIP_SYS_CONFIG_ARGS = dict(
     # Command
@@ -157,7 +158,7 @@ class F5BigIpSysConfig(F5BigIpUnnamedObject):
         command = self.params.pop('command', None)
 
         # Remove empty params
-        params = dict((k, v) for k, v in self.params.iteritems() if v is not None)
+        params = dict((k, v) for k, v in iteritems(self.params) if v is not None)
 
         try:
             self.methods['exec_cmd'](command, **params)
