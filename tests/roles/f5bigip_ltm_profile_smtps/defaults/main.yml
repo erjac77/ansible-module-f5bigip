@@ -1,0 +1,5 @@
+---
+
+profile_name: my_smtps_profile
+profile_activation_mode: allow
+profile_description: My smtps profile description
