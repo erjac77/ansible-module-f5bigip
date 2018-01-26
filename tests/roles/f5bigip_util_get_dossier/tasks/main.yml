@@ -1,0 +1,20 @@
+---
+
+- name: Run Get Dossier command
+  f5bigip_util_get_dossier:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    arguments: "{{ get_dossier_arguments }}"
+  delegate_to: localhost
+  register: result
+
+- name: Show Run Get Dossier command result
+  debug:
+    msg: "{{ result.result }}"
+
+- name: Assert Run Get Dossier command
+  assert:
+    that:
+      - result|succeeded
