@@ -1,0 +1,106 @@
+---
+
+- name: Create SYS Management IP
+  f5bigip_sys_management_ip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ management_ip_name }}"
+    mask: "{{ management_ip_mask }}"
+    description: "{{ management_ip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Management IP
+  assert:
+    that:
+      - result|changed
+
+- name: Create SYS Management IP (idempotent)
+  f5bigip_sys_management_ip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ management_ip_name }}"
+    mask: "{{ management_ip_mask }}"
+    description: "{{ management_ip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS Management IP (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change SYS Management IP description
+  f5bigip_sys_management_ip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ management_ip_name }}"
+    mask: "{{ management_ip_mask }}"
+    description: "new {{ management_ip_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Management IP description
+  assert:
+    that:
+      - result|changed
+
+- name: Change SYS Management IP description (idempotent)
+  f5bigip_sys_management_ip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ management_ip_name }}"
+    mask: "{{ management_ip_mask }}"
+    description: "new {{ management_ip_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Management IP description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change SYS Management IP description back to default
+  f5bigip_sys_management_ip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ management_ip_name }}"
+    mask: "{{ management_ip_mask }}"
+    description: "{{ management_ip_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change SYS Management IP description back to default
+  assert:
+    that:
+      - result|changed
+
+- name: Create default SYS Management IP
+  f5bigip_sys_management_ip:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ management_ip_name_default }}"
+    mask: "{{ management_ip_mask }}"
+    description: "{{ management_ip_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create default SYS Management IP
+  assert:
+    that:
+      - result|changed
