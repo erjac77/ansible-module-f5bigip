@@ -1,0 +1,6 @@
+---
+
+management_ip_name: 10.4.4.4
+management_ip_mask : 24
+management_ip_description: My management ip
+management_ip_name_default: 10.3.3.3
