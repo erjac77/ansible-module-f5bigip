@@ -1,0 +1,105 @@
+---
+
+- name: Create LTM Profile Web Acceleration
+  f5bigip_ltm_profile_web_acceleration:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_web_acceleration_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile Web Acceleration
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Profile Web Acceleration (idempotent)
+  f5bigip_ltm_profile_web_acceleration:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_web_acceleration_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Profile Web Acceleration (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM Profile Web Acceleration cache size
+  f5bigip_ltm_profile_web_acceleration:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_web_acceleration_name }}"
+    partition: "{{ bigip_partition }}"
+    cache_size: "{{ profile_web_acceleration_cache_size }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile Web Acceleration cache size
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM Profile Web Acceleration cache size (idempotent)
+  f5bigip_ltm_profile_web_acceleration:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_web_acceleration_name }}"
+    partition: "{{ bigip_partition }}"
+    cache_size: "{{ profile_web_acceleration_cache_size }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM Profile Web Acceleration cache size (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM Profile Web Acceleration
+  f5bigip_ltm_profile_web_acceleration:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_web_acceleration_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile Web Acceleration
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Profile Web Acceleration (idempotent)
+  f5bigip_ltm_profile_web_acceleration:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_web_acceleration_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Profile Web Acceleration (idempotent)
+  assert:
+    that:
+      - not result|changed
