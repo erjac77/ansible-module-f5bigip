@@ -102,17 +102,17 @@ options:
             - Enables or disables SSL processing.
         default: enabled
         choices: ['enabled', 'disabled']
-    options:
+    tm_options:
         description:
             - Enables options, including some industry-related workarounds.
         default: dont-insert-empty-fragments
         choices: [
-            'all_bugfixes', 'cipher_server_preference', 'dont_insert_empty_fragments', 'ephemeral_rsa',
-            'microsoft_big_sslv3_buffer', 'microsoft_sess_id_bug', 'msie_sslv2_rsa_padding', 'netscape_ca_dn_bug',
-            'netscape_challenge_bug', 'netscape_demo_cipher_change_bug', 'netscape_reuse_cipher_change_bug',
-            'no_session_resumption_on_renegotiation', 'no_ssl', 'no_sslv2', 'no_sslv3', 'no_tls', 'no_tlsv1',
-            'no_tlsv1_1', 'no_tlsv1_2', 'no_dtls', 'passive_close, none, pkcs1_check_1', 'pkcs1_check_2, single_dh_use',
-            'ssleay_080_client_dh_bug', 'sslref2_reuse_cert_type_bug', 'tls_d5_bug', 'tls_rollback_bug'
+            'all-bugfixes', 'cipher-server-preference', 'dont-insert-empty-fragments', 'ephemeral-rsa',
+            'microsoft-big-sslv3-buffer', 'microsoft-sess-id-bug', 'msie-sslv2-rsa-padding', 'netscape-ca-dn-bug',
+            'netscape-challenge-bug', 'netscape-demo-cipher-change-bug', 'netscape-reuse-cipher-change-bug',
+            'no-session-resumption-on-renegotiation', 'no-ssl', 'no-sslv2', 'no-sslv3', 'no-tls', 'no-tlsv1',
+            'no-tlsv1-1', 'no-tlsv1-2', 'no-dtls', 'passive-close, none, pkcs1-check-1', 'pkcs1-check-2, single-dh-use',
+            'ssleay-080-client-dh-bug', 'sslref2-reuse-cert-type-bug', 'tls-d5-bug', 'tls-rollback-bug'
         ]
     name:
         description:
@@ -258,15 +258,6 @@ from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
-BIGIP_LTM_PROFILE_SERVER_SSL_OPTIONS_CHOICES = [
-    'all_bugfixes', 'cipher_server_preference', 'dont_insert_empty_fragments', 'ephemeral_rsa',
-    'microsoft_big_sslv3_buffer', 'microsoft_sess_id_bug', 'msie_sslv2_rsa_padding', 'netscape_ca_dn_bug',
-    'netscape_challenge_bug', 'netscape_demo_cipher_change_bug', 'netscape_reuse_cipher_change_bug',
-    'no_session_resumption_on_renegotiation', 'no_ssl', 'no_sslv2', 'no_sslv3', 'no_tls', 'no_tlsv1', 'no_tlsv1_1',
-    'no_tlsv1_2', 'no_dtls', 'passive_close, none, pkcs1_check_1', 'pkcs1_check_2, single_dh_use',
-    'ssleay_080_client_dh_bug', 'sslref2_reuse_cert_type_bug', 'tls_d5_bug', 'tls_rollback_bug'
-]
-
 BIGIP_LTM_PROFILE_SERVER_SSL_ARGS = dict(
     alert_timeout=dict(type='int'),
     app_service=dict(type='str'),
@@ -287,7 +278,7 @@ BIGIP_LTM_PROFILE_SERVER_SSL_ARGS = dict(
     key=dict(type='str'),
     mod_ssl_methods=dict(type='str', choices=F5_ACTIVATION_CHOICES),
     mode=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    options=dict(type='str', choices=BIGIP_LTM_PROFILE_SERVER_SSL_OPTIONS_CHOICES),
+    tm_options=dict(type='list'),
     passphrase=dict(type='str', no_log=True),
     peer_cert_mode=dict(type='str', choices=['ignore', 'require']),
     proxy_ssl=dict(type='str', choices=F5_ACTIVATION_CHOICES),

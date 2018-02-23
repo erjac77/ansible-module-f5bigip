@@ -2,3 +2,10 @@
 
 profile_name: my_server_ssl_profile
 profile_description: My server ssl profile
+profile_ciphers: DEFAULT:!SSLv2:!SSLv3:!TLSv1
+profile_options:
+  - dont-insert-empty-fragments
+  - single-dh-use
+  - no-sslv2
+  - no-sslv3
+  - no-tlsv1

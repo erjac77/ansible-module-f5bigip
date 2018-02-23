@@ -15,3 +15,10 @@ cert_path: "{{ rest_download_path }}{{ cert_name }}"
 
 profile_name: my_client_ssl_profile
 profile_description: My client ssl profile
+profile_ciphers: DEFAULT:!SSLv2:!SSLv3:!TLSv1
+profile_options:
+  - dont-insert-empty-fragments
+  - single-dh-use
+  - no-sslv2
+  - no-sslv3
+  - no-tlsv1

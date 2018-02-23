@@ -9,6 +9,8 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
+    ciphers: "{{ profile_ciphers }}"
+    tm_options: "{{ profile_options }}"
     state: present
   delegate_to: localhost
   register: result
@@ -27,6 +29,8 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
+    ciphers: "{{ profile_ciphers }}"
+    tm_options: "{{ profile_options }}"
     state: present
   delegate_to: localhost
   register: result

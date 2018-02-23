@@ -79,6 +79,8 @@
     description: "{{ profile_description }}"
     key: "{{ key_name }}"
     cert: "{{ cert_name }}"
+    ciphers: "{{ profile_ciphers }}"
+    tm_options: "{{ profile_options }}"
     state: present
   delegate_to: localhost
   register: result
