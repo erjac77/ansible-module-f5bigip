@@ -73,6 +73,10 @@ options:
         description:
             - Specifies unique name for the component.
         required: true
+    partition:
+        description:
+            - Specifies the administrative partition in which the component object resides.
+        default: Common
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -146,7 +150,6 @@ class F5BigIpCmDevice(F5BigIpNamedObject):
             'delete': self.mgmt_root.tm.cm.devices.device.delete,
             'exists': self.mgmt_root.tm.cm.devices.device.exists
         }
-        del self.params['partition']
 
 
 def main():
