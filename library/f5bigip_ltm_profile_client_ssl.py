@@ -130,8 +130,8 @@ options:
             'microsoft-big-sslv3-buffer', 'microsoft-sess-id-bug', 'msie-sslv2-rsa-padding', 'netscape-ca-dn-bug',
             'netscape-challenge-bug', 'netscape-demo-cipher-change-bug', 'netscape-reuse-cipher-change-bug',
             'no-session-resumption-on-renegotiation', 'no-ssl', 'no-sslv2', 'no-sslv3', 'no-tls', 'no-tlsv1',
-            'no-tlsv1-1', 'no-tlsv1-2', 'no-dtls', 'passive-close, none, pkcs1-check-1', 'pkcs1-check-2, single-dh-use',
-             'ssleay-080-client-dh-bug', 'sslref2-reuse-cert-type-bug', 'tls-d5-bug', 'tls-rollback-bug'
+            'no-tlsv1.1', 'no-tlsv1.2', 'no-dtls', 'passive-close, none, pkcs1-check-1', 'pkcs1-check-2, single-dh-use',
+            'ssleay-080-client-dh-bug', 'sslref2-reuse-cert-type-bug', 'tls-d5-bug', 'tls-rollback-bug'
         ]
     partition:
         description:
@@ -283,8 +283,15 @@ EXAMPLES = '''
     f5_port: 443
     name: my_client_ssl_profile
     partition: Common
-    key: myKey.key
-    cert: myCert.crt
+    key: exemple.localhost.key
+    cert: exemple.localhost.crt
+    ciphers: DEFAULT:!SSLv2:!SSLv3:!TLSv1
+    tm_options:
+      - dont-insert-empty-fragments
+      - single-dh-use
+      - no-sslv2
+      - no-sslv3
+      - no-tlsv1
     state: present
   delegate_to: localhost
 '''
