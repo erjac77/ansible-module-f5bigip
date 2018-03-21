@@ -1,0 +1,21 @@
+---
+
+- name: Get CM failover status of the device
+  f5bigip_cm_failover_status:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+  delegate_to: localhost
+  register: result
+
+- name: Display the failover status of the device
+  debug:
+    msg: "{{ result.failover_status }}"
+  when: result.failover_status is defined
+
+- name: Assert Get CM failover status of the device
+  assert:
+    that:
+      - result.failover_status == 'ACTIVE'
+  when: result.failover_status is defined

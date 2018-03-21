@@ -2,6 +2,7 @@
 
 - import_playbook: f5bigip_cm_device.yml
 - import_playbook: f5bigip_cm_device_group.yml
+- import_playbook: f5bigip_cm_failover_status.yml
 - import_playbook: f5bigip_cm_sync_status.yml
 - import_playbook: f5bigip_cm_traffic_group.yml
 - import_playbook: f5bigip_cm_trust_domain.yml
