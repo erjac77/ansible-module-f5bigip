@@ -60,6 +60,9 @@ options:
         description:
             - Loads the configuration from the specified file, which modifies the running configuration.
         choices: ['yes', 'no']
+    options:
+        description:
+            - Specifies the options for the specified command.
     partitions:
         description:
             - Indicates the partitions in which configuration components reside.
@@ -94,7 +97,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Save SYS Config
+- name: Save the configuration
   f5bigip_sys_config:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -103,7 +106,19 @@ EXAMPLES = '''
     command: save
   delegate_to: localhost
 
-- name: Load/Merge SYS Config
+- name: Save the configuration to a SCF file
+  f5bigip_sys_config:
+    f5_hostname: 172.16.227.35
+    f5_username: admin
+    f5_password: admin
+    f5_port: 443
+    command: save
+    options:
+      - { "file": "{{ scf_filename }}" }
+      - { "no-passphrase": true }
+  delegate_to: localhost
+
+- name: Load and merge the specified configuration
   f5bigip_sys_config:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -125,6 +140,7 @@ from six import iteritems
 BIGIP_SYS_CONFIG_ARGS = dict(
     # Command
     command=dict(type='str', choices=['save', 'load'], required=True),
+    options=dict(type='list'),
     # Common arguments
     base=dict(type='bool'),
     current_partition=dict(type='bool'),

@@ -1,8 +1,10 @@
 ---
 
-files_path: "{{ role_path }}/files/"
+files_path: "{{ role_path }}/files"
 
-config_file: nodes.conf
+rest_madm_path: /var/config/rest/madm
+scf_files_path: /var/local/scf
+scf_filename: "{{ inventory_hostname }}.scf"
 
-rest_downloads_path: /var/config/rest/downloads/
-scf_files_path: /var/local/scf/
+config_filename: nodes.conf
+rest_downloads_path: /var/config/rest/downloads
