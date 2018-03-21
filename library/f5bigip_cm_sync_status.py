@@ -45,6 +45,11 @@ EXAMPLES = '''
     f5_password: admin
     f5_port: 443
   delegate_to: localhost
+  register: result
+
+- name: Display the sync status of the device
+  debug:
+    msg: "Sync Status: {{ result.sync_status }}"
 '''
 
 RETURN = '''

@@ -34,22 +34,21 @@ notes:
 requirements:
     - ansible-common-f5
     - f5-sdk
-options:
-notes:
-    - Requires BIG-IP software version >= 11.6
-requirements:
-    - ansible-common-f5
-    - f5-sdk
 '''
 
 EXAMPLES = '''
-- name: Get Shared Bigip failover state
+- name: Get Shared bigip failover state
   f5bigip_shared_bigip_failover_state:
     f5_hostname: 172.16.227.35
     f5_username: admin
     f5_password: admin
     f5_port: 443
   delegate_to: localhost
+  register: failover_status_resp
+
+- name: Display the failover status of the device
+  debug:
+    msg: "Failover Status: {{ failover_status_resp.bigip_failover_state.failoverState }}"
 '''
 
 RETURN = '''

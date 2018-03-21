@@ -18,3 +18,4 @@
   assert:
     that:
       - result.sync_status == 'Standalone'
+  when: result.sync_status is defined
