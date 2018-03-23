@@ -30,23 +30,23 @@ version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
 options:
-    app-service:
+    app_service:
         description:
             - Specifies the name of the application service to which the profile belongs.
-    defaults-from:
+    defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile. 
     description:
         description:
             - User defined description.
-    idle-timeout:
+    idle_timeout:
         description:
             - Specifies an idle timeout in seconds.
         default: 300
-    log-publisher:
+    log_publisher:
         description:
             - Specify the name of the log publisher which logs translation events.
-    log-profile:
+    log_profile:
         description:
             - Specify the name of the ALG log pro le which controls the logging of ALG events.
     name:
