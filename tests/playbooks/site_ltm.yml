@@ -95,6 +95,7 @@
 - import_playbook: f5bigip_ltm_profile_statistics.yml
 - import_playbook: f5bigip_ltm_profile_stream.yml
 - import_playbook: f5bigip_ltm_profile_tcp.yml
+- import_playbook: f5bigip_ltm_profile_tftp.yml
 - import_playbook: f5bigip_ltm_profile_udp.yml
 - import_playbook: f5bigip_ltm_profile_web_acceleration.yml
 - import_playbook: f5bigip_ltm_profile_xml.yml

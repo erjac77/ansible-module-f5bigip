@@ -1,0 +1,105 @@
+---
+
+- name: Create LTM TFTP profile
+  f5bigip_ltm_profile_tftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM TFTP profile
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM TFTP profile (idempotent)
+  f5bigip_ltm_profile_tftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM TFTP profile (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change LTM TFTP profile description
+  f5bigip_ltm_profile_tftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM TFTP profile description
+  assert:
+    that:
+      - result|changed
+
+- name: Change LTM TFTP profile description (idempotent)
+  f5bigip_ltm_profile_tftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ profile_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change LTM TFTP profile description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete LTM TFTP profile
+  f5bigip_ltm_profile_tftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM TFTP profile
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM TFTP profile (idempotent)
+  f5bigip_ltm_profile_tftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM TFTP profile (idempotent)
+  assert:
+    that:
+      - not result|changed
