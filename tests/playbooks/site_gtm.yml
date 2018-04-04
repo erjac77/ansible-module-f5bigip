@@ -5,6 +5,7 @@
 - import_playbook: f5bigip_gtm_global_settings_load_balancing.yml
 - import_playbook: f5bigip_gtm_global_settings_metrics.yml
 - import_playbook: f5bigip_gtm_listener.yml
+- import_playbook: f5bigip_gtm_monitor_udp.yml
 - import_playbook: f5bigip_gtm_pool.yml
 - import_playbook: f5bigip_gtm_region.yml
 - import_playbook: f5bigip_gtm_rule.yml
