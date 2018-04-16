@@ -77,8 +77,8 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
-    key: "{{ key_name }}"
-    cert: "{{ cert_name }}"
+    key: "/{{ bigip_partition }}/{{ key_name }}"
+    cert: "/{{ bigip_partition }}/{{ cert_name }}"
     ciphers: "{{ profile_ciphers }}"
     tm_options: "{{ profile_options }}"
     state: present
@@ -90,26 +90,25 @@
     that:
       - result|changed
 
-# Not idempotent !!    
-#- name: Create LTM Client SSL profile (idempotent)
-#  f5bigip_ltm_profile_client_ssl:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ profile_name }}"
-#    partition: "{{ bigip_partition }}"
-#    description: "{{ profile_description }}"
-#    key: "{{ key_name }}"
-#    cert: "{{ cert_name }}"
-#    state: present
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Create LTM Client SSL profile (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create LTM Client SSL profile (idempotent)
+  f5bigip_ltm_profile_client_ssl:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ profile_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ profile_description }}"
+    key: "/{{ bigip_partition }}/{{ key_name }}"
+    cert: "/{{ bigip_partition }}/{{ cert_name }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Client SSL profile (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Change LTM Client SSL profile description
   f5bigip_ltm_profile_client_ssl:

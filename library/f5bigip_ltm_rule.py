@@ -40,6 +40,8 @@ options:
     ignore_verification:
         description:
             - Allows the modified rule to load and changes the verification status to 'Not Verified'.
+        default: false
+        choices: ['false', 'true']
     name:
         description:
             - Specifies unique name for the component.
@@ -70,7 +72,7 @@ EXAMPLES = '''
     name: my_rule
     partition: Common
     definition: 'when RULE_INIT {}'
-    ignore_verification: True
+    ignore_verification: 'true'
     state: present
   delegate_to: localhost
 '''
@@ -84,7 +86,7 @@ from ansible_common_f5.f5_bigip import *
 BIGIP_LTM_RULE_ARGS = dict(
     definition=dict(type='str'),
     app_service=dict(type='str'),
-    ignore_verification=dict(type='bool')  # ,
+    ignore_verification=dict(type='str', choices=['false', 'true']) #,
     # metadata=dict(type='list')
 )
 

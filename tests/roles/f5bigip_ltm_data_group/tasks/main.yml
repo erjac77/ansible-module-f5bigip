@@ -28,6 +28,7 @@
     type: string
     state: present
   delegate_to: localhost
+  register: result
 
 - name: Assert Create SYS Data-Group file
   assert:
@@ -43,33 +44,34 @@
     name: "{{ ext_dg_name }}"
     partition: Common
     description: "{{ ext_dg_description }}"
-    external_file_name: "{{ ext_dg_filename }}"
+    external_file_name: "/{{ bigip_partition }}/{{ ext_dg_filename }}"
     state: present
   delegate_to: localhost
+  register: result
 
 - name: Assert Create LTM External Data-Group referencing the file
   assert:
     that:
       - result|changed
 
-# Not idempotent!!
-#- name: Create LTM External Data-Group referencing the file (idempotent)
-#  f5bigip_ltm_data_group_external:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ ext_dg_name }}"
-#    partition: Common
-#    description: "{{ ext_dg_description }}"
-#    external_file_name: "{{ ext_dg_filename }}"
-#    state: present
-#  delegate_to: localhost
-#
-#- name: Assert Create LTM External Data-Group referencing the file (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create LTM External Data-Group referencing the file (idempotent)
+  f5bigip_ltm_data_group_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ext_dg_name }}"
+    partition: Common
+    description: "{{ ext_dg_description }}"
+    external_file_name: "/{{ bigip_partition }}/{{ ext_dg_filename }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM External Data-Group referencing the file (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete LTM External Data-Group
   f5bigip_ltm_data_group_external:
@@ -81,28 +83,29 @@
     partition: Common
     state: absent
   delegate_to: localhost
+  register: result
 
 - name: Assert Delete LTM External Data-Group
   assert:
     that:
       - result|changed
 
-# Not idempotent!!
-#- name: Delete LTM External Data-Group (idempotent)
-#  f5bigip_ltm_data_group_external:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ ext_dg_name }}"
-#    partition: Common
-#    state: absent
-#  delegate_to: localhost
-#
-#- name: Assert Delete LTM External Data-Group (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Delete LTM External Data-Group (idempotent)
+  f5bigip_ltm_data_group_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ ext_dg_name }}"
+    partition: Common
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM External Data-Group (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete SYS Data-Group file
   f5bigip_sys_file_data_group:
@@ -114,6 +117,7 @@
     partition: Common
     state: absent
   delegate_to: localhost
+  register: result
 
 - name: Assert Delete SYS Data-Group file
   assert:
@@ -133,31 +137,32 @@
     type: "{{ int_dg_type }}"
     state: present
   delegate_to: localhost
+  register: result
 
 - name: Assert Create LTM Internal Data-Group
   assert:
     that:
       - result|changed
 
-# Not idempotent!!
-#- name: Create LTM Internal Data-Group (idempotent)
-#  f5bigip_ltm_data_group_internal:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ int_dg_name }}"
-#    partition: Common
-#    description: "{{ int_dg_description }}"
-#    records: "{{ int_dg_records }}"
-#    type: string
-#    state: present
-#  delegate_to: localhost
-#
-#- name: Assert Create LTM Internal Data-Group (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create LTM Internal Data-Group (idempotent)
+  f5bigip_ltm_data_group_internal:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ int_dg_name }}"
+    partition: Common
+    description: "{{ int_dg_description }}"
+    records: "{{ int_dg_records }}"
+    type: string
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Internal Data-Group (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete LTM Internal Data-Group
   f5bigip_ltm_data_group_internal:
@@ -169,25 +174,26 @@
     partition: Common
     state: absent
   delegate_to: localhost
+  register: result
 
 - name: Assert Delete LTM Internal Data-Group
   assert:
     that:
       - result|changed
 
-# Not idempotent!!
-#- name: Delete LTM Internal Data-Group (idempotent)
-#  f5bigip_ltm_data_group_internal:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ int_dg_name }}"
-#    partition: Common
-#    state: absent
-#  delegate_to: localhost
-#
-#- name: Assert Delete LTM Internal Data-Group (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Delete LTM Internal Data-Group (idempotent)
+  f5bigip_ltm_data_group_internal:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ int_dg_name }}"
+    partition: Common
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Internal Data-Group (idempotent)
+  assert:
+    that:
+      - not result|changed

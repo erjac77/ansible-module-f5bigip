@@ -73,7 +73,6 @@ options:
     pool:
         description:
             - Specifies the pool in which the member belongs.
-        default: Common
     priority-group
         description:
             - Specifies the priority group within the pool for this pool member.

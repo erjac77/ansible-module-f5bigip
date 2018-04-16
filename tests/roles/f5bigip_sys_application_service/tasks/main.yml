@@ -20,26 +20,25 @@
     that:
       - result|changed
 
-# Not idempotent!!
-#- name: Create SYS App Service (idempotent)
-#  f5bigip_sys_application_service:
-#    f5_hostname: "{{ bigip_host }}"
-#    f5_username: "{{ bigip_username }}"
-#    f5_password: "{{ bigip_password }}"
-#    f5_port: "{{ bigip_port }}"
-#    name: "{{ app_name }}"
-#    partition: "{{ bigip_partition }}"
-#    template: "{{app_template}}"
-#    tables: "{{ app_tables }}"
-#    variables: "{{ app_variables }}"
-#    state: present
-#  delegate_to: localhost
-#  register: result
-#
-#- name: Assert Create SYS App Service (idempotent)
-#  assert:
-#    that:
-#      - not result|changed
+- name: Create SYS App Service (idempotent)
+  f5bigip_sys_application_service:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ app_name }}"
+    partition: "{{ bigip_partition }}"
+    template: "{{app_template}}"
+    tables: "{{ app_tables }}"
+    variables: "{{ app_variables }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create SYS App Service (idempotent)
+  assert:
+    that:
+      - not result|changed
 
 - name: Delete SYS App Service
   f5bigip_sys_application_service:

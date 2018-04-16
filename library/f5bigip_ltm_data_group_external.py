@@ -69,7 +69,7 @@ EXAMPLES = '''
     name: my_ext_dg
     partition: Common
     description: My external data-group
-    external_file_name: my_ext_dg_file
+    external_file_name: /Common/my_ext_dg_file
     state: present
   delegate_to: localhost
 '''

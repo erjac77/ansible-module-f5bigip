@@ -16,6 +16,7 @@
   assert:
     that:
       - result|changed
+  ignore_errors: yes
 
 - name: Create LTM Snatpool
   f5bigip_ltm_snatpool:
@@ -34,6 +35,7 @@
   assert:
     that:
       - result|changed
+  ignore_errors: yes
 
 - name: Create LTM Virtual Server
   f5bigip_ltm_virtual:
@@ -59,7 +61,6 @@
     that:
       - result|changed
 
-# Not idempotent!!
 - name: Create LTM Virtual Server (idempotent)
   f5bigip_ltm_virtual:
     f5_hostname: "{{ bigip_host }}"

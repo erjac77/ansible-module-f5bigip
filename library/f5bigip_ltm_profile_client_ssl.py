@@ -283,8 +283,8 @@ EXAMPLES = '''
     f5_port: 443
     name: my_client_ssl_profile
     partition: Common
-    key: exemple.localhost.key
-    cert: exemple.localhost.crt
+    key: /Common/exemple.localhost.key
+    cert: /Common/exemple.localhost.crt
     ciphers: DEFAULT:!SSLv2:!SSLv3:!TLSv1
     tm_options:
       - dont-insert-empty-fragments
