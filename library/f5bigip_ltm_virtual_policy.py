@@ -22,19 +22,14 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = '''
 ---
-module: f5bigip_ltm_virtual_profile
-short_description: BIG-IP ltm virtual profile module
+module: f5bigip_ltm_virtual_policy
+short_description: BIG-IP ltm virtual policy module
 description:
-    - Configures profiles on the specified virtual server to direct and manage traffic.
+    - Configures policies on the specified virtual server to manage traffic.
 version_added: "2.4"
 author:
     - "Eric Jacob (@erjac77)"
 options:
-    context:
-        description:
-            - Specifies that the profile is either a clientside or serverside (or both) profile.
-        default: all
-        choices: ['all', 'clientside', 'serverside']
     name:
         description:
             - Specifies unique name for the component.
@@ -60,13 +55,13 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Add LTM HTTP Profile to VS
-  f5bigip_ltm_virtual_profile:
+- name: Add LTM HTTP Policy to VS
+  f5bigip_ltm_virtual_policy:
     f5_hostname: 172.16.227.35
     f5_username: admin
     f5_password: admin
     f5_port: 443
-    name: http
+    name: my_policy
     partition: Common
     virtual: /Common/my_http_vs
     state: present
@@ -79,31 +74,30 @@ RETURN = '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
-BIGIP_LTM_VIRTUAL_PROFILE_ARGS = dict(
-    context=dict(type='str', choices=['all', 'clientside', 'serverside']),
+BIGIP_LTM_VIRTUAL_POLICY_ARGS = dict(
     virtual=dict(type='str')
 )
 
 
-class F5BigIpLtmVirtualProfile(F5BigIpNamedObject):
+class F5BigIpLtmVirtualPolicy(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(
             **self._get_resource_id_from_path(self.params['virtual']))
         self.methods = {
-            'create': self.virtual.profiles_s.profiles.create,
-            'read': self.virtual.profiles_s.profiles.load,
-            'update': self.virtual.profiles_s.profiles.update,
-            'delete': self.virtual.profiles_s.profiles.delete,
-            'exists': self.virtual.profiles_s.profiles.exists
+            'create': self.virtual.policies_s.policies.create,
+            'read': self.virtual.policies_s.policies.load,
+            'update': self.virtual.policies_s.policies.update,
+            'delete': self.virtual.policies_s.policies.delete,
+            'exists': self.virtual.policies_s.policies.exists
         }
         del self.params['virtual']
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_PROFILE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_POLICY_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpLtmVirtualProfile(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpLtmVirtualPolicy(check_mode=module.supports_check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

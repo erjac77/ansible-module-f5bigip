@@ -1,0 +1,58 @@
+---
+
+- name: Create LTM Policy
+  f5bigip_ltm_policy:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ policy.name }}"
+    partition: "{{ bigip_partition }}"
+    sub_path: "{{ policy_drafts | default('Drafts') }}"
+    strategy: "{{ policy.strategy | default(omit) }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Policy
+  assert:
+    that:
+      - result|changed
+
+- name: Add LTM Policy Rules
+  f5bigip_ltm_policy_rule:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ item.name }}"
+    ordinal: "{{ item.ordinal | default(omit) }}"
+    policy: "/{{ bigip_partition }}/{{ policy_drafts | default('Drafts') }}/{{ policy.name }}"
+    state: present
+  with_items: "{{ policy.rules }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add LTM Policy Rules
+  assert:
+    that:
+      - result|changed
+
+- name: Publish LTM Policy
+  f5bigip_ltm_policy:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ policy.name }}"
+    partition: "{{ bigip_partition }}"
+    sub_path: "{{ policy_drafts | default('Drafts') }}"
+    publish: yes
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Publish LTM Policy
+  assert:
+    that:
+      - result|changed

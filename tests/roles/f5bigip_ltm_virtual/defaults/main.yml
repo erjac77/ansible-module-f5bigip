@@ -14,13 +14,20 @@ virtual_ip_protocol: tcp
 virtual_pool: "/{{ bigip_partition }}/{{ pool_name }}"
 virtual_vlans:
   - "/{{ bigip_partition }}/external"
+virtual_vlans_enabled: true
 virtual_sat:
   pool: "/{{ bigip_partition }}/my_snatpool"
   type: snat
-virtual_vlans_enabled: true
+
 virtual_persists:
   - { partition: Common, name: 'cookie', tmDefault: 'yes' }
 virtual_fallback_persistence: '/Common/source_addr'
+
+virtual_policies:
+  - name: my_policy
+    strategy: /Common/first-match
+    rules:
+      - name: my_rule
 
 virtual_profiles:
   - { name: tcp, context: all }
