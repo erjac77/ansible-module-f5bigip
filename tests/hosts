@@ -1,2 +1,2 @@
 [12_1_2]
-bnclab-671dlg-1212-bigip21.localhost bigip_host=localhost bigip_port=21443
+bigip-1212.localhost bigip_host=localhost bigip_port=21443
