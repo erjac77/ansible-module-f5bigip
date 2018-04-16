@@ -208,6 +208,46 @@
     that:
       - not result|changed
 
+- name: Add LTM Virtual Server Rules
+  f5bigip_ltm_virtual:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ virtual_name }}"
+    partition: "{{ bigip_partition }}"
+    rules:
+      - "{{ item.name }}"
+    state: present
+  with_items: "{{ virtual_rules }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add LTM Virtual Server Rules
+  assert:
+    that:
+      - result|changed
+
+- name: Add LTM Virtual Server Rules (idempotent)
+  f5bigip_ltm_virtual:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ virtual_name }}"
+    partition: "{{ bigip_partition }}"
+    rules:
+      - "{{ item.name }}"
+    state: present
+  with_items: "{{ virtual_rules }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Add LTM Virtual Server Rules (idempotent)
+  assert:
+    that:
+      - not result|changed
+
 - name: Delete LTM Virtual Server
   f5bigip_ltm_virtual:
     f5_hostname: "{{ bigip_host }}"

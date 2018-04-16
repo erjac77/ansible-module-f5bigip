@@ -33,3 +33,6 @@ virtual_profiles:
   - { name: tcp, context: all }
   - { name: http, context: all }
   - { name: oneconnect, context: all }
+
+virtual_rules:
+  - { name: '/Common/_sys_https_redirect' }
