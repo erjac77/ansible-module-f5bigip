@@ -1,0 +1,77 @@
+---
+
+### Create policy ###
+- name: Create LTM Policy {{ policy.name }}
+  include_tasks: create_policy.yml
+
+- name: Assert Create LTM Policy {{ policy.name }}
+  assert:
+    that:
+      - result|changed
+
+- name: Create LTM Policy {{ policy.name }} (idempotent)
+  include_tasks: create_policy.yml
+
+- name: Assert Create LTM Policy {{ policy.name }} (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+### Modify policy ###
+- name: Modify LTM Policy {{ policy.name }} description
+  include_tasks: modify_policy.yml
+
+- name: Assert Modify LTM Policy {{ policy.name }} description
+  assert:
+    that:
+      - result|changed
+
+- name: Modify LTM Policy {{ policy.name }} description (idempotent)
+  include_tasks: modify_policy.yml
+
+- name: Assert Modify LTM Policy {{ policy.name }} description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+### Add rules ###
+- name: Add LTM Policy {{ policy.name }} Rules
+  include_tasks: rule.yml
+  with_items: "{{ policy.rules }}"
+  loop_control:
+    loop_var: rule
+
+### Publish policy ###
+- name: Publish LTM Policy {{ policy.name }}
+  include_tasks: publish_policy.yml
+
+- name: Assert Publish LTM Policy {{ policy.name }}
+  assert:
+    that:
+      - result|changed
+
+### Re-draft policy ###
+#- name: Re-draft LTM Policy {{ policy.name }}
+#  include_tasks: re_draft_policy.yml
+#
+#- name: Assert Re-draft LTM Policy {{ policy.name }}
+#  assert:
+#    that:
+#      - result|changed
+
+### Delete policy ###
+- name: Delete LTM Policy {{ policy.name }}
+  include_tasks: delete_policy.yml
+
+- name: Assert Delete LTM Policy {{ policy.name }}
+  assert:
+    that:
+      - result|changed
+
+- name: Delete LTM Policy {{ policy.name }} (idempotent)
+  include_tasks: delete_policy.yml
+
+- name: Assert Delete LTM Policy {{ policy.name }} (idempotent)
+  assert:
+    that:
+      - not result|changed

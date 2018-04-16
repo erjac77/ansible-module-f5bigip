@@ -1,0 +1,107 @@
+---
+
+pool_name: my_pool
+
+policy_drafts: Drafts
+
+policies:
+  - name: forwarding-pool
+    description: Forwarding traffic to a pool
+    rules:
+      - name: rule-1
+        actions:
+          - name: 0
+            forward: True
+            pool: "/{{ bigip_partition }}/{{ pool_name }}"
+        ordinal: 1
+    strategy: /Common/first-match
+  - name: nimbda-be-gone
+    description: Preventing the Nimda worm
+    controls:
+      - forwarding
+    requires:
+      - http
+    rules:
+      - name: rule-1
+        actions:
+          - name: 0
+            forward: True
+            reset: True
+        conditions:
+          - name: 0
+            http_uri: True
+            contains: True
+            values:
+              - root.exe
+              - admin.dll
+              - cmd.exe
+        ordinal: 1
+    strategy: /Common/first-match
+  - name: xff
+    description: Preventing spoofing of X-Forwarded-For
+    requires:
+      - http
+    rules:
+      - name: rule-1
+        actions:
+          - name: 0
+            http_header: True
+            replace: True
+            tm_name: X-foRWardED-for
+            value: "tcl:[IP::client_addr]"
+        ordinal: 2
+    strategy: /Common/first-match
+  - name: shellshock
+    description: Mitigating Shellshock
+    controls:
+      - forwarding
+    requires:
+      - http
+    rules:
+      - name: rule-1
+        actions:
+          - name: 0
+            log: True
+            write: True
+            message: "tcl:Shellshock detected from [IP::client_addr], blocked"
+          - name: 1
+            forward: True
+            reset: True
+        conditions:
+          - name: 0
+            http_uri: True
+            contains: True
+            values:
+              - "() {"
+        ordinal: 1
+    strategy: /Common/first-match
+  - name: blanket
+    description: Selective compression
+    controls:
+      - compression
+    requires:
+      - http
+    rules:
+      - name: rule-1
+        actions:
+          - name: 0
+            compress: True
+            response: True
+            enable: True
+        conditions:
+          - name: 0
+            http_header: True
+            response: True
+            tm_name: Content-type
+            starts_with: True
+            values:
+              - "text/"
+          - name: 1
+            cpu_usage: True
+            response: True
+            last_1min: True
+            less_or_equal: True
+            values:
+              - "5"
+        ordinal: 1
+    strategy: /Common/first-match

@@ -1,0 +1,42 @@
+---
+
+- name: Create LTM Pool
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ pool_name }}"
+    partition: "{{ bigip_partition }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create LTM Pool
+  assert:
+    that:
+      - result|changed
+
+### Configures policies ###
+- name: Configures LTM Policies
+  include_tasks: policy.yml
+  with_items: "{{ policies }}"
+  loop_control:
+    loop_var: policy
+
+- name: Delete LTM Pool
+  f5bigip_ltm_pool:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ pool_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete LTM Pool
+  assert:
+    that:
+      - result|changed

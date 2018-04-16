@@ -54,6 +54,7 @@
 - import_playbook: f5bigip_ltm_persistence_ssl.yml
 - import_playbook: f5bigip_ltm_persistence_universal.yml
 - import_playbook: f5bigip_ltm_pool.yml
+- import_playbook: f5bigip_ltm_policy.yml
 - import_playbook: f5bigip_ltm_profile_certificate_authority.yml
 - import_playbook: f5bigip_ltm_profile_client_ldap.yml
 - import_playbook: f5bigip_ltm_profile_client_ssl.yml

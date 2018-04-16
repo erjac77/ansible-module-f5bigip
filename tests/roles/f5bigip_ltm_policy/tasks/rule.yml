@@ -1,0 +1,34 @@
+---
+
+### Add rule ###
+- name: Add LTM Policy Rule {{ rule.name }}
+  include_tasks: add_rule.yml
+
+- name: Assert Add LTM Policy Rule {{ rule.name }}
+  assert:
+    that:
+      - result|changed
+
+- name: Add LTM Policy Rule {{ rule.name }} (idempotent)
+  include_tasks: add_rule.yml
+
+- name: Assert Add LTM Policy Rule {{ rule.name }} (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+### Add rule actions ###
+- name: Add LTM Policy Rule Actions
+  include_tasks: rule_action.yml
+  with_items: "{{ rule.actions }}"
+  when: rule.actions is defined
+  loop_control:
+    loop_var: action
+
+### Add rule conditions ###
+- name: Add LTM Policy Rule Conditions
+  include_tasks: rule_condition.yml
+  with_items: "{{ rule.conditions }}"
+  when: rule.conditions is defined
+  loop_control:
+    loop_var: condition

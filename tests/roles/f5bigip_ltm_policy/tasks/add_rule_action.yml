@@ -1,0 +1,26 @@
+---
+
+- f5bigip_ltm_policy_rule_action:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ action.name }}"
+    policy: "/{{ bigip_partition }}/{{ policy_drafts | default('Drafts') }}/{{ policy.name }}"
+    rule: "{{ rule.name }}"
+    compress: "{{ action.compress | default(omit) }}"
+    enable: "{{ action.enable | default(omit) }}"
+    forward: "{{ action.forward | default(omit) }}"
+    http_header: "{{ action.http_header | default(omit) }}"
+    log: "{{ action.log | default(omit) }}"
+    message: "{{ action.message | default(omit) }}"
+    tm_name: "{{ action.tm_name | default(omit) }}"
+    pool: "{{ action.pool | default(omit) }}"
+    replace: "{{ action.replace | default(omit) }}"
+    reset: "{{ action.reset | default(omit) }}"
+    response: "{{ action.response | default(omit) }}"
+    value: "{{ action.value | default(omit) }}"
+    write: "{{ action.write | default(omit) }}"
+    state: present
+  delegate_to: localhost
+  register: result

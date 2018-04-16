@@ -1,0 +1,17 @@
+---
+
+- f5bigip_ltm_policy:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ policy.name }}"
+    partition: "{{ bigip_partition }}"
+    sub_path: "{{ policy_drafts | default('Drafts') }}"
+    description: "{{ policy.description | default(omit) }}"
+    #controls: "{{ policy.controls | default(omit) }}"
+    #requires: "{{ policy.requires | default(omit) }}"
+    strategy: "{{ policy.strategy | default(omit) }}"
+    state: present
+  delegate_to: localhost
+  register: result

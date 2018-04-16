@@ -1,0 +1,23 @@
+---
+
+- f5bigip_ltm_policy_rule_condition:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ condition.name }}"
+    policy: "/{{ bigip_partition }}/{{ policy_drafts | default('Drafts') }}/{{ policy.name }}"
+    rule: "{{ rule.name }}"
+    contains: "{{ condition.contains | default(omit) }}"
+    cpu_usage: "{{ condition.cpu_usage | default(omit) }}"
+    http_header: "{{ condition.http_header | default(omit) }}"
+    http_uri: "{{ condition.http_uri | default(omit) }}"
+    last_1min: "{{ condition.last_1min | default(omit) }}"
+    less_or_equal: "{{ condition.less_or_equal | default(omit) }}"
+    tm_name: "{{ condition.tm_name | default(omit) }}"
+    response: "{{ condition.response | default(omit) }}"
+    starts_with: "{{ condition.starts_with | default(omit) }}"
+    values: "{{ condition['values'] | default(omit) }}"
+    state: present
+  delegate_to: localhost
+  register: result
