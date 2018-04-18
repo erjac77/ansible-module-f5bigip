@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Get CM sync status of the device
+- name: Gets the sync status of the device
   f5bigip_cm_sync_status:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -47,12 +47,40 @@ EXAMPLES = '''
   delegate_to: localhost
   register: result
 
-- name: Display the sync status of the device
+- name: Displays the sync status of the device
   debug:
-    msg: "Sync Status: {{ result.sync_status }}"
+    msg: "Sync Status: {{ result.status }}"
 '''
 
 RETURN = '''
+color:
+    description: The color representing the sync status of the device
+    returned: success
+    type: string
+    sample:
+        - green
+        - yellow
+mode:
+    description: The mode in which the BIP-IP system is operating
+    returned: success
+    type: string
+    sample:
+        - high-availability
+        - standalone
+status:
+    description: The sync status of the device
+    returned: success
+    type: string
+    sample:
+        - In Sync
+        - Standalone
+summary:
+    description: A summary message explaining the sync status of the device
+    returned: success
+    type: string
+    sample:
+        - All devices in the device group are in sync
+        - Changes Pending
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -69,18 +97,24 @@ class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
         }
 
     def get_sync_status(self):
-        sync_status_desc = {}
-        sync_status = self.methods['read']
+        result = dict(changed=False)
 
-        if sync_status._meta_data['uri'].endswith("/mgmt/tm/cm/sync-status/"):
+        try:
+            sync_status = self.methods['read']
             sync_status.refresh()
-            sync_status_desc = \
-                sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']['status'][
-                    'description']
-        else:
+            sync_status_stats = \
+                sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']
+        except Exception:
             raise AnsibleF5Error("Unable to retrieve the sync status of the device.")
 
-        return {'sync_status': sync_status_desc}
+        result.update(
+            color=sync_status_stats['color']['description'],
+            mode=sync_status_stats['mode']['description'],
+            status=sync_status_stats['status']['description'],
+            summary=sync_status_stats['summary']['description']
+        )
+
+        return result
 
 
 def main():

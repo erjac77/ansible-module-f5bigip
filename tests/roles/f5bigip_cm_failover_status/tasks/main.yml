@@ -11,11 +11,11 @@
 
 - name: Display the failover status of the device
   debug:
-    msg: "{{ result.failover_status }}"
-  when: result.failover_status is defined
+    msg: "{{ result.status }}"
+  when: result.status is defined
 
 - name: Assert Get CM failover status of the device
   assert:
     that:
-      - result.failover_status == 'ACTIVE'
-  when: result.failover_status is defined
+      - result.status == 'ACTIVE'
+  when: result.status is defined

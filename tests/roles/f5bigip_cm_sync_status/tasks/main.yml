@@ -11,11 +11,11 @@
 
 - name: Display the sync status of the device
   debug:
-    msg: "{{ result.sync_status }}"
-  when: result.sync_status is defined
+    msg: "{{ result.status }}"
+  when: result.status is defined
 
 - name: Assert Get CM sync status of the device
   assert:
     that:
-      - result.sync_status == 'Standalone'
-  when: result.sync_status is defined
+      - result.status == 'Standalone'
+  when: result.status is defined
