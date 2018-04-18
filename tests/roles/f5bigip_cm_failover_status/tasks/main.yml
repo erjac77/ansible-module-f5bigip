@@ -11,7 +11,7 @@
 
 - name: Display the failover status of the device
   debug:
-    msg: "{{ result.status }}"
+    msg: "Failover Status: {{ result.status }}"
   when: result.status is defined
 
 - name: Assert Get CM failover status of the device

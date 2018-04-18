@@ -11,7 +11,7 @@
 
 - name: Display the sync status of the device
   debug:
-    msg: "{{ result.status }}"
+    msg: "Sync Status: {{ result.status }}"
   when: result.status is defined
 
 - name: Assert Get CM sync status of the device

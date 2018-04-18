@@ -11,7 +11,7 @@
 
 - name: Display SYS Version of the device
   debug:
-    msg: "{{ result.version }}"
+    msg: "Version: {{ result.version }}"
   when: result.version is defined
 
 - name: Assert Get SYS Version of the device
