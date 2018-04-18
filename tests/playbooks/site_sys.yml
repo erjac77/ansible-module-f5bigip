@@ -19,3 +19,4 @@
 - import_playbook: f5bigip_sys_sshd.yml
 - import_playbook: f5bigip_sys_syslog.yml
 - import_playbook: f5bigip_sys_ucs.yml
+- import_playbook: f5bigip_sys_version.yml
