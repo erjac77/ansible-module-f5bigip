@@ -25,7 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_util_unix_mv
 short_description: BIG-IP util unix mv module
 description:
-    - Moves files.
+    - Moves (rename) files.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -50,7 +50,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Move file
+- name: Moves a file
   f5bigip_util_unix_mv:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -78,21 +78,21 @@ BIGIP_UTIL_UNIX_MV_ARGS = dict(
 class F5BigIpUtilUnixMv(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'move': self.mgmt_root.tm.util.unix_mv.exec_cmd,
+            'run': self.mgmt_root.tm.util.unix_mv.exec_cmd,
         }
 
     def move(self):
-        has_changed = False
+        result = dict(changed=False)
 
         try:
-            self.methods['move']('run', utilCmdArgs='{0}/{2} {1}/{2}'.format(self.params['sourcePath'],
-                                                                             self.params['destPath'],
-                                                                             self.params['fileName']))
-            has_changed = True
+            self.methods['run']('run', utilCmdArgs='{0}/{2} {1}/{2}'.format(self.params['sourcePath'],
+                                                                            self.params['destPath'],
+                                                                            self.params['fileName']))
+            result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Cannot move the file.")
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():

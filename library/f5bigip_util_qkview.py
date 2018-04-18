@@ -25,10 +25,15 @@ DOCUMENTATION = '''
 module: f5bigip_util_qkview
 short_description: BIG-IP util qkview module
 description:
-    - Generates a Qkview.
+    - Gathers diagnostic information from a BIG-IP system.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
+options:
+    args:
+        description:
+            - Specifies the qkview arguments.
+        default: ''
 notes:
     - Requires BIG-IP software version >= 12.0
 requirements:
@@ -37,7 +42,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Generate qkview
+- name: Generates a Qkview file
   f5bigip_util_qkview:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -53,6 +58,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_QKVIEW_ARGS = dict(
+    args=dict(type='str', default='')
 )
 
 
@@ -63,15 +69,15 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
         }
 
     def run(self):
-        has_changed = False
+        result = dict(changed=False)
 
         try:
-            self.methods['run']('run', utilCmdArgs='')
-            has_changed = True
+            self.methods['run']('run', utilCmdArgs=self.params['args'])
+            result['changed'] = True
         except Exception:
-            raise AnsibleF5Error("Cannot generate Qkview file.")
+            raise AnsibleF5Error("Cannot generate the Qkview file.")
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():

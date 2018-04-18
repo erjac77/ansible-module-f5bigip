@@ -6,15 +6,16 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    arguments: "{{ serverssl_ciphers_arguments }}"
+    cipher_string: "{{ item.cipher_string }}"
+  with_items: "{{ serverssl_cipher_strings }}"
   delegate_to: localhost
   register: result
 
-- name: Show Server SSL Ciphers command result
-  debug:
-    msg: "{{ result.result }}"
+- name: Display Server SSL Ciphers command output
+  debug: var=item.stdout_lines
+  with_items: "{{ result.results }}"
 
-- name: Assert run Server SSL Ciphers command
+- name: Assert Run Server SSL Ciphers command
   assert:
     that:
       - result|succeeded

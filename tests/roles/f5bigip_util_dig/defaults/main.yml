@@ -1,3 +1,5 @@
 ---
 
-dig_arguments: 'f5.com NS'
+dig_commands:
+  - { args: 'f5.com A' }
+  - { args: 'f5.com NS' }

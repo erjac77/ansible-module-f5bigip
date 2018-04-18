@@ -25,7 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_util_unix_rm
 short_description: BIG-IP util unix rm module
 description:
-    - Removes files.
+    - Removes files or directories.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -42,7 +42,7 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Remove file
+- name: Removes a file
   f5bigip_util_unix_rm:
     f5_hostname: 172.16.227.35
     f5_username: admin
@@ -66,19 +66,19 @@ BIGIP_UTIL_UNIX_RM_ARGS = dict(
 class F5BigIpUtilUnixRm(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'remove': self.mgmt_root.tm.util.unix_rm.exec_cmd,
+            'run': self.mgmt_root.tm.util.unix_rm.exec_cmd,
         }
 
     def remove(self):
-        has_changed = False
+        result = dict(changed=False)
 
         try:
-            self.methods['remove']('run', utilCmdArgs=self.params['path'])
-            has_changed = True
+            self.methods['run']('run', utilCmdArgs=self.params['path'])
+            result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Cannot remove the file.")
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():

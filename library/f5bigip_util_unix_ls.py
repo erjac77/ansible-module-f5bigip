@@ -25,7 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_util_unix_ls
 short_description: BIG-IP util unix ls module
 description:
-    - Shows contents of folders.
+    - Lists directory contents.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -33,6 +33,7 @@ options:
     path:
         description:
             - Specifies the path of the folder.
+        required: true
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -41,17 +42,29 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: List directory contents
+- name: Lists a directory contents
   f5bigip_util_unix_ls:
     f5_hostname: 172.16.227.35
     f5_username: admin
     f5_password: admin
     f5_port: 443
-    path: /var/
+    path: /var/tmp
   delegate_to: localhost
 '''
 
 RETURN = '''
+stdout:
+    description: The output of the command.
+    returned: success
+    type: list
+    sample:
+        - ['...', '...']
+stdout_lines:
+    description: A list of strings, each containing one item per line from the original output.
+    returned: success
+    type: list
+    sample:
+        - [['...', '...'], ['...'], ['...']]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -69,15 +82,19 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
         }
 
     def list(self):
-        has_changed = False
+        result = dict(changed=False, stdout=list())
 
         try:
             obj = self.methods['list']('run', utilCmdArgs=self.params['path'])
-            has_changed = True
+            # result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Cannot show the contents of this folder.")
 
-        return {'result': obj.commandResult, 'changed': has_changed}
+        if 'commandResult' in obj.attrs:
+            result['stdout'].append(obj.commandResult)
+
+        result['stdout_lines'] = list(to_lines(result['stdout']))
+        return result
 
 
 def main():

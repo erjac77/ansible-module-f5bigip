@@ -1,3 +1,6 @@
 ---
 
-clientssl_ciphers_arguments: 'DEFAULT'
+clientssl_cipher_strings:
+  - { cipher_string: '' }
+  - { cipher_string: 'DEFAULT' }
+  - { cipher_string: 'DHE-RSA-AES128-GCM-SHA256' }

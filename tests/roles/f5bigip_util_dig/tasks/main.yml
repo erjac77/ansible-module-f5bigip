@@ -1,20 +1,21 @@
 ---
 
-- name: Run dig command
+- name: Run Util Dig command
   f5bigip_util_dig:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    arguments: "{{ dig_arguments }}"
+    args: "{{ item.args }}"
+  with_items: "{{ dig_commands }}"
   delegate_to: localhost
   register: result
 
-- name: Show dig command result
-  debug:
-    msg: "{{ result.result }}"
+- name: Display Dig command output
+  debug: var=item.stdout_lines
+  with_items: "{{ result.results }}"
 
-- name: Assert run dig command
+- name: Assert Run Util Dig command
   assert:
     that:
       - result|succeeded

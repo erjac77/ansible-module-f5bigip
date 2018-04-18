@@ -1,5 +1,5 @@
 ---
 
-bash_name: my_bash
-bash_description: My bash
-bash_args: '-c "echo test"'
+bash_commands:
+  - { cmd_args: '-c "df -k"' }
+  - { cmd_args: '-c "echo hello"'}

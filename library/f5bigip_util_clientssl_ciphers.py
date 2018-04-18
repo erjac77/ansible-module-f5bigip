@@ -25,14 +25,15 @@ DOCUMENTATION = '''
 module: f5bigip_util_clientssl_ciphers
 short_description: BIG-IP util client ssl ciphers module
 description:
-    - Runs a client ssl ciphers command.
+    - Shows all ciphers that match the given cipher string.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
 options:
-    arguments:
+    cipher_string:
         description:
-            - Specifies the arguments for the command.
+            - Specifies the cipher string.
+        required: true
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -41,51 +42,68 @@ requirements:
 '''
 
 EXAMPLES = '''
-- name: Run Client SSL Ciphers command
+- name: Returns all ciphers matching the specified cipher string
   f5bigip_util_clientssl_ciphers:
     f5_hostname: 172.16.227.35
     f5_username: admin
     f5_password: admin
     f5_port: 443
-    arguments: 'DEFAULT'
+    cipher_string: 'DEFAULT'
   delegate_to: localhost
 '''
 
 RETURN = '''
+stdout:
+    description: The output of the command.
+    returned: success
+    type: list
+    sample:
+        - ['...', '...']
+stdout_lines:
+    description: A list of strings, each containing one item per line from the original output.
+    returned: success
+    type: list
+    sample:
+        - [['...', '...'], ['...'], ['...']]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.f5_bigip import *
 
 BIGIP_UTIL_CLIENT_SSL_CIPHERS_ARGS = dict(
-    arguments=dict(type='str')
+    cipher_string=dict(type='str', required=True)
 )
 
 
 class F5BigIpUtilClientSslCiphers(F5BigIpUnnamedObject):
     def set_crud_methods(self):
         self.methods = {
-            'command': self.mgmt_root.tm.util.clientssl_ciphers.exec_cmd
+            'run': self.mgmt_root.tm.util.clientssl_ciphers.exec_cmd
         }
 
-    def command(self):
-        has_changed = False
+    def clientssl_ciphers(self):
+        result = dict(changed=False, stdout=list())
 
         try:
-            obj = self.methods['command']('run', utilCmdArgs=self.params['arguments'])
-            has_changed = True
+            obj = self.methods['run']('run', utilCmdArgs=self.params['cipherString'])
+            # result['changed'] = True
         except Exception:
-            raise AnsibleF5Error("Couldn't run command.")
+            raise AnsibleF5Error("Could not execute the Client SSL Ciphers command.")
 
-        return {'result': obj.commandResult, 'changed': has_changed}
+        if 'commandResult' in obj.attrs:
+            result['stdout'].append(obj.commandResult)
+
+        result['stdout_lines'] = list(to_lines(result['stdout']))
+        return result
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_CLIENT_SSL_CIPHERS_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_CLIENT_SSL_CIPHERS_ARGS,
+                                               supports_check_mode=False)
 
     try:
         obj = F5BigIpUtilClientSslCiphers(check_mode=module.supports_check_mode, **module.params)
-        result = obj.command()
+        result = obj.clientssl_ciphers()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
