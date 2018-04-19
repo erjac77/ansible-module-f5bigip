@@ -32,6 +32,7 @@ author:
 options:
 notes:
     - Requires BIG-IP software version >= 11.6
+    - Doesn't support check mode
 requirements:
     - ansible-common-f5
     - f5-sdk
@@ -129,7 +130,7 @@ def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_VERSION_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpSysVersion(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSysVersion(check_mode=module.check_mode, **module.params)
         result = obj.get_version()
         module.exit_json(**result)
     except Exception as exc:

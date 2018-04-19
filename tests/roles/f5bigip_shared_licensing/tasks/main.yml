@@ -11,9 +11,9 @@
 
 - name: Display Shared Licensing status
   debug: 
-    msg: "status: {{ result.licensing.status }}"
+    msg: "Licensing Status: {{ result.status }}"
 
 - name: Assert Shared Licensing status
   assert:
     that:
-      - result.licensing.status == 'LICENSING_NO_DATA'
+      - result.status == 'LICENSING_NO_DATA'

@@ -106,6 +106,7 @@ class F5BigIpCmTrustDomain(F5BigIpNamedObject):
     def set_crud_methods(self):
         self.methods = {
             'read': self.mgmt_root.tm.cm.trust_domains.trust_domain.load,
+            'update': self.mgmt_root.tm.cm.trust_domains.trust_domain.update,
             'exists': self.mgmt_root.tm.cm.trust_domains.trust_domain.exists
         }
         del self.params['partition']
@@ -114,14 +115,14 @@ class F5BigIpCmTrustDomain(F5BigIpNamedObject):
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_CM_TRUST_DOMAIN_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['ca_devices', 'non_ca_devices']
         ]
     )
 
     try:
-        obj = F5BigIpCmTrustDomain(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpCmTrustDomain(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

@@ -94,6 +94,7 @@ class F5BigIpUtilClientSslCiphers(F5BigIpUnnamedObject):
             result['stdout'].append(obj.commandResult)
 
         result['stdout_lines'] = list(to_lines(result['stdout']))
+
         return result
 
 
@@ -102,7 +103,7 @@ def main():
                                                supports_check_mode=False)
 
     try:
-        obj = F5BigIpUtilClientSslCiphers(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpUtilClientSslCiphers(check_mode=module.check_mode, **module.params)
         result = obj.clientssl_ciphers()
         module.exit_json(**result)
     except Exception as exc:

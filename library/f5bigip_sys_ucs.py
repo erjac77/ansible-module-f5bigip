@@ -74,22 +74,26 @@ class F5BigIpSysUcs(F5BigIpNamedObject):
         }
 
     def save(self):
-        has_changed = False
+        result = dict(changed=False)
+
+        if self.check_mode:
+            result['changed'] = True
+            return result
 
         try:
             self.methods['save']('save', name=self.params['name'])
-            has_changed = True
+            result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Cannot save UCS file.")
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_UCS_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_UCS_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpSysUcs(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSysUcs(check_mode=module.check_mode, **module.params)
         result = obj.save()
         module.exit_json(**result)
     except Exception as exc:

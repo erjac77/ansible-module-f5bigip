@@ -72,6 +72,10 @@ class F5BigIpUtilUnixRm(F5BigIpUnnamedObject):
     def remove(self):
         result = dict(changed=False)
 
+        if self.check_mode:
+            result['changed'] = True
+            return result
+
         try:
             self.methods['run']('run', utilCmdArgs=self.params['path'])
             result['changed'] = True
@@ -82,10 +86,10 @@ class F5BigIpUtilUnixRm(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_RM_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_RM_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpUtilUnixRm(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpUtilUnixRm(check_mode=module.check_mode, **module.params)
         result = obj.remove()
         module.exit_json(**result)
     except Exception as exc:

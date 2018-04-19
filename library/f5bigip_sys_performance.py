@@ -53,6 +53,18 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
+stdout:
+    description: The output of the command.
+    returned: success
+    type: list
+    sample:
+        - ['...', '...']
+stdout_lines:
+    description: A list of strings, each containing one item per line from the original output.
+    returned: success
+    type: list
+    sample:
+        - [['...', '...'], ['...'], ['...']]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -87,14 +99,17 @@ class F5BigIpSysPerformance(F5BigIpUnnamedObject):
             #    return self.methods['throughput_read']
 
     def get_stats(self):
-        result = dict()
-        stats = self._read()
+        result = dict(changed=False, stdout=list())
+
+        try:
+            stats = self._read()
+        except Exception:
+            raise AnsibleF5Error("Unable to retrieve stats.")
 
         if hasattr(stats, 'apiRawValues'):
-            result.update(dict(apiRawValues=stats.apiRawValues))
-            result.update(dict(changed=True))
-        else:
-            result.update(dict(changed=False))
+            result['stdout'].append(stats.apiRawValues['apiAnonymous'])
+
+        result['stdout_lines'] = list(to_lines(result['stdout']))
 
         return result
 
@@ -103,7 +118,7 @@ def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_PERFORMANCE_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpSysPerformance(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSysPerformance(check_mode=module.check_mode, **module.params)
         result = obj.get_stats()
         module.exit_json(**result)
     except Exception as exc:

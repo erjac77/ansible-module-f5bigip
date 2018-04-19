@@ -85,6 +85,10 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
     def bash(self):
         result = dict(changed=False, stdout=list())
 
+        if self.check_mode:
+            result['changed'] = True
+            return result
+
         try:
             obj = self.methods['run']('run', utilCmdArgs=self.params['cmdArgs'])
             result['changed'] = True
@@ -95,14 +99,15 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
             result['stdout'].append(obj.commandResult)
 
         result['stdout_lines'] = list(to_lines(result['stdout']))
+
         return result
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_BASH_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_BASH_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpUtilBash(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpUtilBash(check_mode=module.check_mode, **module.params)
         result = obj.bash()
         module.exit_json(**result)
     except Exception as exc:

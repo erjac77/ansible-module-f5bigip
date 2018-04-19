@@ -63,6 +63,7 @@ options:
             - Specifies the first N rows of the result set.
 notes:
     - Requires BIG-IP software version >= 11.6
+    - Doesn't support check mode
 requirements:
     - ansible-common-f5
     - f5-sdk
@@ -87,6 +88,10 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
+ansible_facts.({namespace})_({module})_({sub_module})?_({component}):
+    description: Facts about BIG-IP components
+    returned: On success
+    type: complex
 '''
 
 from ansible.module_utils.basic import AnsibleModule, json

@@ -136,10 +136,10 @@ class F5BigIpAuthPasswordPolicy(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_AUTH_PASSWORD_POLICY_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_AUTH_PASSWORD_POLICY_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpAuthPasswordPolicy(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpAuthPasswordPolicy(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

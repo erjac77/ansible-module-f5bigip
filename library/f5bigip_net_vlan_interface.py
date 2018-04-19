@@ -112,14 +112,14 @@ class F5BigIpNetVlanInterface(F5BigIpNamedObject):
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_NET_VLAN_INTERFACE_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['tagged', 'untagged']
         ]
     )
 
     try:
-        obj = F5BigIpNetVlanInterface(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpNetVlanInterface(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

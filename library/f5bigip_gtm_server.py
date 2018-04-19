@@ -225,14 +225,14 @@ class F5BigIpGtmServer(F5BigIpNamedObject):
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_SERVER_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['disabled', 'enabled']
         ]
     )
 
     try:
-        obj = F5BigIpGtmServer(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpGtmServer(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

@@ -118,10 +118,10 @@ class F5BigIpLtmAuthCrldpServer(F5BigIpNamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_CRLDP_SERVER_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_CRLDP_SERVER_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpLtmAuthCrldpServer(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpLtmAuthCrldpServer(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

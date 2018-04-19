@@ -213,10 +213,10 @@ class F5BigIpGtmGlobalSettingsGeneral(F5BigIpUnnamedObject):
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_GENERAL_ARGS,
-                                               supports_check_mode=False)
+                                               supports_check_mode=True)
 
     try:
-        obj = F5BigIpGtmGlobalSettingsGeneral(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpGtmGlobalSettingsGeneral(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

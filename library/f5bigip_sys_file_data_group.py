@@ -115,10 +115,10 @@ class F5BigIpSysFileDataGroup(F5BigIpNamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_FILE_DATA_GROUP_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_FILE_DATA_GROUP_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpSysFileDataGroup(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSysFileDataGroup(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

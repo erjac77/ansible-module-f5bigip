@@ -76,23 +76,27 @@ class F5BigIpSharedFileTransferMadm(F5BigIpUnnamedObject):
         }
 
     def download(self):
-        has_changed = False
+        result = dict(changed=False)
+
+        if self.check_mode:
+            result['changed'] = True
+            return result
 
         try:
             self.methods['download_file'](self.params['fileName'], self.params['downloadPath'])
-            has_changed = True
+            result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Cannot download the file.")
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_FILE_TRANSFER_MADM_ARGS,
-                                               supports_check_mode=False)
+                                               supports_check_mode=True)
 
     try:
-        obj = F5BigIpSharedFileTransferMadm(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSharedFileTransferMadm(check_mode=module.check_mode, **module.params)
         result = obj.download()
         module.exit_json(**result)
     except Exception as exc:

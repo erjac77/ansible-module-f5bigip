@@ -71,6 +71,10 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
     def run(self):
         result = dict(changed=False)
 
+        if self.check_mode:
+            result['changed'] = True
+            return result
+
         try:
             self.methods['run']('run', utilCmdArgs=self.params['args'])
             result['changed'] = True
@@ -81,10 +85,10 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_QKVIEW_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_QKVIEW_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpUtilQkview(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpUtilQkview(check_mode=module.check_mode, **module.params)
         result = obj.run()
         module.exit_json(**result)
     except Exception as exc:

@@ -170,32 +170,36 @@ class F5BigIpSysConfig(F5BigIpUnnamedObject):
         }
 
     def exec_cmd(self):
-        has_changed = False
+        result = dict(changed=False)
         command = self.params.pop('command', None)
 
         # Remove empty params
         params = dict((k, v) for k, v in iteritems(self.params) if v is not None)
 
+        if self.check_mode:
+            result['changed'] = True
+            return result
+
         try:
             self.methods['exec_cmd'](command, **params)
-            has_changed = True
+            result['changed'] = True
         except Exception as exc:
             raise AnsibleF5Error("Could not execute '" + command + "' command: " + exc.message)
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(
         argument_spec=BIGIP_SYS_CONFIG_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['base', 'binary', 'default', 'exclude_gtm', 'gtm_only', 'user_only']
         ]
     )
 
     try:
-        obj = F5BigIpSysConfig(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSysConfig(check_mode=module.check_mode, **module.params)
         result = obj.exec_cmd()
         module.exit_json(**result)
     except Exception as exc:

@@ -478,10 +478,10 @@ def main():
     tr = {'tm_not': 'not'}
 
     module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POLICY_RULE_CONDITION_ARGS,
-                                             supports_check_mode=False)
+                                             supports_check_mode=True)
 
     try:
-        obj = F5BigIpLtmPolicyRuleCondition(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpLtmPolicyRuleCondition(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

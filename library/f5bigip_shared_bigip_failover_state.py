@@ -68,7 +68,22 @@ class F5BigIpSharedBigipFailoverState(F5BigIpUnnamedObject):
         }
 
     def get_failover_state(self):
-        return {'bigip_failover_state': self.methods['read']().attrs}
+        result = dict(changed=False)
+
+        try:
+            failover_state = self.methods['read']()
+        except Exception:
+            raise AnsibleF5Error("Cannot retrieve BIG-IP failover state information.")
+
+        result.update(
+            failover_state=failover_state.failoverState,
+            is_enabled=failover_state.isEnabled,
+            last_update_micros=failover_state.lastUpdateMicros,
+            next_poll_time=failover_state.nextPollTime,
+            poll_cycle_period_millis=failover_state.pollCyclePeriodMillis
+        )
+
+        return result
 
 
 def main():
@@ -76,7 +91,7 @@ def main():
                                                supports_check_mode=False)
 
     try:
-        obj = F5BigIpSharedBigipFailoverState(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSharedBigipFailoverState(check_mode=module.check_mode, **module.params)
         result = obj.get_failover_state()
         module.exit_json(**result)
     except Exception as exc:

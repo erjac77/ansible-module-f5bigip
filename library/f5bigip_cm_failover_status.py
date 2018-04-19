@@ -111,7 +111,7 @@ def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_CM_FAILOVER_STATUS_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpCmFailoverStatus(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpCmFailoverStatus(check_mode=module.check_mode, **module.params)
         result = obj.get_failover_status()
         module.exit_json(**result)
     except Exception as exc:

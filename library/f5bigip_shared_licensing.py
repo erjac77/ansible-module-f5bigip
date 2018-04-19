@@ -25,7 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_shared_licensing
 short_description: BIG-IP shared licensing module
 description:
-    - Displays licensing informations.
+    - Displays licensing information.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -49,6 +49,12 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
+status:
+    description: The licensing activation status
+    returned: success
+    type: string
+    sample:
+        - LICENSING_NO_DATA
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -65,14 +71,23 @@ class F5BigIpSharedLicensing(F5BigIpUnnamedObject):
         }
 
     def get_licensing(self):
-        return {'licensing': self.methods['read']().attrs}
+        result = dict(changed=False)
+
+        try:
+            license = self.methods['read']()
+        except Exception:
+            raise AnsibleF5Error("Unable to retrieve licensing information.")
+
+        result.update(status=license.status)
+
+        return result
 
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_LICENSING_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpSharedLicensing(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSharedLicensing(check_mode=module.check_mode, **module.params)
         result = obj.get_licensing()
         module.exit_json(**result)
     except Exception as exc:

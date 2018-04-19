@@ -94,6 +94,7 @@ class F5BigIpUtilGetDossier(F5BigIpUnnamedObject):
             result['stdout'].append(obj.commandResult)
 
         result['stdout_lines'] = list(to_lines(result['stdout']))
+
         return result
 
 
@@ -101,7 +102,7 @@ def main():
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_GET_DOSSIER_ARGS, supports_check_mode=False)
 
     try:
-        obj = F5BigIpUtilGetDossier(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpUtilGetDossier(check_mode=module.check_mode, **module.params)
         result = obj.get_dossier()
         module.exit_json(**result)
     except Exception as exc:

@@ -205,14 +205,14 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_SYS_CRYPTO_KEY_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['from_editor', 'from_local_file', 'from_url']
         ]
     )
 
     try:
-        obj = F5BigIpSysCryptoKey(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSysCryptoKey(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

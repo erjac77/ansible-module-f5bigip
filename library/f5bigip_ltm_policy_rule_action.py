@@ -579,10 +579,10 @@ def main():
     # Translation list for conflictual params
     tr = {'tm_policy': 'policy', 'tm_rule': 'rule'}
 
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POLICY_RULE_ACTION_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POLICY_RULE_ACTION_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpLtmPolicyRuleAction(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpLtmPolicyRuleAction(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

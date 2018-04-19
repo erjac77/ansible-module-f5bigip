@@ -106,10 +106,10 @@ def main():
     # Translation list for conflictual params
     tr = {'definition': 'api_anonymous'}
 
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_RULE_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_RULE_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpLtmRule(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmRule(check_mode=module.check_mode, tr=tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

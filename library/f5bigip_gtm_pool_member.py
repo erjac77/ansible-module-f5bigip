@@ -140,7 +140,7 @@ BIGIP_GTM_POOL_MEMBER_ARGS = dict(
     monitor=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
     pool=dict(type='str'),
     order=dict(type='int'),
-    ratio=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+    ratio=dict(type='str', choices=[F5_ACTIVATION_CHOICES])
 )
 
 
@@ -163,14 +163,14 @@ class F5BigIpGtmPoolMember(F5BigIpNamedObject):
 def main():
     module = AnsibleModuleF5BigIpNamedObject(
         argument_spec=BIGIP_GTM_POOL_MEMBER_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['disabled', 'enabled']
         ]
     )
 
     try:
-        obj = F5BigIpGtmPoolMember(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpGtmPoolMember(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

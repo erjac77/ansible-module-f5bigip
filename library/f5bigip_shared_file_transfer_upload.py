@@ -89,7 +89,11 @@ class F5BigIpSharedFileTransferUpload(F5BigIpUnnamedObject):
         }
 
     def upload(self):
-        has_changed = False
+        result = dict(changed=False)
+
+        if self.check_mode:
+            result['changed'] = True
+            return result
 
         try:
             if self.params['filepathname']:
@@ -98,24 +102,24 @@ class F5BigIpSharedFileTransferUpload(F5BigIpUnnamedObject):
                 self.methods['upload_stringio'](self.params['stringio'])
             elif self.params['bytestring']:
                 self.methods['upload_bytes'](self.params['bytestring'])
-            has_changed = True
+            result['changed'] = True
         except Exception as exc:
             AnsibleF5Error("Cannot upload the file.")
 
-        return {'changed': has_changed}
+        return result
 
 
 def main():
     module = AnsibleModuleF5BigIpUnnamedObject(
         argument_spec=BIGIP_SHARED_FILE_TRANSFER_UPLOAD_ARGS,
-        supports_check_mode=False,
+        supports_check_mode=True,
         mutually_exclusive=[
             ['bytestring', 'filepathname', 'stringio']
         ]
     )
 
     try:
-        obj = F5BigIpSharedFileTransferUpload(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpSharedFileTransferUpload(check_mode=module.check_mode, **module.params)
         result = obj.upload()
         module.exit_json(**result)
     except Exception as exc:

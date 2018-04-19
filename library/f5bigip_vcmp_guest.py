@@ -164,10 +164,10 @@ def main():
     # Translation list for conflictual params
     tr = {'state_guest': 'state'}
 
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_VCMP_GUEST_ARGS, supports_check_mode=False)
+    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_VCMP_GUEST_ARGS, supports_check_mode=True)
 
     try:
-        obj = F5BigIpVcmpGuest(check_mode=module.supports_check_mode, tr=tr, **module.params)
+        obj = F5BigIpVcmpGuest(check_mode=module.check_mode, tr=tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
