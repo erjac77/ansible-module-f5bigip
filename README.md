@@ -2,12 +2,12 @@
 
 An Ansible module to perform specific operational and configuration tasks on F5 BIG-IP systems.
 
-It supports over 180 components (and counting)!
+It supports over 190 components (and counting)!
 
 ## REQUIREMENTS
 
 * Ansible >= 2.4.0 (ansible)
-* F5 Common Utility Module for Ansible >= 0.9.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
+* F5 Common Utility Module for Ansible >= 0.10.0 ([ansible-common-f5](https://github.com/erjac77/ansible-common-f5))
 * F5 Python SDK >= 3.0.14 (f5-sdk)
 * Six >= 1.11.0 (six)
 
