@@ -1,6 +1,9 @@
 ---
 
 qkview_file_name: "{{ inventory_hostname }}.qkview"
+qkview_max_file_size: 0
+qkview_timeout: 420
+qkview_exclude: [audit, secure]
 
 qkview_source_path: /var/tmp/
 qkview_dest_path: /var/config/rest/madm

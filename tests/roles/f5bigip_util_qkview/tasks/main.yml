@@ -6,6 +6,10 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
+    filename: "{{ qkview_file_name }}"
+    max_file_size: "{{ qkview_max_file_size }}"
+    timeout: "{{ qkview_timeout }}"
+    exclude: "{{ qkview_exclude }}"
   delegate_to: localhost
   register: result
 
