@@ -33,7 +33,7 @@ options:
     agent:
         description:
             - Displays the agent for the monitor.
-        default: Mozilla/4.0 (compatible: MSIE 5.0; Windows NT)
+        default: 'Mozilla/4.0 (compatible: MSIE 5.0; Windows NT)'
     app_service:
         description:
             - Specifies the name of the application service to which the monitor belongs.
@@ -54,7 +54,7 @@ options:
     metrics:
         description:
             - Specifies the performance metrics that the commands collect from the target.
-        default: LoadPercentage, DiskUsage, PhysicalMemoryUsage:1.5, VirtualMemoryUsage:2.0
+        default: 'LoadPercentage, DiskUsage, PhysicalMemoryUsage:1.5, VirtualMemoryUsage:2.0'
     name:
         description:
             - Specifies a unique name for the component.

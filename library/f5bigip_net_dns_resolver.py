@@ -32,15 +32,15 @@ author:
 options:
     answer_default_zones:
         description:
-            - Specifies whether the resolver answers queries for default zones: localhost, reverse 127.0.0.1 and ::1,
-              and AS112 zones.
+            - "Specifies whether the resolver answers queries for default zones: localhost, reverse 127.0.0.1 and ::1,
+              and AS112 zones."
         default: no
         choices: ['yes', 'no']
     cache_size:
         description:
             - Specifies the maximum cache size in bytes of the DNS Resolver object.
         default: 5767168
-    forward-zones:
+    forward_zones:
         description:
             - Adds, deletes, modifies, or replaces a set of forward zones on a DNS Resolver, by specifying zone name(s).
     name:

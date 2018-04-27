@@ -48,7 +48,7 @@ options:
             - Specifies a range of numbers that you want the system to use in conjunction with the ratio load balancing
               method.
         default: 1
-    inherit-profile
+    inherit_profile:
         description:
             - Specifies whether the pool member inherits the encapsulation profile from the parent pool.
         default: enabled
@@ -73,7 +73,7 @@ options:
     pool:
         description:
             - Specifies the pool in which the member belongs.
-    priority-group
+    priority_group:
         description:
             - Specifies the priority group within the pool for this pool member.
         default: 0

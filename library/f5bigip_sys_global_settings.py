@@ -47,7 +47,7 @@ options:
     custom_addr:
         description:
             - Specifies an IP address for the system.
-        default: ::
+        default: '::'
     description:
         description:
             - Specifies descriptive text that identifies the component.

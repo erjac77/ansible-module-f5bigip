@@ -57,7 +57,7 @@ options:
     cipherlist:
         description:
             - Specifies the list of ciphers for this monitor.
-        default: DEFAULT:+SHA:+3DES:+kEDH
+        default: 'DEFAULT:+SHA:+3DES:+kEDH'
     compatibility:
         description:
             - Specifies, when enabled, that the SSL options setting (in OpenSSL) is set to ALL.
@@ -73,7 +73,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource

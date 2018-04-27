@@ -60,7 +60,7 @@ options:
     mask:
         description:
             - Specifies an IP mask.
-        default: ::
+        default: '::'
     match_across_pools:
         description:
             - Specifies, when enabled, that the system can use any pool that contains this persistence record.

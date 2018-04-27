@@ -25,8 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_sys_ntp
 short_description: BIG-IP sys ntp module
 description:
-    - Configures the Network Time Protocol (NTP) daemon for the BIG-IP.
-system.
+    - Configures the Network Time Protocol (NTP) daemon for the BIG-IP system.
 version_added: "2.4"
 author:
     - "Eric Jacob (@erjac77)"

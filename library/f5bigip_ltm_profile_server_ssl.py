@@ -115,8 +115,8 @@ options:
             'microsoft-big-sslv3-buffer', 'microsoft-sess-id-bug', 'msie-sslv2-rsa-padding', 'netscape-ca-dn-bug',
             'netscape-challenge-bug', 'netscape-demo-cipher-change-bug', 'netscape-reuse-cipher-change-bug',
             'no-session-resumption-on-renegotiation', 'no-ssl', 'no-sslv2', 'no-sslv3', 'no-tls', 'no-tlsv1',
-            'no-tlsv1.1', 'no-tlsv1.2', 'no-dtls', 'passive-close, none, pkcs1-check-1', 'pkcs1-check-2, single-dh-use',
-            'ssleay-080-client-dh-bug', 'sslref2-reuse-cert-type-bug', 'tls-d5-bug', 'tls-rollback-bug'
+            'no-tlsv1.1', 'no-tlsv1.2', 'no-dtls', 'passive-close', 'none', 'pkcs1-check-1', 'pkcs1-check-2',
+            'single-dh-use', 'ssleay-080-client-dh-bug', 'sslref2-reuse-cert-type-bug', 'tls-d5-bug', 'tls-rollback-bug'
         ]
     partition:
         description:
@@ -161,8 +161,7 @@ options:
         description:
             - APM module requires storing certificate in SSL session. When set to false, certificate will not be stored
               in SSL session.
-        default: True
-        choices: [True, False]
+        type: bool
     generic_alert:
         description:
             - Enables or disables generic-alert.
@@ -196,11 +195,11 @@ options:
         description:
             - When true, this profile is the default SSL profile when the server name in a client connection does not
               match any configured server names, or a client connection does not specify any server name at all.
-        choices: [true, false]
+        type: bool
     sni_require:
         description:
             - When this option is enabled, connections to a server that does not support SNI extension will be rejected.
-        choices: ['enabled', 'disabled']
+        type: bool
     ssl_forward_proxy:
         description:
             - Enables or disables SSL forward proxy feature.
@@ -225,7 +224,7 @@ options:
         description:
             - When enabled, the SSL profile performs unclean shutdowns of all SSL connections without exchanging the
               required SSL shutdown alerts.
-        choices: ['enabled', 'disabled]
+        choices: ['enabled', 'disabled']
     untrusted_cert_response_control:
         description:
             - Specifies the BIGIP action when the server certificate has untrusted CA.
@@ -293,7 +292,7 @@ BIGIP_LTM_PROFILE_SERVER_SSL_ARGS = dict(
     session_mirroring=dict(type='str', choices=F5_ACTIVATION_CHOICES),
     session_ticket=dict(type='str', choices=F5_ACTIVATION_CHOICES),
     sni_default=dict(type='bool'),
-    sni_require=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+    sni_require=dict(type='bool'),
     ssl_forward_proxy=dict(type='str', choices=F5_ACTIVATION_CHOICES),
     ssl_forward_proxy_bypass=dict(type='str', choices=F5_ACTIVATION_CHOICES),
     ssl_sign_hash=dict(type='str'),

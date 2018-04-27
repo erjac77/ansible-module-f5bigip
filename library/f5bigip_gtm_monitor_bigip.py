@@ -49,7 +49,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     ignore_down_response:
         description:
             - Specifies whether the monitor ignores a down response from the system it is monitoring.

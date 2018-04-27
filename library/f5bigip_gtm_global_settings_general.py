@@ -62,7 +62,7 @@ options:
         choices: ['yes', 'no']
     forward_status:
         description:
-            - Specifies, when set to enabled, that the availibility status change for GTM objects will be shared with
+            - Specifies, when set to enabled, that the availability status change for GTM objects will be shared with
               subscribers.
         choices: ['enabled', 'disabled']
     gtm_sets_recursion:
@@ -93,7 +93,7 @@ options:
     port:
         description:
             - Specifies the port on which the listener listens for connections.
-    send-wildcard-rrs:
+    send_wildcard_rrs:
         description:
             - Specifies, when set to enable, that WideIPs or WideIP aliases that contain wildcards will autogenerate
               Resource Records in the BIND database.
@@ -109,11 +109,11 @@ options:
             - Specifies the number of bits of the IPv6 address that the system considers when using the Static Persist
               load balancing mode.
         default: 128
-    synchronization
+    synchronization:
         description:
             - Specifies whether this system is a member of a synchronization group.
         default: no
-        choices: ['yes', 'no]
+        choices: ['yes', 'no']
     synchronization_group_name:
         description:
             - Specifies the name of the synchronization group to which the system belongs.

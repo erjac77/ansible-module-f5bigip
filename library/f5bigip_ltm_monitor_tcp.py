@@ -61,7 +61,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     interval:
         description:
             - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource

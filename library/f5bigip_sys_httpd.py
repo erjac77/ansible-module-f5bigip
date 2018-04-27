@@ -62,7 +62,7 @@ options:
         default: 300
     hostname_lookup:
         description:
-            - TODO
+            - Specifies whether to lookup hostname or not.
         default: off
         choices: ['on', 'off']
     log_level:
@@ -116,7 +116,7 @@ options:
     ssl_ciphersuite:
         description:
             - Specifies the ciphers that the system uses.
-        default: "ALL:!ADH:!EXPORT:!eNULL:!MD5:!DES:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2
+        default: 'ALL:!ADH:!EXPORT:!eNULL:!MD5:!DES:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2'
     ssl_include:
         description:
             - TODO

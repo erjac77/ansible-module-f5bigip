@@ -29,18 +29,13 @@ description:
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
-notes:
-    - Requires BIG-IP software version >= 12.0
-requirements:
-    - ansible-common-f5
-    - f5-sdk
 options:
     name:
         description:
             - Specifies a unique name for the component.
         required: true
 notes:
-    - Requires BIG-IP software version >= 11.6
+    - Requires BIG-IP software version >= 12.0
 requirements:
     - ansible-common-f5
     - f5-sdk

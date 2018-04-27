@@ -67,7 +67,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     filename:
         description:
             - Specifies the full path and file name of the file that the system attempts to download.

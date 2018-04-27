@@ -65,12 +65,12 @@ options:
         description:
             - Specifies the IPv4 address of the server to which the system directs requests in the event that the load
               balancing methods configured for this pool fail to return a valid virtual server.
-        default: ::
+        default: '::'
     fallback_ipv6:
         description:
             - Specifies the IPv6 address of the server to which the system directs requests in the event that the load
               balancing methods configured for this pool fail to return a valid virtual server.
-        default: ::
+        default: '::'
     fallback_mode:
         description:
             - Specifies the load balancing mode that the system uses to load balance name resolution requests among the

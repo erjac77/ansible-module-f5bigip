@@ -136,7 +136,7 @@ options:
         description:
             - Specifies the keep-alive probe interval, in seconds.
         default: 1800
-   limited_transmit:
+    limited_transmit:
         description:
             - Specifies, when enabled, that the system uses limited transmit recovery revisions for fast retransmits to
               reduce the recovery time for connections on a lossy network.
@@ -222,7 +222,7 @@ options:
         description:
             - Specifies, the timeout value to discard long-lived sessions that do not have an active flow, in seconds.
         default: 3600
-   mptcp_fastjoin:
+    mptcp_fastjoin:
         description:
             - Specifies, when enabled, FAST join, allowing data to be sent on the MP_JOIN SYN, which can allow a server
               response to occur in parallel with the JOIN.
@@ -327,7 +327,7 @@ options:
             - Specifies the initial RTO (Retransmission TimeOut) base multiplier for SYN retransmission, in
               milliseconds.
         default: 0
-     tail_loss_probe:
+    tail_loss_probe:
         description:
             - Specifies whether the system uses tail loss probe to reduce the number of retransmission timeouts.
         default: disabled
@@ -337,24 +337,24 @@ options:
             - Specifies whether the system recycles the connection when a SYN packet is received in a TIME-WAIT state.
         default: enabled
         choices: ['enabled', 'disabled']
-     time_wait_timeout:
+    time_wait_timeout:
         description:
             - Specifies the number of milliseconds that a connection is in the TIME-WAIT state before closing.
         default: 2000
         choices: range(0, 600001)
-     timestamps:
+    timestamps:
         description:
             - Specifies, when enabled, that the system uses the timestamps extension for TCP (as specified in RFC 1323)
               to enhance high-speed network performance.
         default: enabled
         choices: ['enabled', 'disabled']
-     verified_accept:
+    verified_accept:
         description:
             - Specifies, when enabled, that the system can actually communicate with the server before establishing a
               client connection.
         default: disabled
         choices: ['enabled', 'disabled']
-     zero_window_timeout:
+    zero_window_timeout:
         description:
             - Specifies the timeout in milliseconds for terminating a connection with an effective zero length TCP
               transmit window.

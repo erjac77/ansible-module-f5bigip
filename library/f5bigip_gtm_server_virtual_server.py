@@ -103,7 +103,7 @@ options:
         description:
             - Specifies the public address that this virtual server translates into when the Global Traffic Manager
               communicates between the network and the Internet.
-        default: ::
+        default: '::'
     translation_port:
         description:
             - Specifies the translation port number or service name for the virtual server, if necessary.

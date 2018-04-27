@@ -25,8 +25,7 @@ DOCUMENTATION = '''
 module: f5bigip_ltm_nat
 short_description: BIG-IP ltm nat module
 description:
-    - A network address translation (NAT) defines a mapping between an originating IP address and an IP address that you
-      specify.
+    - Configures network address translation (NAT) for the Local Traffic Manager.
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
@@ -42,20 +41,20 @@ options:
         description:
             - When enabled, allows the system to send return traffic to the MAC address that transmitted the request,
               even if the routing table points to a different network or interface.
-        choices: ['default, 'enabled', 'disabled']
+        choices: ['default', 'enabled', 'disabled']
     description:
         description:
             - Specifies a user-defined description.
     disabled:
         description:
             - Enables or disables the specified interface.
-        default: disabled
-        choices: ['enabled', 'disabled']
+        type: bool
+        default: false
     enabled:
         description:
             - Enables or disables the specified interface.
-        default: enabled
-        choices: ['enabled', 'disabled']
+        type: bool
+        default: true
     name:
         description:
             - Specifies unique name for the component.
@@ -85,9 +84,11 @@ options:
     vlans_disabled:
         description:
             - Indicates the NAT is disabled on the list of VLANs.
+        type: bool
     vlans_enabled:
         description:
             - Indicates the NAT is enabled on the list of VLANs.
+        type: bool
 notes:
     - Requires BIG-IP software version >= 11.6
 requirements:
@@ -105,7 +106,7 @@ EXAMPLES = '''
     name: my_nat
     partition: Common
     description: My nat
-    originating_address : 10.0.1.43
+    originating_address: 10.0.1.43
     translation_address: 10.10.10.253
     vlans_enabled: true
     vlans: external

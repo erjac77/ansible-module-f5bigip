@@ -23,7 +23,7 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = '''
 ---
 module: f5bigip_ltm_profile_http
-short_description: BIG-IP ltm http profie module
+short_description: BIG-IP ltm http profile module
 description:
     - You can use the http component to create, modify, display, or delete an HTTP profile.
 version_added: "2.4"
@@ -60,7 +60,7 @@ options:
     fallback_host:
         description:
             - Specifies an HTTP fallback host.
-    fallback_status_codes
+    fallback_status_codes:
         description:
             - Specifies one or more three-digit status codes that can be returned by an HTTP server.
     header_erase:
@@ -122,7 +122,7 @@ options:
             - Specifies explicit settings for the HTTP profile.
     sflow:
         description:
-            - Specifies sFlow settings for the HTTP profile:
+            - Specifies sFlow settings for the HTTP profile.
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -130,15 +130,15 @@ options:
         choices: ['absent', 'present']
     via_host_name:
         description:
-            - Specifies the hostname that will be used in the Via: HTTP header.
+            - Specifies the hostname that will be used in the Via HTTP header.
     via_request:
         description:
-            - Specifies how you want to process Via: HTTP header in requests sent to OWS.
+            - Specifies how you want to process Via HTTP header in requests sent to OWS.
         default: remove
         choices: ['append', 'preserve', 'remove']
     via_response:
         description:
-            - Specifies how you want to process Via: HTTP header in responses sent to clients.
+            - Specifies how you want to process Via HTTP header in responses sent to clients.
         default: remove
         choices: ['append', 'preserve', 'remove']
     xff_alternative_names:

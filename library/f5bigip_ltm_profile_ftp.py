@@ -71,10 +71,10 @@ options:
             - Enables the FTP data channel to inherit the TCP profile used by the control channel. If disabled, the data
               channel uses FastL4 (BigProto) only.
         choices: ['enabled', 'disabled']
-   log_publisher:
+    log_publisher:
         description:
             - Specify the name of the log publisher which logs translation events.
-   log_profile:
+    log_profile:
         description:
             - Specify the name of the ALG log profile which controls the logging of ALG.
 notes:

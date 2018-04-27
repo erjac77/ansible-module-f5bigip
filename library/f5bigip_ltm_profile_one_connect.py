@@ -56,7 +56,7 @@ options:
     port:
         description:
             - Specifies a service for the data channel port used for this one-connect profile.
-   share_pools:
+    share_pools:
         description:
             - Indicates that connections may be shared not only within a virtual server, but also among similar virtual
               servers (e.g. those that differ only in destination address).
@@ -74,15 +74,15 @@ options:
         description:
             - Specifies the maximum number of times that a server connection can be reused.
         default: 1000
-   max_size:
+    max_size:
         description:
             - Specifies the maximum number of connections that the system holds in the connection reuse pool.
         default: 10000
-   source_mask:
+    source_mask:
         description:
             - Specifies a source IP mask.
         default: 0.0.0.0
-   limit_type:
+    limit_type:
         description:
             - Connection limits with OneConnect are different from straight TCP connection limits.
         choices: ['none', 'idle', 'strict']

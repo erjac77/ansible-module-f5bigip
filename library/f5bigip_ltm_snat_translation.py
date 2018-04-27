@@ -73,7 +73,7 @@ options:
             - Specifies the state of the component on the BIG-IP system.
         default: present
         choices: ['absent', 'present']
-   tcp_idle_timeout:
+    tcp_idle_timeout:
         description:
             - Specifies the number of seconds that TCP connections initiated using a SNAT address are allowed to remain
               idle before being automatically disconnected.

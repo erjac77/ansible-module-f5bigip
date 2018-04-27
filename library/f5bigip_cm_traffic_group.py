@@ -57,7 +57,7 @@ options:
     ha_order:
         description:
             - This list of devices specifies the order in which the devices will become active for the traffic group
-            when a failure occurs.
+              when a failure occurs.
     mac:
         description:
             - Specifies a MAC address for the traffic group.
