@@ -85,14 +85,13 @@ class F5BigIpUtilServerSslCiphers(F5BigIpUnnamedObject):
         result = dict(changed=False, stdout=list())
 
         try:
-            obj = self.methods['run']('run', utilCmdArgs=self.params['cipherString'])
+            output = self.methods['run']('run', utilCmdArgs=self.params['cipherString'])
             # result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Could not execute the Server SSL Ciphers command.")
 
-        if 'commandResult' in obj.attrs:
-            result['stdout'].append(obj.commandResult)
-
+        if hasattr(output, 'commandResult'):
+            result['stdout'].append(str(output.commandResult))
         result['stdout_lines'] = list(to_lines(result['stdout']))
 
         return result

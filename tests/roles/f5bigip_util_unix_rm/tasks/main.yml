@@ -19,6 +19,9 @@
   delegate_to: localhost
   register: result
 
+- name: Show result (if command was successful, should be empty)
+  debug: var=result.stdout_lines
+
 - name: Assert Remove file
   assert:
     that:

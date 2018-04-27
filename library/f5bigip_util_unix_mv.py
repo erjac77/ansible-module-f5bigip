@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ description:
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
+    - "Eric Jacob (@erjac77)"
 options:
     dest_path:
         description:
@@ -63,10 +64,31 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
+stdout:
+    description: The output of the command.
+    returned: success
+    type: list
+    sample:
+        - ['...', '...']
+stdout_lines:
+    description: A list of strings, each containing one item per line from the original output.
+    returned: success
+    type: list
+    sample:
+        - [['...', '...'], ['...'], ['...']]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+
+try:
+    from ansible_common_f5.f5_bigip import AnsibleF5Error
+    from ansible_common_f5.f5_bigip import AnsibleModuleF5BigIpUnnamedObject
+    from ansible_common_f5.f5_bigip import F5BigIpUnnamedObject
+    from ansible_common_f5.f5_bigip import to_lines
+
+    HAS_F5COMMON = True
+except ImportError:
+    HAS_F5COMMON = False
 
 BIGIP_UTIL_UNIX_MV_ARGS = dict(
     dest_path=dict(type='str', required=True),
@@ -82,24 +104,34 @@ class F5BigIpUtilUnixMv(F5BigIpUnnamedObject):
         }
 
     def move(self):
-        result = dict(changed=False)
+        result = dict(changed=False, stdout=list())
 
         if self.check_mode:
             result['changed'] = True
             return result
 
         try:
-            self.methods['run']('run', utilCmdArgs='{0}/{2} {1}/{2}'.format(self.params['sourcePath'],
-                                                                            self.params['destPath'],
-                                                                            self.params['fileName']))
+            output = self.methods['run']('run', utilCmdArgs='{0}/{2} {1}/{2}'.format(self.params['sourcePath'],
+                                                                                     self.params['destPath'],
+                                                                                     self.params['fileName']))
             result['changed'] = True
-        except Exception:
-            raise AnsibleF5Error("Cannot move the file.")
+        except Exception as exc:
+            err_msg = 'Cannot move the file.'
+            err_msg += ' The error message was "{0}".'.format(str(exc))
+            raise AnsibleF5Error(err_msg)
+
+        if hasattr(output, 'commandResult'):
+            result['stdout'].append(str(output.commandResult))
+        result['stdout_lines'] = list(to_lines(result['stdout']))
 
         return result
 
 
 def main():
+    if not HAS_F5COMMON:
+        module = AnsibleModule(argument_spec={})
+        module.fail_json(msg="The python ansible-common-f5 module is required.")
+
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_MV_ARGS, supports_check_mode=True)
 
     try:

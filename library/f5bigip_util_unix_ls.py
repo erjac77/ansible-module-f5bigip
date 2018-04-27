@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ description:
 version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
+    - "Eric Jacob (@erjac77)"
 options:
     path:
         description:
@@ -68,7 +69,16 @@ stdout_lines:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+
+try:
+    from ansible_common_f5.f5_bigip import AnsibleF5Error
+    from ansible_common_f5.f5_bigip import AnsibleModuleF5BigIpUnnamedObject
+    from ansible_common_f5.f5_bigip import F5BigIpUnnamedObject
+    from ansible_common_f5.f5_bigip import to_lines
+
+    HAS_F5COMMON = True
+except ImportError:
+    HAS_F5COMMON = False
 
 BIGIP_UTIL_UNIX_LS_ARGS = dict(
     path=dict(type='str', required=True),
@@ -85,20 +95,25 @@ class F5BigIpUtilUnixLs(F5BigIpUnnamedObject):
         result = dict(changed=False, stdout=list())
 
         try:
-            obj = self.methods['list']('run', utilCmdArgs=self.params['path'])
+            output = self.methods['list']('run', utilCmdArgs=self.params['path'])
             # result['changed'] = True
-        except Exception:
-            raise AnsibleF5Error("Cannot show the contents of this folder.")
+        except Exception as exc:
+            err_msg = 'Cannot show the contents of this folder.'
+            err_msg += ' The error message was "{0}".'.format(str(exc))
+            raise AnsibleF5Error(err_msg)
 
-        if 'commandResult' in obj.attrs:
-            result['stdout'].append(obj.commandResult)
-
+        if hasattr(output, 'commandResult'):
+            result['stdout'].append(str(output.commandResult))
         result['stdout_lines'] = list(to_lines(result['stdout']))
 
         return result
 
 
 def main():
+    if not HAS_F5COMMON:
+        module = AnsibleModule(argument_spec={})
+        module.fail_json(msg="The python ansible-common-f5 module is required.")
+
     module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_UNIX_LS_ARGS, supports_check_mode=False)
 
     try:
