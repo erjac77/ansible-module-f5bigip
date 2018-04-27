@@ -6,12 +6,12 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-    args: "{{ get_dossier_args }}"
+    base_key: "{{ get_dossier_base_key }}"
   delegate_to: localhost
   register: result
 
 - name: Display Get Dossier command output
-  debug: var=result.stdout
+  debug: var=result.stdout_lines
 
 - name: Assert Run Get Dossier command
   assert:

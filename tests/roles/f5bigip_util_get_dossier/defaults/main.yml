@@ -1,3 +1,3 @@
 ---
 
-get_dossier_args: '-b registration-key'
+get_dossier_base_key: 'registration-key'
