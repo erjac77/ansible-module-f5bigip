@@ -6,6 +6,7 @@
 - import_playbook: f5bigip_gtm_global_settings_metrics.yml
 - import_playbook: f5bigip_gtm_listener.yml
 - import_playbook: f5bigip_gtm_monitor_bigip.yml
+- import_playbook: f5bigip_gtm_monitor_https.yml
 - import_playbook: f5bigip_gtm_monitor_tcp.yml
 - import_playbook: f5bigip_gtm_monitor_udp.yml
 - import_playbook: f5bigip_gtm_pool.yml
