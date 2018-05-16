@@ -1,0 +1,105 @@
+---
+
+- name: Create GTM FTP Monitor
+  f5bigip_gtm_monitor_ftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM FTP Monitor
+  assert:
+    that:
+      - result|changed
+
+- name: Create GTM FTP Monitor (idempotent)
+  f5bigip_gtm_monitor_ftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_description }}"
+    state: present
+  delegate_to: localhost
+  register: result
+
+- name: Assert Create GTM FTP Monitor (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change GTM FTP Monitor description
+  f5bigip_gtm_monitor_ftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change GTM FTP Monitor description
+  assert:
+    that:
+      - result|changed
+
+- name: Change GTM FTP Monitor description (idempotent)
+  f5bigip_gtm_monitor_ftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_description }}"
+  delegate_to: localhost
+  register: result
+
+- name: Assert Change GTM FTP Monitor description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete GTM FTP Monitor
+  f5bigip_gtm_monitor_ftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM FTP Monitor
+  assert:
+    that:
+      - result|changed
+
+- name: Delete GTM FTP Monitor (idempotent)
+  f5bigip_gtm_monitor_ftp:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  delegate_to: localhost
+  register: result
+
+- name: Assert Delete GTM FTP Monitor (idempotent)
+  assert:
+    that:
+      - not result|changed
