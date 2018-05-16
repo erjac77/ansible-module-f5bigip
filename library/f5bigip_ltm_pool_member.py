@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -122,53 +123,69 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_POOL_MEMBER_ARGS = dict(
-    address=dict(type='str'),
-    app_service=dict(type='str'),
-    connection_limit=dict(type='int'),
-    description=dict(type='str'),
-    dynamic_ratio=dict(type='int'),
-    fqdn=dict(type='dict'),
-    inherit_profile=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    logging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    monitor=dict(type='str'),
-    pool=dict(type='str'),
-    priority_group=dict(type='int'),
-    profiles=dict(type='str'),
-    rate_limit=dict(type='int'),
-    ratio=dict(type='int'),
-    session=dict(type='str', choices=['user-enabled', 'user-disabled']),
-    state_user=dict(type='str', choices=['user-down', 'user-up'])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            address=dict(type='str'),
+            app_service=dict(type='str'),
+            connection_limit=dict(type='int'),
+            description=dict(type='str'),
+            dynamic_ratio=dict(type='int'),
+            fqdn=dict(type='dict'),
+            inherit_profile=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            logging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            monitor=dict(type='str'),
+            pool=dict(type='str'),
+            priority_group=dict(type='int'),
+            profiles=dict(type='str'),
+            rate_limit=dict(type='int'),
+            ratio=dict(type='int'),
+            session=dict(type='str', choices=['user-enabled', 'user-disabled']),
+            state_user=dict(type='str', choices=['user-down', 'user-up'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def tr(self):
+        # Translation dict for conflictual params
+        return {'state_user': 'state'}
 
 
 class F5BigIpLtmPoolMember(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.pool = self.mgmt_root.tm.ltm.pools.pool.load(**self._get_resource_id_from_path(self.params['pool']))
-        self.methods = {
-            'create': self.pool.members_s.members.create,
-            'read': self.pool.members_s.members.load,
-            'update': self.pool.members_s.members.update,
-            'delete': self.pool.members_s.members.delete,
-            'exists': self.pool.members_s.members.exists
+    def _set_crud_methods(self):
+        pool = self._api.tm.ltm.pools.pool.load(**self._get_resource_id_from_path(self._params['pool']))
+        self._methods = {
+            'create': pool.members_s.members.create,
+            'read': pool.members_s.members.load,
+            'update': pool.members_s.members.update,
+            'delete': pool.members_s.members.delete,
+            'exists': pool.members_s.members.exists
         }
-        del self.params['pool']
+        del self._params['pool']
 
 
 def main():
-    # Translation list for conflictual params
-    tr = {'state_user': 'state'}
-
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POOL_MEMBER_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
-        obj = F5BigIpLtmPoolMember(check_mode=module.check_mode, tr=tr, **module.params)
+        obj = F5BigIpLtmPoolMember(check_mode=module.check_mode, tr=params.tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

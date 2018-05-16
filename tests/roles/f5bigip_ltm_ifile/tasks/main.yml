@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ sys_file_ifile_filepathname }}"
-    state: present
   delegate_to: localhost
   register: result
 

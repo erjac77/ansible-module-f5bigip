@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -149,51 +150,64 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_HTTP_COMPRESSION_ARGS = dict(
-    allow_http_10=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service=dict(type='str'),
-    browser_workarounds=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    buffer_size=dict(type='int'),
-    content_type_exclude=dict(type='list'),
-    content_type_include=dict(type='list'),
-    cpu_saver=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    cpu_saver_high=dict(type='int'),
-    cpu_saver_low=dict(type='int'),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    gzip_level=dict(type='int'),
-    gzip_memory_level=dict(type='int'),
-    gzip_window_size=dict(type='int'),
-    keep_accept_encoding=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    method_prefer=dict(type='str', choices=['deflate', 'gzip']),
-    min_size=dict(type='int'),
-    selective=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    uri_exclude=dict(type='list'),
-    uri_include=dict(type='list'),
-    vary_header=dict(type='str', choices=F5_ACTIVATION_CHOICES)
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            allow_http_10=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            app_service=dict(type='str'),
+            browser_workarounds=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            buffer_size=dict(type='int'),
+            content_type_exclude=dict(type='list'),
+            content_type_include=dict(type='list'),
+            cpu_saver=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            cpu_saver_high=dict(type='int'),
+            cpu_saver_low=dict(type='int'),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            gzip_level=dict(type='int'),
+            gzip_memory_level=dict(type='int'),
+            gzip_window_size=dict(type='int'),
+            keep_accept_encoding=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            method_prefer=dict(type='str', choices=['deflate', 'gzip']),
+            min_size=dict(type='int'),
+            selective=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            uri_exclude=dict(type='list'),
+            uri_include=dict(type='list'),
+            vary_header=dict(type='str', choices=F5_ACTIVATION_CHOICES)
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileHttpCompression(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.create,
-            'read': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.load,
-            'update': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.update,
-            'delete': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.http_compressions.http_compression.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.http_compressions.http_compression.create,
+            'read': self._api.tm.ltm.profile.http_compressions.http_compression.load,
+            'update': self._api.tm.ltm.profile.http_compressions.http_compression.update,
+            'delete': self._api.tm.ltm.profile.http_compressions.http_compression.delete,
+            'exists': self._api.tm.ltm.profile.http_compressions.http_compression.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_HTTP_COMPRESSION_ARGS,
-                                             supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileHttpCompression(check_mode=module.check_mode, **module.params)

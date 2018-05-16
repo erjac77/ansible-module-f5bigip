@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -89,33 +90,46 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_SYS_SSHD_ARGS = dict(
-    allow=dict(type='list'),
-    banner=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    banner_text=dict(type='str'),
-    inactivity_timeout=dict(type='int'),
-    login=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    log_level=dict(type='str',
-                   choices=['debug', 'debug1', 'debug2', 'debug3', 'error', 'fatal', 'info', 'quiet', 'verbose']),
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            allow=dict(type='list'),
+            banner=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            banner_text=dict(type='str'),
+            inactivity_timeout=dict(type='int'),
+            login=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            log_level=dict(type='str',
+                           choices=['debug', 'debug1', 'debug2', 'debug3', 'error', 'fatal', 'info', 'quiet',
+                                    'verbose'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSysSshd(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.sys.sshd.load,
-            'update': self.mgmt_root.tm.sys.sshd.update
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.sys.sshd.load,
+            'update': self._api.tm.sys.sshd.update
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_SSHD_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSysSshd(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,31 +53,43 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_SYS_UCS_ARGS = dict(
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict()
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSysUcs(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'save': self.mgmt_root.tm.sys.ucs.exec_cmd
+    def _set_crud_methods(self):
+        self._methods = {
+            'save': self._api.tm.sys.ucs.exec_cmd
         }
 
-    def save(self):
+    def flush(self):
         result = dict(changed=False)
 
-        if self.check_mode:
+        if self._check_mode:
             result['changed'] = True
             return result
 
         try:
-            self.methods['save']('save', name=self.params['name'])
+            self._methods['save']('save', name=self._params['name'])
             result['changed'] = True
         except Exception:
             raise AnsibleF5Error("Cannot save UCS file.")
@@ -85,11 +98,12 @@ class F5BigIpSysUcs(F5BigIpNamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_UCS_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSysUcs(check_mode=module.check_mode, **module.params)
-        result = obj.save()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

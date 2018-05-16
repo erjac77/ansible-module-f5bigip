@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -98,85 +99,84 @@ stdout_lines:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
+from ansible_common_f5.utils import to_lines
 
-try:
-    from ansible_common_f5.f5_bigip import AnsibleF5Error
-    from ansible_common_f5.f5_bigip import AnsibleModuleF5BigIpUnnamedObject
-    from ansible_common_f5.f5_bigip import F5BigIpUnnamedObject
-    from ansible_common_f5.f5_bigip import to_lines
 
-    HAS_F5COMMON = True
-except ImportError:
-    HAS_F5COMMON = False
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            complete=dict(type='bool'),
+            exclude=dict(type='list'),
+            filename=dict(type='str'),
+            max_file_size=dict(type='int'),
+            timeout=dict(type='int'),
+            verbose=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
 
-BIGIP_UTIL_QKVIEW_ARGS = dict(
-    complete=dict(type='bool'),
-    exclude=dict(type='list'),
-    filename=dict(type='str'),
-    max_file_size=dict(type='int'),
-    timeout=dict(type='int'),
-    verbose=dict(type='bool')
-)
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpUtilQkview(F5BigIpUnnamedObject):
-
-    def set_crud_methods(self):
-        self.methods = {
-            'run': self.mgmt_root.tm.util.qkview.exec_cmd
+    def _set_crud_methods(self):
+        self._methods = {
+            'run': self._api.tm.util.qkview.exec_cmd
         }
 
     @property
     def complete(self):
-        if self.params['complete']:
+        if self._params['complete']:
             return '-c'
         return None
 
     @property
     def exclude(self):
-        if self.params['exclude'] is None:
+        if self._params['exclude'] is None:
             return None
-        exclude = ','.join(self.params['exclude'])
+        exclude = ','.join(self._params['exclude'])
         return '--exclude {0}'.format(exclude)
 
     @property
     def filename(self):
-        if self.params['filename'] is None:
+        if self._params['filename'] is None:
             return None
-        return '-f {0}'.format(self.params['filename'])
+        return '-f {0}'.format(self._params['filename'])
 
     @property
     def max_file_size(self):
-        if self.params['maxFileSize'] is None:
+        if self._params['maxFileSize'] is None:
             return None
-        return '-s {0}'.format(self.params['maxFileSize'])
+        return '-s {0}'.format(self._params['maxFileSize'])
 
     @property
     def timeout(self):
-        if self.params['timeout'] is None:
+        if self._params['timeout'] is None:
             return None
-        return '-t {0}'.format(self.params['timeout'])
+        return '-t {0}'.format(self._params['timeout'])
 
     @property
     def verbose(self):
-        if self.params['verbose']:
+        if self._params['verbose']:
             return '-v'
         return None
 
-    def run(self):
+    def flush(self):
         result = dict(changed=False, stdout=list())
 
-        args = dict()
-        for key in BIGIP_UTIL_QKVIEW_ARGS:
-            if getattr(self, key) is not None:
-                args[key] = getattr(self, key)
-
-        if self.check_mode:
+        if self._check_mode:
             result['changed'] = True
             return result
 
         try:
-            output = self.methods['run']('run', utilCmdArgs='{0}'.format(' '.join(str(a) for a in args.values())))
+            output = self._methods['run']('run',
+                                          utilCmdArgs='{0}'.format(' '.join(str(a) for a in self._params.values())))
             result['changed'] = True
         except Exception as exc:
             err_msg = 'Cannot generate the Qkview file.'
@@ -191,15 +191,12 @@ class F5BigIpUtilQkview(F5BigIpUnnamedObject):
 
 
 def main():
-    if not HAS_F5COMMON:
-        module = AnsibleModule(argument_spec={})
-        module.fail_json(msg="The python ansible-common-f5 module is required.")
-
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_QKVIEW_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpUtilQkview(check_mode=module.check_mode, **module.params)
-        result = obj.run()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

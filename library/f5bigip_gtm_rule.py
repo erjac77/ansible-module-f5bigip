@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -62,35 +63,48 @@ EXAMPLES = '''
     f5_port: 443
     name: my_rule
     partition: Common
-    api_anonymous: when DNS_REQUEST { if {[IP::addr [IP::remote_addr]/24 equals 10.10.1.0/24] } {cname cname.siterequest.com } else { host 10.20.20.20}}
+    api_anonymous: 'when DNS_REQUEST { if {[IP::addr [IP::remote_addr]/24 equals 10.10.1.0/24] } { cname cname.siterequest.com } else { host 10.20.20.20 } }'
     state: present
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_GTM_RULE_ARGS = dict(
-    api_anonymous=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            api_anonymous=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpGtmRule(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.gtm.rules.rule.create,
-            'read': self.mgmt_root.tm.gtm.rules.rule.load,
-            'update': self.mgmt_root.tm.gtm.rules.rule.update,
-            'delete': self.mgmt_root.tm.gtm.rules.rule.delete,
-            'exists': self.mgmt_root.tm.gtm.rules.rule.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.gtm.rules.rule.create,
+            'read': self._api.tm.gtm.rules.rule.load,
+            'update': self._api.tm.gtm.rules.rule.update,
+            'delete': self._api.tm.gtm.rules.rule.delete,
+            'exists': self._api.tm.gtm.rules.rule.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_GTM_RULE_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpGtmRule(check_mode=module.check_mode, **module.params)
@@ -99,8 +113,6 @@ def main():
     except Exception as exc:
         module.fail_json(msg=str(exc))
 
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

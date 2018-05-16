@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,36 +84,48 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_CERTIFICATE_AUTHORITY_ARGS = dict(
-    authenticate_depth=dict(type='str'),
-    ca_file=dict(type='str'),
-    crl_file=dict(type='str'),
-    default_name=dict(type='str'),
-    description=dict(type='str'),
-    update_crl=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            authenticate_depth=dict(type='str'),
+            ca_file=dict(type='str'),
+            crl_file=dict(type='str'),
+            default_name=dict(type='str'),
+            description=dict(type='str'),
+            update_crl=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileCertificateAuthority(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.create,
-            'read': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.load,
-            'update': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.update,
-            'delete': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.certificate_authoritys.certificate_authority.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.certificate_authoritys.certificate_authority.create,
+            'read': self._api.tm.ltm.profile.certificate_authoritys.certificate_authority.load,
+            'update': self._api.tm.ltm.profile.certificate_authoritys.certificate_authority.update,
+            'delete': self._api.tm.ltm.profile.certificate_authoritys.certificate_authority.delete,
+            'exists': self._api.tm.ltm.profile.certificate_authoritys.certificate_authority.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_CERTIFICATE_AUTHORITY_ARGS,
-                                             supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileCertificateAuthority(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -239,86 +240,102 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
-
-BIGIP_LTM_VIRTUAL_ARGS = dict(
-    all=dict(type='bool'),
-    address_status=dict(type='str', choices=F5_POLAR_CHOICES),
-    app_service=dict(type='str'),
-    auth=dict(type='list'),
-    auto_lasthop=dict(type='str', choices=['default', 'enabled', 'disabled']),
-    # clone_pools=dict(type='list'),
-    cmp_enabled=dict(type='str', choices=F5_POLAR_CHOICES),
-    connection_limit=dict(type='int'),
-    description=dict(type='str'),
-    destination=dict(type='str'),
-    dhcp_relay=dict(type='bool'),
-    disabled=dict(type='bool'),
-    enabled=dict(type='bool'),
-    fallback_persistence=dict(type='str'),
-    flow_eviction_policy=dict(type='str'),
-    fw_enforced_policy=dict(type='str'),
-    # fw_rules=dict(type='list'),
-    fw_staged_policy=dict(type='list'),
-    gtm_score=dict(type='int'),
-    http_class=dict(type='str'),
-    ip_forward=dict(type='bool'),
-    ip_protocol=dict(type='str'),
-    internal=dict(type='bool'),
-    l2_forward=dict(type='bool'),
-    last_hop_pool=dict(type='str'),
-    # metadata=dict(type='list'),
-    mask=dict(type='str'),
-    mirror=dict(type='str', choices=['disabled', 'enabled', 'none']),
-    nat64=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    persist=dict(type='list'),
-    pool=dict(type='str'),
-    rate_class=dict(type='str'),
-    rate_limit=dict(type='int'),
-    rate_limit_mode=dict(type='str', choices=['destination', 'object', 'object-destination', 'object-source',
-                                              'object-source-destination', 'source', 'source-destination']),
-    rate_limit_dst_mask=dict(type='int'),
-    rate_limit_src_mask=dict(type='int'),
-    related_rules=dict(type='str'),
-    reject=dict(type='bool'),
-    rules=dict(type='list'),
-    source=dict(type='str'),
-    source_address_translation=dict(type='dict'),
-    source_port=dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
-    traffic_classes=dict(type='list'),
-    translate_address=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    translate_port=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    vlans=dict(type='list'),
-    vlans_disabled=dict(type='bool'),
-    vlans_enabled=dict(type='bool')
-)
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_POLAR_CHOICES
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
 
-class F5BigIpLtmVirtual(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.virtuals.virtual.create,
-            'read': self.mgmt_root.tm.ltm.virtuals.virtual.load,
-            'update': self.mgmt_root.tm.ltm.virtuals.virtual.update,
-            'delete': self.mgmt_root.tm.ltm.virtuals.virtual.delete,
-            'exists': self.mgmt_root.tm.ltm.virtuals.virtual.exists
-        }
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            all=dict(type='bool'),
+            address_status=dict(type='str', choices=F5_POLAR_CHOICES),
+            app_service=dict(type='str'),
+            auth=dict(type='list'),
+            auto_lasthop=dict(type='str', choices=['default', 'enabled', 'disabled']),
+            # clone_pools=dict(type='list'),
+            cmp_enabled=dict(type='str', choices=F5_POLAR_CHOICES),
+            connection_limit=dict(type='int'),
+            description=dict(type='str'),
+            destination=dict(type='str'),
+            dhcp_relay=dict(type='bool'),
+            disabled=dict(type='bool'),
+            enabled=dict(type='bool'),
+            fallback_persistence=dict(type='str'),
+            flow_eviction_policy=dict(type='str'),
+            fw_enforced_policy=dict(type='str'),
+            # fw_rules=dict(type='list'),
+            fw_staged_policy=dict(type='list'),
+            gtm_score=dict(type='int'),
+            http_class=dict(type='str'),
+            ip_forward=dict(type='bool'),
+            ip_protocol=dict(type='str'),
+            internal=dict(type='bool'),
+            l2_forward=dict(type='bool'),
+            last_hop_pool=dict(type='str'),
+            # metadata=dict(type='list'),
+            mask=dict(type='str'),
+            mirror=dict(type='str', choices=['disabled', 'enabled', 'none']),
+            nat64=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            persist=dict(type='list'),
+            pool=dict(type='str'),
+            rate_class=dict(type='str'),
+            rate_limit=dict(type='int'),
+            rate_limit_mode=dict(type='str', choices=['destination', 'object', 'object-destination', 'object-source',
+                                                      'object-source-destination', 'source', 'source-destination']),
+            rate_limit_dst_mask=dict(type='int'),
+            rate_limit_src_mask=dict(type='int'),
+            related_rules=dict(type='str'),
+            reject=dict(type='bool'),
+            rules=dict(type='list'),
+            source=dict(type='str'),
+            source_address_translation=dict(type='dict'),
+            source_port=dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
+            traffic_classes=dict(type='list'),
+            translate_address=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            translate_port=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            vlans=dict(type='list'),
+            vlans_disabled=dict(type='bool'),
+            vlans_enabled=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
 
+    @property
+    def supports_check_mode(self):
+        return True
 
-def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_LTM_VIRTUAL_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
+    @property
+    def mutually_exclusive(self):
+        return [
             ['dhcp_relay', 'ip_forward', 'l2_forward', 'reject'],
             ['enabled', 'disabled'],
             ['vlans_enabled', 'vlans_disabled']
         ]
-    )
+
+
+class F5BigIpLtmVirtual(F5BigIpNamedObject):
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.virtuals.virtual.create,
+            'read': self._api.tm.ltm.virtuals.virtual.load,
+            'update': self._api.tm.ltm.virtuals.virtual.update,
+            'delete': self._api.tm.ltm.virtuals.virtual.delete,
+            'exists': self._api.tm.ltm.virtuals.virtual.exists
+        }
+
+
+def main():
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpLtmVirtual(check_mode=module.check_mode, **module.params)

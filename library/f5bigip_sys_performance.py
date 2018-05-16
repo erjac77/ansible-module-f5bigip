@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,37 +69,50 @@ stdout_lines:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
+from ansible_common_f5.utils import to_lines
 
-BIGIP_SYS_PERFORMANCE_ARGS = dict(
-    name=dict(type='str', choices=['all-stats'], default='all-stats')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            name=dict(type='str', choices=['all-stats'], default='all-stats')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSysPerformance(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'all_stats_read': self.mgmt_root.tm.sys.performances.all_stats.load
-            # 'connections_read':     self.mgmt_root.tm.sys.performances.connections.load,
-            # 'gtm_read':             self.mgmt_root.tm.sys.performances.gtm.load,
-            # 'ramcache_read':        self.mgmt_root.tm.sys.performances.ramcache.load,
-            # 'system_read':          self.mgmt_root.tm.sys.performances.system.load,
-            # 'throughput_read':      self.mgmt_root.tm.sys.performances.throughput.load
+    def _set_crud_methods(self):
+        self._methods = {
+            'all_stats_read': self._api.tm.sys.performances.all_stats.load
+            # 'connections_read':     self._api.tm.sys.performances.connections.load,
+            # 'gtm_read':             self._api.tm.sys.performances.gtm.load,
+            # 'ramcache_read':        self._api.tm.sys.performances.ramcache.load,
+            # 'system_read':          self._api.tm.sys.performances.system.load,
+            # 'throughput_read':      self._api.tm.sys.performances.throughput.load
         }
 
     def _read(self):
-        if self.params['name'] == 'all-stats':
-            return self.methods['all_stats_read']()
-            # elif self.params['name'] == 'connections':
-            #    return self.methods['connections_read']
-            # elif self.params['name'] == 'ramcache':
-            #    return self.methods['ramcache_read']
-            # elif self.params['name'] == 'system' :
-            #    return self.methods['system_read']
-            # elif self.params['name'] == 'throughput':
-            #    return self.methods['throughput_read']
+        if self._params['name'] == 'all-stats':
+            return self._methods['all_stats_read']()
+            # elif self._params['name'] == 'connections':
+            #    return self._methods['connections_read']
+            # elif self._params['name'] == 'ramcache':
+            #    return self._methods['ramcache_read']
+            # elif self._params['name'] == 'system' :
+            #    return self._methods['system_read']
+            # elif self._params['name'] == 'throughput':
+            #    return self._methods['throughput_read']
 
-    def get_stats(self):
+    def flush(self):
         result = dict(changed=False, stdout=list())
 
         try:
@@ -115,11 +129,12 @@ class F5BigIpSysPerformance(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_PERFORMANCE_ARGS, supports_check_mode=False)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSysPerformance(check_mode=module.check_mode, **module.params)
-        result = obj.get_stats()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

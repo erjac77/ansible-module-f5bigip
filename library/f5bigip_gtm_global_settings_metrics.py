@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -113,41 +114,51 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
-from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible.module_utils.six.moves import range
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_GTM_GLOBAL_SETTINGS_METRICS_ARGS = dict(
-    default_probe_limit=dict(type='int'),
-    hops_ttl=dict(type='int'),
-    hops_packet_length=dict(type='int'),
-    hops_sample_count=dict(type='int'),
-    hops_timeout=dict(type='int'),
-    inactive_ldns_ttl=dict(type='int', choices=range(60, 4294967296)),
-    ldns_update_interval=dict(type='int'),
-    inactive_paths_ttl=dict(type='int', choices=range(60, 4294967296)),
-    max_synchronous_monitor_requests=dict(type='int'),
-    metrics_caching=dict(type='int', choices=range(0, 604801)),
-    metrics_collection_protocols=dict(type='str', choices=['dns_dot', 'dns_rev', 'icmp', 'tcp', 'udp']),
-    path_ttl=dict(type='int'),
-    paths_retry=dict(type='int')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            default_probe_limit=dict(type='int'),
+            hops_ttl=dict(type='int'),
+            hops_packet_length=dict(type='int'),
+            hops_sample_count=dict(type='int'),
+            hops_timeout=dict(type='int'),
+            inactive_ldns_ttl=dict(type='int', choices=range(60, 4294967296)),
+            ldns_update_interval=dict(type='int'),
+            inactive_paths_ttl=dict(type='int', choices=range(60, 4294967296)),
+            max_synchronous_monitor_requests=dict(type='int'),
+            metrics_caching=dict(type='int', choices=range(0, 604801)),
+            metrics_collection_protocols=dict(type='str', choices=['dns_dot', 'dns_rev', 'icmp', 'tcp', 'udp']),
+            path_ttl=dict(type='int'),
+            paths_retry=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpGtmGlobalSettingsMetrics(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.gtm.global_settings.metrics.load,
-            'update': self.mgmt_root.tm.gtm.global_settings.metrics.update,
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.gtm.global_settings.metrics.load,
+            'update': self._api.tm.gtm.global_settings.metrics.update,
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_METRICS_ARGS,
-                                               supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpGtmGlobalSettingsMetrics(check_mode=module.check_mode, **module.params)

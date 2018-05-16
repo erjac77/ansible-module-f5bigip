@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -84,26 +85,38 @@ summary:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_CM_SYNC_STATUS_ARGS = dict(
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict()
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return False
 
 
 class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.cm.sync_status
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.cm.sync_status
         }
 
-    def get_sync_status(self):
+    def flush(self):
         result = dict(changed=False)
 
         try:
-            sync_status = self.methods['read']
+            sync_status = self._methods['read']
             sync_status.refresh()
             sync_status_stats = \
                 sync_status.entries['https://localhost/mgmt/tm/cm/sync-status/0']['nestedStats']['entries']
+
         except Exception:
             raise AnsibleF5Error("Unable to retrieve the sync status of the device.")
 
@@ -118,11 +131,12 @@ class F5BigIpCmSyncStatus(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_CM_SYNC_STATUS_ARGS, supports_check_mode=False)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpCmSyncStatus(check_mode=module.check_mode, **module.params)
-        result = obj.get_sync_status()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

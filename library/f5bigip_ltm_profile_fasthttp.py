@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -168,56 +169,70 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
-from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible.module_utils.six.moves import range
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_FASTHTTP_ARGS = dict(
-    app_service=dict(type='str'),
-    client_close_timeout=dict(type='int'),
-    connpool_idle_timeout_override=dict(type='int'),
-    connpool_max_reuse=dict(type='int'),
-    connpool_max_size=dict(type='int'),
-    connpool_min_size=dict(type='int'),
-    connpool_replenish=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    connpool_step=dict(type='int'),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    force_http_10_response=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    hardware_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    header_insert=dict(type='str'),
-    http_11_close_workarounds=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    idle_timeout=dict(type='int'),
-    insert_xforwarded_for=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    layer_7=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    max_header_size=dict(type='int'),
-    max_requests=dict(type='int'),
-    mss_override=dict(type='int', choices=range(536, 1461)),
-    receive_window_size=dict(type='str'),
-    reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_close_timeout=dict(type='int'),
-    server_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_timestamp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    unclean_shutdown=dict(type='str', choices=['disabled', 'enabled', 'fast'])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            client_close_timeout=dict(type='int'),
+            connpool_idle_timeout_override=dict(type='int'),
+            connpool_max_reuse=dict(type='int'),
+            connpool_max_size=dict(type='int'),
+            connpool_min_size=dict(type='int'),
+            connpool_replenish=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            connpool_step=dict(type='int'),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            force_http_10_response=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            hardware_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            header_insert=dict(type='str'),
+            http_11_close_workarounds=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            idle_timeout=dict(type='int'),
+            insert_xforwarded_for=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            layer_7=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            max_header_size=dict(type='int'),
+            max_requests=dict(type='int'),
+            mss_override=dict(type='int', choices=range(536, 1461)),
+            receive_window_size=dict(type='str'),
+            reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            server_close_timeout=dict(type='int'),
+            server_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            server_timestamp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            unclean_shutdown=dict(type='str', choices=['disabled', 'enabled', 'fast'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileFasthttp(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.fasthttps.fasthttp.create,
-            'read': self.mgmt_root.tm.ltm.profile.fasthttps.fasthttp.load,
-            'update': self.mgmt_root.tm.ltm.profile.fasthttps.fasthttp.update,
-            'delete': self.mgmt_root.tm.ltm.profile.fasthttps.fasthttp.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.fasthttps.fasthttp.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.fasthttps.fasthttp.create,
+            'read': self._api.tm.ltm.profile.fasthttps.fasthttp.load,
+            'update': self._api.tm.ltm.profile.fasthttps.fasthttp.update,
+            'delete': self._api.tm.ltm.profile.fasthttps.fasthttp.delete,
+            'exists': self._api.tm.ltm.profile.fasthttps.fasthttp.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FASTHTTP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileFasthttp(check_mode=module.check_mode, **module.params)

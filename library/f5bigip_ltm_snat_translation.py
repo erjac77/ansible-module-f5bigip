@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -108,46 +109,61 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_SNAT_TRANSLATION_ARGS = dict(
-    address=dict(type='str'),
-    arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service=dict(type='str'),
-    connection_limit=dict(type='int'),
-    description=dict(type='str'),
-    disabled=dict(type='bool'),
-    enabled=dict(type='bool'),
-    ip_idle_timeout=dict(type='int'),
-    tcp_idle_timeout=dict(type='int'),
-    traffic_group=dict(type='str'),
-    udp_idle_timeout=dict(type='int')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            address=dict(type='str'),
+            arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            app_service=dict(type='str'),
+            connection_limit=dict(type='int'),
+            description=dict(type='str'),
+            disabled=dict(type='bool'),
+            enabled=dict(type='bool'),
+            ip_idle_timeout=dict(type='int'),
+            tcp_idle_timeout=dict(type='int'),
+            traffic_group=dict(type='str'),
+            udp_idle_timeout=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['disabled', 'enabled']
+        ]
 
 
 class F5BigIpLtmSnatTranslation(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.snat_translations.snat_translation.create,
-            'read': self.mgmt_root.tm.ltm.snat_translations.snat_translation.load,
-            'update': self.mgmt_root.tm.ltm.snat_translations.snat_translation.update,
-            'delete': self.mgmt_root.tm.ltm.snat_translations.snat_translation.delete,
-            'exists': self.mgmt_root.tm.ltm.snat_translations.snat_translation.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.snat_translations.snat_translation.create,
+            'read': self._api.tm.ltm.snat_translations.snat_translation.load,
+            'update': self._api.tm.ltm.snat_translations.snat_translation.update,
+            'delete': self._api.tm.ltm.snat_translations.snat_translation.delete,
+            'exists': self._api.tm.ltm.snat_translations.snat_translation.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_LTM_SNAT_TRANSLATION_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['disabled', 'enabled']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpLtmSnatTranslation(check_mode=module.check_mode, **module.params)

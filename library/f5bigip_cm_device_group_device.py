@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,35 +69,48 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS = dict(
-    device_group=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            device_group=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpCmDeviceGroupDevice(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.device_group = self.mgmt_root.tm.cm.device_groups.device_group.load(
-            name=self.params['device_group'],
-            partition=self.params['partition']
+    def _set_crud_methods(self):
+        device_group = self._api.tm.cm.device_groups.device_group.load(
+            name=self._params['deviceGroup'],
+            partition=self._params['partition']
         )
-        self.methods = {
-            'create': self.device_group.devices_s.devices.create,
-            'read': self.device_group.devices_s.devices.load,
-            'update': self.device_group.devices_s.devices.update,
-            'delete': self.device_group.devices_s.devices.delete,
-            'exists': self.device_group.devices_s.devices.exists
+        self._methods = {
+            'create': device_group.devices_s.devices.create,
+            'read': device_group.devices_s.devices.load,
+            'update': device_group.devices_s.devices.update,
+            'delete': device_group.devices_s.devices.delete,
+            'exists': device_group.devices_s.devices.exists
         }
-        del self.params['device_group']
+        del self._params['deviceGroup']
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_GROUP_DEVICE_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpCmDeviceGroupDevice(check_mode=module.check_mode, **module.params)

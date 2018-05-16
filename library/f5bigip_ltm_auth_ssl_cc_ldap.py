@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -139,49 +140,62 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_AUTH_SSL_CC_LDAP_ARGS = dict(
-    admin_dn=dict(type='str'),
-    admin_password=dict(type='str', no_log=True),
-    cache_size=dict(type='int'),
-    cache_timeout=dict(type='int'),
-    certmap_base=dict(type='str'),
-    certmap_key=dict(type='str'),
-    certmap_user_serial=dict(type='str', choices=['yes', 'no']),
-    description=dict(type='str'),
-    group_base=dict(type='str'),
-    group_key=dict(type='str'),
-    group_member_key=dict(type='str'),
-    role_key=dict(type='str'),
-    search_type=dict(type='str', choices=['cert', 'certmap', 'user']),
-    secure=dict(type='str', choices=['yes', 'no']),
-    servers=dict(type='list'),
-    user_base=dict(type='str'),
-    user_class=dict(type='str'),
-    user_key=dict(type='str'),
-    valid_groups=dict(type='list'),
-    valid_roles=dict(type='list')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            admin_dn=dict(type='str'),
+            admin_password=dict(type='str', no_log=True),
+            cache_size=dict(type='int'),
+            cache_timeout=dict(type='int'),
+            certmap_base=dict(type='str'),
+            certmap_key=dict(type='str'),
+            certmap_user_serial=dict(type='str', choices=['yes', 'no']),
+            description=dict(type='str'),
+            group_base=dict(type='str'),
+            group_key=dict(type='str'),
+            group_member_key=dict(type='str'),
+            role_key=dict(type='str'),
+            search_type=dict(type='str', choices=['cert', 'certmap', 'user']),
+            secure=dict(type='str', choices=['yes', 'no']),
+            servers=dict(type='list'),
+            user_base=dict(type='str'),
+            user_class=dict(type='str'),
+            user_key=dict(type='str'),
+            valid_groups=dict(type='list'),
+            valid_roles=dict(type='list')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmAuthSslCcLdap(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.create,
-            'read': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.load,
-            'update': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.update,
-            'delete': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.delete,
-            'exists': self.mgmt_root.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.create,
+            'read': self._api.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.load,
+            'update': self._api.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.update,
+            'delete': self._api.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.delete,
+            'exists': self._api.tm.ltm.auth.ssl_cc_ldaps.ssl_cc_ldap.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_AUTH_SSL_CC_LDAP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmAuthSslCcLdap(check_mode=module.check_mode, **module.params)

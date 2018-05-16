@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -68,33 +69,46 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_VIRTUAL_POLICY_ARGS = dict(
-    virtual=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            virtual=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmVirtualPolicy(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.virtual = self.mgmt_root.tm.ltm.virtuals.virtual.load(
-            **self._get_resource_id_from_path(self.params['virtual']))
-        self.methods = {
-            'create': self.virtual.policies_s.policies.create,
-            'read': self.virtual.policies_s.policies.load,
-            'update': self.virtual.policies_s.policies.update,
-            'delete': self.virtual.policies_s.policies.delete,
-            'exists': self.virtual.policies_s.policies.exists
+    def _set_crud_methods(self):
+        virtual = self._api.tm.ltm.virtuals.virtual.load(
+            **self._get_resource_id_from_path(self._params['virtual']))
+        self._methods = {
+            'create': virtual.policies_s.policies.create,
+            'read': virtual.policies_s.policies.load,
+            'update': virtual.policies_s.policies.update,
+            'delete': virtual.policies_s.policies.delete,
+            'exists': virtual.policies_s.policies.exists
         }
-        del self.params['virtual']
+        del self._params['virtual']
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_VIRTUAL_POLICY_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmVirtualPolicy(check_mode=module.check_mode, **module.params)

@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -427,159 +428,174 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_POLICY_RULE_ACTION_ARGS = dict(
-    policy=dict(type='str', required=True),
-    rule=dict(type='str', required=True),
-    # The actions permitted for the rule
-    #action_id=dict(type='str'),
-    #add=dict(type='bool'),
-    #all=dict(type='bool'),
-    app_service=dict(type='str'),
-    application=dict(type='str'),
-    #apply=dict(type='bool'),
-    asm=dict(type='bool'),
-    avr=dict(type='bool'),
-    cache=dict(type='bool'),
-    carp=dict(type='bool'),
-    category=dict(type='str'),
-    classify=dict(type='bool'),
-    clone_pool=dict(type='str'),
-    code=dict(type='int'),
-    compress=dict(type='bool'),
-    content=dict(type='str'),
-    #cookie=dict(type='bool'),
-    cookie_hash=dict(type='bool'),
-    cookie_insert=dict(type='bool'),
-    cookie_passive=dict(type='bool'),
-    cookie_rewrite=dict(type='bool'),
-    #default=dict(type='bool'),
-    decompress=dict(type='bool'),
-    defer=dict(type='bool'),
-    destination_address=dict(type='bool'),
-    disable=dict(type='bool'),
-    domain=dict(type='str'),
-    enable=dict(type='bool'),
-    expiry=dict(type='str'),
-    expiry_secs=dict(type='int'),
-    expression=dict(type='str'),
-    extension=dict(type='str'),
-    facility=dict(type='str'),
-    forward=dict(type='bool'),
-    from_profile=dict(type='str'),
-    hash=dict(type='bool'),
-    host=dict(type='str'),
-    http=dict(type='bool'),
-    http_basic_auth=dict(type='bool'),
-    http_cookie=dict(type='bool'),
-    http_header=dict(type='bool'),
-    http_host=dict(type='bool'),
-    http_referer=dict(type='bool'),
-    http_reply=dict(type='bool'),
-    http_set_cookie=dict(type='bool'),
-    http_uri=dict(type='bool'),
-    ifile=dict(type='str'),
-    #index=dict(type='int'),
-    insert=dict(type='bool'),
-    #internal=dict(type='bool'),
-    internal_virtual=dict(type='str'),
-    ip_address=dict(type='str'),
-    key=dict(type='str'),
-    l7dos=dict(type='bool'),
-    length=dict(type='int'),
-    #local=dict(type='bool'),
-    location=dict(type='str'),
-    log=dict(type='bool'),
-    ltm_policy=dict(type='bool'),
-    member=dict(type='str'),
-    message=dict(type='str'),
-    tm_name=dict(type='str'),
-    netmask=dict(type='str'),
-    #next=dict(type='bool'),
-    nexthop=dict(type='str'),
-    node=dict(type='str'),
-    offset=dict(type='int'),
-    #password=dict(type='str'),
-    path=dict(type='str'),
-    pem=dict(type='bool'),
-    persist=dict(type='bool'),
-    pin=dict(type='bool'),
-    tm_policy=dict(type='str'),
-    pool=dict(type='str'),
-    port=dict(type='int'),
-    priority=dict(type='str'),
-    profile=dict(type='str'),
-    protocol=dict(type='str'),
-    #query_parameter=dict(type='str'),
-    query_string=dict(type='str'),
-    rateclass=dict(type='str'),
-    redirect=dict(type='bool'),
-    remove=dict(type='bool'),
-    replace=dict(type='bool'),
-    request=dict(type='bool'),
-    request_adapt=dict(type='bool'),
-    reset=dict(type='bool'),
-    response=dict(type='bool'),
-    response_adapt=dict(type='bool'),
-    #tm_rule=dict(type='str'),
-    scheme=dict(type='str'),
-    script=dict(type='str'),
-    select=dict(type='bool'),
-    server_ssl=dict(type='bool'),
-    set_variable=dict(type='bool'),
-    snat=dict(type='str'),
-    snatpool=dict(type='str'),
-    source_address=dict(type='bool'),
-    ssl_client_hello=dict(type='bool'),
-    ssl_server_handshake=dict(type='bool'),
-    ssl_server_hello=dict(type='bool'),
-    ssl_session_id=dict(type='bool'),
-    status=dict(type='int'),
-    tcl=dict(type='bool'),
-    tcp_nagle=dict(type='bool'),
-    text=dict(type='str'),
-    timeout=dict(type='int'),
-    uie=dict(type='bool'),
-    universal=dict(type='bool'),
-    #unnamed_query_parameter=dict(type='str'),
-    #username=dict(type='str'),
-    value=dict(type='str'),
-    #version=dict(type='str'),
-    virtual=dict(type='str'),
-    vlan=dict(type='str'),
-    vlan_id=dict(type='int'),
-    wam=dict(type='bool'),
-    write=dict(type='bool')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            policy=dict(type='str', required=True),
+            rule=dict(type='str', required=True),
+            # The actions permitted for the rule
+            # action_id=dict(type='str'),
+            # add=dict(type='bool'),
+            # all=dict(type='bool'),
+            app_service=dict(type='str'),
+            application=dict(type='str'),
+            # apply=dict(type='bool'),
+            asm=dict(type='bool'),
+            avr=dict(type='bool'),
+            cache=dict(type='bool'),
+            carp=dict(type='bool'),
+            category=dict(type='str'),
+            classify=dict(type='bool'),
+            clone_pool=dict(type='str'),
+            code=dict(type='int'),
+            compress=dict(type='bool'),
+            content=dict(type='str'),
+            # cookie=dict(type='bool'),
+            cookie_hash=dict(type='bool'),
+            cookie_insert=dict(type='bool'),
+            cookie_passive=dict(type='bool'),
+            cookie_rewrite=dict(type='bool'),
+            # default=dict(type='bool'),
+            decompress=dict(type='bool'),
+            defer=dict(type='bool'),
+            destination_address=dict(type='bool'),
+            disable=dict(type='bool'),
+            domain=dict(type='str'),
+            enable=dict(type='bool'),
+            expiry=dict(type='str'),
+            expiry_secs=dict(type='int'),
+            expression=dict(type='str'),
+            extension=dict(type='str'),
+            facility=dict(type='str'),
+            forward=dict(type='bool'),
+            from_profile=dict(type='str'),
+            hash=dict(type='bool'),
+            host=dict(type='str'),
+            http=dict(type='bool'),
+            http_basic_auth=dict(type='bool'),
+            http_cookie=dict(type='bool'),
+            http_header=dict(type='bool'),
+            http_host=dict(type='bool'),
+            http_referer=dict(type='bool'),
+            http_reply=dict(type='bool'),
+            http_set_cookie=dict(type='bool'),
+            http_uri=dict(type='bool'),
+            ifile=dict(type='str'),
+            # index=dict(type='int'),
+            insert=dict(type='bool'),
+            # internal=dict(type='bool'),
+            internal_virtual=dict(type='str'),
+            ip_address=dict(type='str'),
+            key=dict(type='str'),
+            l7dos=dict(type='bool'),
+            length=dict(type='int'),
+            # local=dict(type='bool'),
+            location=dict(type='str'),
+            log=dict(type='bool'),
+            ltm_policy=dict(type='bool'),
+            member=dict(type='str'),
+            message=dict(type='str'),
+            tm_name=dict(type='str'),
+            netmask=dict(type='str'),
+            # next=dict(type='bool'),
+            nexthop=dict(type='str'),
+            node=dict(type='str'),
+            offset=dict(type='int'),
+            # password=dict(type='str'),
+            path=dict(type='str'),
+            pem=dict(type='bool'),
+            persist=dict(type='bool'),
+            pin=dict(type='bool'),
+            tm_policy=dict(type='str'),
+            pool=dict(type='str'),
+            port=dict(type='int'),
+            priority=dict(type='str'),
+            profile=dict(type='str'),
+            protocol=dict(type='str'),
+            # query_parameter=dict(type='str'),
+            query_string=dict(type='str'),
+            rateclass=dict(type='str'),
+            redirect=dict(type='bool'),
+            remove=dict(type='bool'),
+            replace=dict(type='bool'),
+            request=dict(type='bool'),
+            request_adapt=dict(type='bool'),
+            reset=dict(type='bool'),
+            response=dict(type='bool'),
+            response_adapt=dict(type='bool'),
+            # tm_rule=dict(type='str'),
+            scheme=dict(type='str'),
+            script=dict(type='str'),
+            select=dict(type='bool'),
+            server_ssl=dict(type='bool'),
+            set_variable=dict(type='bool'),
+            snat=dict(type='str'),
+            snatpool=dict(type='str'),
+            source_address=dict(type='bool'),
+            ssl_client_hello=dict(type='bool'),
+            ssl_server_handshake=dict(type='bool'),
+            ssl_server_hello=dict(type='bool'),
+            ssl_session_id=dict(type='bool'),
+            status=dict(type='int'),
+            tcl=dict(type='bool'),
+            tcp_nagle=dict(type='bool'),
+            text=dict(type='str'),
+            timeout=dict(type='int'),
+            uie=dict(type='bool'),
+            universal=dict(type='bool'),
+            # unnamed_query_parameter=dict(type='str'),
+            # username=dict(type='str'),
+            value=dict(type='str'),
+            # version=dict(type='str'),
+            virtual=dict(type='str'),
+            vlan=dict(type='str'),
+            vlan_id=dict(type='int'),
+            wam=dict(type='bool'),
+            write=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        del argument_spec['partition']
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    # @property
+    # def tr(self):
+    #     # Translation dict for conflictual params
+    #     return {'tm_policy': 'policy', 'tm_rule': 'rule'}
 
 
 class F5BigIpLtmPolicyRuleAction(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.policy = self.mgmt_root.tm.ltm.policys.policy.load(
-            **self._get_resource_id_from_path(self.params['policy']))
-        self.rule = self.policy.rules_s.rules.load(name=self.params['rule'])
-        self.methods = {
-            'create': self.rule.actions_s.actions.create,
-            'read': self.rule.actions_s.actions.load,
-            'update': self.rule.actions_s.actions.update,
-            'delete': self.rule.actions_s.actions.delete,
-            'exists': self.rule.actions_s.actions.exists
+    def _set_crud_methods(self):
+        policy = self._api.tm.ltm.policys.policy.load(
+            **self._get_resource_id_from_path(self._params['policy']))
+        rule = policy.rules_s.rules.load(name=self._params['rule'])
+        self._methods = {
+            'create': rule.actions_s.actions.create,
+            'read': rule.actions_s.actions.load,
+            'update': rule.actions_s.actions.update,
+            'delete': rule.actions_s.actions.delete,
+            'exists': rule.actions_s.actions.exists
         }
-        del self.params['partition']
-        del self.params['policy']
-        del self.params['rule']
+        del self._params['policy']
+        del self._params['rule']
 
 
 def main():
-    # Translation list for conflictual params
-    tr = {'tm_policy': 'policy', 'tm_rule': 'rule'}
-
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POLICY_RULE_ACTION_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmPolicyRuleAction(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -106,37 +107,49 @@ EXAMPLES = '''
   register: result
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_AUTH_PASSWORD_POLICY_ARGS = dict(
-    expiration_warning=dict(type='int'),
-    max_duration=dict(type='int'),
-    max_login_failures=dict(type='int'),
-    min_duration=dict(type='int'),
-    minimum_length=dict(type='int'),
-    password_memory=dict(type='int'),
-    policy_enforcement=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    required_lowercase=dict(type='int'),
-    required_numeric=dict(type='int'),
-    required_special=dict(type='int'),
-    required_uppercase=dict(type='int')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            expiration_warning=dict(type='int'),
+            max_duration=dict(type='int'),
+            max_login_failures=dict(type='int'),
+            min_duration=dict(type='int'),
+            minimum_length=dict(type='int'),
+            password_memory=dict(type='int'),
+            policy_enforcement=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            required_lowercase=dict(type='int'),
+            required_numeric=dict(type='int'),
+            required_special=dict(type='int'),
+            required_uppercase=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpAuthPasswordPolicy(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.auth.password_policy.load,
-            'update': self.mgmt_root.tm.auth.password_policy.update,
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.auth.password_policy.load,
+            'update': self._api.tm.auth.password_policy.update,
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_AUTH_PASSWORD_POLICY_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpAuthPasswordPolicy(check_mode=module.check_mode, **module.params)

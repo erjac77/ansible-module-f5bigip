@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -122,46 +123,60 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
-from six.moves import range
+from ansible.module_utils.six.moves import range
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_WEB_ACCELERATION_ARGS = dict(
-    app_service=dict(type='str'),
-    applications=dict(type='list'),
-    cache_aging_rate=dict(type='int', choices=range(0,10)),
-    cache_client_cache_control_mode=dict(type='str', choices=['all', 'max-age', 'none']),
-    cache_insert_age_header=dict(type='str',choices=F5_ACTIVATION_CHOICES),
-    cache_max_age=dict(type='int'),
-    cache_max_entries=dict(type='int'),
-    cache_object_max_size=dict(type='int'),
-    cache_object_min_size=dict(type='int'),
-    cache_size=dict(type='int'),
-    cache_uri_exclude=dict(type='list'),
-    cache_uri_include=dict(type='list'),
-    cache_uri_include_override=dict(type='list'),
-    cache_uri_pinned=dict(type='list'),
-    defaults_from=dict(type='str'),
-    metadata_cache_max_size=dict(type='int')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            applications=dict(type='list'),
+            cache_aging_rate=dict(type='int', choices=range(0, 10)),
+            cache_client_cache_control_mode=dict(type='str', choices=['all', 'max-age', 'none']),
+            cache_insert_age_header=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            cache_max_age=dict(type='int'),
+            cache_max_entries=dict(type='int'),
+            cache_object_max_size=dict(type='int'),
+            cache_object_min_size=dict(type='int'),
+            cache_size=dict(type='int'),
+            cache_uri_exclude=dict(type='list'),
+            cache_uri_include=dict(type='list'),
+            cache_uri_include_override=dict(type='list'),
+            cache_uri_pinned=dict(type='list'),
+            defaults_from=dict(type='str'),
+            metadata_cache_max_size=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileWebAcceleration(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.web_accelerations.web_acceleration.create,
-            'read': self.mgmt_root.tm.ltm.profile.web_accelerations.web_acceleration.load,
-            'update': self.mgmt_root.tm.ltm.profile.web_accelerations.web_acceleration.update,
-            'delete': self.mgmt_root.tm.ltm.profile.web_accelerations.web_acceleration.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.web_accelerations.web_acceleration.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.web_accelerations.web_acceleration.create,
+            'read': self._api.tm.ltm.profile.web_accelerations.web_acceleration.load,
+            'update': self._api.tm.ltm.profile.web_accelerations.web_acceleration.update,
+            'delete': self._api.tm.ltm.profile.web_accelerations.web_acceleration.delete,
+            'exists': self._api.tm.ltm.profile.web_accelerations.web_acceleration.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_WEB_ACCELERATION_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileWebAcceleration(check_mode=module.check_mode, **module.params)

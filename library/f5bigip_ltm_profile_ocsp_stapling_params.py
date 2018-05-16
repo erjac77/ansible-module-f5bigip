@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -121,46 +122,59 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_OCSP_STAPLING_PARAMS_ARGS = dict(
-    cache_error_timeout=dict(type='int'),
-    cache_timeout=dict(type='int'),
-    clock_skew=dict(type='int'),
-    dns_resolver=dict(type='str'),
-    proxy_server_pool=dict(type='str'),
-    responder_url=dict(type='str'),
-    sign_hash=dict(type='str', choices=['sha1', 'sha256']),
-    signer_cert=dict(type='str'),
-    signer_key=dict(type='str'),
-    signer_key_passphrase=dict(type='str', no_log=True),
-    status_age=dict(type='int'),
-    strict_resp_cert_check=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    timeout=dict(type='int'),
-    trusted_ca=dict(type='str'),
-    trusted_responders=dict(type='str'),
-    use_proxy_server=dict(type='str', choices=F5_ACTIVATION_CHOICES)
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            cache_error_timeout=dict(type='int'),
+            cache_timeout=dict(type='int'),
+            clock_skew=dict(type='int'),
+            dns_resolver=dict(type='str'),
+            proxy_server_pool=dict(type='str'),
+            responder_url=dict(type='str'),
+            sign_hash=dict(type='str', choices=['sha1', 'sha256']),
+            signer_cert=dict(type='str'),
+            signer_key=dict(type='str'),
+            signer_key_passphrase=dict(type='str', no_log=True),
+            status_age=dict(type='int'),
+            strict_resp_cert_check=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            timeout=dict(type='int'),
+            trusted_ca=dict(type='str'),
+            trusted_responders=dict(type='str'),
+            use_proxy_server=dict(type='str', choices=F5_ACTIVATION_CHOICES)
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileOcspStaplingParams(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.create,
-            'read': self.mgmt_root.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.load,
-            'update': self.mgmt_root.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.update,
-            'delete': self.mgmt_root.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.create,
+            'read': self._api.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.load,
+            'update': self._api.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.update,
+            'delete': self._api.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.delete,
+            'exists': self._api.tm.ltm.profile.ocsp_stapling_params_s.ocsp_stapling_params.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_OCSP_STAPLING_PARAMS_ARGS,
-                                             supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileOcspStaplingParams(check_mode=module.check_mode, **module.params)

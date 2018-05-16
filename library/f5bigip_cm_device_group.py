@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -106,38 +107,52 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_CM_DEVICE_GROUP_ARGS = dict(
-    app_service=dict(type='str'),
-    asm_sync=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    auto_sync=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    description=dict(type='str'),
-    full_load_on_sync=dict(type='bool'),
-    incremental_config_sync_size_max=dict(type='int'),
-    network_failover=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    save_on_auto_sync=dict(type='bool'),
-    type=dict(type='str', choices=['sync-only', 'sync-failover'])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            asm_sync=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            auto_sync=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            description=dict(type='str'),
+            full_load_on_sync=dict(type='bool'),
+            incremental_config_sync_size_max=dict(type='int'),
+            network_failover=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            save_on_auto_sync=dict(type='bool'),
+            type=dict(type='str', choices=['sync-only', 'sync-failover'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpCmDeviceGroup(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.cm.device_groups.device_group.create,
-            'read': self.mgmt_root.tm.cm.device_groups.device_group.load,
-            'update': self.mgmt_root.tm.cm.device_groups.device_group.update,
-            'delete': self.mgmt_root.tm.cm.device_groups.device_group.delete,
-            'exists': self.mgmt_root.tm.cm.device_groups.device_group.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.cm.device_groups.device_group.create,
+            'read': self._api.tm.cm.device_groups.device_group.load,
+            'update': self._api.tm.cm.device_groups.device_group.update,
+            'delete': self._api.tm.cm.device_groups.device_group.delete,
+            'exists': self._api.tm.cm.device_groups.device_group.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_CM_DEVICE_GROUP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpCmDeviceGroup(check_mode=module.check_mode, **module.params)

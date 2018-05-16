@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -250,71 +251,84 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
-from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_FASTL4_ARGS = dict(
-    app_service=dict(type='str'),
-    client_timeout=dict(type='int'),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    explicit_flow_migration=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    hardware_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    idle_timeout=dict(type='int'),
-    ip_tos_to_client=dict(type='int'),
-    ip_tos_to_server=dict(type='int'),
-    keep_alive_interval=dict(type='int'),
-    late_binding=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    link_qos_to_client=dict(type='int'),
-    link_qos_to_server=dict(type='int'),
-    loose_close=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    loose_initialization=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mss_override=dict(type='int', choices=range(256, 9163)),
-    priority_to_client=dict(type='int'),
-    priority_to_server=dict(type='int'),
-    pva_acceleration=dict(type='str', choices=['full', 'none', 'partial', 'guaranteed']),
-    pva_dynamic_client_packets=dict(type='int'),
-    pva_dynamic_server_packets=dict(type='int'),
-    pva_flow_aging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pva_flow_evict=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pva_offload_dynamic=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    pva_offload_state=dict(type='str', choices=['embryonic', 'establish']),
-    reassemble_fragments=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    receive_window_size=dict(type='str'),
-    reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rtt_from_client=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    rtt_from_server=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    server_timestamp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    software_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    syn_cookie_whitelist=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_close_timeout=dict(type='int'),
-    tcp_generate_is=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_handshake_timeout=dict(type='int'),
-    tcp_strip_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tcp_timestamp_mode=dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
-    tcp_wscale_mode=dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
-    timeout_recovery=dict(type='str', choices=['disconnect', 'fallback'])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            client_timeout=dict(type='int'),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            explicit_flow_migration=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            hardware_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            idle_timeout=dict(type='int'),
+            ip_tos_to_client=dict(type='int'),
+            ip_tos_to_server=dict(type='int'),
+            keep_alive_interval=dict(type='int'),
+            late_binding=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            link_qos_to_client=dict(type='int'),
+            link_qos_to_server=dict(type='int'),
+            loose_close=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            loose_initialization=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            mss_override=dict(type='int', choices=range(256, 9163)),
+            priority_to_client=dict(type='int'),
+            priority_to_server=dict(type='int'),
+            pva_acceleration=dict(type='str', choices=['full', 'none', 'partial', 'guaranteed']),
+            pva_dynamic_client_packets=dict(type='int'),
+            pva_dynamic_server_packets=dict(type='int'),
+            pva_flow_aging=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            pva_flow_evict=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            pva_offload_dynamic=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            pva_offload_state=dict(type='str', choices=['embryonic', 'establish']),
+            reassemble_fragments=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            receive_window_size=dict(type='str'),
+            reset_on_timeout=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            rtt_from_client=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            rtt_from_server=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            server_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            server_timestamp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            software_syn_cookie=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            syn_cookie_whitelist=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            tcp_close_timeout=dict(type='int'),
+            tcp_generate_is=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            tcp_handshake_timeout=dict(type='int'),
+            tcp_strip_sack=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            tcp_timestamp_mode=dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
+            tcp_wscale_mode=dict(type='str', chocies=['preserve', 'rewrite', 'strip']),
+            timeout_recovery=dict(type='str', choices=['disconnect', 'fallback'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileFastl4(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.create,
-            'read': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.load,
-            'update': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.update,
-            'delete': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.fastl4s.fastl4.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.fastl4s.fastl4.create,
+            'read': self._api.tm.ltm.profile.fastl4s.fastl4.load,
+            'update': self._api.tm.ltm.profile.fastl4s.fastl4.update,
+            'delete': self._api.tm.ltm.profile.fastl4s.fastl4.delete,
+            'exists': self._api.tm.ltm.profile.fastl4s.fastl4.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_FASTL4_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileFastl4(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -225,88 +226,105 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 from f5.bigip.resource import OrganizingCollection
 
-BIGIP_GTM_POOL_ARGS = dict(
-    alternate_mode=dict(type='str',
-                        choices=['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate', 'ratio',
-                                 'return-to-dns', 'round-robin', 'static-persistence', 'topology',
-                                 'virtual-server-capacity', 'virtual-server-score']),
-    app_service=dict(type='str'),
-    canonical_name=dict(type='str'),
-    description=dict(type='str'),
-    disabled=dict(type='bool'),
-    enabled=dict(type='bool'),
-    dynamic_ratio=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    fallback_ipv4=dict(type='str'),
-    fallback_ipv6=dict(type='str'),
-    fallback_mode=dict(type='str', choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops',
-                                            'global-availability', 'kilobytes-per-second', 'least-connections',
-                                            'lowest-round-trip-time', 'none', 'packet-rate', 'quality-of-service',
-                                            'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology',
-                                            'virtual-server-capacity', 'virtual-server-score']),
-    limit_max_bps=dict(type='int'),
-    limit_max_bps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_connections=dict(type='int'),
-    limit_max_connections_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    limit_max_pps=dict(type='int'),
-    limit_max_pps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    load_balancing_mode=dict(type='str', choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops',
-                                                  'global-availability', 'kilobytes-per-second', 'least-connections',
-                                                  'lowest-round-trip-time', 'packet-rate', 'quality-of-service',
-                                                  'ratio', 'return-to-dns', 'round-robin', 'static-persistence',
-                                                  'topology', 'virtual-server-capacity', 'virtual-server-score']),
-    manual_resume=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    max_addresses_returned=dict(type='int'),
-    metadata=dict(type='list'),
-    monitor=dict(type='str'),
-    qos_hit_ratio=dict(type='int'),
-    qos_hops=dict(type='int'),
-    qos_kilobytes_second=dict(type='int'),
-    qos_lcs=dict(type='int'),
-    qos_packet_rate=dict(type='int'),
-    qos_rtt=dict(type='int'),
-    qos_topology=dict(type='int'),
-    qos_vs_capacity=dict(type='int'),
-    qos_vs_score=dict(type='int'),
-    ttl=dict(type='int'),
-    verify_member_availability=dict(type='str', choices=[F5_ACTIVATION_CHOICES])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            alternate_mode=dict(type='str',
+                                choices=['drop-packet', 'fallback-ip', 'global-availability', 'none', 'packet-rate',
+                                         'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology',
+                                         'virtual-server-capacity', 'virtual-server-score']),
+            app_service=dict(type='str'),
+            canonical_name=dict(type='str'),
+            description=dict(type='str'),
+            disabled=dict(type='bool'),
+            enabled=dict(type='bool'),
+            dynamic_ratio=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            fallback_ipv4=dict(type='str'),
+            fallback_ipv6=dict(type='str'),
+            fallback_mode=dict(type='str',
+                               choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops',
+                                        'global-availability', 'kilobytes-per-second', 'least-connections',
+                                        'lowest-round-trip-time', 'none', 'packet-rate', 'quality-of-service',
+                                        'ratio', 'return-to-dns', 'round-robin', 'static-persistence', 'topology',
+                                        'virtual-server-capacity', 'virtual-server-score']),
+            limit_max_bps=dict(type='int'),
+            limit_max_bps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            limit_max_connections=dict(type='int'),
+            limit_max_connections_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            limit_max_pps=dict(type='int'),
+            limit_max_pps_status=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            load_balancing_mode=dict(type='str',
+                                     choices=['completion-rate', 'cpu', 'drop-packet', 'fallback-ip', 'fewest-hops',
+                                              'global-availability', 'kilobytes-per-second', 'least-connections',
+                                              'lowest-round-trip-time', 'packet-rate', 'quality-of-service',
+                                              'ratio', 'return-to-dns', 'round-robin', 'static-persistence',
+                                              'topology', 'virtual-server-capacity', 'virtual-server-score']),
+            manual_resume=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            max_addresses_returned=dict(type='int'),
+            metadata=dict(type='list'),
+            monitor=dict(type='str'),
+            qos_hit_ratio=dict(type='int'),
+            qos_hops=dict(type='int'),
+            qos_kilobytes_second=dict(type='int'),
+            qos_lcs=dict(type='int'),
+            qos_packet_rate=dict(type='int'),
+            qos_rtt=dict(type='int'),
+            qos_topology=dict(type='int'),
+            qos_vs_capacity=dict(type='int'),
+            qos_vs_score=dict(type='int'),
+            ttl=dict(type='int'),
+            verify_member_availability=dict(type='str', choices=[F5_ACTIVATION_CHOICES])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['disabled', 'enabled']
+        ]
 
 
 class F5BigIpGtmPool(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        if isinstance(self.mgmt_root.tm.gtm.pools, OrganizingCollection):
-            self.methods = {
-                'create': self.mgmt_root.tm.gtm.pools.a_s.a.create,
-                'read': self.mgmt_root.tm.gtm.pools.a_s.a.load,
-                'update': self.mgmt_root.tm.gtm.pools.a_s.a.update,
-                'delete': self.mgmt_root.tm.gtm.pools.a_s.a.delete,
-                'exists': self.mgmt_root.tm.gtm.pools.a_s.a.exists
+    def _set_crud_methods(self):
+        if isinstance(self._api.tm.gtm.pools, OrganizingCollection):
+            self._methods = {
+                'create': self._api.tm.gtm.pools.a_s.a.create,
+                'read': self._api.tm.gtm.pools.a_s.a.load,
+                'update': self._api.tm.gtm.pools.a_s.a.update,
+                'delete': self._api.tm.gtm.pools.a_s.a.delete,
+                'exists': self._api.tm.gtm.pools.a_s.a.exists
             }
         else:
-            self.methods = {
-                'create': self.mgmt_root.tm.gtm.pools.pool.create,
-                'read': self.mgmt_root.tm.gtm.pools.pool.load,
-                'update': self.mgmt_root.tm.gtm.pools.pool.update,
-                'delete': self.mgmt_root.tm.gtm.pools.pool.delete,
-                'exists': self.mgmt_root.tm.gtm.pools.pool.exists
+            self._methods = {
+                'create': self._api.tm.gtm.pools.pool.create,
+                'read': self._api.tm.gtm.pools.pool.load,
+                'update': self._api.tm.gtm.pools.pool.update,
+                'delete': self._api.tm.gtm.pools.pool.delete,
+                'exists': self._api.tm.gtm.pools.pool.exists
             }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_GTM_POOL_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['disabled', 'enabled']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpGtmPool(check_mode=module.check_mode, **module.params)

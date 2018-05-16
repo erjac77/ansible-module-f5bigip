@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -87,40 +88,56 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_POLICY_ARGS = dict(
-    app_service=dict(type='str'),
-    controls=dict(type='list'),
-    description=dict(type='str'),
-    draft=dict(type=bool),
-    #legacy=dict(type=bool),
-    publish=dict(type=bool),
-    requires=dict(type='list'),
-    strategy=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            controls=dict(type='list'),
+            description=dict(type='str'),
+            draft=dict(type=bool),
+            # legacy=dict(type=bool),
+            publish=dict(type=bool),
+            requires=dict(type='list'),
+            strategy=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['draft', 'publish']
+        ]
 
 
 class F5BigIpLtmPolicy(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.policys.policy.create,
-            'read': self.mgmt_root.tm.ltm.policys.policy.load,
-            'update': self.mgmt_root.tm.ltm.policys.policy.update,
-            'delete': self.mgmt_root.tm.ltm.policys.policy.delete,
-            'exists': self.mgmt_root.tm.ltm.policys.policy.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.policys.policy.create,
+            'read': self._api.tm.ltm.policys.policy.load,
+            'update': self._api.tm.ltm.policys.policy.update,
+            'delete': self._api.tm.ltm.policys.policy.delete,
+            'exists': self._api.tm.ltm.policys.policy.exists
         }
 
     def _present(self):
-        has_changed = False
-
         if self._exists():
-            publish = self.params.pop('publish', None)
-            draft = self.params.pop('draft', None)
+            publish = self._params.pop('publish', None)
+            draft = self._params.pop('draft', None)
             has_changed = self._update()
             if publish:
                 pol = self._read()
@@ -139,13 +156,9 @@ class F5BigIpLtmPolicy(F5BigIpNamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_LTM_POLICY_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['draft', 'publish']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpLtmPolicy(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -124,62 +125,82 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_SYS_CRYPTO_KEY_ARGS = dict(
-    consumer=dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
-    # create
-    challenge_password=dict(type='str', no_log=True),
-    curve_name=dict(type='str', choices=['prime256v1', 'secp384r1']),
-    key_size=dict(type='str', choices=['512', '1024', '2048', '4096']),
-    key_type=dict(type='str', choices=['dsa-private', 'ec-private', 'rsa-private']),
-    lifetime=dict(type='int'),
-    passphrase=dict(type='str', no_log=True),
-    security_type=dict(type='str', choices=['fips', 'normal', 'password', 'nethsm']),
-    # install
-    command=dict(type='str', choices=['install']),
-    from_editor=dict(type='str'),
-    from_local_file=dict(type='str'),
-    from_url=dict(type='str'),
-    no_overwrite=dict(type='bool')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            consumer=dict(type='str', choices=['enterprise-manager', 'iquery', 'iquery-big3d', 'ltm', 'webserver']),
+            # create
+            challenge_password=dict(type='str', no_log=True),
+            curve_name=dict(type='str', choices=['prime256v1', 'secp384r1']),
+            key_size=dict(type='str', choices=['512', '1024', '2048', '4096']),
+            key_type=dict(type='str', choices=['dsa-private', 'ec-private', 'rsa-private']),
+            lifetime=dict(type='int'),
+            passphrase=dict(type='str', no_log=True),
+            security_type=dict(type='str', choices=['fips', 'normal', 'password', 'nethsm']),
+            # install
+            command=dict(type='str', choices=['install']),
+            from_editor=dict(type='str'),
+            from_local_file=dict(type='str'),
+            from_url=dict(type='str'),
+            no_overwrite=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['from_editor', 'from_local_file', 'from_url']
+        ]
 
 
 class F5BigIpSysCryptoKey(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.sys.crypto.keys.key.create,
-            'read': self.mgmt_root.tm.sys.crypto.keys.key.load,
-            'update': self.mgmt_root.tm.sys.crypto.keys.key.update,
-            'delete': self.mgmt_root.tm.sys.crypto.keys.key.delete,
-            'exists': self.mgmt_root.tm.sys.crypto.keys.key.exists,
-            'exec_cmd': self.mgmt_root.tm.sys.crypto.keys.exec_cmd
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.sys.crypto.keys.key.create,
+            'read': self._api.tm.sys.crypto.keys.key.load,
+            'update': self._api.tm.sys.crypto.keys.key.update,
+            'delete': self._api.tm.sys.crypto.keys.key.delete,
+            'exists': self._api.tm.sys.crypto.keys.key.exists,
+            'exec_cmd': self._api.tm.sys.crypto.keys.exec_cmd
         }
 
     def _install(self):
         """Upload the key on the BIG-IP system."""
-        name = self.params['name']
+        name = self._params['name']
+        param_set = {}
 
-        if self.params['fromEditor']:
-            param_set = {'from-editor': self.params['fromEditor']}
-        if self.params['fromLocalFile']:
-            param_set = {'from-local-file': self.params['fromLocalFile']}
-        if self.params['fromUrl']:
-            param_set = {'from-url': self.params['fromUrl']}
+        if self._params['fromEditor']:
+            param_set = {'from-editor': self._params['fromEditor']}
+        if self._params['fromLocalFile']:
+            param_set = {'from-local-file': self._params['fromLocalFile']}
+        if self._params['fromUrl']:
+            param_set = {'from-url': self._params['fromUrl']}
 
         if param_set:
             param_set.update({'name': name})
-            if self.params['consumer']:
-                param_set.update({'consumer': self.params['consumer']})
-            if self.params['noOverwrite']:
-                param_set.update({'no-overwrite': self.params['noOverwrite']})
+            if self._params['consumer']:
+                param_set.update({'consumer': self._params['consumer']})
+            if self._params['noOverwrite']:
+                param_set.update({'no-overwrite': self._params['noOverwrite']})
 
             # Install the key
-            self.methods['exec_cmd']('install', **param_set)
+            self._methods['exec_cmd']('install', **param_set)
         else:
             raise AnsibleF5Error("Missing required parameter 'from-*' to install the key.")
 
@@ -192,8 +213,8 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
     def _present(self):
         has_changed = False
 
-        if self.params['command'] == 'install':
-            if not self._exists() or (self.params['noOverwrite'] is not None and self.params['noOverwrite'] is False):
+        if self._params['command'] == 'install':
+            if not self._exists() or (self._params['noOverwrite'] is not None and self._params['noOverwrite'] is False):
                 has_changed = self._install()
         else:
             if not self._exists():
@@ -203,13 +224,9 @@ class F5BigIpSysCryptoKey(F5BigIpNamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_SYS_CRYPTO_KEY_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['from_editor', 'from_local_file', 'from_url']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpSysCryptoKey(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -114,47 +115,62 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_NAT_ARGS = dict(
-    app_service=dict(type='str'),
-    arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    auto_lasthop=dict(type='str', choices=['default', 'enabled', 'disabled']),
-    description=dict(type='str'),
-    disabled=dict(type='bool'),
-    enabled=dict(type='bool'),
-    originating_address=dict(type='str'),
-    traffic_group=dict(type='str'),
-    translation_address=dict(type='str'),
-    vlans=dict(type='list'),
-    vlans_disabled=dict(type='bool'),
-    vlans_enabled=dict(type='bool')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            arp=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            auto_lasthop=dict(type='str', choices=['default', 'enabled', 'disabled']),
+            description=dict(type='str'),
+            disabled=dict(type='bool'),
+            enabled=dict(type='bool'),
+            originating_address=dict(type='str'),
+            traffic_group=dict(type='str'),
+            translation_address=dict(type='str'),
+            vlans=dict(type='list'),
+            vlans_disabled=dict(type='bool'),
+            vlans_enabled=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['enabled', 'disabled'], ['vlans_disabled', 'vlans_enabled']
+        ]
 
 
 class F5BigIpLtmNat(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.nats.nat.create,
-            'read': self.mgmt_root.tm.ltm.nats.nat.load,
-            'update': self.mgmt_root.tm.ltm.nats.nat.update,
-            'delete': self.mgmt_root.tm.ltm.nats.nat.delete,
-            'exists': self.mgmt_root.tm.ltm.nats.nat.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.nats.nat.create,
+            'read': self._api.tm.ltm.nats.nat.load,
+            'update': self._api.tm.ltm.nats.nat.update,
+            'delete': self._api.tm.ltm.nats.nat.delete,
+            'exists': self._api.tm.ltm.nats.nat.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_LTM_NAT_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['enabled', 'disabled'], ['vlans_disabled', 'vlans_enabled']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpLtmNat(check_mode=module.check_mode, **module.params)

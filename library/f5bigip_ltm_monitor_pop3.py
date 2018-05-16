@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -112,41 +113,56 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_POLAR_CHOICES
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_MONITOR_POP3_ARGS = dict(
-    app_service=dict(type='str'),
-    debug=dict(type='str', choices=F5_POLAR_CHOICES),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    destination=dict(type='str'),
-    interval=dict(type='int'),
-    manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    password=dict(type='str', no_log=True),
-    time_until_up=dict(type='int'),
-    timeout=dict(type='int'),
-    up_interval=dict(type='int'),
-    username=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            debug=dict(type='str', choices=F5_POLAR_CHOICES),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            destination=dict(type='str'),
+            interval=dict(type='int'),
+            manual_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            password=dict(type='str', no_log=True),
+            time_until_up=dict(type='int'),
+            timeout=dict(type='int'),
+            up_interval=dict(type='int'),
+            username=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmMonitorPop3(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.monitor.pop3s.pop3.create,
-            'read': self.mgmt_root.tm.ltm.monitor.pop3s.pop3.load,
-            'update': self.mgmt_root.tm.ltm.monitor.pop3s.pop3.update,
-            'delete': self.mgmt_root.tm.ltm.monitor.pop3s.pop3.delete,
-            'exists': self.mgmt_root.tm.ltm.monitor.pop3s.pop3.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.monitor.pop3s.pop3.create,
+            'read': self._api.tm.ltm.monitor.pop3s.pop3.load,
+            'update': self._api.tm.ltm.monitor.pop3s.pop3.update,
+            'delete': self._api.tm.ltm.monitor.pop3s.pop3.delete,
+            'exists': self._api.tm.ltm.monitor.pop3s.pop3.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_MONITOR_POP3_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmMonitorPop3(check_mode=module.check_mode, **module.params)

@@ -27,14 +27,14 @@ policies:
           - name: 0
             forward: True
             reset: True
-        conditions:
-          - name: 0
-            http_uri: True
-            contains: True
-            values:
-              - root.exe
-              - admin.dll
-              - cmd.exe
+#        conditions:
+#          - name: 0
+#            http_uri: True
+#            contains: True
+#            values:
+#              - root.exe
+#              - admin.dll
+#              - cmd.exe
         ordinal: 1
     strategy: /Common/first-match
   - name: xff

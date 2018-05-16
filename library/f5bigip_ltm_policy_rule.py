@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -72,37 +73,50 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_POLICY_RULE_ARGS = dict(
-    app_service=dict(type='str'),
-    description=dict(type='str'),
-    ordinal=dict(type='int'),
-    policy=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            app_service=dict(type='str'),
+            description=dict(type='str'),
+            ordinal=dict(type='int'),
+            policy=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        del argument_spec['partition']
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmPolicyRule(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.policy = self.mgmt_root.tm.ltm.policys.policy.load(
-            **self._get_resource_id_from_path(self.params['policy']))
-        self.methods = {
-            'create': self.policy.rules_s.rules.create,
-            'read': self.policy.rules_s.rules.load,
-            'update': self.policy.rules_s.rules.update,
-            'delete': self.policy.rules_s.rules.delete,
-            'exists': self.policy.rules_s.rules.exists
+    def _set_crud_methods(self):
+        policy = self._api.tm.ltm.policys.policy.load(
+            **self._get_resource_id_from_path(self._params['policy']))
+        self._methods = {
+            'create': policy.rules_s.rules.create,
+            'read': policy.rules_s.rules.load,
+            'update': policy.rules_s.rules.update,
+            'delete': policy.rules_s.rules.delete,
+            'exists': policy.rules_s.rules.exists
         }
-        del self.params['partition']
-        del self.params['policy']
+        del self._params['policy']
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POLICY_RULE_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmPolicyRule(check_mode=module.check_mode, **module.params)

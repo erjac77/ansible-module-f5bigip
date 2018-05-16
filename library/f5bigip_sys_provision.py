@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,74 +69,85 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_SYS_PROVISION_ARGS = dict(
-    cpu_ratio=dict(type='int'),
-    disk_ratio=dict(type='int'),
-    level=dict(type='str', choices=['custom', 'dedicated', 'minimum', 'nominal', 'none']),
-    memory_ratio=dict(type='int'),
-    name=dict(type='str', choices=['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg'])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            cpu_ratio=dict(type='int'),
+            disk_ratio=dict(type='int'),
+            level=dict(type='str', choices=['custom', 'dedicated', 'minimum', 'nominal', 'none']),
+            memory_ratio=dict(type='int'),
+            name=dict(type='str', choices=['afm', 'am', 'apm', 'asm', 'avr', 'fps', 'gtm', 'lc', 'ltm', 'pem', 'swg'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSysProvision(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'afm_read': self.mgmt_root.tm.sys.provision.afm.load,
-            'afm_update': self.mgmt_root.tm.sys.provision.afm.update,
-            'am_read': self.mgmt_root.tm.sys.provision.am.load,
-            'am_update': self.mgmt_root.tm.sys.provision.am.update,
-            'apm_read': self.mgmt_root.tm.sys.provision.apm.load,
-            'apm_update': self.mgmt_root.tm.sys.provision.apm.update,
-            'asm_read': self.mgmt_root.tm.sys.provision.asm.load,
-            'asm_update': self.mgmt_root.tm.sys.provision.asm.update,
-            'avr_read': self.mgmt_root.tm.sys.provision.avr.load,
-            'avr_update': self.mgmt_root.tm.sys.provision.avr.update,
-            'fps_read': self.mgmt_root.tm.sys.provision.fps.load,
-            'fps_update': self.mgmt_root.tm.sys.provision.fps.update,
-            'gtm_read': self.mgmt_root.tm.sys.provision.gtm.load,
-            'gtm_update': self.mgmt_root.tm.sys.provision.gtm.update,
-            'lc_read': self.mgmt_root.tm.sys.provision.lc.load,
-            'lc_update': self.mgmt_root.tm.sys.provision.lc.update,
-            'ltm_read': self.mgmt_root.tm.sys.provision.ltm.load,
-            'ltm_update': self.mgmt_root.tm.sys.provision.ltm.update,
-            'pem_read': self.mgmt_root.tm.sys.provision.pem.load,
-            'pem_update': self.mgmt_root.tm.sys.provision.pem.update,
-            'swg_read': self.mgmt_root.tm.sys.provision.swg.load
+    def _set_crud_methods(self):
+        self._methods = {
+            'afm_read': self._api.tm.sys.provision.afm.load,
+            'afm_update': self._api.tm.sys.provision.afm.update,
+            'am_read': self._api.tm.sys.provision.am.load,
+            'am_update': self._api.tm.sys.provision.am.update,
+            'apm_read': self._api.tm.sys.provision.apm.load,
+            'apm_update': self._api.tm.sys.provision.apm.update,
+            'asm_read': self._api.tm.sys.provision.asm.load,
+            'asm_update': self._api.tm.sys.provision.asm.update,
+            'avr_read': self._api.tm.sys.provision.avr.load,
+            'avr_update': self._api.tm.sys.provision.avr.update,
+            'fps_read': self._api.tm.sys.provision.fps.load,
+            'fps_update': self._api.tm.sys.provision.fps.update,
+            'gtm_read': self._api.tm.sys.provision.gtm.load,
+            'gtm_update': self._api.tm.sys.provision.gtm.update,
+            'lc_read': self._api.tm.sys.provision.lc.load,
+            'lc_update': self._api.tm.sys.provision.lc.update,
+            'ltm_read': self._api.tm.sys.provision.ltm.load,
+            'ltm_update': self._api.tm.sys.provision.ltm.update,
+            'pem_read': self._api.tm.sys.provision.pem.load,
+            'pem_update': self._api.tm.sys.provision.pem.update,
+            'swg_read': self._api.tm.sys.provision.swg.load
         }
 
     def _read(self):
-        if self.params['name'] == 'afm':
-            return self.methods['afm_read']()
-        elif self.params['name'] == 'am':
-            return self.methods['am_read']()
-        elif self.params['name'] == 'apm':
-            return self.methods['apm_read']()
-        elif self.params['name'] == 'asm':
-            return self.methods['asm_read']()
-        elif self.params['name'] == 'avr':
-            return self.methods['avr_read']()
-        elif self.params['name'] == 'fps':
-            return self.methods['fps_read']()
-        elif self.params['name'] == 'gtm':
-            return self.methods['gtm_read']()
-        elif self.params['name'] == 'lc':
-            return self.methods['lc_read']()
-        elif self.params['name'] == 'ltm':
-            return self.methods['ltm_read']()
-        elif self.params['name'] == 'pem':
-            return self.methods['pem_read']()
-        elif self.params['name'] == 'swg':
-            return self.methods['swg_read']()
+        if self._params['name'] == 'afm':
+            return self._methods['afm_read']()
+        elif self._params['name'] == 'am':
+            return self._methods['am_read']()
+        elif self._params['name'] == 'apm':
+            return self._methods['apm_read']()
+        elif self._params['name'] == 'asm':
+            return self._methods['asm_read']()
+        elif self._params['name'] == 'avr':
+            return self._methods['avr_read']()
+        elif self._params['name'] == 'fps':
+            return self._methods['fps_read']()
+        elif self._params['name'] == 'gtm':
+            return self._methods['gtm_read']()
+        elif self._params['name'] == 'lc':
+            return self._methods['lc_read']()
+        elif self._params['name'] == 'ltm':
+            return self._methods['ltm_read']()
+        elif self._params['name'] == 'pem':
+            return self._methods['pem_read']()
+        elif self._params['name'] == 'swg':
+            return self._methods['swg_read']()
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_PROVISION_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSysProvision(check_mode=module.check_mode, **module.params)

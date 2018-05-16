@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -93,23 +94,34 @@ version:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_SYS_VERSION_ARGS = dict(
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict()
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSysVersion(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.sys.version.load
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.sys.version.load
         }
 
-    def get_version(self):
+    def flush(self):
         result = dict(changed=False)
 
         try:
-            version = self.methods['read']()
+            version = self._methods['read']()
             version_stats = version.entries['https://localhost/mgmt/tm/sys/version/0']['nestedStats']['entries']
         except Exception:
             raise AnsibleF5Error("Cannot display the version information.")
@@ -127,11 +139,12 @@ class F5BigIpSysVersion(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SYS_VERSION_ARGS, supports_check_mode=False)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSysVersion(check_mode=module.check_mode, **module.params)
-        result = obj.get_version()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

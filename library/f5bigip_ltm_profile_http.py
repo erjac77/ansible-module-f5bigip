@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -166,56 +167,70 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_HTTP_ARGS = dict(
-    accept_xff=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service=dict(type='str'),
-    basic_auth_realm=dict(type='str'),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    encrypt_cookie_secret=dict(type='str'),
-    encrypt_cookies=dict(type='str'),
-    enforcement=dict(type='dict'),
-    fallback_host=dict(type='str'),
-    fallback_status_codes=dict(type='int'),
-    header_erase=dict(type='str'),
-    header_insert=dict(type='str'),
-    insert_xforwarded_for=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    lws_separator=dict(type='str'),
-    lws_width=dict(type='int'),
-    oneconnect_transformations=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    redirect_rewrite=dict(type='str', choices=['all', 'matching', 'nodes', 'none']),
-    request_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
-    response_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
-    response_headers_permitted=dict(type='str'),
-    server_agent_name=dict(type='str'),
-    explicit_proxy=dict(type='dict'),
-    sflow=dict(type='dict'),
-    via_host_name=dict(type='str'),
-    via_request=dict(type='str', choices=['append', 'preserve', 'remove']),
-    via_response=dict(type='str', choices=['append', 'preserve', 'remove']),
-    xff_alternative_names=dict(type='str')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            accept_xff=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            app_service=dict(type='str'),
+            basic_auth_realm=dict(type='str'),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            encrypt_cookie_secret=dict(type='str'),
+            encrypt_cookies=dict(type='str'),
+            enforcement=dict(type='dict'),
+            fallback_host=dict(type='str'),
+            fallback_status_codes=dict(type='int'),
+            header_erase=dict(type='str'),
+            header_insert=dict(type='str'),
+            insert_xforwarded_for=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            lws_separator=dict(type='str'),
+            lws_width=dict(type='int'),
+            oneconnect_transformations=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            redirect_rewrite=dict(type='str', choices=['all', 'matching', 'nodes', 'none']),
+            request_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
+            response_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
+            response_headers_permitted=dict(type='str'),
+            server_agent_name=dict(type='str'),
+            explicit_proxy=dict(type='dict'),
+            sflow=dict(type='dict'),
+            via_host_name=dict(type='str'),
+            via_request=dict(type='str', choices=['append', 'preserve', 'remove']),
+            via_response=dict(type='str', choices=['append', 'preserve', 'remove']),
+            xff_alternative_names=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileHttp(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.https.http.create,
-            'read': self.mgmt_root.tm.ltm.profile.https.http.load,
-            'update': self.mgmt_root.tm.ltm.profile.https.http.update,
-            'delete': self.mgmt_root.tm.ltm.profile.https.http.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.https.http.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.https.http.create,
+            'read': self._api.tm.ltm.profile.https.http.load,
+            'update': self._api.tm.ltm.profile.https.http.update,
+            'delete': self._api.tm.ltm.profile.https.http.delete,
+            'exists': self._api.tm.ltm.profile.https.http.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_HTTP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileHttp(check_mode=module.check_mode, **module.params)

@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -70,37 +71,41 @@ stdout_lines:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
+from ansible_common_f5.utils import to_lines
 
-try:
-    from ansible_common_f5.f5_bigip import AnsibleF5Error
-    from ansible_common_f5.f5_bigip import AnsibleModuleF5BigIpUnnamedObject
-    from ansible_common_f5.f5_bigip import F5BigIpUnnamedObject
-    from ansible_common_f5.f5_bigip import to_lines
 
-    HAS_F5COMMON = True
-except ImportError:
-    HAS_F5COMMON = False
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            cmd_args=dict(type='str', required=True)
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
 
-BIGIP_UTIL_BASH_ARGS = dict(
-    cmd_args=dict(type='str', required=True)
-)
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpUtilBash(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'run': self.mgmt_root.tm.util.bash.exec_cmd
+    def _set_crud_methods(self):
+        self._methods = {
+            'run': self._api.tm.util.bash.exec_cmd
         }
 
-    def bash(self):
+    def flush(self):
         result = dict(changed=False, stdout=list())
 
-        if self.check_mode:
+        if self._check_mode:
             result['changed'] = True
             return result
 
         try:
-            output = self.methods['run']('run', utilCmdArgs=self.params['cmdArgs'])
+            output = self._methods['run']('run', utilCmdArgs=self._params['cmdArgs'])
             result['changed'] = True
         except Exception as exc:
             err_msg = 'Could not execute the Bash command.'
@@ -115,15 +120,12 @@ class F5BigIpUtilBash(F5BigIpUnnamedObject):
 
 
 def main():
-    if not HAS_F5COMMON:
-        module = AnsibleModule(argument_spec={})
-        module.fail_json(msg="The python ansible-common-f5 module is required.")
-
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_BASH_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpUtilBash(check_mode=module.check_mode, **module.params)
-        result = obj.bash()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

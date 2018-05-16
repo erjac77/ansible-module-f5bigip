@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -98,43 +99,56 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_SYS_SNMP_TRAP_ARGS = dict(
-    auth_password=dict(type='str', no_log=True),
-    auth_protocol=dict(type='str', choices=['md5', 'sha', 'none']),
-    community=dict(type='str'),
-    description=dict(type='str'),
-    engine_id=dict(type='str'),
-    host=dict(type='str'),
-    port=dict(type='int'),
-    privacy_password=dict(type='str', no_log=True),
-    privacy_protocol=dict(type='str', choices=['aes', 'des', 'none']),
-    security_level=dict(type='str', choices=['auth-no-privacy', 'auth-privacy', 'no-auth-no-privacy']),
-    security_name=dict(type='str'),
-    version=dict(type='str', choices=['1', '2c', '3'])
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            auth_password=dict(type='str', no_log=True),
+            auth_protocol=dict(type='str', choices=['md5', 'sha', 'none']),
+            community=dict(type='str'),
+            description=dict(type='str'),
+            engine_id=dict(type='str'),
+            host=dict(type='str'),
+            port=dict(type='int'),
+            privacy_password=dict(type='str', no_log=True),
+            privacy_protocol=dict(type='str', choices=['aes', 'des', 'none']),
+            security_level=dict(type='str', choices=['auth-no-privacy', 'auth-privacy', 'no-auth-no-privacy']),
+            security_name=dict(type='str'),
+            version=dict(type='str', choices=['1', '2c', '3'])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        del argument_spec['partition']
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSysSnmpTrap(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.snmp = self.mgmt_root.tm.sys.snmp.load()
-        self.methods = {
-            'create': self.snmp.traps_s.trap.create,
-            'read': self.snmp.traps_s.trap.load,
-            'modify': self.snmp.traps_s.trap.modify,
-            'delete': self.snmp.traps_s.trap.delete,
-            'exists': self.snmp.traps_s.trap.exists
+    def _set_crud_methods(self):
+        snmp = self._api.tm.sys.snmp.load()
+        self._methods = {
+            'create': snmp.traps_s.trap.create,
+            'read': snmp.traps_s.trap.load,
+            'modify': snmp.traps_s.trap.modify,
+            'delete': snmp.traps_s.trap.delete,
+            'exists': snmp.traps_s.trap.exists
         }
-        del self.params['partition']
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_SYS_SNMP_TRAP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSysSnmpTrap(check_mode=module.check_mode, **module.params)

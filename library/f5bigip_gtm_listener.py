@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -159,65 +160,85 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
-
-BIGIP_GTM_LISTENER_ARGS = dict(
-    address=dict(type='str'),
-    advertise=dict(type='str'),
-    app_service=dict(type='str'),
-    auto_lasthop=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
-    description=dict(type='str'),
-    disabled=dict(type='bool'),
-    enabled=dict(type='bool'),
-    fallback_persistence=dict(type='str'),
-    ip_protocol=dict(type='str', choices=['tcp', 'udp']),
-    last_hop_pool=dict(type='str'),
-    mask=dict(type='str'),
-    persist=dict(type='list'),
-    pool=dict(type='str'),
-    port=dict(type='int'),
-    profiles=dict(type='list'),
-    rules=dict(type='list'),
-    source_address_translation=dict(type='dict'),
-    source_port=dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
-    translate_address=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
-    translate_port=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
-    vlans=dict(type='list'),
-    vlans_disabled=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
-    vlans_enabled=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES])
-)
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
 
-class F5BigIpGtmListener(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.gtm.listeners.listener.create,
-            'read': self.mgmt_root.tm.gtm.listeners.listener.load,
-            'update': self.mgmt_root.tm.gtm.listeners.listener.update,
-            'delete': self.mgmt_root.tm.gtm.listeners.listener.delete,
-            'exists': self.mgmt_root.tm.gtm.listeners.listener.exists
-        }
-        del self.params['partition']
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            address=dict(type='str'),
+            advertise=dict(type='str'),
+            app_service=dict(type='str'),
+            auto_lasthop=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
+            description=dict(type='str'),
+            disabled=dict(type='bool'),
+            enabled=dict(type='bool'),
+            fallback_persistence=dict(type='str'),
+            ip_protocol=dict(type='str', choices=['tcp', 'udp']),
+            last_hop_pool=dict(type='str'),
+            mask=dict(type='str'),
+            persist=dict(type='list'),
+            pool=dict(type='str'),
+            port=dict(type='int'),
+            profiles=dict(type='list'),
+            rules=dict(type='list'),
+            source_address_translation=dict(type='dict'),
+            source_port=dict(type='str', choices=['change', 'preserve', 'preserve-strict']),
+            translate_address=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
+            translate_port=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
+            vlans=dict(type='list'),
+            vlans_disabled=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES]),
+            vlans_enabled=dict(type='str', choices=['default', F5_ACTIVATION_CHOICES])
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        # del argument_spec['partition']
+        return argument_spec
 
-        if self.params['source_address_translation']:
-            if self.params['source_address_translation']['type'] == 'automap' and 'pool' in self.params[
-                'source_address_translation']:
-                raise AnsibleF5Error("Cannot specify a pool when using automap.")
+    @property
+    def supports_check_mode(self):
+        return True
 
-
-def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_GTM_LISTENER_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
+    @property
+    def mutually_exclusive(self):
+        return [
             ['disabled', 'enabled'],
             ['vlans_disabled', 'vlans_enabled']
         ]
-    )
+
+
+class F5BigIpGtmListener(F5BigIpNamedObject):
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.gtm.listeners.listener.create,
+            'read': self._api.tm.gtm.listeners.listener.load,
+            'update': self._api.tm.gtm.listeners.listener.update,
+            'delete': self._api.tm.gtm.listeners.listener.delete,
+            'exists': self._api.tm.gtm.listeners.listener.exists
+        }
+
+    @property
+    def source_address_translation(self):
+        if self._params['sourceAddressTranslation']:
+            if self._params['sourceAddressTranslation']['type'] == 'automap' and 'pool' in self._params[
+                'sourceAddressTranslation']:
+                raise AnsibleF5Error("Cannot specify a pool when using automap.")
+        else:
+            return None
+
+
+def main():
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpGtmListener(check_mode=module.check_mode, **module.params)

@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -88,16 +89,16 @@ EXAMPLES = '''
 '''
 
 RETURN = '''
-ansible_facts.({namespace})_({module})_({sub_module})?_({component}):
+ansible_facts.({namespace})_({module})(_{sub_module})?_({component}):
     description: Facts about BIG-IP components
     returned: On success
     type: complex
 '''
 
 from ansible.module_utils.basic import AnsibleModule, json
+from ansible.module_utils.six import iteritems, iterkeys
 from ansible.module_utils.urls import open_url
-from ansible_common_f5.f5_bigip import *
-from six import iteritems, iterkeys
+from ansible_common_f5.base import F5_PROVIDER_ARGS
 
 
 def get_facts(uri, **params):
@@ -135,7 +136,7 @@ def get_facts(uri, **params):
         method="GET",
         url_username=params['f5_username'],
         url_password=params['f5_password'],
-        validate_certs=False
+        validate_certs=params['f5_verify']
     )
 
     return json.loads(resp.read())
@@ -150,20 +151,31 @@ def convert_keys(data):
     return data
 
 
-def main():
-    argument_spec = dict(
-        component=dict(type='str', required=True),
-        expand_subcollections=dict(type='bool'),
-        filter=dict(type='str'),
-        module=dict(type='str', required=True),
-        namespace=dict(type='str', default='tm'),
-        select=dict(type='str'),
-        skip=dict(type='int'),
-        sub_module=dict(type='str'),
-        top=dict(type='int')
-    )
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            component=dict(type='str', required=True),
+            expand_subcollections=dict(type='bool'),
+            filter=dict(type='str'),
+            module=dict(type='str', required=True),
+            namespace=dict(type='str', default='tm'),
+            select=dict(type='str'),
+            skip=dict(type='int'),
+            sub_module=dict(type='str'),
+            top=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
 
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=argument_spec, supports_check_mode=False)
+    @property
+    def supports_check_mode(self):
+        return False
+
+
+def main():
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         facts = {}

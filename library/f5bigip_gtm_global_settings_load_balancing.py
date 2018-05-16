@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -74,31 +75,42 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_POLAR_CHOICES
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS = dict(
-    ignore_path_ttl=dict(type='str', choices=F5_POLAR_CHOICES),
-    respect_fallback_dependency=dict(type='str', choices=F5_POLAR_CHOICES),
-    topology_longest_match=dict(type='str', choices=F5_POLAR_CHOICES),
-    verify_vs_availability=dict(type='str', choices=F5_POLAR_CHOICES)
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            ignore_path_ttl=dict(type='str', choices=F5_POLAR_CHOICES),
+            respect_fallback_dependency=dict(type='str', choices=F5_POLAR_CHOICES),
+            topology_longest_match=dict(type='str', choices=F5_POLAR_CHOICES),
+            verify_vs_availability=dict(type='str', choices=F5_POLAR_CHOICES)
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpGtmGlobalSettingsLoadBalancing(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.gtm.global_settings.load_balancing.load,
-            'update': self.mgmt_root.tm.gtm.global_settings.load_balancing.update
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.gtm.global_settings.load_balancing.load,
+            'update': self._api.tm.gtm.global_settings.load_balancing.update
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_GTM_GLOBAL_SETTINGS_LOAD_BALANCING_ARGS,
-                                               supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpGtmGlobalSettingsLoadBalancing(check_mode=module.check_mode, **module.params)

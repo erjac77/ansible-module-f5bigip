@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -296,82 +297,95 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
-from six.moves import range
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible.module_utils.six.moves import range
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
 
-BIGIP_LTM_PROFILE_CLIENT_SSL_ARGS = dict(
-    alert_timeout=dict(type='int'),
-    allow_non_ssl=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service=dict(type='str'),
-    authenticate=dict(type='str'),
-    authenticate_depth=dict(type='int'),
-    ca_file=dict(type='str'),
-    cache_size=dict(type='int'),
-    cache_timeout=dict(type='int', choices=range(0, 86401)),
-    cert=dict(type='str'),
-    # cert_extension_includes        =   dict(type='list'),
-    # cert_key_chain                 =   dict(type='list'),
-    cert_lookup_by_ipaddr_port=dict(type='str'),
-    chain=dict(type='str'),
-    ciphers=dict(type='str'),
-    client_cert_ca=dict(type='str'),
-    crl_file=dict(type='str'),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    handshake_timeout=dict(type='int'),
-    key=dict(type='str'),
-    mod_ssl_methods=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    mode=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    tm_options=dict(type='list'),
-    passphrase=dict(type='str', no_log=True),
-    peer_cert_mode=dict(type='str', choices=['ignore', 'require']),
-    peer_no_renegotiate_timeout=dict(type='int'),
-    proxy_ssl=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    proxy_ssl_passthrough=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    proxy_ca_cert=dict(type='str'),
-    proxy_ca_key=dict(type='str'),
-    proxy_ca_passphrase=dict(type='str', no_log=True),
-    renegotiate_max_record_delay=dict(type='str'),
-    renegotiate_period=dict(type='str'),
-    renegotiate_size=dict(type='str'),
-    renegotiation=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    retain_certificate=dict(type='bool'),
-    secure_renegotiation=dict(type='str'),
-    max_renegotiations_per_minute=dict(type='int'),
-    server_name=dict(type='str'),
-    session_mirroring=dict(type='str'),
-    session_ticket=dict(type='str'),
-    sni_default=dict(type='bool'),
-    sni_require=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    source_ip_blacklist=dict(type='str'),
-    source_ip_whitelist=dict(type='str'),
-    ssl_forward_proxy=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    ssl_forward_proxy_bypass=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    strict_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    unclean_shutdown=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    generic_alert=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    ssl_sign_hash=dict(type='str')
-)
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            alert_timeout=dict(type='int'),
+            allow_non_ssl=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            app_service=dict(type='str'),
+            authenticate=dict(type='str'),
+            authenticate_depth=dict(type='int'),
+            ca_file=dict(type='str'),
+            cache_size=dict(type='int'),
+            cache_timeout=dict(type='int', choices=range(0, 86401)),
+            cert=dict(type='str'),
+            # cert_extension_includes=dict(type='list'),
+            # cert_key_chain=dict(type='list'),
+            cert_lookup_by_ipaddr_port=dict(type='str'),
+            chain=dict(type='str'),
+            ciphers=dict(type='str'),
+            client_cert_ca=dict(type='str'),
+            crl_file=dict(type='str'),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            handshake_timeout=dict(type='int'),
+            key=dict(type='str'),
+            mod_ssl_methods=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            mode=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            tm_options=dict(type='list'),
+            passphrase=dict(type='str', no_log=True),
+            peer_cert_mode=dict(type='str', choices=['ignore', 'require']),
+            peer_no_renegotiate_timeout=dict(type='int'),
+            proxy_ssl=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            proxy_ssl_passthrough=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            proxy_ca_cert=dict(type='str'),
+            proxy_ca_key=dict(type='str'),
+            proxy_ca_passphrase=dict(type='str', no_log=True),
+            renegotiate_max_record_delay=dict(type='str'),
+            renegotiate_period=dict(type='str'),
+            renegotiate_size=dict(type='str'),
+            renegotiation=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            retain_certificate=dict(type='bool'),
+            secure_renegotiation=dict(type='str'),
+            max_renegotiations_per_minute=dict(type='int'),
+            server_name=dict(type='str'),
+            session_mirroring=dict(type='str'),
+            session_ticket=dict(type='str'),
+            sni_default=dict(type='bool'),
+            sni_require=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            source_ip_blacklist=dict(type='str'),
+            source_ip_whitelist=dict(type='str'),
+            ssl_forward_proxy=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            ssl_forward_proxy_bypass=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            strict_resume=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            unclean_shutdown=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            generic_alert=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            ssl_sign_hash=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileClientSsl(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.client_ssls.client_ssl.create,
-            'read': self.mgmt_root.tm.ltm.profile.client_ssls.client_ssl.load,
-            'update': self.mgmt_root.tm.ltm.profile.client_ssls.client_ssl.update,
-            'delete': self.mgmt_root.tm.ltm.profile.client_ssls.client_ssl.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.client_ssls.client_ssl.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.client_ssls.client_ssl.create,
+            'read': self._api.tm.ltm.profile.client_ssls.client_ssl.load,
+            'update': self._api.tm.ltm.profile.client_ssls.client_ssl.update,
+            'delete': self._api.tm.ltm.profile.client_ssls.client_ssl.delete,
+            'exists': self._api.tm.ltm.profile.client_ssls.client_ssl.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_CLIENT_SSL_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileClientSsl(check_mode=module.check_mode, **module.params)

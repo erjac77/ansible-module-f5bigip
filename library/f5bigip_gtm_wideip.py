@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -129,64 +130,81 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 from f5.bigip.resource import OrganizingCollection
 
-BIGIP_GTM_WIDEIP_ARGS = dict(
-    aliases=dict(type='list'),
-    app_service=dict(type='str'),
-    description=dict(type='str'),
-    disabled=dict(type='bool'),
-    enabled=dict(type='bool'),
-    ipv6_no_error_neg_ttl=dict(type='int'),
-    ipv6_no_error_response=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    last_resort_pool=dict(type='str'),
-    load_balancing_decision_log_verbosity=dict(type='str',
-                                               choices=['pool-selection', 'pool-traversal', 'pool-member-selection',
-                                                        'pool-member-traversal']),
-    metadata=dict(type='list'),
-    persistence=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
-    persist_cidr_ipv4=dict(type='int'),
-    persist_cidr_ipv6=dict(type='int'),
-    pool_lb_mode=dict(type='str', choices=['global-availability', 'random', 'ratio', 'round-robin', 'topology']),
-    pools=dict(type='list'),
-    rules=dict(type='list'),
-    ttl_persistence=dict(type='int')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            aliases=dict(type='list'),
+            app_service=dict(type='str'),
+            description=dict(type='str'),
+            disabled=dict(type='bool'),
+            enabled=dict(type='bool'),
+            ipv6_no_error_neg_ttl=dict(type='int'),
+            ipv6_no_error_response=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            last_resort_pool=dict(type='str'),
+            load_balancing_decision_log_verbosity=dict(type='str',
+                                                       choices=['pool-selection', 'pool-traversal',
+                                                                'pool-member-selection',
+                                                                'pool-member-traversal']),
+            metadata=dict(type='list'),
+            persistence=dict(type='str', choices=[F5_ACTIVATION_CHOICES]),
+            persist_cidr_ipv4=dict(type='int'),
+            persist_cidr_ipv6=dict(type='int'),
+            pool_lb_mode=dict(type='str',
+                              choices=['global-availability', 'random', 'ratio', 'round-robin', 'topology']),
+            pools=dict(type='list'),
+            rules=dict(type='list'),
+            ttl_persistence=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['disabled', 'enabled']
+        ]
 
 
 class F5BigIpGtmWideip(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        if isinstance(self.mgmt_root.tm.gtm.wideips, OrganizingCollection):
-            self.methods = {
-                'create': self.mgmt_root.tm.gtm.wideips.a_s.a.create,
-                'read': self.mgmt_root.tm.gtm.wideips.a_s.a.load,
-                'update': self.mgmt_root.tm.gtm.wideips.a_s.a.update,
-                'delete': self.mgmt_root.tm.gtm.wideips.a_s.a.delete,
-                'exists': self.mgmt_root.tm.gtm.wideips.a_s.a.exists
+    def _set_crud_methods(self):
+        if isinstance(self._api.tm.gtm.wideips, OrganizingCollection):
+            self._methods = {
+                'create': self._api.tm.gtm.wideips.a_s.a.create,
+                'read': self._api.tm.gtm.wideips.a_s.a.load,
+                'update': self._api.tm.gtm.wideips.a_s.a.update,
+                'delete': self._api.tm.gtm.wideips.a_s.a.delete,
+                'exists': self._api.tm.gtm.wideips.a_s.a.exists
             }
         else:
-            self.methods = {
-                'create': self.mgmt_root.tm.gtm.wideips.wideip.create,
-                'read': self.mgmt_root.tm.gtm.wideips.wideip.load,
-                'update': self.mgmt_root.tm.gtm.wideips.wideip.update,
-                'delete': self.mgmt_root.tm.gtm.wideips.wideip.delete,
-                'exists': self.mgmt_root.tm.gtm.wideips.wideip.exists
+            self._methods = {
+                'create': self._api.tm.gtm.wideips.wideip.create,
+                'read': self._api.tm.gtm.wideips.wideip.load,
+                'update': self._api.tm.gtm.wideips.wideip.update,
+                'delete': self._api.tm.gtm.wideips.wideip.delete,
+                'exists': self._api.tm.gtm.wideips.wideip.exists
             }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_GTM_WIDEIP_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['disabled', 'enabled']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpGtmWideip(check_mode=module.check_mode, **module.params)

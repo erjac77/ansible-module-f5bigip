@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -99,47 +100,50 @@ EXAMPLES = '''
 RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-try:
-    from ansible_common_f5.f5_bigip import AnsibleF5Error
-    from ansible_common_f5.f5_bigip import AnsibleModuleF5BigIpNamedObject
-    from ansible_common_f5.f5_bigip import F5BigIpNamedObject
-    from ansible_common_f5.f5_bigip import F5_ACTIVATION_CHOICES
 
-    HAS_F5COMMON = True
-except ImportError:
-    HAS_F5COMMON = False
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            aggregate_dynamic_ratios=dict(type='str',
+                                          choices=['average-members', 'average-nodes', 'none', 'sum-members',
+                                                   'sum-nodes']),
+            app_service=dict(type='str'),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            destination=dict(type='str'),
+            ignore_down_response=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            interval=dict(type='int'),
+            timeout=dict(type='int')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
 
-BIGIP_GTM_MONITOR_BIGIP_ARGS = dict(
-    aggregate_dynamic_ratios=dict(type='str', choices=['average-members', 'average-nodes', 'none', 'sum-members',
-                                                       'sum-nodes']),
-    app_service=dict(type='str'),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    destination=dict(type='str'),
-    ignore_down_response=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    interval=dict(type='int'),
-    timeout=dict(type='int')
-)
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpGtmMonitorBigip(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.gtm.monitor.bigips.bigip.create,
-            'read': self.mgmt_root.tm.gtm.monitor.bigips.bigip.load,
-            'update': self.mgmt_root.tm.gtm.monitor.bigips.bigip.update,
-            'delete': self.mgmt_root.tm.gtm.monitor.bigips.bigip.delete,
-            'exists': self.mgmt_root.tm.gtm.monitor.bigips.bigip.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.gtm.monitor.bigips.bigip.create,
+            'read': self._api.tm.gtm.monitor.bigips.bigip.load,
+            'update': self._api.tm.gtm.monitor.bigips.bigip.update,
+            'delete': self._api.tm.gtm.monitor.bigips.bigip.delete,
+            'exists': self._api.tm.gtm.monitor.bigips.bigip.exists
         }
 
 
 def main():
-    if not HAS_F5COMMON:
-        module = AnsibleModule(argument_spec={})
-        module.fail_json(msg="The python ansible-common-f5 module is required.")
-
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_GTM_MONITOR_BIGIP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpGtmMonitorBigip(check_mode=module.check_mode, **module.params)

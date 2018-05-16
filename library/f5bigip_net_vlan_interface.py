@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -81,42 +82,56 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_NET_VLAN_INTERFACE_ARGS = dict(
-    tag_mode=dict(type='str', choices=['customer', 'service', 'double', 'none']),
-    tagged=dict(type='bool'),
-    untagged=dict(type='bool'),
-    vlan=dict(type='str', required=True)
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            tag_mode=dict(type='str', choices=['customer', 'service', 'double', 'none']),
+            tagged=dict(type='bool'),
+            untagged=dict(type='bool'),
+            vlan=dict(type='str', required=True)
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        del argument_spec['partition']
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['tagged', 'untagged']
+        ]
 
 
 class F5BigIpNetVlanInterface(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.vlan = self.mgmt_root.tm.net.vlans.vlan.load(**self._get_resource_id_from_path(self.params['vlan']))
-        self.methods = {
-            'create': self.vlan.interfaces_s.interfaces.create,
-            'read': self.vlan.interfaces_s.interfaces.load,
-            'update': self.vlan.interfaces_s.interfaces.update,
-            'delete': self.vlan.interfaces_s.interfaces.delete,
-            'exists': self.vlan.interfaces_s.interfaces.exists
+    def _set_crud_methods(self):
+        vlan = self._api.tm.net.vlans.vlan.load(**self._get_resource_id_from_path(self._params['vlan']))
+        self._methods = {
+            'create': vlan.interfaces_s.interfaces.create,
+            'read': vlan.interfaces_s.interfaces.load,
+            'update': vlan.interfaces_s.interfaces.update,
+            'delete': vlan.interfaces_s.interfaces.delete,
+            'exists': vlan.interfaces_s.interfaces.exists
         }
-        del self.params['partition']
-        del self.params['vlan']
+        del self._params['vlan']
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(
-        argument_spec=BIGIP_NET_VLAN_INTERFACE_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['tagged', 'untagged']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpNetVlanInterface(check_mode=module.check_mode, **module.params)

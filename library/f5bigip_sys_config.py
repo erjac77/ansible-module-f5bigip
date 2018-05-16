@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -130,58 +131,75 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
-from six import iteritems
+from ansible.module_utils.six import iteritems
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_SYS_CONFIG_ARGS = dict(
-    # Command
-    command=dict(type='str', choices=['save', 'load'], required=True),
-    options=dict(type='list'),
-    # Common arguments
-    base=dict(type='bool'),
-    current_partition=dict(type='bool'),
-    exclude_gtm=dict(type='bool'),
-    file=dict(type='str'),
-    gtm_only=dict(type='bool'),
-    partitions=dict(type='list'),
-    passphrase=dict(type='str', no_log=True),
-    user_only=dict(type='bool'),
-    tar_file=dict(type='str'),
-    # Save specific arguments
-    binary=dict(type='bool'),
-    time_stamp=dict(type='bool'),
-    wait=dict(type='bool'),
-    # Load specific arguments
-    default=dict(type='bool'),
-    files_folder=dict(type='str'),
-    merge=dict(type='bool'),
-    verify=dict(type='bool')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            # Command
+            command=dict(type='str', choices=['save', 'load'], required=True),
+            options=dict(type='list'),
+            # Common arguments
+            base=dict(type='bool'),
+            current_partition=dict(type='bool'),
+            exclude_gtm=dict(type='bool'),
+            file=dict(type='str'),
+            gtm_only=dict(type='bool'),
+            partitions=dict(type='list'),
+            passphrase=dict(type='str', no_log=True),
+            user_only=dict(type='bool'),
+            tar_file=dict(type='str'),
+            # Save specific arguments
+            binary=dict(type='bool'),
+            time_stamp=dict(type='bool'),
+            wait=dict(type='bool'),
+            # Load specific arguments
+            default=dict(type='bool'),
+            files_folder=dict(type='str'),
+            merge=dict(type='bool'),
+            verify=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def mutually_exclusive(self):
+        return [
+            ['base', 'binary', 'default', 'exclude_gtm', 'gtm_only', 'user_only']
+        ]
 
 
 class F5BigIpSysConfig(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'exec_cmd': self.mgmt_root.tm.sys.config.exec_cmd
+    def _set_crud_methods(self):
+        self._methods = {
+            'exec_cmd': self._api.tm.sys.config.exec_cmd
         }
 
-    def exec_cmd(self):
+    def flush(self):
         result = dict(changed=False)
-        command = self.params.pop('command', None)
+        command = self._params.pop('command', None)
 
         # Remove empty params
-        params = dict((k, v) for k, v in iteritems(self.params) if v is not None)
+        params = dict((k, v) for k, v in iteritems(self._params) if v is not None)
 
-        if self.check_mode:
+        if self._check_mode:
             result['changed'] = True
             return result
 
         try:
-            self.methods['exec_cmd'](command, **params)
+            self._methods['exec_cmd'](command, **params)
             result['changed'] = True
         except Exception as exc:
             raise AnsibleF5Error("Could not execute '" + command + "' command: " + exc.message)
@@ -190,23 +208,17 @@ class F5BigIpSysConfig(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(
-        argument_spec=BIGIP_SYS_CONFIG_ARGS,
-        supports_check_mode=True,
-        mutually_exclusive=[
-            ['base', 'binary', 'default', 'exclude_gtm', 'gtm_only', 'user_only']
-        ]
-    )
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode,
+                           mutually_exclusive=params.mutually_exclusive)
 
     try:
         obj = F5BigIpSysConfig(check_mode=module.check_mode, **module.params)
-        result = obj.exec_cmd()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))
 
-
-from ansible.module_utils.basic import *
 
 if __name__ == '__main__':
     main()

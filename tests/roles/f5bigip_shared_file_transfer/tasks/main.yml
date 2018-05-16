@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ dg_filepathname }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -23,7 +22,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ key_filepathname }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -39,7 +37,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ cert_filepathname }}"
-    state: present
   delegate_to: localhost
   register: result
 
@@ -67,7 +64,6 @@
     f5_port: "{{ bigip_port }}"
     file_name: "{{ cert_filename }}"
     download_path: "{{ cert_filepathname }}"
-    state: present
   delegate_to: localhost
   register: result
 

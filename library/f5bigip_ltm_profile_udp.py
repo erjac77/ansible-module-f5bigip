@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -108,39 +109,53 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_ACTIVATION_CHOICES
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_PROFILE_UDP_ARGS = dict(
-    allow_no_payload=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    app_service=dict(type='str'),
-    datagram_load_balancing=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    defaults_from=dict(type='str'),
-    description=dict(type='str'),
-    idle_timeout=dict(type='int'),
-    ip_tos_to_client=dict(type='int'),
-    link_qos_to_client=dict(type='int'),
-    no_checksum=dict(type='str', choices=F5_ACTIVATION_CHOICES),
-    proxy_mss=dict(type='str', choices=F5_ACTIVATION_CHOICES)
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            allow_no_payload=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            app_service=dict(type='str'),
+            datagram_load_balancing=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            defaults_from=dict(type='str'),
+            description=dict(type='str'),
+            idle_timeout=dict(type='int'),
+            ip_tos_to_client=dict(type='int'),
+            link_qos_to_client=dict(type='int'),
+            no_checksum=dict(type='str', choices=F5_ACTIVATION_CHOICES),
+            proxy_mss=dict(type='str', choices=F5_ACTIVATION_CHOICES)
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpLtmProfileUdp(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'create': self.mgmt_root.tm.ltm.profile.udps.udp.create,
-            'read': self.mgmt_root.tm.ltm.profile.udps.udp.load,
-            'update': self.mgmt_root.tm.ltm.profile.udps.udp.update,
-            'delete': self.mgmt_root.tm.ltm.profile.udps.udp.delete,
-            'exists': self.mgmt_root.tm.ltm.profile.udps.udp.exists
+    def _set_crud_methods(self):
+        self._methods = {
+            'create': self._api.tm.ltm.profile.udps.udp.create,
+            'read': self._api.tm.ltm.profile.udps.udp.load,
+            'update': self._api.tm.ltm.profile.udps.udp.update,
+            'delete': self._api.tm.ltm.profile.udps.udp.delete,
+            'exists': self._api.tm.ltm.profile.udps.udp.exists
         }
 
 
 def main():
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_PROFILE_UDP_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpLtmProfileUdp(check_mode=module.check_mode, **module.params)

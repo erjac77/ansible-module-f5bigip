@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -90,83 +91,83 @@ stdout_lines:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
+from ansible_common_f5.utils import to_lines
 
-try:
-    from ansible_common_f5.f5_bigip import AnsibleF5Error
-    from ansible_common_f5.f5_bigip import AnsibleModuleF5BigIpUnnamedObject
-    from ansible_common_f5.f5_bigip import F5BigIpUnnamedObject
-    from ansible_common_f5.f5_bigip import to_lines
 
-    HAS_F5COMMON = True
-except ImportError:
-    HAS_F5COMMON = False
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            addon_key=dict(type='str'),
+            clear_text=dict(type='bool'),
+            base_key=dict(type='str', required=True),
+            inactive_key=dict(type='str'),
+            kernel_version=dict(type='str'),
+            version=dict(type='str')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
 
-BIGIP_UTIL_GET_DOSSIER_ARGS = dict(
-    addon_key=dict(type='str'),
-    clear_text=dict(type='bool'),
-    base_key=dict(type='str', required=True),
-    inactive_key=dict(type='str'),
-    kernel_version=dict(type='str'),
-    version=dict(type='str')
-)
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpUtilGetDossier(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'run': self.mgmt_root.tm.util.get_dossier.exec_cmd
+    def _set_crud_methods(self):
+        self._methods = {
+            'run': self._api.tm.util.get_dossier.exec_cmd
         }
 
     @property
     def addon_key(self):
-        if self.params['addonKey'] is None:
+        if self._params['addonKey'] is None:
             return None
-        return '-a {0}'.format(self.params['addonKey'])
+        return '-a {0}'.format(self._params['addonKey'])
 
     @property
     def base_key(self):
-        if self.params['baseKey'] is None:
+        if self._params['baseKey'] is None:
             return None
-        return '-b {0}'.format(self.params['baseKey'])
+        return '-b {0}'.format(self._params['baseKey'])
 
     @property
     def clear_text(self):
-        if self.params['clearText']:
+        if self._params['clearText']:
             return '-c'
         return None
 
     @property
     def inactive_key(self):
-        if self.params['inactiveKey'] is None:
+        if self._params['inactiveKey'] is None:
             return None
-        return '-i {0}'.format(self.params['inactiveKey'])
+        return '-i {0}'.format(self._params['inactiveKey'])
 
     @property
     def kernel_version(self):
-        if self.params['kernelVersion'] is None:
+        if self._params['kernelVersion'] is None:
             return None
-        return '-k {0}'.format(self.params['kernelVersion'])
+        return '-k {0}'.format(self._params['kernelVersion'])
 
     @property
     def version(self):
-        if self.params['version'] is None:
+        if self._params['version'] is None:
             return None
-        return '-v "{0}"'.format(self.params['version'])
+        return '-v "{0}"'.format(self._params['version'])
 
-    def get_dossier(self):
+    def flush(self):
         result = dict(changed=False, stdout=list())
 
-        args = dict()
-        for key in BIGIP_UTIL_GET_DOSSIER_ARGS:
-            if getattr(self, key) is not None:
-                args[key] = getattr(self, key)
-
-        if self.check_mode:
+        if self._check_mode:
             result['changed'] = True
             return result
 
         try:
-            output = self.methods['run']('run', utilCmdArgs='{0}'.format(' '.join(str(a) for a in args.values())))
+            output = self._methods['run']('run',
+                                          utilCmdArgs='{0}'.format(' '.join(str(a) for a in self._params.values())))
             result['changed'] = True
         except Exception as exc:
             err_msg = 'Could not execute the Get Dossier command.'
@@ -181,15 +182,12 @@ class F5BigIpUtilGetDossier(F5BigIpUnnamedObject):
 
 
 def main():
-    if not HAS_F5COMMON:
-        module = AnsibleModule(argument_spec={})
-        module.fail_json(msg="The python ansible-common-f5 module is required.")
-
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_UTIL_GET_DOSSIER_ARGS, supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpUtilGetDossier(check_mode=module.check_mode, **module.params)
-        result = obj.get_dossier()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

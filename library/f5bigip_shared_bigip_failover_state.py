@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-# Copyright 2016-2017, Eric Jacob <erjac77@gmail.com>
+# Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,27 +52,37 @@ EXAMPLES = '''
     msg: "Failover Status: {{ failover_status_resp.bigip_failover_state.failoverState }}"
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import AnsibleF5Error
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpUnnamedObject
 
-BIGIP_SHARED_BIGIP_FAILOVER_STATE_ARGS = dict(
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict()
+        argument_spec.update(F5_PROVIDER_ARGS)
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
 
 
 class F5BigIpSharedBigipFailoverState(F5BigIpUnnamedObject):
-    def set_crud_methods(self):
-        self.methods = {
-            'read': self.mgmt_root.tm.shared.bigip_failover_state.load
+    def _set_crud_methods(self):
+        self._methods = {
+            'read': self._api.tm.shared.bigip_failover_state.load
         }
 
-    def get_failover_state(self):
+    def flush(self):
         result = dict(changed=False)
 
         try:
-            failover_state = self.methods['read']()
+            failover_state = self._methods['read']()
         except Exception:
             raise AnsibleF5Error("Cannot retrieve BIG-IP failover state information.")
 
@@ -87,12 +98,12 @@ class F5BigIpSharedBigipFailoverState(F5BigIpUnnamedObject):
 
 
 def main():
-    module = AnsibleModuleF5BigIpUnnamedObject(argument_spec=BIGIP_SHARED_BIGIP_FAILOVER_STATE_ARGS,
-                                               supports_check_mode=False)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
         obj = F5BigIpSharedBigipFailoverState(check_mode=module.check_mode, **module.params)
-        result = obj.get_failover_state()
+        result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
         module.fail_json(msg=str(exc))

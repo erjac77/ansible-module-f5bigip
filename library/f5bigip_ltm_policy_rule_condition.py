@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 # Copyright 2016-2018, Eric Jacob <erjac77@gmail.com>
 #
@@ -352,136 +353,150 @@ EXAMPLES = '''
   delegate_to: localhost
 '''
 
-RETURN = '''
-'''
+RETURN = ''' # '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_common_f5.f5_bigip import *
+from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
+from ansible_common_f5.base import F5_PROVIDER_ARGS
+from ansible_common_f5.bigip import F5BigIpNamedObject
 
-BIGIP_LTM_POLICY_RULE_CONDITION_ARGS = dict(
-    policy=dict(type='str', required=True),
-    rule=dict(type='str', required=True),
-    # The conditions permitted for the rule
-    address=dict(type='bool'),
-    all=dict(type='bool'),
-    app_service=dict(type='str'),
-    browser_type=dict(type='bool'),
-    browser_version=dict(type='bool'),
-    case_insensitive=dict(type='bool'),
-    case_sensitive=dict(type='bool'),
-    cipher=dict(type='bool'),
-    cipher_bits=dict(type='bool'),
-    client_ssl=dict(type='bool'),
-    code=dict(type='bool'),
-    common_name=dict(type='bool'),
-    contains=dict(type='bool'),
-    continent=dict(type='bool'),
-    country_code=dict(type='bool'),
-    country_name=dict(type='bool'),
-    cpu_usage=dict(type='bool'),
-    device_make=dict(type='bool'),
-    device_model=dict(type='bool'),
-    domain=dict(type='bool'),
-    ends_with=dict(type='bool'),
-    equals=dict(type='bool'),
-    expiry=dict(type='bool'),
-    extension=dict(type='bool'),
-    external=dict(type='bool'),
-    geoip=dict(type='bool'),
-    greater=dict(type='bool'),
-    greater_or_equal=dict(type='bool'),
-    #header=dict(type='bool'),
-    host=dict(type='bool'),
-    http_basic_auth=dict(type='bool'),
-    http_cookie=dict(type='bool'),
-    http_header=dict(type='bool'),
-    http_host=dict(type='bool'),
-    http_method=dict(type='bool'),
-    http_referer=dict(type='bool'),
-    http_set_cookie=dict(type='bool'),
-    http_status=dict(type='bool'),
-    http_uri=dict(type='bool'),
-    http_user_agent=dict(type='bool'),
-    http_version=dict(type='bool'),
-    index=dict(type='int'),
-    internal=dict(type='bool'),
-    isp=dict(type='bool'),
-    last_15secs=dict(type='bool'),
-    last_1min=dict(type='bool'),
-    last_5mins=dict(type='bool'),
-    less=dict(type='bool'),
-    less_or_equal=dict(type='bool'),
-    local=dict(type='bool'),
-    major=dict(type='bool'),
-    matches=dict(type='bool'),
-    minor=dict(type='bool'),
-    missing=dict(type='bool'),
-    mss=dict(type='bool'),
-    tm_name=dict(type='str'),
-    tm_not=dict(type='bool'),
-    org=dict(type='bool'),
-    password=dict(type='bool'),
-    path=dict(type='bool'),
-    path_segment=dict(type='bool'),
-    port=dict(type='bool'),
-    present=dict(type='bool'),
-    protocol=dict(type='bool'),
-    query_parameter=dict(type='bool'),
-    query_string=dict(type='bool'),
-    region_code=dict(type='bool'),
-    region_name=dict(type='bool'),
-    remote=dict(type='bool'),
-    request=dict(type='bool'),
-    response=dict(type='bool'),
-    route_domain=dict(type='bool'),
-    rtt=dict(type='bool'),
-    scheme=dict(type='bool'),
-    server_name=dict(type='bool'),
-    ssl_cert=dict(type='bool'),
-    ssl_client_hello=dict(type='bool'),
-    ssl_extension=dict(type='bool'),
-    ssl_server_handshake=dict(type='bool'),
-    ssl_server_hello=dict(type='bool'),
-    starts_with=dict(type='bool'),
-    tcp=dict(type='bool'),
-    text=dict(type='bool'),
-    unnamed_query_parameter=dict(type='bool'),
-    user_agent_token=dict(type='bool'),
-    username=dict(type='bool'),
-    value=dict(type='bool'),
-    values=dict(type='list'),
-    version=dict(type='bool'),
-    vlan=dict(type='bool'),
-    vlan_id=dict(type='bool')
-)
+
+class ModuleParams(object):
+    @property
+    def argument_spec(self):
+        argument_spec = dict(
+            policy=dict(type='str', required=True),
+            rule=dict(type='str', required=True),
+            # The conditions permitted for the rule
+            address=dict(type='bool'),
+            all=dict(type='bool'),
+            app_service=dict(type='str'),
+            browser_type=dict(type='bool'),
+            browser_version=dict(type='bool'),
+            case_insensitive=dict(type='bool'),
+            case_sensitive=dict(type='bool'),
+            cipher=dict(type='bool'),
+            cipher_bits=dict(type='bool'),
+            client_ssl=dict(type='bool'),
+            code=dict(type='bool'),
+            common_name=dict(type='bool'),
+            contains=dict(type='bool'),
+            continent=dict(type='bool'),
+            country_code=dict(type='bool'),
+            country_name=dict(type='bool'),
+            cpu_usage=dict(type='bool'),
+            device_make=dict(type='bool'),
+            device_model=dict(type='bool'),
+            domain=dict(type='bool'),
+            ends_with=dict(type='bool'),
+            equals=dict(type='bool'),
+            expiry=dict(type='bool'),
+            extension=dict(type='bool'),
+            external=dict(type='bool'),
+            geoip=dict(type='bool'),
+            greater=dict(type='bool'),
+            greater_or_equal=dict(type='bool'),
+            # header=dict(type='bool'),
+            host=dict(type='bool'),
+            http_basic_auth=dict(type='bool'),
+            http_cookie=dict(type='bool'),
+            http_header=dict(type='bool'),
+            http_host=dict(type='bool'),
+            http_method=dict(type='bool'),
+            http_referer=dict(type='bool'),
+            http_set_cookie=dict(type='bool'),
+            http_status=dict(type='bool'),
+            http_uri=dict(type='bool'),
+            http_user_agent=dict(type='bool'),
+            http_version=dict(type='bool'),
+            index=dict(type='int'),
+            internal=dict(type='bool'),
+            isp=dict(type='bool'),
+            last_15secs=dict(type='bool'),
+            last_1min=dict(type='bool'),
+            last_5mins=dict(type='bool'),
+            less=dict(type='bool'),
+            less_or_equal=dict(type='bool'),
+            local=dict(type='bool'),
+            major=dict(type='bool'),
+            matches=dict(type='bool'),
+            minor=dict(type='bool'),
+            missing=dict(type='bool'),
+            mss=dict(type='bool'),
+            tm_name=dict(type='str'),
+            tm_not=dict(type='bool'),
+            org=dict(type='bool'),
+            password=dict(type='bool'),
+            path=dict(type='bool'),
+            path_segment=dict(type='bool'),
+            port=dict(type='bool'),
+            present=dict(type='bool'),
+            protocol=dict(type='bool'),
+            query_parameter=dict(type='bool'),
+            query_string=dict(type='bool'),
+            region_code=dict(type='bool'),
+            region_name=dict(type='bool'),
+            remote=dict(type='bool'),
+            request=dict(type='bool'),
+            response=dict(type='bool'),
+            route_domain=dict(type='bool'),
+            rtt=dict(type='bool'),
+            scheme=dict(type='bool'),
+            server_name=dict(type='bool'),
+            ssl_cert=dict(type='bool'),
+            ssl_client_hello=dict(type='bool'),
+            ssl_extension=dict(type='bool'),
+            ssl_server_handshake=dict(type='bool'),
+            ssl_server_hello=dict(type='bool'),
+            starts_with=dict(type='bool'),
+            tcp=dict(type='bool'),
+            text=dict(type='bool'),
+            unnamed_query_parameter=dict(type='bool'),
+            user_agent_token=dict(type='bool'),
+            username=dict(type='bool'),
+            value=dict(type='bool'),
+            values=dict(type='list'),
+            version=dict(type='bool'),
+            vlan=dict(type='bool'),
+            vlan_id=dict(type='bool')
+        )
+        argument_spec.update(F5_PROVIDER_ARGS)
+        argument_spec.update(F5_NAMED_OBJ_ARGS)
+        del argument_spec['partition']
+        return argument_spec
+
+    @property
+    def supports_check_mode(self):
+        return True
+
+    @property
+    def tr(self):
+        # Translation dict for conflictual params
+        return {'tm_not': 'not'}
 
 
 class F5BigIpLtmPolicyRuleCondition(F5BigIpNamedObject):
-    def set_crud_methods(self):
-        self.policy = self.mgmt_root.tm.ltm.policys.policy.load(
-            **self._get_resource_id_from_path(self.params['policy']))
-        self.rule = self.policy.rules_s.rules.load(name=self.params['rule'])
-        self.methods = {
-            'create': self.rule.conditions_s.conditions.create,
-            'read': self.rule.conditions_s.conditions.load,
-            'update': self.rule.conditions_s.conditions.update,
-            'delete': self.rule.conditions_s.conditions.delete,
-            'exists': self.rule.conditions_s.conditions.exists
+    def _set_crud_methods(self):
+        policy = self._api.tm.ltm.policys.policy.load(
+            **self._get_resource_id_from_path(self._params['policy']))
+        rule = policy.rules_s.rules.load(name=self._params['rule'])
+        self._methods = {
+            'create': rule.conditions_s.conditions.create,
+            'read': rule.conditions_s.conditions.load,
+            'update': rule.conditions_s.conditions.update,
+            'delete': rule.conditions_s.conditions.delete,
+            'exists': rule.conditions_s.conditions.exists
         }
-        del self.params['partition']
-        del self.params['policy']
-        del self.params['rule']
+        del self._params['policy']
+        del self._params['rule']
 
 
 def main():
-    # Translation list for conflictual params
-    tr = {'tm_not': 'not'}
-
-    module = AnsibleModuleF5BigIpNamedObject(argument_spec=BIGIP_LTM_POLICY_RULE_CONDITION_ARGS,
-                                             supports_check_mode=True)
+    params = ModuleParams()
+    module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
-        obj = F5BigIpLtmPolicyRuleCondition(check_mode=module.check_mode, **module.params)
+        obj = F5BigIpLtmPolicyRuleCondition(check_mode=module.check_mode, tr=params.tr, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:
