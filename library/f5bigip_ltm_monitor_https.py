@@ -67,7 +67,7 @@ options:
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        default: http
+        default: https
     description:
         description:
             - Specifies descriptive text that identifies the component.

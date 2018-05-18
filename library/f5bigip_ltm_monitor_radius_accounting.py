@@ -43,7 +43,7 @@ options:
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        default: radius
+        default: radius_accounting
     description:
         description:
             - User defined description.
