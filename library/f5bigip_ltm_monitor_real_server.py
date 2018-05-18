@@ -37,7 +37,7 @@ options:
     defaults_from:
         description:
             - Specifies the name of the monitor from which you want your custom monitor to inherit settings.
-        default: real-server
+        default: real_server
     description:
         description:
             - User defined description.

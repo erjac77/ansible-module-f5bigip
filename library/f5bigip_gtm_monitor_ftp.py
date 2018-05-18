@@ -47,7 +47,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     filename:
         description:
             - Specifies the full path and file name of the file that the system attempts to download.
@@ -79,8 +79,8 @@ options:
             - Specifies the password, if the monitored target requires authentication.
     probe_timeout:
         description:
-            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the
-    	      BIG-IP system.
+            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP
+              system.
         default: 5
     state:
         description:

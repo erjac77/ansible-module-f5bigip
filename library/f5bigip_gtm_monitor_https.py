@@ -37,7 +37,7 @@ options:
     cipherlist:
         description:
             - Specifies the list of ciphers for this monitor.
-        default: DEFAULT:+SHA:+3DES:+kEDH
+        default: 'DEFAULT:+SHA:+3DES:+kEDH'
     compatibility:
         description:
             - Specifies, when enabled, that the SSL options setting (in OpenSSL) is set to ALL.
@@ -53,7 +53,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     ignore_down_response:
         description:
             - Specifies whether the monitor ignores a down response from the system it is monitoring.
@@ -80,7 +80,8 @@ options:
             - Specifies the password if the monitored target requires authentication.
     probe_timeout:
         description:
-            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP system.
+            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP
+              system.
         default: 5
     recv:
         description:
@@ -136,7 +137,6 @@ RETURN = ''' # '''
 from ansible.module_utils.basic import AnsibleModule
 from ansible_common_f5.base import F5_ACTIVATION_CHOICES
 from ansible_common_f5.base import F5_NAMED_OBJ_ARGS
-from ansible_common_f5.base import F5_POLAR_CHOICES
 from ansible_common_f5.base import F5_PROVIDER_ARGS
 from ansible_common_f5.bigip import F5BigIpNamedObject
 

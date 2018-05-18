@@ -41,7 +41,7 @@ options:
     destination:
         description:
             - Specifies the IP address and service port of the resource that is the destination of this monitor.
-        default: *:*
+        default: '*:*'
     ignore_down_response:
         description:
             - Specifies whether the monitor ignores a down response from the system it is monitoring.
@@ -71,7 +71,8 @@ options:
         default: 1
     probe_timeout:
         description:
-            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP system.
+            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP
+              system.
         default: 5
     state:
         description:
