@@ -37,6 +37,44 @@ options:
     authentication:
         description:
             - Manages the subscriber authentication attributes.
+        suboptions:
+            enabled:
+                description:
+                    - To enable or disable subscriber authentication.
+                default: false
+                choices: ['true', 'false']
+            user_name:
+                description:
+                    - Manages the authentication user name's attributes.
+                suboptions:
+                    format:
+                        description:
+                            - Specifies the user-name format.
+                        choices: ['mac-address', 'mac-and-relay-id', 'tcl-snippet']
+                    suboption_id1:
+                        description:
+                            - The relay-agent option (option 82) first suboption ID.
+                        default: 1
+                    suboption_id2
+                        description:
+                            - The relay-agent option (option 82) second suboption ID.
+                        default: 2
+                    separator1
+                        description:
+                            - A string that is used to concatenate the MAC address and the relay-agent info option (option 82)
+                              to create the authentication user-name.
+                        default: @
+                    separator2
+                        description:
+                            - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1 and 2 to
+                              create the authentication user-name.
+                        default: @
+                    tcl_snippet
+                        description:
+                            - A tcl snippet to format the user name.
+            virtual:
+                description:
+                    - Specifies the authentication virtual server name.
     default_lease_time:
         description:
             - Provides the default value in seconds of DHCPv4 lease time in case it was missing in the client-server
@@ -70,6 +108,36 @@ options:
     relay_agent_id:
         description:
             - Manages the relay agent information option (option 82) attributes.
+        suboptions:
+            add:
+                description:
+                    - Specifies if the user wants the DHCP relay agent to insert option 82 or not.
+                default: false
+                choices: ['true', 'false']
+            remove:
+                description:
+                    - Specifies if the user wants the DHCP relay agent to remove option 82 from the server-to-client traffic
+                      or not.
+                default: false
+                choices: ['true', 'false']
+            suboption:
+                description:
+                    - Manages the inserted relay agent information option (option 82) suboptions.
+                suboptions:
+                    id1:
+                        description:
+                            - An integer to represent the first suboption ID.
+                        default: 1
+                    id2:
+                        description:
+                            - An integer to represent the second suboption ID.
+                        default: 2
+                    value1:
+                        description:
+                            - A string to represent the first suboption value.
+                    value2:
+                        description:
+                            - A string to represent the second suboption value.
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -78,6 +146,41 @@ options:
     subscriber_discovery:
         description:
             - Manages the subscriber discovery attributes.
+        suboptions:
+            enabled:
+                description:
+                    - To enable or disable subscriber discovery.
+                default: false
+                choices: ['true', 'false']
+            subscriber_id:
+                description:
+                    - Manages the subscriber-id attributes.
+                suboptions:
+                    format:
+                        description:
+                            - Specifies the user-name format.
+                        choices: ['mac-address', 'mac-and-relay-id', 'tcl-snippet']
+                    suboption_id1:
+                        description:
+                            - The relay-agent option (option 82) first suboption ID.
+                        default: 1
+                    suboption_id2
+                        description:
+                            - The relay-agent option (option 82) second suboption ID.
+                        default: 2
+                    separator1
+                        description:
+                            - A string that is used to concatenate the MAC address and the relay-agent info option (option 82)
+                              to create the authentication user-name.
+                        default: @
+                    separator2
+                        description:
+                            - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1 and 2 to
+                              create the authentication user-name.
+                        default: @
+                    tcl_snippet
+                        description:
+                            - A tcl snippet to format the user name.
     transaction_timeout:
         description:
             - Specifies DHCPv4 transaction timeout, in seconds.

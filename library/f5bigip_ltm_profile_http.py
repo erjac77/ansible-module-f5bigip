@@ -58,6 +58,100 @@ options:
     enforcement:
         description:
             - Specifies protocol enforcement options for the HTTP profile.
+        suboptions:
+            excess_client_headers:
+                description:
+                    - Specifies the pass-through behavior when max-header-count is exceeded by the client.
+                default: disabled
+                choices: ['enabled', 'disabled']
+            excess_server_headers:
+                description:
+                    - Specifies the pass-through behavior when max-header-count is exceeded by the server.
+                default: disabled
+                choices: ['enabled', 'disabled']
+            known_methods:
+                description:
+                    - Specifies the HTTP methods known by the HTTP filter.
+            max_header_size:
+                description:
+                    - Specifies the maximum header size.
+                default: 32768
+            max_header_count:
+                description:
+                    - Specifies the maximum number of headers in HTTP request or response that will be handled.
+                default: 64
+            max_requests:
+                description:
+                    - Specifies the number of requests that the system accepts on a per-connection basis.
+                default: 0
+            oversize_client_headers:
+                description:
+                    - Specifies the pass-through behavior when max-header-size is exceeded by the client.
+                default: disabled
+                choices: ['enabled', 'disabled']
+            oversize_server_headers:
+                description:
+                    - Specifies the pass-through behavior when max-header-size is exceeded by the server.
+                default: disabled
+                choices: ['enabled', 'disabled']
+            pipeline:
+                description:
+                    - Enables or disables HTTP/1.1 pipelining.
+                default: allow
+                choices: ['allow', 'pass-through', 'reject']
+            truncated_redirects:
+                description:
+                    - Specifies the pass-through behavior when a redirect lacking the trailing carriage-return and line feed
+                      pair at the end of the headers is parsed.
+                default: disabled
+                choices: ['enabled', 'disabled']
+            unknown_method:
+                description:
+                    - Specifies the behavior when an unknown method is seen.
+                default: allow
+                choices: ['allow', 'pass-through', 'reject']
+    explicit_proxy:
+        description:
+            - Specifies explicit settings for the HTTP profile.
+        suboptions:
+            enabled:
+                description:
+                    - Specifies whether the explicit proxy service is enabled or disabled.
+                default: no
+                choices: ['no', 'yes']
+            dns_resolver:
+                description:
+                    - Specifies the dns-resolver object that will be used to resolve hostnames in proxy requests.
+                default: dns-resolver
+            tunnel_name:
+                description:
+                    - Specifies the tunnel that will be used for outbound proxy requests.
+                default: http-tunnel
+            route_domain:
+                description:
+                    - Specifies the route-domain that will be used for outbound proxy requests.
+                default: 0
+            default_connect_handling:
+                description:
+                    - Specifies the behavior of the proxy service for CONNECT requests.
+                default: deny
+                choices: ['deny', 'allow']
+            connect_error_message:
+                description:
+                    - Specifies the error message that will be returned to the browser when a proxy request can't be
+                      completed because of a failure to establish the outbound connection.
+            dns_error_message:
+                description:
+                    - Specifies the error message that will be returned to the browser when a proxy request can't be
+                      completed because of a failure to resolve the hostname in the request.
+            bad_request_message:
+                description:
+                    - Specifies the error message that will be returned to the browser when a proxy request can't be
+                      completed because the request was malformed.
+            bad_response_message:
+                description:
+                    - Specifies the error message that will be returned to the browser when a proxy request can't be
+                      completed because the response was malformed.
     fallback_host:
         description:
             - Specifies an HTTP fallback host.
@@ -118,12 +212,30 @@ options:
         description:
             - Specifies the string used as the server name in traffic generated by LTM.
         default: BigIP
-    explicit_proxy:
-        description:
-            - Specifies explicit settings for the HTTP profile.
     sflow:
         description:
             - Specifies sFlow settings for the HTTP profile.
+        suboptions:
+            poll_interval:
+                description:
+                    - Specifies the maximum interval in seconds between two pollings.
+                default: 0
+            poll_interval_global:
+                description:
+                    - Specifies whether the global HTTP poll-interval setting, which is available under sys sflow
+                      global-settings module, overrides the object-level poll-interval setting.
+                default: yes
+                choices: ['no', 'yes']
+            sampling_rate:
+                description:
+                    - Specifies the ratio of packets observed to the samples generated.
+                default: 0
+            sampling_rate_global:
+                description:
+                    - Specifies whether the global HTTP sampling-rate setting, which is available under sys sflow
+                      global-settings module, overrides the object-level sampling-rate setting.
+                default: yes
+                choices: ['no', 'yes']
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -188,6 +300,7 @@ class ModuleParams(object):
             encrypt_cookie_secret=dict(type='str'),
             encrypt_cookies=dict(type='str'),
             enforcement=dict(type='dict'),
+            explicit_proxy=dict(type='dict'),
             fallback_host=dict(type='str'),
             fallback_status_codes=dict(type='int'),
             header_erase=dict(type='str'),
@@ -201,7 +314,6 @@ class ModuleParams(object):
             response_chunking=dict(type='str', choices=['unchunk', 'rechunk', 'preserve', 'selective']),
             response_headers_permitted=dict(type='str'),
             server_agent_name=dict(type='str'),
-            explicit_proxy=dict(type='dict'),
             sflow=dict(type='dict'),
             via_host_name=dict(type='str'),
             via_request=dict(type='str', choices=['append', 'preserve', 'remove']),
