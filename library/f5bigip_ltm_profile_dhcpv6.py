@@ -119,7 +119,7 @@ options:
                       or not.
                 default: false
                 choices: ['true', 'false']
-            enterprise-number:
+            enterprise_number:
                 description:
                     - Specifies the enterprise number of the inserted remote-id option (option 37).
             value:
