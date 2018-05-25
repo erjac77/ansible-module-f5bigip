@@ -55,21 +55,21 @@ options:
                         description:
                             - The relay-agent option (option 82) first suboption ID.
                         default: 1
-                    suboption_id2
+                    suboption_id2:
                         description:
                             - The relay-agent option (option 82) second suboption ID.
                         default: 2
-                    separator1
+                    separator1:
                         description:
                             - A string that is used to concatenate the MAC address and the relay-agent info option (option 82)
                               to create the authentication user-name.
                         default: @
-                    separator2
+                    separator2:
                         description:
                             - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1 and 2 to
                               create the authentication user-name.
                         default: @
-                    tcl_snippet
+                    tcl_snippet:
                         description:
                             - A tcl snippet to format the user name.
             virtual:
@@ -164,21 +164,21 @@ options:
                         description:
                             - The relay-agent option (option 82) first suboption ID.
                         default: 1
-                    suboption_id2
+                    suboption_id2:
                         description:
                             - The relay-agent option (option 82) second suboption ID.
                         default: 2
-                    separator1
+                    separator1:
                         description:
                             - A string that is used to concatenate the MAC address and the relay-agent info option (option 82)
                               to create the authentication user-name.
                         default: @
-                    separator2
+                    separator2:
                         description:
                             - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1 and 2 to
                               create the authentication user-name.
                         default: @
-                    tcl_snippet
+                    tcl_snippet:
                         description:
                             - A tcl snippet to format the user name.
     transaction_timeout:

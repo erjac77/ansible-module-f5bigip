@@ -108,7 +108,6 @@ options:
             pool: 
                 description:
                     - Specifies the name of a SNAT pool used by the specified listener.
-
             type: 
                 description:
                     - Specifies the type of source address translation associated with the specified listener.
