@@ -185,8 +185,16 @@ options:
             - Specifies an IP address or network from which the virtual server will accept traffic.
     source_address_translation:
         description:
-            - Specifies the type of source address translation enabled for the virtual server as well as the pool that
-              the source address translation will use.
+            - Specifies the type of source address translation enabled for the listener as well as the pool that the
+              source address translation will use.
+        suboptions:
+            pool: 
+                description:
+                    - Specifies the name of a SNAT pool used by the specified listener.
+            type: 
+                description:
+                    - Specifies the type of source address translation associated with the specified listener.
+                choices: ['automap', 'lsn', 'none', 'snat']
     source_port:
         description:
             - Specifies whether the system preserves the source port of the connection.

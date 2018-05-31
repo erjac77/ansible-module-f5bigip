@@ -49,6 +49,27 @@ options:
             - Specifies a range of numbers that you want the system to use in conjunction with the ratio load balancing
               method.
         default: 1
+    fqdn:
+        description:
+            - Specifies the attributes for defining a fully qualified domain name for the node.
+        suboptions:
+            address_family:
+                description:
+                    - Specifies whether the fqdn should consider IPv4, IPv6, or IP-agnostic address family.
+            autopopulate:
+                description:
+                    - Specifies whether a node defined by a fully-qualified domain name should automatically scale
+                      to the set of IP addresses returned by the DNS query.
+                choices: ['enabled', 'disabled']
+            down_interval:
+                description:
+                    - Specifies the interval for the domain name resolution operation when a DNS query fails.
+            interval:
+                description:
+                    - Specifies the interval to instantiate DNS queries on a fully-qualified domain name.
+            name:
+                description:
+                    - Specifies the fully-qualified domain name of the node.
     inherit_profile:
         description:
             - Specifies whether the pool member inherits the encapsulation profile from the parent pool.

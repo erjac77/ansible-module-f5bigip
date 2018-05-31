@@ -104,6 +104,14 @@ options:
         description:
             - Specifies the type of source address translation enabled for the listener as well as the pool that the
               source address translation will use.
+        suboptions:
+            pool: 
+                description:
+                    - Specifies the name of a SNAT pool used by the specified listener.
+            type: 
+                description:
+                    - Specifies the type of source address translation associated with the specified listener.
+                choices: ['automap', 'none', 'snat']
     source_port:
         description:
             - Specifies whether the system preserves the source port of the connection.
