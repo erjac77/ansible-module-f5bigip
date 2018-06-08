@@ -50,6 +50,8 @@ ansible-galaxy install erjac77.module-f5bigip
         state: present
 ```
 
+You can find more examples in the [Wiki](https://github.com/erjac77/ansible-module-f5bigip/wiki).
+
 ## LICENSE
 
 Apache 2.0
