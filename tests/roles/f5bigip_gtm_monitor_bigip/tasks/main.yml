@@ -1,6 +1,6 @@
 ---
 
-- name: Create GTM BIP-IP Monitor
+- name: Create GTM BIG-IP Monitor
   f5bigip_gtm_monitor_bigip:
     f5_hostname: "{{ bigip_host }}"
     f5_username: "{{ bigip_username }}"
