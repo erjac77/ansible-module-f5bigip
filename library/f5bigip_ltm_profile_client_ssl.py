@@ -268,9 +268,8 @@ options:
             - Specifies SSL sign hash algorithm which is used to sign and verify SSL Server Key Exchange and Certificate
               Verify messages for the specified SSL profiles.
         default: sha1
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

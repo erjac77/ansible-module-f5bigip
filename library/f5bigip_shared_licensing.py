@@ -31,9 +31,8 @@ version_added: "2.4"
 author:
     - "Gabriel Fortin (@GabrielFortin)"
 options:
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

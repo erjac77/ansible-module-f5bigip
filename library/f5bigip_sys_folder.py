@@ -59,9 +59,8 @@ options:
         description:
             - Adds this folder and its configuration items to an existing traffic group.
         default: false
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

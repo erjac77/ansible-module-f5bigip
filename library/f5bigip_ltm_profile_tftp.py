@@ -63,7 +63,12 @@ options:
             - Specifies the state of the component on the BIG-IP system.
         default: present
         choices: ['absent', 'present']
+requirements:
+    - BIG-IP >= 12.0
+    - ansible-common-f5
+    - f5-sdk
 '''
+
 EXAMPLES = '''
 - name: Create LTM TFTP Profile
   f5bigip_ltm_profile_tftp:

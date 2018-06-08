@@ -76,9 +76,8 @@ options:
             - Specifies the security model to use.
         default: 2c
         choices: ['1', '2c', '3']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

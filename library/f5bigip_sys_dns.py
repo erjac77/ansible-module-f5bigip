@@ -40,9 +40,8 @@ options:
     search:
         description:
             - Configures a list of domain names in a specific order.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

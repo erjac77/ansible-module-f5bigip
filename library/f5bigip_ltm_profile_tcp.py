@@ -360,7 +360,12 @@ options:
             - Specifies the timeout in milliseconds for terminating a connection with an effective zero length TCP
               transmit window.
         default: 2000
+requirements:
+    - BIG-IP >= 12.0
+    - ansible-common-f5
+    - f5-sdk
 '''
+
 EXAMPLES = '''
 - name: Create LTM TCP Profile
   f5bigip_ltm_profile_tcp:
@@ -397,8 +402,7 @@ class ModuleParams(object):
             cmetrics_cache=dict(type='str', choices=F5_ACTIVATION_CHOICES),
             congestion_control=dict(type='str',
                                     choices=['cdg', 'chd', 'cubic', 'high-speed', 'illinois', 'new-reno', 'none',
-                                             'reno',
-                                             'scalable', 'vegas', 'westwood', 'woodside']),
+                                             'reno', 'scalable', 'vegas', 'westwood', 'woodside']),
             defaults_from=dict(type='str'),
             deferred_accept=dict(type='str', choices=F5_ACTIVATION_CHOICES),
             delay_window_control=dict(type='str', choices=F5_ACTIVATION_CHOICES),

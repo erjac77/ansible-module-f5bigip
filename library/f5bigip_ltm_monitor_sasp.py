@@ -87,9 +87,8 @@ options:
         description:
             - Specifies the number of seconds the target has in which to respond to the monitor request.
         default: 100
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

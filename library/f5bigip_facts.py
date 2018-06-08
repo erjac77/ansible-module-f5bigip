@@ -62,10 +62,8 @@ options:
     top:
         description:
             - Specifies the first N rows of the result set.
-notes:
-    - Requires BIG-IP software version >= 11.6
-    - Doesn't support check mode
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''
@@ -170,7 +168,7 @@ class ModuleParams(object):
 
     @property
     def supports_check_mode(self):
-        return False
+        return True
 
 
 def main():

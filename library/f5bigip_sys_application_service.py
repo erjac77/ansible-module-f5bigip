@@ -71,9 +71,8 @@ options:
     variables:
         description:
             - The set of atomic variables and values that are passed to template scripts.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

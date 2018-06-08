@@ -74,9 +74,8 @@ options:
     statistics_sample_interval:
         description:
             - Specifies the sample interval in seconds of the message rate.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

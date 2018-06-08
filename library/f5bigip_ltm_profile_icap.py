@@ -61,9 +61,8 @@ options:
     user_agent:
         description:
             - Specifies the user-agent attribute to use in the ICAP header.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

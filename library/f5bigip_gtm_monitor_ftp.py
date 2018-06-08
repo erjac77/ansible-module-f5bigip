@@ -98,9 +98,8 @@ options:
     username:
         description:
             - Specifies the username, if the monitored target requires authentication.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''
@@ -151,7 +150,8 @@ class ModuleParams(object):
 
     @property
     def supports_check_mode(self):
-        return False
+        return True
+
 
 class F5BigIpGtmMonitorFtp(F5BigIpNamedObject):
     def _set_crud_methods(self):
@@ -169,7 +169,7 @@ def main():
     module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
-        obj = F5BigIpGtmMonitorFtp(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpGtmMonitorFtp(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

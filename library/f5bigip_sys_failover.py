@@ -49,9 +49,8 @@ options:
         description:
             - Specifies the traffic-group that should fail over to the Standby state, the traffic-group will become
               Active on another device.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

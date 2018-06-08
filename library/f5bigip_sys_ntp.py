@@ -40,9 +40,8 @@ options:
     timezone:
         description:
             - Specifies the time zone that you want to use for the system time.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

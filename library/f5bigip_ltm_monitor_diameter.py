@@ -108,9 +108,8 @@ options:
     vendor_specific_vendor_id:
         description:
             - Specifies the ID of a vendor-specific Diameter application.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

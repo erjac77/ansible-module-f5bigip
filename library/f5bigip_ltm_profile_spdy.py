@@ -99,9 +99,8 @@ options:
         description:
             - Specifies the total size of combined data frames, in bytes, SPDY will send in a single write.
         default: 16384
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

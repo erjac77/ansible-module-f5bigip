@@ -88,9 +88,8 @@ options:
             - Specifies whether the monitor operates in transparent mode.
         default: disabled
         choices: ['enabled', 'disabled']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''
@@ -138,7 +137,7 @@ class ModuleParams(object):
 
     @property
     def supports_check_mode(self):
-        return False
+        return True
 
 
 class F5BigIpGtmMonitorGatewayIcmp(F5BigIpNamedObject):
@@ -157,7 +156,7 @@ def main():
     module = AnsibleModule(argument_spec=params.argument_spec, supports_check_mode=params.supports_check_mode)
 
     try:
-        obj = F5BigIpGtmMonitorGatewayIcmp(check_mode=module.supports_check_mode, **module.params)
+        obj = F5BigIpGtmMonitorGatewayIcmp(check_mode=module.check_mode, **module.params)
         result = obj.flush()
         module.exit_json(**result)
     except Exception as exc:

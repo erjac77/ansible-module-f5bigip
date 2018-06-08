@@ -81,9 +81,8 @@ options:
             - Specifies the number of uppercase alpha characters that must be present in a password for the password to
               be valid.
         default: 0
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

@@ -48,9 +48,8 @@ options:
     network:
         description:
             - The subnet and netmask to be used for the route.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

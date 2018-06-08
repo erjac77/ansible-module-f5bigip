@@ -122,9 +122,8 @@ options:
             - Specifies the current state of the node.
         default: user-up
         choices: ['user-down', 'user-up']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

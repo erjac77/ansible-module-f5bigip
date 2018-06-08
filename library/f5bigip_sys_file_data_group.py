@@ -66,9 +66,8 @@ options:
             - Specifies the kind of data in the group.
         default: present
         choices: ['integer', 'ip', 'string']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

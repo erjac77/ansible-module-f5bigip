@@ -231,9 +231,8 @@ options:
             - Specifies the BIGIP action when the server certificate has untrusted CA.
         default: drop
         choices: ['drop', 'ignore']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

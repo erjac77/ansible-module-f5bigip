@@ -327,9 +327,8 @@ options:
     vlan_id:
         description:
             - Specifies that the Vlan ID should be selected.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

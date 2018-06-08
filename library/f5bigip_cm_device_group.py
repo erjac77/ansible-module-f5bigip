@@ -86,9 +86,8 @@ options:
             - Specifies the type of device group.
         default: sync-only
         choices: ['sync-only', 'sync-failover']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

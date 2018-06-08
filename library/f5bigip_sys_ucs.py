@@ -35,9 +35,8 @@ options:
         description:
             - Specifies a unique name for the component.
         required: true
-notes:
-    - Requires BIG-IP software version >= 12.0
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

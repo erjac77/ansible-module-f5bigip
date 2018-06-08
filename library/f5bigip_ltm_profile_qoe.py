@@ -44,9 +44,8 @@ options:
         description:
             - Specifies to monitor the QoE MOS score of video streams with the format of MP4 or FLV.
         choices: ['false', 'true']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

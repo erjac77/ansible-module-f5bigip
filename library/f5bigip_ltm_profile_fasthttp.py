@@ -148,9 +148,8 @@ options:
             - Specifies how the system handles closing a connection.
         default: disabled
         choices: ['disabled', 'enabled', 'fast']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

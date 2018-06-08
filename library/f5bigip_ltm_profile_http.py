@@ -257,9 +257,8 @@ options:
     xff_alternative_names:
         description:
             - Specifies alternative XFF headers instead of the default X-forwarded-for header.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

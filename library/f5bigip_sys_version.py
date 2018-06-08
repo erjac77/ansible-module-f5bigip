@@ -31,10 +31,8 @@ version_added: "2.4"
 author:
     - "Eric Jacob (@erjac77)"
 options:
-notes:
-    - Requires BIG-IP software version >= 11.6
-    - Doesn't support check mode
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

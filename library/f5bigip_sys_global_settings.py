@@ -110,9 +110,8 @@ options:
     username_prompt:
         description:
             - Specifies the text to present above the user name field on the system's login screen.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

@@ -56,9 +56,8 @@ options:
             - Specifies the source addresses with the specified community name that can access the management
               information base (MIB).
         default: default
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

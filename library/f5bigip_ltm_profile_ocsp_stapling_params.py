@@ -99,9 +99,8 @@ options:
             - Specifies whether the proxy server pool or the DNS resolver should be used for the connection to the OCSP
               responder.
         choices: ['disabled', 'enabled']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

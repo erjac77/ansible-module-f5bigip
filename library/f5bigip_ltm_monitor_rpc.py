@@ -97,9 +97,8 @@ options:
     version_number:
         description:
             - Specifies the number of the version for which you want the monitor to verify availability.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

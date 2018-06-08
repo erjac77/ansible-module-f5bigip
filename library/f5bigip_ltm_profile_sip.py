@@ -142,9 +142,8 @@ options:
     user_via_header:
         description:
             - Enables or disables the insertion of a Via header specified by a system administrator.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

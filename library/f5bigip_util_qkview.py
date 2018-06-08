@@ -61,9 +61,9 @@ options:
         type: bool
         default: false
 notes:
-    - Requires BIG-IP software version >= 12.0
     - See U(https://support.f5.com/csp/article/K23928121) for an overview of qkview command-line options.
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

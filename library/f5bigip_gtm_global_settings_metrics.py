@@ -96,9 +96,8 @@ options:
     port:
         description:
             - Specifies the port on which the listener listens for connections.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

@@ -135,9 +135,8 @@ options:
     tag:
         description:
             - Specifies a number that the system adds into the header of any frame passing through the VLAN.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

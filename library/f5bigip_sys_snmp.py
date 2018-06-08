@@ -87,9 +87,8 @@ options:
     trap_source:
         description:
             - Specifies the source of the SNMP trap.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

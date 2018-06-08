@@ -57,9 +57,8 @@ options:
         description:
             - Specifies the system version.
             - Required format is "<product> <version> <build>".
-notes:
-    - Requires BIG-IP software version >= 12.0
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

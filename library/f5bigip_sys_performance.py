@@ -35,9 +35,8 @@ options:
         description:
             - Specifies which module to use. For the moment, only all-stats is available.
         choices: ['all-stats']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

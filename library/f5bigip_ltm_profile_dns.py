@@ -115,9 +115,8 @@ options:
         description:
             - Indicates whether non-GTM and non-dns-express requests should be forwarded to the local BIND.
         choices: ['no', 'yes']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

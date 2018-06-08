@@ -156,9 +156,8 @@ options:
             - Specifies that the system checks the signature on the OCSP response.
         default: enabled
         choices: ['enabled', 'disabled']
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

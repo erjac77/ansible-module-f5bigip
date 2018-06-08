@@ -86,9 +86,8 @@ options:
     unicast-address:
         description:
             - Displays the set of unicast IP addresses used for failover.
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

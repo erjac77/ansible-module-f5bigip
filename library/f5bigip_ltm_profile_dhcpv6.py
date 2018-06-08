@@ -61,14 +61,14 @@ options:
                         default: 2
                     separator1:
                         description:
-                            - A string that is used to concatenate the MAC address and the relay-agent info option (option 82)
-                              to create the authentication user-name.
-                        default: @
+                            - A string that is used to concatenate the MAC address and the relay-agent info option
+                              (option 82) to create the authentication user-name.
+                        default: '@'
                     separator2:
                         description:
-                            - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1 and 2 to
-                              create the authentication user-name.
-                        default: @
+                            - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1
+                              and 2 to create the authentication user-name.
+                        default: '@'
                     tcl_snippet:
                         description:
                             - A tcl snippet to format the user name.
@@ -115,8 +115,8 @@ options:
                 choices: ['true', 'false']
             remove:
                 description:
-                    - Specifies if the user wants the DHCP relay agent to remove option 37 from the server-to-client traffic
-                      or not.
+                    - Specifies if the user wants the DHCP relay agent to remove option 37 from the server-to-client
+                      traffic or not.
                 default: false
                 choices: ['true', 'false']
             enterprise_number:
@@ -157,14 +157,14 @@ options:
                         default: 2
                     separator1:
                         description:
-                            - A string that is used to concatenate the MAC address and the relay-agent info option (option 82)
-                              to create the authentication user-name.
-                        default: @
+                            - A string that is used to concatenate the MAC address and the relay-agent info option
+                              (option 82) to create the authentication user-name.
+                        default: '@'
                     separator2:
                         description:
-                            - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1 and 2 to
-                              create the authentication user-name.
-                        default: @
+                            - A string that is used to concatenate the relay-agent info option (option 82) suboptions 1
+                              and 2 to create the authentication user-name.
+                        default: '@'
                     tcl_snippet:
                         description:
                             - A tcl snippet to format the user name.
@@ -179,8 +179,8 @@ options:
                 choices: ['true', 'false']
             remove:
                 description:
-                    - Specifies if the user wants the DHCP relay agent to remove option 38 from the server-to-client traffic
-                      or not.
+                    - Specifies if the user wants the DHCP relay agent to remove option 38 from the server-to-client
+                      traffic or not.
                 default: false
                 choices: ['true', 'false']
             value:
@@ -190,9 +190,8 @@ options:
         description:
             - Specifies DHCPv6 transaction timeout, in seconds.
         default: 45
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''

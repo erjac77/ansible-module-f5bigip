@@ -37,9 +37,8 @@ options:
             - Specifies the bash command and arguments
             - Required format is '-c "<bash command and arguments>"'
         required: true
-notes:
-    - Requires BIG-IP software version >= 11.6
 requirements:
+    - BIG-IP >= 12.0
     - ansible-common-f5
     - f5-sdk
 '''
