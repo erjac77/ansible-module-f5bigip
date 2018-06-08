@@ -78,7 +78,7 @@ options:
         description:
             - Specifies option of not overwriting a key if it is in the scope.
         default: true
-        choices: [true, false]
+        type: bool
     partition:
         description:
             - Displays the administrative partition in which the component object resides.

@@ -39,7 +39,7 @@ options:
     all:
         description:
             - Specifies that you want to modify all of the existing components of the specified type.
-        choices: [true, false]
+        type: bool
     app_service:
         description:
             - Specifies the application service that the object belongs to.
@@ -75,12 +75,12 @@ options:
         description:
             - Specifies the state of the virtual server.
         default: false
-        choices: [true, false]
+        type: bool
     enabled:
         description:
             - Specifies the state of the virtual server.
         default: true
-        choices: [true, false]
+        type: bool
     fallback_persistence:
         description:
             - Specifies a fallback persistence profile for the virtual server to use when the default persistence
@@ -176,7 +176,7 @@ options:
     reject:
         description:
             - Specifies that the BIG-IP system rejects any traffic destined for the virtual server IP address.
-        choices: [true, false]
+        type: bool
     rules:
         description:
             - Specifies a list of iRules, that customize the virtual server to direct and manage traffic.
@@ -220,12 +220,12 @@ options:
         description:
             - Disables the virtual server on the VLANs specified in the vlans option.
         default: true
-        choices: [true, false]
+        type: bool
     vlans_enabled:
         description:
             - Enables the virtual server on the VLANs specified in the vlans option.
         default: false
-        choices: [true, false]
+        type: bool
 requirements:
     - BIG-IP >= 12.0
     - ansible-common-f5

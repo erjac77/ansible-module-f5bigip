@@ -52,7 +52,7 @@ options:
             - Specifies that the entire configuration for a device group is sent when configuration synchronization is
               performed.
         default: false
-        choices: [true, false]
+        type: bool
     incremental_config_sync_size_max:
         description:
             - Specifies the maximum size (in KB) to devote to incremental config sync cached transactions.
@@ -75,7 +75,7 @@ options:
             - Specifies whether to save the configuration on the remote devices following an automatic configuration
               synchronization.
         default: false
-        choices: [true, false]
+        type: bool
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.

@@ -199,7 +199,7 @@ options:
         description:
             - APM module requires storing certificate in SSL session.
         default: true
-        choices: [true, false]
+        type: bool
     secure_renegotiation:
         description:
             - Specifies the secure renegotiation mode.
@@ -223,7 +223,7 @@ options:
         description:
             - When true, this profile is the default SSL profile when the server name in a client connection does not
               match any configured server names, or a client connection does not specify any server name at all.
-        choices: [true, false]
+        type: bool
     sni_require:
         description:
             - When this option is enabled, a client connection that does not specify a known server name or does not

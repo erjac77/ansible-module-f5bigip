@@ -48,7 +48,7 @@ options:
             - Indicates if the virtual address will be deleted automatically on deletion of the last associated virtual
               server or not.
         default: true
-        choices: [true, false]
+        type: bool
     connection_limit:
         description:
             - Sets a concurrent connection limit for one or more virtual servers.

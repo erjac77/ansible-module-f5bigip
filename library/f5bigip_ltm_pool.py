@@ -34,7 +34,7 @@ options:
     all:
         description:
             - Specifies that you want to modify all of the existing components of the specified type.
-        choices: [true, false]
+        type: bool
     allow_nat:
         description:
             - Specifies whether the pool can load balance network address translation (NAT) connections.
