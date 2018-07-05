@@ -3,5 +3,6 @@
 - name: Test the f5bigip_ltm_profile_response_adapt module
   hosts: all
   connection: local
+  gather_facts: no
   roles:
     - f5bigip_ltm_profile_response_adapt
