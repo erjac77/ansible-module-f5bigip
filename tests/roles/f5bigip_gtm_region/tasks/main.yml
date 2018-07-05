@@ -9,7 +9,6 @@
     name: "{{ region_name }}"
     description: "{{ region_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Region
@@ -26,7 +25,6 @@
     name: "{{ region_name }}"
     description: "{{ region_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Region (idempotent)
@@ -42,7 +40,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     description: "new {{ region_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify GTM Region description
@@ -58,7 +55,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     description: "new {{ region_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify GTM Region description (idempotent)
@@ -74,7 +70,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Region
@@ -90,7 +85,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ region_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Region (idempotent)

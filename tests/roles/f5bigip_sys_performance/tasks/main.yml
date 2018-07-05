@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name: "{{ performance_name }}"
-  delegate_to: localhost
   register: result
 
 - name: Display SYS Performance all-stats

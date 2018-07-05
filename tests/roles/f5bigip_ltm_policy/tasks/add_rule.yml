@@ -9,5 +9,4 @@
     policy: "/{{ bigip_partition }}/{{ policy_drafts | default('Drafts') }}/{{ policy.name }}"
     ordinal: "{{ rule.ordinal | default(omit) }}"
     state: present
-  delegate_to: localhost
   register: result

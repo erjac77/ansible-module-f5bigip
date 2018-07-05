@@ -12,7 +12,6 @@
     send: "{{ monitor_send_string }}"
     recv: "{{ monitor_recv_string }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM TCP Monitor
@@ -32,7 +31,6 @@
     send: "{{ monitor_send_string }}"
     recv: "{{ monitor_recv_string }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM TCP Monitor (idempotent)
@@ -51,7 +49,6 @@
     description: "new {{ monitor_description }}"
     interval: "{{ monitor_interval }}"
     timeout: "{{ monitor_timeout }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM TCP Monitor description, interval and timeout
@@ -70,7 +67,6 @@
     description: "new {{ monitor_description }}"
     interval: "{{ monitor_interval }}"
     timeout: "{{ monitor_timeout }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM TCP Monitor description, interval and timeout (idempotent)
@@ -87,7 +83,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM TCP Monitor
@@ -104,7 +99,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM TCP Monitor (idempotent)

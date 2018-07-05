@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Datacenter
@@ -25,7 +24,6 @@
     name: "{{ topology_name }}"
     description: "{{ topology_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Topology
@@ -42,7 +40,6 @@
     name: "{{ topology_name }}"
     description: "{{ topology_description }}"
     state: present
-  delegate_to: localhost
   register: result
   ignore_errors: yes
 
@@ -59,7 +56,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ topology_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Topology
@@ -75,7 +71,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ topology_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Topology (idempotent)
@@ -91,7 +86,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Datacenter

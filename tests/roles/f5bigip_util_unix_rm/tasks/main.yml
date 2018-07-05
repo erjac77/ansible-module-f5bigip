@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ file_filepathname }}"
-  delegate_to: localhost
 
 - name: Remove file
   f5bigip_util_unix_rm:
@@ -16,7 +15,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     path: "{{ unix_path }}"
-  delegate_to: localhost
   register: result
 
 - name: Show result (if command was successful, should be empty)

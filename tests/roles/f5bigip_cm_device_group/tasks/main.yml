@@ -10,7 +10,6 @@
     network_failover: "{{ device_group_network_failover }}"
     type: "{{ device_group_type }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create CM Device Group
@@ -28,7 +27,6 @@
     network_failover: "{{ device_group_network_failover }}"
     type: "{{ device_group_type }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create CM Device Group (idempotent)
@@ -46,7 +44,6 @@
     device_group: "{{ device_group_name }}"
     state: present
   with_items: "{{ devices }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add CM Device Group members
@@ -64,7 +61,6 @@
     device_group: "{{ device_group_name }}"
     state: present
   with_items: "{{ devices }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add CM Device Group members (idempotent)
@@ -82,7 +78,6 @@
     device_group: "{{ device_group_name }}"
     state: absent
   with_items: "{{ devices }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove CM Device Group members
@@ -100,7 +95,6 @@
     device_group: "{{ device_group_name }}"
     state: absent
   with_items: "{{ devices }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove CM Device Group members (idempotent)
@@ -116,7 +110,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ device_group_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete CM Device Group
@@ -132,7 +125,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ device_group_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete CM Device Group (idempotent)

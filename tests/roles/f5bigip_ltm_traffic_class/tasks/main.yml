@@ -14,7 +14,6 @@
     protocol: "{{ traffic_class_protocol }}"
     source_port: "{{ traffic_class_source_port }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Traffic Class
@@ -36,7 +35,6 @@
     protocol: "{{ traffic_class_protocol }}"
     source_port: "{{ traffic_class_source_port }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Traffic Class (idempotent)
@@ -54,7 +52,6 @@
     description: "new {{ traffic_class_description }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Traffic Class description
@@ -72,7 +69,6 @@
     description: "new {{ traffic_class_description }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Traffic Class description (idempotent)
@@ -89,7 +85,6 @@
     name: "{{ traffic_class_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Traffic Class
@@ -106,7 +101,6 @@
     name: "{{ traffic_class_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Traffic Class (idempotent)

@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     standby: "{{ failover_standby }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Run SYS Failover Standby
@@ -23,7 +22,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     standby: "{{ failover_standby }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Run SYS Failover Standby (idempotent)
@@ -38,7 +36,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     offline: "{{ failover_online }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Run SYS Failover Offline
@@ -53,7 +50,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     offline: "{{ failover_online }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Run SYS Failover Offline (idempotent)
@@ -68,7 +64,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     online: "{{ failover_offline }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Run SYS Failover Online
@@ -83,7 +78,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     online: "{{ failover_offline }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Run SYS Failover Online (idempotent)

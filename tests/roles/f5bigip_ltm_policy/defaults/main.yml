@@ -27,14 +27,14 @@ policies:
           - name: 0
             forward: True
             reset: True
-#        conditions:
-#          - name: 0
-#            http_uri: True
-#            contains: True
-#            values:
-#              - root.exe
-#              - admin.dll
-#              - cmd.exe
+        conditions:
+          - name: 0
+            http_uri: True
+            contains: True
+            values:
+              - root.exe
+              - admin.dll
+              - cmd.exe
         ordinal: 1
     strategy: /Common/first-match
   - name: xff
@@ -95,13 +95,13 @@ policies:
             tm_name: Content-type
             starts_with: True
             values:
-              - "text/"
+              - text/
           - name: 1
             cpu_usage: True
             response: True
             last_1min: True
             less_or_equal: True
             values:
-              - "5"
+              - 5
         ordinal: 1
     strategy: /Common/first-match

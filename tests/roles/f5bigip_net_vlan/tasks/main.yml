@@ -11,7 +11,6 @@
     description: "{{ vlan_description }}"
     tag: "{{ vlan_tag }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET VLAN
@@ -30,7 +29,6 @@
     description: "{{ vlan_description }}"
     tag: "{{ vlan_tag }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET VLAN (idempotent)
@@ -47,7 +45,6 @@
     name: "{{ vlan_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ vlan_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Change NET VLAN description
@@ -64,7 +61,6 @@
     name: "{{ vlan_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ vlan_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Change NET VLAN description (idempotent)
@@ -84,7 +80,6 @@
     vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
     state: present
   with_items: "{{ vlan_interfaces }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add NET VLAN Interfaces
@@ -104,7 +99,6 @@
     vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
     state: present
   with_items: "{{ vlan_interfaces }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add NET VLAN Interfaces (idempotent)
@@ -122,7 +116,6 @@
     vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
     state: absent
   with_items: "{{ vlan_interfaces }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove NET VLAN Interfaces
@@ -140,7 +133,6 @@
     vlan: "/{{ bigip_partition }}/{{ vlan_name }}"
     state: absent
   with_items: "{{ vlan_interfaces }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove NET VLAN Interfaces (idempotent)
@@ -157,7 +149,6 @@
     name: "{{ vlan_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET VLAN
@@ -174,7 +165,6 @@
     name: "{{ vlan_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET VLAN (idempotent)

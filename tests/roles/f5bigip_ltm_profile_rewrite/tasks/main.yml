@@ -9,7 +9,6 @@
     name: "{{ profile_rewrite_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Rewrite
@@ -26,7 +25,6 @@
     name: "{{ profile_rewrite_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Rewrite (idempotent)
@@ -44,7 +42,6 @@
     partition: "{{ bigip_partition }}"
     location_specific: "{{ profile_rewrite_location_specific }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Rewrite location-specific
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     location_specific: "{{ profile_rewrite_location_specific }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Rewrite location-specific (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_rewrite_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Rewrite
@@ -96,7 +91,6 @@
     name: "{{ profile_rewrite_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Rewrite (idempotent)

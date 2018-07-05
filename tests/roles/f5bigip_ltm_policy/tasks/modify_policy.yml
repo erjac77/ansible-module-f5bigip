@@ -10,5 +10,4 @@
     sub_path: "{{ policy_drafts | default('Drafts') }}"
     description: "new {{ policy.description | default(omit) }}"
     state: present
-  delegate_to: localhost
   register: result

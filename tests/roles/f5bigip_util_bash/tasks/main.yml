@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     cmd_args: "{{ item.cmd_args }}"
   with_items: "{{ bash_commands }}"
-  delegate_to: localhost
   register: result
 
 - name: Display Bash command output

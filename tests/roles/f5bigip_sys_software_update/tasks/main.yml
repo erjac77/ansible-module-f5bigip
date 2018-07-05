@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     frequency: "{{ software_update_frequency }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Software Update frequency
@@ -22,7 +21,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     frequency: "{{ software_update_frequency }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Software Update frequency (idempotent)
@@ -37,7 +35,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     frequency: "{{ software_update_frequency_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Software Update frequency back to default
@@ -52,7 +49,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     frequency: "{{ software_update_frequency_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Software Update frequency back to default (idempotent)

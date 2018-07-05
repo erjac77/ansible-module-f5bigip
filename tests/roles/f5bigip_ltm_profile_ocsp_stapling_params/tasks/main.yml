@@ -9,7 +9,6 @@
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Create LTM Profile OCSP Stapling Params
@@ -24,7 +23,6 @@
     trusted_ca: "{{ profile_ocsp_stapling_params_trusted_ca }}"
     use_proxy_server: "{{ profile_ocsp_stapling_params_use_proxy_server }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile OCSP Stapling Params
@@ -44,7 +42,6 @@
     trusted_ca: "{{ profile_ocsp_stapling_params_trusted_ca }}"
     use_proxy_server: "{{ profile_ocsp_stapling_params_use_proxy_server }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile OCSP Stapling Params (idempotent)
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     sign_hash: "{{ profile_ocsp_stapling_params_sign_hash }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile OCSP Stapling Params Sign Hash
@@ -80,7 +76,6 @@
     partition: "{{ bigip_partition }}"
     sign_hash: "{{ profile_ocsp_stapling_params_sign_hash }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile OCSP Stapling Params Sign Hash (idempotent)
@@ -97,7 +92,6 @@
     name: "{{ profile_ocsp_stapling_params_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile OCSP Stapling Params
@@ -114,7 +108,6 @@
     name: "{{ profile_ocsp_stapling_params_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile OCSP Stapling Params (idempotent)
@@ -131,5 +124,4 @@
     name: "{{ dns_resolver_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result

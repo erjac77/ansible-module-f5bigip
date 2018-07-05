@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ key_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Upload SYS Crypto Key
@@ -25,7 +24,6 @@
     command: install
     from_local_file: "{{ key_path }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Install SYS Crypto Key from local file
@@ -40,7 +38,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ cert_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Upload SYS Crypto Cert
@@ -58,7 +55,6 @@
     command: install
     from_local_file: "{{ cert_path }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Install SYS Crypto Cert from local file
@@ -80,7 +76,6 @@
     ciphers: "{{ profile_ciphers }}"
     tm_options: "{{ profile_options }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Client SSL profile
@@ -100,7 +95,6 @@
     key: "/{{ bigip_partition }}/{{ key_name }}"
     cert: "/{{ bigip_partition }}/{{ cert_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Client SSL profile (idempotent)
@@ -117,7 +111,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Client SSL profile description
@@ -134,7 +127,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Client SSL profile description (idempotent)
@@ -151,7 +143,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Client SSL profile
@@ -168,7 +159,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Client SSL profile (idempotent)
@@ -184,7 +174,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ cert_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS Crypto Cert
@@ -200,7 +189,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ key_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS Crypto Key

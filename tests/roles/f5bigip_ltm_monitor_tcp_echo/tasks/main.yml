@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_tcp_echo_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor TCP Echo
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_tcp_echo_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor TCP Echo (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_tcp_echo_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor TCP Echo description
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_tcp_echo_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor TCP Echo description (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ monitor_tcp_echo_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor TCP Echo
@@ -98,7 +93,6 @@
     name: "{{ monitor_tcp_echo_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor TCP Echo (idempotent)

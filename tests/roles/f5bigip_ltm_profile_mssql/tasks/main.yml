@@ -9,7 +9,6 @@
     name: "{{ profile_mssql_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile MSSQL
@@ -26,7 +25,6 @@
     name: "{{ profile_mssql_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile MSSQL (idempotent)
@@ -44,7 +42,6 @@
     partition: "{{ bigip_partition }}"
     user_can_write_by_default: "{{ profile_mssql_user_can_write_by_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile MSSQL user-can-write-by-default
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     user_can_write_by_default: "{{ profile_mssql_user_can_write_by_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile MSSQL user-can-write-by-default (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_mssql_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile MSSQL
@@ -96,7 +91,6 @@
     name: "{{ profile_mssql_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile MSSQL (idempotent)

@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM HTTPS Monitor
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM HTTPS Monitor (idempotent)
@@ -45,7 +43,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM HTTPS Monitor description
@@ -62,7 +59,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM HTTPS Monitor description (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM HTTPS Monitor
@@ -96,7 +91,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM HTTPS Monitor (idempotent)

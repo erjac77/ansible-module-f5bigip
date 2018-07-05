@@ -9,7 +9,6 @@
     name: "{{ profile_fix_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile FIX
@@ -26,7 +25,6 @@
     name: "{{ profile_fix_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile FIX (idempotent)
@@ -44,7 +42,6 @@
     partition: "{{ bigip_partition }}"
     quick_parsing: "{{ profile_fix_quick_parsing }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile FIX quick-parsing
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     quick_parsing: "{{ profile_fix_quick_parsing }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile FIX quick-parsing (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_fix_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile FIX
@@ -96,7 +91,6 @@
     name: "{{ profile_fix_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile FIX (idempotent)

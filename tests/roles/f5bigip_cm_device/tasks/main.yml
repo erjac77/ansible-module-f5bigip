@@ -13,7 +13,6 @@
     ha_capacity: "{{ device_ha_capacity }}"
     location: "{{ device_location }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device Properties
@@ -34,7 +33,6 @@
     ha_capacity: "{{ device_ha_capacity }}"
     location: "{{ device_location }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device Properties (idempotent)
@@ -55,7 +53,6 @@
     ha_capacity: 0
     location: ''
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset CM Device Properties
@@ -72,7 +69,6 @@
     name: "{{ device_name }}"
     configsync_ip: "{{ device_configsync_ip }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device ConfigSync
@@ -89,7 +85,6 @@
     name: "{{ device_name }}"
     configsync_ip: "{{ device_configsync_ip }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device ConfigSync (idempotent)
@@ -106,7 +101,6 @@
     name: "{{ device_name }}"
     configsync_ip: none
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset CM Device ConfigSync
@@ -126,7 +120,6 @@
     multicast_port: "{{ device_failover_multicast_port }}"
     unicast_address: "{{ device_failover_unicast_addresses }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device Failover
@@ -146,7 +139,6 @@
     multicast_port: "{{ device_failover_multicast_port }}"
     unicast_address: "{{ device_failover_unicast_addresses }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device Failover (idempotent)
@@ -166,7 +158,6 @@
     multicast_port: "{{ device_failover_multicast_port_default }}"
     unicast_address: "{{ device_failover_unicast_addresses_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset CM Device Failover
@@ -184,7 +175,6 @@
     mirror_ip: "{{ device_mirror_ip }}"
     mirror_secondary_ip: "{{ device_mirror_secondary_ip }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device Mirroring
@@ -202,7 +192,6 @@
     mirror_ip: "{{ device_mirror_ip }}"
     mirror_secondary_ip: "{{ device_mirror_secondary_ip }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Configure CM Device Mirroring (idempotent)
@@ -220,7 +209,6 @@
     mirror_ip: "{{ device_mirror_ip_default }}"
     mirror_secondary_ip: "{{ device_mirror_secondary_ip_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset CM Device Mirroring

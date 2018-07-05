@@ -13,5 +13,4 @@
     #requires: "{{ policy.requires | default(omit) }}"
     strategy: "{{ policy.strategy | default(omit) }}"
     state: present
-  delegate_to: localhost
   register: result

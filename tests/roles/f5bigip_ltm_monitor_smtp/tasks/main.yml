@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_smtp_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor SMTP
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_smtp_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor SMTP (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_smtp_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor SMTP description
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_smtp_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor SMTP description (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ monitor_smtp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor SMTP
@@ -98,7 +93,6 @@
     name: "{{ monitor_smtp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor SMTP (idempotent)

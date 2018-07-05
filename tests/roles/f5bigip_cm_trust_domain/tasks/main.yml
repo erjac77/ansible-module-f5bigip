@@ -9,7 +9,6 @@
     name: "{{ trust_domain_name }}"
     ca_devices: "{{ trust_domain_ca_devices_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove self device from CM Trust Domain
@@ -27,7 +26,6 @@
     name: "{{ trust_domain_name }}"
     ca_devices: "{{ trust_domain_ca_devices_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove self device from CM Trust Domain (idempotent)
@@ -44,7 +42,6 @@
     name: "{{ trust_domain_name }}"
     ca_devices: "{{ trust_domain_ca_devices }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Add self device to CM Trust Domain
@@ -61,7 +58,6 @@
     name: "{{ trust_domain_name }}"
     ca_devices: "{{ trust_domain_ca_devices }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Add self device to CM Trust Domain (idempotent)

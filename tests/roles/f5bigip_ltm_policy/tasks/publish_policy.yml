@@ -10,5 +10,4 @@
     sub_path: "{{ policy_drafts | default('Drafts') }}"
     publish: yes
     state: present
-  delegate_to: localhost
   register: result

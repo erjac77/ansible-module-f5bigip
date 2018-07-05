@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Datacenter
@@ -28,7 +27,6 @@
     description: "{{ server_description }}"
     product: "{{ server_product }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Server
@@ -47,7 +45,6 @@
     server: "{{ server_name }}"
     state: present
   with_items: "{{ server_virtual_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add GTM Server Virtual Servers
@@ -66,7 +63,6 @@
     description: "{{ pool_description }}"
     load_balancing_mode: "{{ pool_lb_mode }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Pool
@@ -85,7 +81,6 @@
     pool: "{{ pool_name }}"
     state: present
   with_items: "{{ server_virtual_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add GTM Pool Members
@@ -105,7 +100,6 @@
     pool_lb_mode: "{{ wideip_pool_lb_mode }}"
     pools: "{{ wideip_pools }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM WideIP
@@ -125,7 +119,6 @@
     pool_lb_mode: "{{ wideip_pool_lb_mode }}"
     pools: "{{ wideip_pools }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM WideIP (idempotent)
@@ -142,7 +135,6 @@
     name: "{{ wideip_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM WideIP
@@ -159,7 +151,6 @@
     name: "{{ wideip_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM WideIP (idempotent)
@@ -176,7 +167,6 @@
     name: "{{ pool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Pool
@@ -192,7 +182,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Server
@@ -208,7 +197,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Datacenter

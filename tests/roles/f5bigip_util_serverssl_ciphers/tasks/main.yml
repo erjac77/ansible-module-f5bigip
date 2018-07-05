@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     cipher_string: "{{ item.cipher_string }}"
   with_items: "{{ serverssl_cipher_strings }}"
-  delegate_to: localhost
   register: result
 
 - name: Display Server SSL Ciphers command output

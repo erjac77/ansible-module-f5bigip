@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_server_ldap_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Server LDAP
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_server_ldap_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Server LDAP (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_server_ldap_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile Server LDAP description
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_server_ldap_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile Server LDAP description (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ profile_server_ldap_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Server LDAP
@@ -98,7 +93,6 @@
     name: "{{ profile_server_ldap_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Server LDAP (idempotent)

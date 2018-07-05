@@ -22,5 +22,4 @@
     value: "{{ action.value | default(omit) }}"
     write: "{{ action.write | default(omit) }}"
     state: present
-  delegate_to: localhost
   register: result

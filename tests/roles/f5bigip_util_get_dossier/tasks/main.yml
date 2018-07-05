@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     base_key: "{{ get_dossier_base_key }}"
-  delegate_to: localhost
   register: result
 
 - name: Display Get Dossier command output

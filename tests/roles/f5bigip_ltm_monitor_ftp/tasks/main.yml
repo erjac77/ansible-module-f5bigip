@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM FTP Monitor
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM FTP Monitor (idempotent)
@@ -47,7 +45,6 @@
     description: "new {{ monitor_description }}"
     interval: "{{ monitor_interval }}"
     timeout: "{{ monitor_timeout }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM FTP Monitor description, interval and timeout
@@ -66,7 +63,6 @@
     description: "new {{ monitor_description }}"
     interval: "{{ monitor_interval }}"
     timeout: "{{ monitor_timeout }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM FTP Monitor description, interval and timeout (idempotent)
@@ -83,7 +79,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM FTP Monitor
@@ -100,7 +95,6 @@
     name: "{{ monitor_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM FTP Monitor (idempotent)

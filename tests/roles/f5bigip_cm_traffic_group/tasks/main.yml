@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ traffic_group_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create CM Traffic Group
@@ -24,7 +23,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ traffic_group_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create CM Traffic Group (idempotent)
@@ -41,7 +39,6 @@
     name: "{{ traffic_group_name }}"
     description: "{{ traffic_group_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify CM Traffic Group description
@@ -58,7 +55,6 @@
     name: "{{ traffic_group_name }}"
     description: "{{ traffic_group_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify CM Traffic Group description (idempotent)
@@ -74,7 +70,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ traffic_group_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete CM Traffic Group
@@ -90,7 +85,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ traffic_group_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete CM Traffic Group (idempotent)

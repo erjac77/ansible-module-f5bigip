@@ -9,5 +9,4 @@
     partition: "{{ bigip_partition }}"
     #sub_path: "{{ policy_drafts | default('Drafts') }}"
     state: absent
-  delegate_to: localhost
   register: result

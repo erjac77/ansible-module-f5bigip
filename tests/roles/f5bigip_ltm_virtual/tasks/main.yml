@@ -9,7 +9,6 @@
     name: "{{ pool_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Pool
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     members: "{{ snatpool_members }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Snatpool
@@ -59,7 +57,6 @@
     vlans: "{{ virtual_vlans }}"
     vlans_enabled: "{{ virtual_vlans_enabled }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Virtual Server
@@ -83,7 +80,6 @@
     vlans: "{{ virtual_vlans }}"
     vlans_enabled: "{{ virtual_vlans_enabled }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Virtual Server (idempotent)
@@ -104,7 +100,6 @@
     virtual: "/{{ bigip_partition }}/{{ virtual_name }}"
     state: present
   with_items: "{{ virtual_profiles }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Profiles
@@ -124,7 +119,6 @@
     virtual: "/{{ bigip_partition }}/{{ virtual_name }}"
     state: present
   with_items: "{{ virtual_profiles }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Profiles (idempotent)
@@ -143,7 +137,6 @@
     virtual: "/{{ bigip_partition }}/{{ virtual_name }}"
     state: present
   with_items: "{{ virtual_policies }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Policies
@@ -162,7 +155,6 @@
     virtual: "/{{ bigip_partition }}/{{ virtual_name }}"
     state: present
   with_items: "{{ virtual_policies }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Policies (idempotent)
@@ -181,7 +173,6 @@
     persist: "{{ virtual_persists }}"
     fallback_persistence: "{{ virtual_fallback_persistence }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Persistence
@@ -200,7 +191,6 @@
     persist: "{{ virtual_persists }}"
     fallback_persistence: "{{ virtual_fallback_persistence }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Persistence (idempotent)
@@ -220,7 +210,6 @@
       - "{{ item.name }}"
     state: present
   with_items: "{{ virtual_rules }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Rules
@@ -240,7 +229,6 @@
       - "{{ item.name }}"
     state: present
   with_items: "{{ virtual_rules }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Virtual Server Rules (idempotent)
@@ -257,7 +245,6 @@
     name: "{{ virtual_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Virtual Server
@@ -274,7 +261,6 @@
     name: "{{ virtual_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Virtual Server (idempotent)
@@ -291,7 +277,6 @@
     name: "{{ pool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Pool
@@ -308,7 +293,6 @@
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snatpool
@@ -326,7 +310,6 @@
     partition: "{{ bigip_partition }}"
     state: absent
   with_items: "{{ virtual_policies }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Policies

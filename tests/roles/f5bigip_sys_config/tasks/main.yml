@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     command: save
-  delegate_to: localhost
   register: result
 
 - name: Assert Save the running configuration
@@ -25,7 +24,6 @@
     options:
       - { "file": "{{ scf_filename }}" }
       - { "no-passphrase": true }
-  delegate_to: localhost
   register: result
 
 - name: Assert Save the configuration to a SCF file
@@ -42,7 +40,6 @@
     file_name: "{{ scf_filename }}"
     source_path: "{{ scf_files_path }}"
     dest_path: "{{ rest_madm_path }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Move the SCF file to madm folder
@@ -58,7 +55,6 @@
     f5_port: "{{ bigip_port }}"
     file_name: "{{ scf_filename }}"
     download_path: "{{ files_path }}/{{ scf_filename }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Download the SCF file
@@ -73,7 +69,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ files_path }}/{{ config_filename }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Upload the config files (nodes)
@@ -90,7 +85,6 @@
     file_name: "{{ config_filename }}"
     source_path: "{{ rest_downloads_path }}"
     dest_path: "{{ scf_files_path }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Move the config files (nodes)
@@ -107,7 +101,6 @@
     command: load
     merge: yes
     file: "{{ config_filename }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Load and merge the specified configuration (nodes)
@@ -126,7 +119,6 @@
   with_items:
     - my_loaded_node1
     - my_loaded_node2
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete loaded nodes

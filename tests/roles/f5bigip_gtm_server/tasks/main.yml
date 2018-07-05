@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Datacenter
@@ -28,7 +27,6 @@
     description: "{{ server_description }}"
     product: "{{ server_product }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Server
@@ -47,7 +45,6 @@
     datacenter: "/Common/{{ datacenter_name }}"
     description: "{{ server_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Server (idempotent)
@@ -66,7 +63,6 @@
     server: "{{ server_name }}"
     state: present
   with_items: "{{ server_virtual_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add GTM Server Virtual Servers
@@ -85,7 +81,6 @@
     server: "{{ server_name }}"
     state: present
   with_items: "{{ server_virtual_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add GTM Server Virtual Servers (idempotent)
@@ -102,7 +97,6 @@
     name: "{{ server_virtual_servers[0].name }}"
     server: "{{ server_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove GTM Server Virtual Server
@@ -119,7 +113,6 @@
     name: "{{ server_virtual_servers[0].name }}"
     server: "{{ server_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove GTM Server Virtual Server (idempotent)
@@ -135,7 +128,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Server
@@ -151,7 +143,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ server_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Server (idempotent)
@@ -167,7 +158,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Datacenter

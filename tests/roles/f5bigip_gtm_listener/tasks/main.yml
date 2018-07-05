@@ -13,7 +13,6 @@
     persist: "{{ listener_persist }}"
     source_address_translation: "{{ listener_source_address_translation }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Listener
@@ -34,7 +33,6 @@
     persist: "{{ listener_persist }}"
     source_address_translation: "{{ listener_source_address_translation }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Listener (idempotent)
@@ -52,7 +50,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ listener_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify GTM Listener description
@@ -70,7 +67,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ listener_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify GTM Listener description (idempotent)
@@ -90,7 +86,6 @@
     listener: "/{{ bigip_partition }}/{{ listener_name }}"
     state: present
   with_items: "{{ listener_profiles }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add GTM Listener Profiles
@@ -111,7 +106,6 @@
     listener: "/{{ bigip_partition }}/{{ listener_name }}"
     state: present
   with_items: "{{ listener_profiles }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add GTM Listener Profiles (idempotent)
@@ -128,7 +122,6 @@
     name: "{{ listener_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Listener
@@ -145,7 +138,6 @@
     name: "{{ listener_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Listener (idempotent)

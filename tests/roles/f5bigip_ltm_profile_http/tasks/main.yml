@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM HTTP profile
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM HTTP profile (idempotent)
@@ -49,7 +47,6 @@
     explicit_proxy: "{{ profile_explicit_proxy }}"
     sflow: "{{ profile_sflow }}"
     insert_xforwarded_for: "{{ profile_insert_xforwarded_for }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM HTTP profile description and insert_xforwarded_for
@@ -70,7 +67,6 @@
     explicit_proxy: "{{ profile_explicit_proxy }}"
     sflow: "{{ profile_sflow }}"
     insert_xforwarded_for: "{{ profile_insert_xforwarded_for }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM HTTP profile description and insert_xforwarded_for (idempotent)
@@ -87,7 +83,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM HTTP profile
@@ -104,7 +99,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM HTTP profile (idempotent)

@@ -9,7 +9,6 @@
     name: "{{ partition_name }}"
     description: "{{ partition_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create Auth Partition
@@ -26,7 +25,6 @@
     name: "{{ partition_name }}"
     description: "{{ partition_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create Auth Partition (idempotent)
@@ -42,7 +40,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ partition_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete Auth Partition
@@ -58,7 +55,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ partition_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete Auth Partition (idempotent)

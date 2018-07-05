@@ -9,7 +9,6 @@
     name: "{{ mgmt_route_name_default }}"
     gateway: "{{ mgmt_route_gateway }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Set SYS Management Route default gateway
@@ -26,7 +25,6 @@
     name: "{{ mgmt_route_name_default }}"
     gateway: "{{ mgmt_route_gateway }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Set SYS Management Route default gateway (idempotent)
@@ -44,7 +42,6 @@
     network: "{{ mgmt_route_network }}"
     gateway: "{{ mgmt_route_gateway }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create a SYS Management Route
@@ -62,7 +59,6 @@
     network: "{{ mgmt_route_network }}"
     gateway: "{{ mgmt_route_gateway }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create a SYS Management Route (idempotent)
@@ -80,7 +76,6 @@
     network: "{{ mgmt_route_network_default }}"
     gateway: "{{ mgmt_route_gateway_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset SYS Management Route to default settings
@@ -98,7 +93,6 @@
     network: "{{ mgmt_route_network_default }}"
     gateway: "{{ mgmt_route_gateway_default }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset SYS Management Route to default settings (idempotent)
@@ -114,7 +108,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ mgmt_route_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete a SYS Management Route
@@ -130,7 +123,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ mgmt_route_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete a SYS Management Route (idempotent)

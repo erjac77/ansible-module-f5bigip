@@ -8,11 +8,3 @@
   assert:
     that:
       - result|changed
-
-- name: Add LTM Policy Rule Condition {{ condition.name }} (idempotent)
-  include_tasks: add_rule_condition.yml
-
-- name: Add LTM Policy Rule Condition {{ condition.name }} (idempotent)
-  assert:
-    that:
-      - not result|changed

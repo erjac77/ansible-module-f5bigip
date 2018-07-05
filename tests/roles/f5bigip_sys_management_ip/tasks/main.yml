@@ -10,7 +10,6 @@
     mask: "{{ management_ip_mask }}"
     description: "{{ management_ip_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Management IP
@@ -28,7 +27,6 @@
     mask: "{{ management_ip_mask }}"
     description: "{{ management_ip_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Management IP (idempotent)
@@ -45,7 +43,6 @@
     name: "{{ management_ip_name }}"
     mask: "{{ management_ip_mask }}"
     description: "new {{ management_ip_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Management IP description
@@ -62,7 +59,6 @@
     name: "{{ management_ip_name }}"
     mask: "{{ management_ip_mask }}"
     description: "new {{ management_ip_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Management IP description (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ management_ip_name }}"
     mask: "{{ management_ip_mask }}"
     description: "{{ management_ip_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Management IP description back to default
@@ -97,7 +92,6 @@
     mask: "{{ management_ip_mask }}"
     description: "{{ management_ip_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create default SYS Management IP

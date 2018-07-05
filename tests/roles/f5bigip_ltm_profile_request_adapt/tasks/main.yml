@@ -9,7 +9,6 @@
     name: "{{ profile_request_adapt_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Request Adapt
@@ -26,7 +25,6 @@
     name: "{{ profile_request_adapt_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Request Adapt (idempotent)
@@ -44,7 +42,6 @@
     partition: "{{ bigip_partition }}"
     allow_http_10: "{{ profile_request_adapt_allow_http_10 }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile Request Adapt allow-http-10
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     allow_http_10: "{{ profile_request_adapt_allow_http_10 }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile Request Adapt allow-http-10 (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_request_adapt_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Request Adapt
@@ -96,7 +91,6 @@
     name: "{{ profile_request_adapt_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Request Adapt (idempotent)

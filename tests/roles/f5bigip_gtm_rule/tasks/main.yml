@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     api_anonymous: "{{ rule_api_anonymous }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Rule
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     api_anonymous: "{{ rule_api_anonymous }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Rule (idempotent)
@@ -45,7 +43,6 @@
     name: "{{ rule_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Rule
@@ -62,7 +59,6 @@
     name: "{{ rule_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Rule (idempotent)

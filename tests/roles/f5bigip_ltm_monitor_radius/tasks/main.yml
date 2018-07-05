@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_radius_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor RADIUS
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ monitor_radius_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor RADIUS (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_radius_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor RADIUS description
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_radius_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor RADIUS description (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ monitor_radius_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor RADIUS
@@ -98,7 +93,6 @@
     name: "{{ monitor_radius_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor RADIUS (idempotent)

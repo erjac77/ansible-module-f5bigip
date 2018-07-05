@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     address: "{{ virtual_address_address }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Virtual Address
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     address: "{{ virtual_address_address }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Virtual Address (idempotent)
@@ -45,7 +43,6 @@
     name: "{{ virtual_address_name }}"
     partition: "{{ bigip_partition }}"
     icmp_echo: "{{ virtual_address_icmp_echo }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Virtual Address icmp-echo
@@ -62,7 +59,6 @@
     name: "{{ virtual_address_name }}"
     partition: "{{ bigip_partition }}"
     icmp_echo: "{{ virtual_address_icmp_echo }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Virtual Address icmp-echo (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ virtual_address_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Virtual Address
@@ -96,7 +91,6 @@
     name: "{{ virtual_address_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Virtual Address (idempotent)

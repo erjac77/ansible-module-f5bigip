@@ -12,7 +12,6 @@
     tables: "{{ app_tables }}"
     variables: "{{ app_variables }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS App Service
@@ -32,7 +31,6 @@
     tables: "{{ app_tables }}"
     variables: "{{ app_variables }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS App Service (idempotent)
@@ -49,7 +47,6 @@
     name: "{{ app_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Delete SYS App Service
@@ -66,7 +63,6 @@
     name: "{{ app_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Delete SYS App Service (idempotent)

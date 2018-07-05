@@ -9,7 +9,6 @@
     name: "{{ profile_qoe_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile QoE
@@ -26,7 +25,6 @@
     name: "{{ profile_qoe_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile QoE (idempotent)
@@ -44,7 +42,6 @@
     partition: "{{ bigip_partition }}"
     video: "{{ profile_qoe_video }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile QoE video
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     video: "{{ profile_qoe_video }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile QoE video (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_qoe_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile QoE
@@ -96,7 +91,6 @@
     name: "{{ profile_qoe_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile QoE (idempotent)

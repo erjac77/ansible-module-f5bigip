@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_stream_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Stream
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_stream_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile Stream (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_stream_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile Stream description
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_stream_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile Stream description (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ profile_stream_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Stream
@@ -98,7 +93,6 @@
     name: "{{ profile_stream_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile Stream (idempotent)

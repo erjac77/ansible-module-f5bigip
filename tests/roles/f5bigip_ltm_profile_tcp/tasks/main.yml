@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM TCP profile
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM TCP profile (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
     nagle: "{{ profile_nagle }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM TCP profile description and nagle
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
     nagle: "{{ profile_nagle }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM TCP profile description and nagle (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM TCP profile
@@ -98,7 +93,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM TCP profile (idempotent)

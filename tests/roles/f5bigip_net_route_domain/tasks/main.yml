@@ -9,7 +9,6 @@
     name: "{{ rd_name }}"
     id: "{{ rd_id }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET Route-Domain
@@ -26,7 +25,6 @@
     name: "{{ rd_name }}"
     id: "{{ rd_id }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET Route-Domain (idempotent)
@@ -42,7 +40,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ rd_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET Route-Domain
@@ -58,7 +55,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ rd_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET Route-Domain (idempotent)

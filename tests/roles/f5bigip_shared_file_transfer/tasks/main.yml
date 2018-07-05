@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ dg_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Upload a Data Group List
@@ -22,7 +21,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ key_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Upload a Key
@@ -37,7 +35,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ cert_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Upload a Cert
@@ -54,7 +51,6 @@
     file_name: "{{ cert_filename }}"
     source_path: "{{ madm_source_path }}"
     dest_path: "{{ madm_dest_path }}"
-  delegate_to: localhost
 
 - name: Download Cert
   f5bigip_shared_file_transfer_madm:
@@ -64,7 +60,6 @@
     f5_port: "{{ bigip_port }}"
     file_name: "{{ cert_filename }}"
     download_path: "{{ cert_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Download Cert

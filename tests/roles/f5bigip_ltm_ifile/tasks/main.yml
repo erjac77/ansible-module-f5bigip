@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ sys_file_ifile_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Upload File
@@ -25,7 +24,6 @@
     partition: Common
     source_path: "{{ sys_file_ifile_source_path }}"
     state: present
-  delegate_to: localhost
 
 - name: Assert Create SYS iFile
   assert:
@@ -43,7 +41,6 @@
     description: "{{ ifile_description }}"
     file_name: "{{ ifile_file_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM iFile
@@ -62,7 +59,6 @@
     description: "{{ ifile_description }}"
     file_name: "{{ ifile_file_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM iFile (idempotent)
@@ -81,7 +77,6 @@
     description: "new {{ ifile_description }}"
     file_name: "{{ ifile_file_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM iFile description
@@ -100,7 +95,6 @@
     description: "new {{ ifile_description }}"
     file_name: "{{ ifile_file_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM iFile description (idempotent)
@@ -117,7 +111,6 @@
     name: "{{ ifile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM iFile
@@ -134,7 +127,6 @@
     name: "{{ ifile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM iFile (idempotent)
@@ -150,7 +142,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ sys_file_ifile_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS iFile

@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ ext_dg_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Upload LTM External Data-Group List
@@ -26,7 +25,6 @@
     source_path: "{{ ext_dg_source_path }}"
     type: string
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Data-Group file
@@ -45,7 +43,6 @@
     description: "{{ ext_dg_description }}"
     external_file_name: "/{{ bigip_partition }}/{{ ext_dg_filename }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM External Data-Group referencing the file
@@ -64,7 +61,6 @@
     description: "{{ ext_dg_description }}"
     external_file_name: "/{{ bigip_partition }}/{{ ext_dg_filename }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM External Data-Group referencing the file (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ ext_dg_name }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM External Data-Group
@@ -98,7 +93,6 @@
     name: "{{ ext_dg_name }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM External Data-Group (idempotent)
@@ -115,7 +109,6 @@
     name: "{{ ext_dg_filename }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS Data-Group file
@@ -135,7 +128,6 @@
     records: "{{ int_dg_records }}"
     type: "{{ int_dg_type }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Internal Data-Group
@@ -155,7 +147,6 @@
     records: "{{ int_dg_records }}"
     type: string
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Internal Data-Group (idempotent)
@@ -172,7 +163,6 @@
     name: "{{ int_dg_name }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Internal Data-Group
@@ -189,7 +179,6 @@
     name: "{{ int_dg_name }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Internal Data-Group (idempotent)

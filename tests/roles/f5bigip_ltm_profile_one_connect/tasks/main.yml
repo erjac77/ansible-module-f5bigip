@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM OneConnect profile
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ profile_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM OneConnect profile (idempotent)
@@ -45,7 +43,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM OneConnect profile description
@@ -62,7 +59,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM OneConnect profile description (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM OneConnect profile
@@ -96,7 +91,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM OneConnect profile (idempotent)

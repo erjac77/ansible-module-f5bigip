@@ -11,7 +11,6 @@
     description: "{{ snatpool_description }}"
     members: "{{ snatpool_members }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Snatpool
@@ -30,7 +29,6 @@
     description: "{{ snatpool_description }}"
     members: "{{ snatpool_members }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Snatpool (idempotent)
@@ -49,7 +47,6 @@
     description: "new {{ snatpool_description }}"
     members: "{{ snatpool_new_members }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snatpool description and members
@@ -66,7 +63,6 @@
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snatpool
@@ -83,7 +79,6 @@
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snatpool (idempotent)

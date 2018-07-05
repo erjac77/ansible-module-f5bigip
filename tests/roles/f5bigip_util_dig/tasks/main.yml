@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     args: "{{ item.args }}"
   with_items: "{{ dig_commands }}"
-  delegate_to: localhost
   register: result
 
 - name: Display Dig command output

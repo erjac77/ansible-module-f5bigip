@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     search: "{{ dns_search }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add SYS DNS Search
@@ -23,7 +22,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     search: "{{ dns_search }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add SYS DNS Search (idempotent)
@@ -38,7 +36,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name_servers: "{{ name_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add SYS DNS Name Servers
@@ -53,7 +50,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name_servers: "{{ name_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add SYS DNS Name Servers (idempotent)
@@ -68,7 +64,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name_servers: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove SYS DNS Name Servers
@@ -83,7 +78,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     name_servers: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove SYS DNS Name Servers (idempotent)
@@ -98,7 +92,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     search: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove SYS DNS Search
@@ -113,7 +106,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     search: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Remove SYS DNS Search (idempotent)

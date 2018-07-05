@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ sshd_allow_clients }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add SYS SSHD allow clients
@@ -22,7 +21,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ sshd_allow_clients }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add SYS SSHD allow clients (idempotent)
@@ -39,7 +37,6 @@
     banner: "{{ sshd_banner }}"
     banner_text: "{{ sshd_banner_text }}"
     inactivity_timeout: "{{ sshd_inactivity_timeout }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS SSHD banner and inactivity timeout
@@ -56,7 +53,6 @@
     banner: "{{ sshd_banner }}"
     banner_text: "{{ sshd_banner_text }}"
     inactivity_timeout: "{{ sshd_inactivity_timeout }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS SSHD banner and inactivity timeout (idempotent)
@@ -71,7 +67,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ sshd_allow_clients_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Clear SYS SSHD allow clients
@@ -86,7 +81,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     allow: "{{ sshd_allow_clients_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Clear SYS SSHD allow clients (idempotent)
@@ -103,7 +97,6 @@
     banner: "disabled"
     banner_text: ""
     inactivity_timeout: 0
-  delegate_to: localhost
   register: result
 
 - name: Assert Disable SYS SSHD banner and inactivity timeout

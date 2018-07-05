@@ -9,7 +9,6 @@
     name: "{{ pool_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Pool
@@ -33,7 +32,6 @@
     name: "{{ pool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Pool

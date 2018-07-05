@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ db_variable_name }}"
     value: "{{ db_variable_new_value }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify SYS DB Key
@@ -25,7 +24,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ db_variable_name }}"
     value: "{{ db_variable_new_value }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify SYS DB Key (idempotent)
@@ -41,7 +39,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ db_variable_name }}"
     value: "{{ db_variable_old_value }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset SYS DB Key

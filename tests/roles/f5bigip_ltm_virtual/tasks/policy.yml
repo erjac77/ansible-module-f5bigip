@@ -11,7 +11,6 @@
     sub_path: "{{ policy_drafts | default('Drafts') }}"
     strategy: "{{ policy.strategy | default(omit) }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Policy
@@ -30,7 +29,6 @@
     policy: "/{{ bigip_partition }}/{{ policy_drafts | default('Drafts') }}/{{ policy.name }}"
     state: present
   with_items: "{{ policy.rules }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Add LTM Policy Rules
@@ -49,7 +47,6 @@
     sub_path: "{{ policy_drafts | default('Drafts') }}"
     publish: yes
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Publish LTM Policy

@@ -9,7 +9,6 @@
     name: "{{ profile_icap_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile ICAP
@@ -26,7 +25,6 @@
     name: "{{ profile_icap_name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Profile ICAP (idempotent)
@@ -44,7 +42,6 @@
     partition: "{{ bigip_partition }}"
     preview_length: "{{ profile_icap_preview_length }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile ICAP preview length
@@ -62,7 +59,6 @@
     partition: "{{ bigip_partition }}"
     preview_length: "{{ profile_icap_preview_length }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Profile ICAP preview length (idempotent)
@@ -79,7 +75,6 @@
     name: "{{ profile_icap_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile ICAP
@@ -96,7 +91,6 @@
     name: "{{ profile_icap_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Profile ICAP (idempotent)

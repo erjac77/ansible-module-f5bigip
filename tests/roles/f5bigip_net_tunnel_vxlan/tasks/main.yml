@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ tunnel_vxlan_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET Tunnel VXLAN
@@ -28,7 +27,6 @@
     partition: "{{ bigip_partition }}"
     description: "{{ tunnel_vxlan_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET Tunnel VXLAN (idempotent)
@@ -46,7 +44,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ tunnel_vxlan_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change NET Tunnel VXLAN description
@@ -64,7 +61,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ tunnel_vxlan_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change NET Tunnel VXLAN description (idempotent)
@@ -81,7 +77,6 @@
     name: "{{ tunnel_vxlan_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET Tunnel VXLAN
@@ -98,7 +93,6 @@
     name: "{{ tunnel_vxlan_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET Tunnel VXLAN (idempotent)

@@ -12,7 +12,6 @@
     ciphers: "{{ profile_ciphers }}"
     tm_options: "{{ profile_options }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Server SSL profile
@@ -32,7 +31,6 @@
     ciphers: "{{ profile_ciphers }}"
     tm_options: "{{ profile_options }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Server SSL profile (idempotent)
@@ -49,7 +47,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Server SSL profile description
@@ -66,7 +63,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ profile_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Server SSL profile description (idempotent)
@@ -83,7 +79,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Server SSL profile
@@ -100,7 +95,6 @@
     name: "{{ profile_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Server SSL profile (idempotent)

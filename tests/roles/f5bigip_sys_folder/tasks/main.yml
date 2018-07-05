@@ -10,7 +10,6 @@
     description: "{{ folder_description }}"
     sub_path: /
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Folder
@@ -28,7 +27,6 @@
     description: "{{ folder_description }}"
     sub_path: /
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Folder (idempotent)
@@ -45,7 +43,6 @@
     name: "{{ folder_name }}"
     sub_path: /
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Delete SYS Folder
@@ -62,7 +59,6 @@
     name: "{{ folder_name }}"
     sub_path: /
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Delete SYS Folder (idempotent)

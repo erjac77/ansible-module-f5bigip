@@ -19,5 +19,4 @@
     starts_with: "{{ condition.starts_with | default(omit) }}"
     values: "{{ condition['values'] | default(omit) }}"
     state: present
-  delegate_to: localhost
   register: result

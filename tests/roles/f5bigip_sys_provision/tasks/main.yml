@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ provision_name }}"
     level: "{{ provision_level }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Provision level
@@ -24,7 +23,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ provision_name }}"
     level: "{{ provision_level }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Provision level (idempotent)
@@ -40,7 +38,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ provision_name }}"
     level: "{{ provision_level_default }}"
-  delegate_to: localhost
   register: result
   until: result|succeeded
   retries: 5
@@ -59,7 +56,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ provision_name }}"
     level: "{{ provision_level_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Provision level to default (idempotent)

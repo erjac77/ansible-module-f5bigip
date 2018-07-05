@@ -12,7 +12,6 @@
     address: "{{ node_address }}"
     monitor: "{{ node_monitor }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Node
@@ -32,7 +31,6 @@
     address: "{{ node_address }}"
     monitor: "{{ node_monitor }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Node (idempotent)
@@ -55,7 +53,6 @@
     logging: "{{ node_logging }}"
     rate_limit: "{{ node_rate_limit }}"
     ratio: "{{ node_ratio }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Node
@@ -77,7 +74,6 @@
     logging: "{{ node_logging }}"
     rate_limit: "{{ node_rate_limit }}"
     ratio: "{{ node_ratio }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Node (idempotent)
@@ -95,7 +91,6 @@
     name: "{{ node_name }}"
     partition: "{{ bigip_partition }}"
     session: user-disabled
-  delegate_to: localhost
   register: result
 
 - name: Assert Disabled LTM Node
@@ -113,7 +108,6 @@
     partition: "{{ bigip_partition }}"
     session: user-disabled
     state_user: user-down
-  delegate_to: localhost
   register: result
 
 - name: Assert Force LTM Node Offline
@@ -130,7 +124,6 @@
     name: "{{ node_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Node
@@ -147,7 +140,6 @@
     name: "{{ node_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Node (idempotent)

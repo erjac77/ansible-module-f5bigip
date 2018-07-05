@@ -11,7 +11,6 @@
     description: "{{ monitor_sasp_description }}"
     primary_address: "{{ monitor_sasp_primary_address }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor SASP
@@ -30,7 +29,6 @@
     description: "{{ monitor_sasp_description }}"
     primary_address: "{{ monitor_sasp_primary_address }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Monitor SASP (idempotent)
@@ -48,7 +46,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_sasp_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor SASP description
@@ -66,7 +63,6 @@
     partition: "{{ bigip_partition }}"
     description: "new {{ monitor_sasp_description }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Change LTM Monitor SASP description (idempotent)
@@ -83,7 +79,6 @@
     name: "{{ monitor_sasp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor SASP
@@ -100,7 +95,6 @@
     name: "{{ monitor_sasp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Monitor SASP (idempotent)

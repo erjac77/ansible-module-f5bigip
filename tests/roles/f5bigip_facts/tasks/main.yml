@@ -10,7 +10,6 @@
     partition: "{{ bigip_partition }}"
     address: "{{ item.address }}"
     state: present
-  delegate_to: localhost
   with_items: "{{ facts_nodes }}"
 
 - name: Create LTM Pools
@@ -22,7 +21,6 @@
     name: "{{ item.name }}"
     partition: "{{ bigip_partition }}"
     state: present
-  delegate_to: localhost
   with_items: "{{ facts_pools }}"
 
 - name: Add LTM Pools Members
@@ -35,7 +33,6 @@
     partition: "{{ bigip_partition }}"
     pool: "{{ facts_pools[0].name }}"
     state: present
-  delegate_to: localhost
   with_items: "{{ facts_nodes }}"
 
 - name: Gather BIG-IP facts
@@ -47,7 +44,6 @@
     module: "{{ item.module }}"
     component: "{{ item.component }}"
   with_items: "{{ facts_objects }}"
-  delegate_to: localhost
 
 - name: Assert Gather BIG-IP facts
   assert:
@@ -66,7 +62,6 @@
     component: "{{ item.component }}"
     expand_subcollections: yes
   with_items: "{{ facts_objects }}"
-  delegate_to: localhost
 
 - name: Assert Gather BIG-IP facts with expanded subcollections
   assert:
@@ -88,7 +83,6 @@
     skip: "{{ facts_skip }}"
     top: "{{ facts_top }}"
   with_items: "{{ facts_objects }}"
-  delegate_to: localhost
 
 - name: Assert Gather filtered BIG-IP facts
   assert:
@@ -105,7 +99,6 @@
     name: "{{ item.name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   with_items: "{{ facts_pools }}"
 
 - name: Delete LTM Nodes
@@ -118,7 +111,6 @@
     partition: "{{ bigip_partition }}"
     address: "{{ item.address }}"
     state: absent
-  delegate_to: localhost
   with_items: "{{ facts_nodes }}"
 
 - name: Gather Device Info Facts
@@ -131,7 +123,6 @@
     module: identified-devices
     sub_module: config
     component: device-info
-  delegate_to: localhost
 
 - name: Assert Gather Device Info Facts
   assert:

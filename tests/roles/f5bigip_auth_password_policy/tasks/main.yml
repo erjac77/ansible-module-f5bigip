@@ -14,7 +14,6 @@
     required_special: "{{ password_policy_required_special }}"
     required_numeric: "{{ password_policy_required_numeric }}"
     expiration_warning: "{{ password_policy_expiration_warning }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change Password Policy
@@ -36,7 +35,6 @@
     required_special: "{{ password_policy_required_special }}"
     required_numeric: "{{ password_policy_required_numeric }}"
     expiration_warning: "{{ password_policy_expiration_warning }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change Password Policy (idempotent)
@@ -58,7 +56,6 @@
     required_special: "{{ password_policy_required_special_default }}"
     required_numeric: "{{ password_policy_required_numeric_default }}"
     expiration_warning: "{{ password_policy_expiration_warning_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change Password Policy back to default
@@ -80,7 +77,6 @@
     required_special: "{{ password_policy_required_special_default }}"
     required_numeric: "{{ password_policy_required_numeric_default }}"
     expiration_warning: "{{ password_policy_expiration_warning_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change Password Policy back to default (idempotent)

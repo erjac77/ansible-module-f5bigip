@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     gui_security_banner: "{{ globset_gui_security_banner }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Global Settings banner text
@@ -24,7 +23,6 @@
     f5_port: "{{ bigip_port }}"
     gui_security_banner: "{{ globset_gui_security_banner }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Global Settings banner text (idempotent)
@@ -39,7 +37,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Global Settings banner text to default
@@ -54,7 +51,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     gui_security_banner_text: "{{ globset_gui_security_banner_text_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Global Settings banner text to default (idempotent)

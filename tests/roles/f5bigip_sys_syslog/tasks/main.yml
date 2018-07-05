@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     user_log_from: "{{ syslog_user_log_from }}"
     user_log_to: "{{ syslog_user_log_to }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Syslog User Log
@@ -24,7 +23,6 @@
     f5_port: "{{ bigip_port }}"
     user_log_from: "{{ syslog_user_log_from }}"
     user_log_to: "{{ syslog_user_log_to }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change SYS Syslog User Log (idempotent)
@@ -40,7 +38,6 @@
     f5_port: "{{ bigip_port }}"
     user_log_from: "{{ syslog_user_log_from_rst }}"
     user_log_to: "{{ syslog_user_log_to_rst }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Reset to default SYS Syslog User Log
@@ -55,7 +52,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     remote_servers: "{{ remote_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Set SYS Syslog Remote Servers
@@ -70,7 +66,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     remote_servers: "{{ remote_servers }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Set SYS Syslog Remote Server (idempotent)
@@ -85,7 +80,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     remote_servers: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Clear SYS Syslog Remote Servers
@@ -100,7 +94,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     remote_servers: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Clear SYS Syslog Remote Servers (idempotent)

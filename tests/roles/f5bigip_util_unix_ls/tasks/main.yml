@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     path: "{{ unix_path }}"
-  delegate_to: localhost
   register: result
 
 - name: Show directory content

@@ -8,7 +8,6 @@
     f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     timezone: "{{ ntp_timezone }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Set SYS NTP Servers and Timezone
@@ -24,7 +23,6 @@
     f5_port: "{{ bigip_port }}"
     servers: "{{ ntp_servers }}"
     timezone: "{{ ntp_timezone }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Set SYS NTP Servers and Timezone (idempotent)
@@ -39,7 +37,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     servers: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Clear SYS NTP Servers
@@ -54,7 +51,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     servers: []
-  delegate_to: localhost
   register: result
 
 - name: Assert Clear SYS NTP Servers (idempotent)

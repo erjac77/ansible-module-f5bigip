@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     default_probe_limit: "{{ global_settings_metrics_default_probe_limit }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global Settings Metrics default probe limit
@@ -22,7 +21,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     default_probe_limit: "{{ global_settings_metrics_default_probe_limit }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global Settings Metrics default probe limit (idempotent)
@@ -37,7 +35,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     default_probe_limit: "{{ global_settings_metrics_default_probe_limit_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global Settings Metrics default probe limit to default
@@ -52,7 +49,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     default_probe_limit: "{{ global_settings_metrics_default_probe_limit_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global Settings Metrics default probe limit to default (idempotent)

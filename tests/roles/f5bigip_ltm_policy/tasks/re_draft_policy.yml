@@ -9,5 +9,4 @@
     partition: "{{ bigip_partition }}"
     draft: yes
     state: present
-  delegate_to: localhost
   register: result

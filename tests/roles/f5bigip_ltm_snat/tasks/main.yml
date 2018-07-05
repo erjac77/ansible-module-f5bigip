@@ -12,7 +12,6 @@
     automap: "{{ snat_automap }}"
     origins: "{{ snat_origins }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Snat with automap
@@ -32,7 +31,6 @@
     automap: "{{ snat_automap }}"
     origins: "{{ snat_origins }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Snat with automap (idempotent)
@@ -50,7 +48,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snat_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snat with automap description
@@ -67,7 +64,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snat_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snat with automap description (idempotent)
@@ -84,7 +80,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snat with automap
@@ -101,7 +96,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snat with automap (idempotent)
@@ -121,7 +115,6 @@
     translation: "{{ snat_translation }}"
     origins: "{{ snat_origins }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM SNAT with translation
@@ -141,7 +134,6 @@
     translation: "{{ snat_translation }}"
     origins: "{{ snat_origins }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM SNAT with translation (idempotent)
@@ -158,7 +150,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snat_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snat with translation description
@@ -175,7 +166,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snat_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snat with translation description (idempotent)
@@ -192,7 +182,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snat with translation
@@ -209,7 +198,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snat with translation (idempotent)
@@ -228,7 +216,6 @@
     description: "{{ snatpool_description }}"
     members: "{{ snatpool_members }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Snatpool
@@ -248,7 +235,6 @@
     origins: "{{ snat_origins }}"
     snatpool: "{{ snat_snatpool_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM SNAT with snatpool
@@ -268,7 +254,6 @@
     origins: "{{ snat_origins }}"
     snatpool: "{{ snat_snatpool_name }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM SNAT with snatpool (idempotent)
@@ -285,7 +270,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snat_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snat with snatpool description
@@ -302,7 +286,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     description: "new {{ snat_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify LTM Snat with snatpool description (idempotent)
@@ -319,7 +302,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snat with snatpool
@@ -336,7 +318,6 @@
     name: "{{ snat_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snat with snatpool (idempotent)
@@ -353,7 +334,6 @@
     name: "{{ snatpool_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Snatpool

@@ -11,7 +11,6 @@
     description: "{{ datacenter_description }}"
     location: "{{ datacenter_location }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Datacenter
@@ -30,7 +29,6 @@
     description: "{{ datacenter_description }}"
     location: "{{ datacenter_location }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create GTM Datacenter (idempotent)
@@ -46,7 +44,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     description: "new {{ datacenter_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify GTM Datacenter description
@@ -62,7 +59,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     description: "new {{ datacenter_description }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Modify GTM Datacenter description (idempotent)
@@ -78,7 +74,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Datacenter
@@ -94,7 +89,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ datacenter_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete GTM Datacenter (idempotent)

@@ -11,7 +11,6 @@
     definition: "{{ rule_definition }}"
     ignore_verification: "{{ rule_ignore_verification }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Rule
@@ -30,7 +29,6 @@
     definition: "{{ rule_definition }}"
     ignore_verification: "{{ rule_ignore_verification }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create LTM Rule (idempotent)
@@ -47,7 +45,6 @@
     name: "{{ rule_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Rule
@@ -64,7 +61,6 @@
     name: "{{ rule_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete LTM Rule (idempotent)

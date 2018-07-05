@@ -12,7 +12,6 @@
     ip_address: "{{ arp_ip_address }}"
     mac_address: "{{ arp_mac_address }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET ARP
@@ -32,7 +31,6 @@
     ip_address: "{{ arp_ip_address }}"
     mac_address: "{{ arp_mac_address }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create NET ARP (idempotent)
@@ -83,7 +81,6 @@
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET ARP
@@ -100,7 +97,6 @@
     name: "{{ arp_name }}"
     partition: "{{ bigip_partition }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete NET ARP (idempotent)

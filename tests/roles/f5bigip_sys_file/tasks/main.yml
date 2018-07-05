@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ ext_dg_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Upload External Data-Group List
@@ -26,7 +25,6 @@
     source_path: "{{ ext_dg_source_path }}"
     type: string
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Data-Group file
@@ -45,7 +43,6 @@
     source_path: "{{ ext_dg_source_path }}"
     type: string
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS Data-Group file (idempotent)
@@ -62,7 +59,6 @@
     name: "{{ ext_dg_filename }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS Data-Group file
@@ -79,7 +75,6 @@
     name: "{{ ext_dg_filename }}"
     partition: Common
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS Data-Group file (idempotent)
@@ -94,7 +89,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     filepathname: "{{ ifile_filepathname }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Upload File
@@ -112,7 +106,6 @@
     partition: Common
     source_path: "{{ ifile_source_path }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS iFile
@@ -130,7 +123,6 @@
     partition: Common
     source_path: "{{ ifile_source_path }}"
     state: present
-  delegate_to: localhost
   register: result
 
 - name: Assert Create SYS iFile (idempotent)
@@ -146,7 +138,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ ifile_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS iFile
@@ -162,7 +153,6 @@
     f5_port: "{{ bigip_port }}"
     name: "{{ ifile_name }}"
     state: absent
-  delegate_to: localhost
   register: result
 
 - name: Assert Delete SYS iFile (idempotent)

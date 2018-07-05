@@ -7,7 +7,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     heartbeat_interval: "{{ global_settings_general_heartbeat_interval }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert GTM Global General Settings heartbeat interval
@@ -22,7 +21,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     heartbeat_interval: "{{ global_settings_general_heartbeat_interval }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global General Settings heartbeat interval (idempotent)
@@ -37,7 +35,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     heartbeat_interval: "{{ global_settings_general_heartbeat_interval_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global General Settings heartbeat interval to default
@@ -52,7 +49,6 @@
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
     heartbeat_interval: "{{ global_settings_general_heartbeat_interval_default }}"
-  delegate_to: localhost
   register: result
 
 - name: Assert Change GTM Global General Settings heartbeat interval to default (idempotent)

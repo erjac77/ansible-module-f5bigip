@@ -6,7 +6,6 @@
     f5_username: "{{ bigip_username }}"
     f5_password: "{{ bigip_password }}"
     f5_port: "{{ bigip_port }}"
-  delegate_to: localhost
   register: result
 
 - name: Display Shared bigip failover state
