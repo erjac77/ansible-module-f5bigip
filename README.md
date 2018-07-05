@@ -25,11 +25,11 @@ pip install git+https://github.com/erjac77/ansible-common-f5.git#egg=ansible-com
 ansible-galaxy install erjac77.module-f5bigip
 ```
 
+For alternative installation methods, see the [Wiki](https://github.com/erjac77/ansible-module-f5bigip/wiki/Alternative-Installation-Methods).
+
 ## EXAMPLE PLAYBOOK
 
 ```yaml
----
-
 - hosts: bigips
   connection: local
   roles:
@@ -50,7 +50,7 @@ ansible-galaxy install erjac77.module-f5bigip
         state: present
 ```
 
-You can find more examples in the [Wiki](https://github.com/erjac77/ansible-module-f5bigip/wiki).
+You'll find more examples in the [Wiki](https://github.com/erjac77/ansible-module-f5bigip/wiki/Playbook-Examples).
 
 ## LICENSE
 
