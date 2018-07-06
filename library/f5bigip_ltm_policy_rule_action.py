@@ -60,7 +60,7 @@ options:
             - Specifies that the cache should be modified.
     carp:
         description:
-            - 
+            - TODO
     category:
         description:
             - Specifies that a category should be set.
@@ -84,16 +84,16 @@ options:
             - Specifies that a cookie should be set.
     cookie_hash:
         description:
-            - 
+            - TODO
     cookie_insert:
         description:
-            - 
+            - TODO
     cookie_passive:
         description:
-            - 
+            - TODO
     cookie_rewrite:
         description:
-            - 
+            - TODO
     default:
         description:
             - Specifies that a default action should be taken.
@@ -105,7 +105,7 @@ options:
             - Specifies that a connection should be deferred.
     destination_address:
         description:
-            - 
+            - TODO
     disable:
         description:
             - Specifies that a feature should be disabled.
@@ -123,7 +123,7 @@ options:
             - Specifies that an expiry should be set.
     expiry_secs:
         description:
-            - 
+            - TODO
     expression:
         description:
             - Specifies that an expression should be set.
@@ -132,7 +132,7 @@ options:
             - Specifies that an extension should be used.
     facility:
         description:
-            - 
+            - TODO
     forward:
         description:
             - Specifies that forwarding should be modified.
@@ -141,7 +141,7 @@ options:
             - Specifies that a from profile should be set.
     hash:
         description:
-            - 
+            - TODO
     host:
         description:
             - Specifies that a host should be set.
@@ -189,16 +189,16 @@ options:
             - Specifies that the connection should be sent through an internal virtual server.
     ip_address:
         description:
-            - 
+            - TODO
     key:
         description:
-            - 
+            - TODO
     l7dos:
         description:
             - Specifies that a Layer 7 DOS protection policy should be invoked.
     length:
         description:
-            - 
+            - TODO
     local:
         description:
             - Specifies that a local action should be taken.
@@ -210,7 +210,7 @@ options:
             - Specifies that a log should be generated.
     ltm_policy:
         description:
-            - 
+            - TODO
     member:
         description:
             - Specifies that a member should be set.
@@ -250,7 +250,7 @@ options:
             - Specifies that the Policy Enforcement Manager should be applied.
     persist:
         description:
-            - 
+            - TODO
     pin:
         description:
             - Specifies that a connection should be pinned.
@@ -269,7 +269,7 @@ options:
             - Specifies that a port should be set.
     priority:
         description:
-            - 
+            - TODO
     profile:
         description:
             - Specifies that a profile should be set.
@@ -339,19 +339,19 @@ options:
             - Specifies that a snat pool should be set.
     source_address:
         description:
-            - 
+            - TODO
     ssl_client_hello:
         description:
-            - 
+            - TODO
     ssl_server_handshake:
         description:
-            - 
+            - TODO
     ssl_server_hello:
         description:
-            - 
+            - TODO
     ssl_session_id:
         description:
-            - 
+            - TODO
     state:
         description:
             - Specifies the state of the component on the BIG-IP system.
@@ -374,10 +374,10 @@ options:
             - Specifies a timeout value in seconds.
     uie:
         description:
-            - 
+            - TODO
     universal:
         description:
-            - 
+            - TODO
     unnamed_query_parameter:
         description:
             - Specifies that an unnamed query parameter should be set.

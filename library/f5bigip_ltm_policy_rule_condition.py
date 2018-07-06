@@ -33,7 +33,7 @@ author:
 options:
     address:
         description:
-            - 
+            - TODO
     all:
         description:
             - Specifies that all items should be selected.
@@ -42,10 +42,10 @@ options:
             - Specifies the application service to which the object belongs.
     browser_type:
         description:
-            - 
+            - TODO
     browser_version:
         description:
-            - 
+            - TODO
     case_insensitive:
         description:
             - The value matched on is case insensitive.
@@ -66,29 +66,29 @@ options:
             - Specifies that code should be selected.
     common_name:
         description:
-            - 
+            - TODO
     contains:
         description:
             - The value matches if it contains a certain string.
     continent:
         description:
-            - 
+            - TODO
     country_code:
         description:
-            - 
+            - TODO
     country_name:
         description:
-            - 
+            - TODO
     cpu_usage:
         description:
             - Specifies a condition based upon CPU usage percentage for the past 15 seconds, 1 minute or 5 minutes
               intervals.
     device_make:
         description:
-            - 
+            - TODO
     device_model:
         description:
-            - 
+            - TODO
     domain:
         description:
             - Specifies that a domain should be selected.
@@ -165,16 +165,16 @@ options:
             - The value matched on is from the internal side of a connection.
     isp:
         description:
-            - 
+            - TODO
     last_15secs:
         description:
-            - 
+            - TODO
     last_1min:
         description:
-            - 
+            - TODO
     last_5mins:
         description:
-            - 
+            - TODO
     less:
         description:
             - The value matches if it is less than a given value.
@@ -189,7 +189,7 @@ options:
             - Specifies that a major should be selected.
     matches:
         description:
-            - 
+            - TODO
     minor:
         description:
             - Specifies that a minor should be selected.
@@ -211,7 +211,7 @@ options:
             - The opposite of this condition matches.
     org:
         description:
-            - 
+            - TODO
     password:
         description:
             - Specifies that a password should be selected.
@@ -242,10 +242,10 @@ options:
             - Specifies that a query string should be selected.
     region_code:
         description:
-            - 
+            - TODO
     region_name:
         description:
-            - 
+            - TODO
         default: false
     remote:
         description:
@@ -273,22 +273,22 @@ options:
             - Specifies that a scheme should be selected.
     server_name:
         description:
-            - 
+            - TODO
     ssl_cert:
         description:
-            - 
+            - TODO
     ssl_client_hello:
         description:
-            - 
+            - TODO
     ssl_extension:
         description:
-            - 
+            - TODO
     ssl_server_handshake:
         description:
-            - 
+            - TODO
     ssl_server_hello:
         description:
-            - 
+            - TODO
     starts_with:
         description:
             - The value matches if it starts with a certain string.
@@ -308,7 +308,7 @@ options:
             - Specifies that an unnamed query parameter should be selected.
     user_agent_token:
         description:
-            - 
+            - TODO
     username:
         description:
             - Specifies that a username should be selected.

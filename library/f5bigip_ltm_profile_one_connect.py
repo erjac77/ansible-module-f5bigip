@@ -93,7 +93,7 @@ requirements:
     - f5-sdk
 '''
 
-EXAMPLES = ''' 
+EXAMPLES = '''
 - name: Create LTM OneConnect profile
   f5bigip_ltm_profile_one_connect:
     f5_hostname: 172.16.227.35

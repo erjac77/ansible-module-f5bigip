@@ -237,7 +237,7 @@ requirements:
     - f5-sdk
 '''
 
-EXAMPLES = ''' 
+EXAMPLES = '''
 - name: Create LTM Server SSL Profile
   f5bigip_ltm_profile_server_ssl:
     f5_hostname: 172.16.227.35

@@ -189,7 +189,7 @@ options:
         choices: ['enabled', 'disabled']
     mptcp_fallback:
         description:
-            - Specifies, MPTCP fallback mode. 
+            - Specifies, MPTCP fallback mode.
         default: reset
         choices: ['accept', 'active-accept', 'reset', 'retransmit']
     mptcp_joinmax:

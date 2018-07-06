@@ -101,8 +101,8 @@ options:
                 choices: ['allow', 'pass-through', 'reject']
             truncated_redirects:
                 description:
-                    - Specifies the pass-through behavior when a redirect lacking the trailing carriage-return and line feed
-                      pair at the end of the headers is parsed.
+                    - Specifies the pass-through behavior when a redirect lacking the trailing carriage-return and line
+                      feed pair at the end of the headers is parsed.
                 default: disabled
                 choices: ['enabled', 'disabled']
             unknown_method:

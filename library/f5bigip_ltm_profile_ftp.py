@@ -33,7 +33,7 @@ author:
 options:
     app_service:
         description:
-            - Specifies the name of the application service to which the profile belongs. 
+            - Specifies the name of the application service to which the profile belongs.
     defaults_from:
         description:
             - Specifies the profile that you want to use as the parent profile.
@@ -54,7 +54,7 @@ options:
         default: ftp-data
     security:
         description:
-            - Enables or disables secure FTP traffic for the BIG-IP Application Security Manager. 
+            - Enables or disables secure FTP traffic for the BIG-IP Application Security Manager.
         default: disabled
         choices: ['enabled', 'disabled']
     state:
@@ -84,7 +84,7 @@ requirements:
     - f5-sdk
 '''
 
-EXAMPLES = ''' 
+EXAMPLES = '''
 - name: Create LTM FTP Profile
   f5bigip_ltm_profile_ftp:
     f5_hostname: 172.16.227.35

@@ -36,7 +36,7 @@ options:
             - Configures a list of applications assigned to this profile.
     app_service:
         description:
-            - Specifies the name of the application service to which the profilebelongs.
+            - Specifies the name of the application service to which the profile belongs.
     cache_aging_rate:
         description:
             - Specifies how quickly the system ages a cache entry.
@@ -44,7 +44,7 @@ options:
         choices: range(0,10)
     cache_client_cache_control_mode:
         description:
-            - Specifies which cache disabling headers sent by clients the systemignores.
+            - Specifies which cache disabling headers sent by clients the system ignores.
         default: all
         choices: ['all', 'max-age', 'none']
     cache_insert_age_header:
@@ -66,7 +66,7 @@ options:
         default: 50000
     cache_object_min_size:
         description:
-            - Specifies the smallest object that the system considers eligible forcaching.
+            - Specifies the smallest object that the system considers eligible for caching.
         default: 500
     cache_size:
         description:
@@ -74,16 +74,18 @@ options:
         default: 100
     cache_uri_exclude:
         description:
-            - Configures a list of Uniform Resource Identifiers (URIs) to exclude fromthe WA Cache.
+            - Configures a list of Uniform Resource Identifiers (URIs) to exclude from the WA Cache.
     cache_uri_include:
         description:
             - Configures a list of URIs that are cacheable.
     cache_uri_include_override:
         description:
-            - Configures a list of URIs that should be cached in the WA cache eventhough they would normally not be cached due to constraints defined byweb-accelerationTMSH Reference 67 - 203cache-object-max-size or others.
+            - Configures a list of URIs that should be cached in the WA cache even though they would normally not be
+              cached due to constraints defined by web-acceleration I(cache_object_max_size) or others.
     cache_uri_pinned:
         description:
-            - Configures a list of URIs that are kept in the WA cache regardless theirmax-age or expiry settings.
+            - Configures a list of URIs that are kept in the WA cache regardless the I(cache_max_age) or expiry
+              settings.
     defaults_from:
         description:
             - Configures the profile that you want to use as the parent profile.

@@ -36,7 +36,7 @@ options:
             - Specifies the name of the application service to which the profile belongs.
     defaults_from:
         description:
-            - Specifies the profile that you want to use as the parent profile. 
+            - Specifies the profile that you want to use as the parent profile.
     description:
         description:
             - User defined description.

@@ -62,7 +62,14 @@ EXAMPLES = '''
     f5_port: 443
     name: my_rule
     partition: Common
-    api_anonymous: 'when DNS_REQUEST { if {[IP::addr [IP::remote_addr]/24 equals 10.10.1.0/24] } { cname cname.siterequest.com } else { host 10.20.20.20 } }'
+    api_anonymous: |
+      when DNS_REQUEST {
+        if { [IP::addr [IP::remote_addr]/24 equals 10.10.1.0/24] } {
+          cname cname.siterequest.com
+        } else {
+          host 10.20.20.20
+        }
+      }
     state: present
   delegate_to: localhost
 '''

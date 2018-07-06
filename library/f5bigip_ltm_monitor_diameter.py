@@ -49,14 +49,17 @@ options:
             - Specifies descriptive text that identifies the component.
     host_ip_address:
         description:
-            - Specifies the IP address of the sender of the Diameter message for the Diameter protocol peer discovery feature.
+            - Specifies the IP address of the sender of the Diameter message for the Diameter protocol peer discovery
+              feature.
     interval:
         description:
-            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource is down or the status of the resource is unknown.
+            - Specifies, in seconds, the frequency at which the system issues the monitor check when either the resource
+              is down or the status of the resource is unknown.
         default: 10
     manual_resume:
         description:
-            - Specifies whether the system automatically changes the status of a resource to up at the next successful monitor check.
+            - Specifies whether the system automatically changes the status of a resource to up at the next successful
+              monitor check.
         default: disabled
         choices: ['enabled', 'disabled']
     name:
@@ -97,14 +100,16 @@ options:
         default: 0
     vendor_id:
         description:
-            - Specifies the IANA SMI Network Management Private Enterprise Code assigned to the vendor of the Diameter application.
+            - Specifies the IANA SMI Network Management Private Enterprise Code assigned to the vendor of the Diameter
+              application.
         default: 3375
     vendor_specific_acct_application_id:
         description:
             - Specifies Specifies the ID of the vendor-specific accounting portion of a Diameter application.
     vendor_specific_auth_application_id:
         description:
-            - Specifies the ID of the vendor-specific authentication and authorization portion of a Diameter application.
+            - Specifies the ID of the vendor-specific authentication and authorization portion of a Diameter
+              application.
     vendor_specific_vendor_id:
         description:
             - Specifies the ID of a vendor-specific Diameter application.

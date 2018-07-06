@@ -1,4 +1,11 @@
 ---
 
 rule_name: my_rule
-rule_api_anonymous: when DNS_REQUEST { if {[IP::addr [IP::remote_addr]/24 equals 10.10.1.0/24] } {cname cname.siterequest.com } else { host 10.20.20.20}}
+rule_api_anonymous: |
+  when DNS_REQUEST {
+    if { [IP::addr [IP::remote_addr]/24 equals 10.10.1.0/24] } {
+      cname cname.siterequest.com
+    } else {
+      host 10.20.20.20
+    }
+  }

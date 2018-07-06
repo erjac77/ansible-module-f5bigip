@@ -132,7 +132,7 @@ EXAMPLES = '''
     f5_port: 443
     name: my_ssl_cc_ldap
     partition: Common
-    servers: 
+    servers:
       - localhost
     user_key: Key
     state: present

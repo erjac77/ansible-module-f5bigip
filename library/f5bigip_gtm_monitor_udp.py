@@ -67,7 +67,7 @@ options:
         default: Common
     probe_attempts:
         description:
-            - Specifies the number of times the BIG-IP system attempts to probe the host server, after which the BIG-IP 
+            - Specifies the number of times the BIG-IP system attempts to probe the host server, after which the BIG-IP
               system considers the host server down or unavailable.
         default: 3
     probe_interval:
@@ -76,7 +76,8 @@ options:
         default: 1
     probe_timeout:
         description:
-            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP system.
+            - Specifies the number of seconds after which the BIG-IP system times out the probe request to the BIG-IP
+              system.
         default: 5
     reverse:
         description:

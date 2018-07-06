@@ -261,7 +261,7 @@ options:
         choices: ['enabled', 'disabled']
     generic_alert:
         description:
-            - Enables or disables generic-alert. 
+            - Enables or disables generic-alert.
         choices: ['enabled', 'disabled']
     ssl_sign_hash:
         description:
@@ -274,7 +274,7 @@ requirements:
     - f5-sdk
 '''
 
-EXAMPLES = ''' 
+EXAMPLES = '''
 - name: Create LTM Client SSL profile
   f5bigip_ltm_profile_client_ssl:
     f5_hostname: 172.16.227.35
