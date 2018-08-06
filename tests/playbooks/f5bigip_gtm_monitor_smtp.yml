@@ -1,0 +1,8 @@
+---
+
+- name: Test the f5bigip_gtm_monitor_smtp module
+  hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+    - f5bigip_gtm_monitor_smtp
