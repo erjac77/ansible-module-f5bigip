@@ -1,0 +1,4 @@
+---
+
+monitor_postgresql_name: my_postgresql_monitor
+monitor_postgresql_description: My postgresql monitor
