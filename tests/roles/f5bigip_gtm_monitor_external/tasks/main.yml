@@ -1,0 +1,101 @@
+---
+
+- name: Create GTM Monitor External
+  f5bigip_gtm_monitor_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_external_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_external_description }}"
+    state: present
+  register: result
+
+- name: Assert Create GTM Monitor External
+  assert:
+    that:
+      - result|changed
+
+- name: Create GTM Monitor External (idempotent)
+  f5bigip_gtm_monitor_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_external_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "{{ monitor_external_description }}"
+    state: present
+  register: result
+
+- name: Assert Create GTM Monitor External (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Change GTM Monitor External description
+  f5bigip_gtm_monitor_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_external_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_external_description }}"
+    state: present
+  register: result
+
+- name: Assert Change GTM Monitor External description
+  assert:
+    that:
+      - result|changed
+
+- name: Change GTM Monitor External description (idempotent)
+  f5bigip_gtm_monitor_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_external_name }}"
+    partition: "{{ bigip_partition }}"
+    description: "new {{ monitor_external_description }}"
+    state: present
+  register: result
+
+- name: Assert Change GTM Monitor External description (idempotent)
+  assert:
+    that:
+      - not result|changed
+
+- name: Delete GTM Monitor External
+  f5bigip_gtm_monitor_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_external_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete GTM Monitor External
+  assert:
+    that:
+      - result|changed
+
+- name: Delete GTM Monitor External (idempotent)
+  f5bigip_gtm_monitor_external:
+    f5_hostname: "{{ bigip_host }}"
+    f5_username: "{{ bigip_username }}"
+    f5_password: "{{ bigip_password }}"
+    f5_port: "{{ bigip_port }}"
+    name: "{{ monitor_external_name }}"
+    partition: "{{ bigip_partition }}"
+    state: absent
+  register: result
+
+- name: Assert Delete GTM Monitor External (idempotent)
+  assert:
+    that:
+      - not result|changed

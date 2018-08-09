@@ -7,6 +7,7 @@
 - import_playbook: f5bigip_gtm_listener.yml
 - import_playbook: f5bigip_gtm_monitor_bigip.yml
 - import_playbook: f5bigip_gtm_monitor_bigip_link.yml
+- import_playbook: f5bigip_gtm_monitor_external.yml
 - import_playbook: f5bigip_gtm_monitor_ftp.yml
 - import_playbook: f5bigip_gtm_monitor_gateway_icmp.yml
 - import_playbook: f5bigip_gtm_monitor_http.yml
