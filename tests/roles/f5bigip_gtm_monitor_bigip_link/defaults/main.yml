@@ -1,0 +1,4 @@
+---
+
+monitor_bigip_link_name: my_bigip_link_monitor
+monitor_bigip_link_description: My bigip_link monitor
