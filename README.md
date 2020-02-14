@@ -1,6 +1,6 @@
 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
 
-**_Ansible module for F5 BIG-IP (`ansible-module-f5bigip`) has been deprecated_.<br/>
+**_Ansible module for F5 BIG-IP_ (`ansible-module-f5bigip`) has been deprecated_.<br/>
 Please use our new [Ansible Role for F5 systems (`ansible-role-f5`)](https://github.com/erjac77/ansible-role-f5).**
 
 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
